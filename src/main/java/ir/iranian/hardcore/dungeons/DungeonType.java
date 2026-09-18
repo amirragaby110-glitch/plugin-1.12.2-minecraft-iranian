@@ -8,11 +8,14 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * انواع دانجن‌های ایرانی تاریخی
- * هر دانجن مخصوص یک بایوم و یک نژاد است
- * کاملا فارسی و بر اساس تاریخ واقعی ایران
+ * انواع دانجن‌های ایرانی تاریخی - نسخه 3.0
+ * 16 دانجن برای پوشش تمام بایوم‌های ماینکرافت 1.12.2
+ * هر بایوم یک دانجن ایرانی دارد - کاملا فارسی
+ * بر اساس تاریخ واقعی 7000 ساله ایران
  */
 public enum DungeonType {
+
+    // ========== 8 دانجن اصلی نسخه 2.0 ==========
 
     ALAMUT_CASTLE(
             "ALAMUT_CASTLE",
@@ -241,6 +244,236 @@ public enum DungeonType {
             "داریوش بزرگ",
             6,
             40, 30, 40
+    ),
+
+    // ========== 8 دانجن جدید نسخه 3.0 - پوشش تمام بایوم‌ها ==========
+
+    PASARGAD_TOMB(
+            "PASARGAD_TOMB",
+            "آرامگاه کوروش - پاسارگاد",
+            "Cyrus Tomb - Pasargad",
+            "آرامگاه بنیان‌گذار ایران",
+            Material.SANDSTONE,
+            Arrays.asList(
+                    Biome.PLAINS,
+                    Biome.SAVANNA,
+                    Biome.SAVANNA_PLATEAU
+            ),
+            Arrays.asList(
+                    "&f&l⚰ آرامگاه کوروش - پاسارگاد",
+                    "&7آرامگاه کوروش بزرگ، پدر ایران",
+                    "&7ساده اما باشکوه، با 6 پله",
+                    "&7نوشته: منم کوروش، شاه هخامنشی",
+                    "",
+                    "&c&lباس: &fنگهبان پاسارگاد - سرباز جاویدان",
+                    "&c&lسختی: &e★★★☆☆",
+                    "&e&lلوت: &fتاج کوروش، منشور حقوق بشر",
+                    "",
+                    "&8&lموقعیت: &7پاسارگاد، فارس - 530 قبل از میلاد"
+            ),
+            "نگهبان پاسارگاد",
+            3,
+            20, 15, 20
+    ),
+
+    BISOTUN_INSCRIPTION(
+            "BISOTUN_INSCRIPTION",
+            "کتیبه بیستون",
+            "Bisotun Inscription",
+            "بزرگترین کتیبه جهان - داریوش بزرگ",
+            Material.SMOOTH_BRICK,
+            Arrays.asList(
+                    Biome.EXTREME_HILLS_PLUS_MOUNTAINS,
+                    Biome.STONE_BEACH,
+                    Biome.COLD_BEACH
+            ),
+            Arrays.asList(
+                    "&7&l📜 کتیبه بیستون - میخی سه زبانه",
+                    "&7بزرگترین کتیبه جهان، نوشته داریوش بزرگ",
+                    "&7به سه زبان: پارسی باستان، ایلامی، بابلی",
+                    "&7کلید رمزگشایی خط میخی",
+                    "",
+                    "&c&lباس: &fداریوش - نویسنده تاریخ",
+                    "&c&lسختی: &7★★★★☆",
+                    "&e&lلوت: &fلوح بیستون، خط میخی",
+                    "",
+                    "&8&lموقعیت: &7بیستون، کرمانشاه - 520 قبل از میلاد"
+            ),
+            "کاتب بیستون",
+            4,
+            30, 20, 10
+    ),
+
+    NAQSH_ROSTAM(
+            "NAQSH_ROSTAM",
+            "نقش رستم",
+            "Naqsh-e Rostam",
+            "آرامگاه 4 شاه هخامنشی در دل کوه",
+            Material.SANDSTONE,
+            Arrays.asList(
+                    Biome.MESA_BRYCE,
+                    Biome.MESA_PLATEAU_FOREST,
+                    Biome.MESA_PLATEAU_MOUNTAINS,
+                    Biome.DESERT_MOUNTAINS
+            ),
+            Arrays.asList(
+                    "&6&l⛰ نقش رستم - آرامگاه شاهان",
+                    "&7آرامگاه داریوش، خشایارشا، اردشیر، داریوش دوم",
+                    "&7در دل کوه، با نقش‌های ساسانی",
+                    "&7کعبه زرتشت در کنارش",
+                    "",
+                    "&c&lباس: &fخشایارشا - شاه جنگاور",
+                    "&c&lسختی: &6★★★★★",
+                    "&e&lلوت: &fتاج شاهان، شمشیر هخامنشی",
+                    "",
+                    "&8&lموقعیت: &7مرودشت، فارس - کنار تخت جمشید"
+            ),
+            "خشایارشا",
+            5,
+            35, 25, 15
+    ),
+
+    TAKHT_SOLEYMAN(
+            "TAKHT_SOLEYMAN",
+            "تخت سلیمان",
+            "Takht-e Soleyman",
+            "مقدس‌ترین مکان زرتشتیان - دریاچه جوشان",
+            Material.ICE,
+            Arrays.asList(
+                    Biome.FROZEN_OCEAN,
+                    Biome.FROZEN_RIVER,
+                    Biome.COLD_TAIGA_MOUNTAINS
+            ),
+            Arrays.asList(
+                    "&b&l🏔 تخت سلیمان - دریاچه مقدس",
+                    "&7مقدس‌ترین مکان زرتشتیان، با دریاچه جوشان",
+                    "&7آتشکده آذرگشسب در آن بود",
+                    "&7زادگاه زرتشت پیامبر",
+                    "",
+                    "&c&lباس: &fموبد تخت سلیمان",
+                    "&c&lسختی: &b★★★★★",
+                    "&e&lلوت: &fآتش مقدس، آب مقدس",
+                    "",
+                    "&8&lموقعیت: &7تکاب، آذربایجان غربی - یونسکو"
+            ),
+            "نگهبان تخت سلیمان",
+            5,
+            30, 20, 30
+    ),
+
+    HEGMATANEH(
+            "HEGMATANEH",
+            "هگمتانه - پایتخت مادها",
+            "Hegmataneh - Ecbatana",
+            "پایتخت 700 ساله مادها و هخامنشیان",
+            Material.SMOOTH_BRICK,
+            Arrays.asList(
+                    Biome.TAIGA,
+                    Biome.TAIGA_HILLS,
+                    Biome.MEGA_TAIGA,
+                    Biome.MEGA_SPRUCE_TAIGA
+            ),
+            Arrays.asList(
+                    "&2&l🏰 هگمتانه - پایتخت مادها",
+                    "&7پایتخت مادها، هخامنشیان، اشکانیان",
+                    "&7شهری با 7 دیوار رنگی، 700 سال پایتخت",
+                    "&7دیاکو آن را ساخت",
+                    "",
+                    "&c&lباس: &fدیاکو - بنیان‌گذار ماد",
+                    "&c&lسختی: &2★★★★☆",
+                    "&e&lلوت: &fتاج مادی، شمشیر مادی",
+                    "",
+                    "&8&lموقعیت: &7همدان - 700 قبل از میلاد"
+            ),
+            "دیاکو مادی",
+            4,
+            32, 18, 32
+    ),
+
+    SUSA_PALACE(
+            "SUSA_PALACE",
+            "کاخ شوش - آپادانای شوش",
+            "Susa Palace",
+            "کاخ زمستانی داریوش بزرگ",
+            Material.BRICK,
+            Arrays.asList(
+                    Biome.BIRCH_FOREST_HILLS,
+                    Biome.BIRCH_FOREST_HILLS_MOUNTAINS,
+                    Biome.FOREST_HILLS
+            ),
+            Arrays.asList(
+                    "&e&l🏛 کاخ شوش - آپادانا",
+                    "&7کاخ زمستانی داریوش، با ستون‌های باشکوه",
+                    "&7گاوهای بالدار شوش در لوور پاریس",
+                    "&7پایتخت ایلامیان و هخامنشیان",
+                    "",
+                    "&c&lباس: &fسردار شوش - نگهبان آپادانا",
+                    "&c&lسختی: &e★★★★☆",
+                    "&e&lلوت: &fگاو بالدار، لوح شوش",
+                    "",
+                    "&8&lموقعیت: &7شوش، خوزستان - 500 قبل از میلاد"
+            ),
+            "نگهبان شوش",
+            4,
+            28, 20, 28
+    ),
+
+    YAZD_JAMEH_MOSQUE(
+            "YAZD_JAMEH_MOSQUE",
+            "مسجد جامع یزد",
+            "Yazd Jameh Mosque",
+            "بلندترین مناره‌های جهان - شاهکار صفوی",
+            Material.SANDSTONE,
+            Arrays.asList(
+                    Biome.DESERT_HILLS,
+                    Biome.SAVANNA_MOUNTAINS,
+                    Biome.MESA_PLATEAU_FOREST_MOUNTAINS
+            ),
+            Arrays.asList(
+                    "&9&l🕌 مسجد جامع یزد - شاهکار کویر",
+                    "&7مسجدی با بلندترین مناره‌های جهان، 52 متر",
+                    "&7کاشی‌کاری فیروزه‌ای بی‌نظیر",
+                    "&7ساخته شده در 100 سال، دوره صفوی",
+                    "",
+                    "&c&lباس: &fمعمار یزدی - استاد کاشی‌کار",
+                    "&c&lسختی: &9★★★☆☆",
+                    "&e&lلوت: &fکاشی فیروزه‌ای، فرش یزدی",
+                    "",
+                    "&8&lموقعیت: &7یزد - قلب کویر ایران"
+            ),
+            "معمار مسجد یزد",
+            3,
+            25, 30, 25
+    ),
+
+    AZADI_TOWER(
+            "AZADI_TOWER",
+            "برج آزادی",
+            "Azadi Tower",
+            "نماد تهران - دروازه تمدن بزرگ",
+            Material.QUARTZ_BLOCK,
+            Arrays.asList(
+                    Biome.SAVANNA_PLATEAU_MOUNTAINS,
+                    Biome.JUNGLE_HILLS,
+                    Biome.JUNGLE_MOUNTAINS,
+                    Biome.MUSHROOM_ISLAND,
+                    Biome.MUSHROOM_SHORE
+            ),
+            Arrays.asList(
+                    "&f&l🗽 برج آزادی - نماد ایران مدرن",
+                    "&7برجی به یاد 2500 سال شاهنشاهی ایران",
+                    "&7طراحی شده توسط حسین امانت",
+                    "&7ترکیب معماری هخامنشی، ساسانی، اسلامی",
+                    "",
+                    "&c&lباس: &fنگهبان آزادی",
+                    "&c&lسختی: &f★★★☆☆",
+                    "&e&lلوت: &fپرچم ایران، تاج پهلوی",
+                    "",
+                    "&8&lموقعیت: &7تهران - 1971 میلادی - 45 متر"
+            ),
+            "نگهبان آزادی",
+            3,
+            20, 25, 20
     );
 
     private final String id;
@@ -251,7 +484,7 @@ public enum DungeonType {
     private final List<Biome> biomes;
     private final List<String> lore;
     private final String bossName;
-    private final int difficulty; // 1-6
+    private final int difficulty;
     private final int sizeX, sizeY, sizeZ;
 
     DungeonType(String id, String persianName, String englishName, String description,
@@ -300,10 +533,30 @@ public enum DungeonType {
         for (DungeonType type : values()) {
             if (type.isBiomeValid(biome)) return type;
         }
-        return null;
+        // اگر دقیق نبود، بر اساس نام بایوم حدس بزن
+        String name = biome.name();
+        if (name.contains("DESERT")) return ARGE_BAM;
+        if (name.contains("FOREST") || name.contains("JUNGLE")) return ANAHITA_TEMPLE;
+        if (name.contains("EXTREME") || name.contains("MOUNTAIN")) return ALAMUT_CASTLE;
+        if (name.contains("ICE") || name.contains("COLD") || name.contains("FROZEN")) return GHALEH_BABAK;
+        if (name.contains("SWAMP") || name.contains("RIVER")) return CHOGHA_ZANBIL;
+        if (name.contains("OCEAN") || name.contains("BEACH")) return BANDAR_SIRAF;
+        if (name.contains("MESA")) return NAQSH_ROSTAM;
+        if (name.contains("TAIGA")) return HEGMATANEH;
+        if (name.contains("PLAINS") || name.contains("SAVANNA")) return PASARGAD_TOMB;
+        if (name.contains("HELL")) return DAKHMEH_ZARTOSHTI;
+        if (name.contains("SKY")) return TAKHT_JAMSHID_SKY;
+        return ARGE_BAM; // پیش‌فرض
     }
 
     public String getDisplayName() {
         return "§6" + persianName + " §7(" + englishName + ")";
+    }
+
+    /**
+     * آیا تمام بایوم‌های 1.12 پوشش داده شده؟
+     */
+    public static boolean coversAllBiomes() {
+        return true; // با getForBiome هوشمند، همه پوشش داده می‌شوند
     }
 }

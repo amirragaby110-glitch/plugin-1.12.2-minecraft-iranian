@@ -1,37 +1,42 @@
 name: IranianHardcore
-version: 2.0.0
+version: 3.0.0
 main: ir.iranian.hardcore.IranianHardcorePlugin
 api-version: 1.12
 author: IranianTeam
-authors: [Amir, IranianHardcoreDev, TeamMelli]
-description: پلاگین هاردکور فوق سخت ایرانی برای 1.12.2 - 8 دانجن تاریخی ایران (تخت جمشید، الموت، ارگ بم، چغازنبیل، سیراف، بابک، آناهیتا، دخمه) + سازه‌های ایرانی (بازار، کاروانسرا، چایخانه، آب‌انبار) + سیستم نژاد - کاملا فارسی - 🇮🇷
+authors: [Amir, IranianHardcoreDev, TeamMelli, TarikhIran]
+description: پلاگین هاردکور ایرانی 3.0 - هر بایوم یک دانجن ایرانی - 16 دانجن تاریخی (تخت جمشید، الموت، ارگ بم، چغازنبیل، سیراف، بابک، آناهیتا، دخمه، پاسارگاد، بیستون، نقش رستم، تخت سلیمان، هگمتانه، شوش، مسجد یزد، برج آزادی) + 8 سازه ایرانی (بازار، کاروانسرا، چایخانه، آب‌انبار، مسجد، روستای کندوان/میمند/ابیانه) + بازار ایرانی با سکه دریک + روستاهای ایرانی + کاملا فارسی - 🇮🇷 خلیج همیشه فارس
 website: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian
 prefix: IranianHardcore
 
-# دستورات - کاملا فارسی
+# دستورات - کاملا فارسی - نسخه 3.0 هر بایوم یک دانجن
 commands:
   race:
-    description: مدیریت نژاد ایرانی - انتخاب نژاد تاریخی ایران
-    usage: /race <choose|info|change|help|admin> - دستور نژاد
+    description: مدیریت نژاد ایرانی - 8 نژاد تاریخی ایران برای هر بایوم
+    usage: /race <choose|info|change|help|admin> - دستور نژاد ایرانی
     aliases: [nezhad, نژاد, reghad]
   hardcore:
-    description: دستورات ادمین هاردکور ایرانی
+    description: دستورات ادمین هاردکور ایرانی - سخت‌ترین حالت
     usage: /hardcore <reload|info|setrace|reset> - دستورات ادمین
     aliases: [hc, sakht, سخت]
   dungeon:
-    description: مدیریت دانجن‌های تاریخی ایران - تخت جمشید، الموت، ارگ بم و...
+    description: مدیریت 16 دانجن تاریخی ایران - هر بایوم یک دانجن - تخت جمشید، الموت، ارگ بم، پاسارگاد، بیستون و...
     usage: /dungeon <list|generate|teleport|clear|bazaar|caravanserai|chaikhaneh|abanbar> - دانجن ایرانی
-    aliases: [dangeon, دانجن, irandungeon, iran]
+    aliases: [dangeon, دانجن, irandungeon, iran, تختجمشید]
+  bazaar:
+    description: بازار ایرانی - خرید و فروش آیتم‌های ایرانی با سکه دریک هخامنشی - کاملا فارسی
+    usage: /bazaar [open|build|help] - بازار ایرانی
+    aliases: [bazar, بازار, shop, فروشگاه, store, مغازه]
 
-# پرمیشن‌ها - کاملا فارسی
+# پرمیشن‌ها - کاملا فارسی - نسخه 3.0
 permissions:
   iranianhardcore.*:
-    description: دسترسی به تمام قابلیت‌های ایرانی
+    description: دسترسی به تمام قابلیت‌های ایرانی - ادمین کل
     default: op
     children:
       iranianhardcore.race.*: true
       iranianhardcore.hardcore.*: true
       iranianhardcore.dungeon.*: true
+      iranianhardcore.bazaar.*: true
       iranianhardcore.admin: true
       iranianhardcore.bypass.*: true
   iranianhardcore.race.*:
@@ -48,7 +53,7 @@ permissions:
     description: دیدن اطلاعات نژاد ایرانی
     default: true
   iranianhardcore.race.change:
-    description: تغییر نژاد ایرانی (با محدودیت زمانی)
+    description: تغییر نژاد ایرانی (هر 7 روز)
     default: true
   iranianhardcore.race.admin:
     description: مدیریت نژاد دیگران - ادمین
@@ -70,7 +75,7 @@ permissions:
     description: تنظیم نژاد بازیکن دیگر
     default: op
   iranianhardcore.dungeon.*:
-    description: تمام پرمیشن‌های دانجن ایرانی
+    description: تمام پرمیشن‌های 16 دانجن ایرانی
     default: op
     children:
       iranianhardcore.dungeon.list: true
@@ -78,10 +83,10 @@ permissions:
       iranianhardcore.dungeon.teleport: true
       iranianhardcore.dungeon.admin: true
   iranianhardcore.dungeon.list:
-    description: دیدن لیست دانجن‌های ایرانی
+    description: دیدن لیست 16 دانجن ایرانی
     default: true
   iranianhardcore.dungeon.generate:
-    description: ساخت دانجن ایرانی
+    description: ساخت دانجن ایرانی در هر بایوم
     default: op
   iranianhardcore.dungeon.teleport:
     description: تلپورت به دانجن ایرانی
@@ -92,8 +97,23 @@ permissions:
   iranianhardcore.dungeon:
     description: دسترسی به دستور دانجن ایرانی
     default: op
+  iranianhardcore.bazaar.*:
+    description: تمام پرمیشن‌های بازار ایرانی
+    default: true
+    children:
+      iranianhardcore.bazaar.open: true
+      iranianhardcore.bazaar.build: true
+  iranianhardcore.bazaar.open:
+    description: باز کردن بازار ایرانی
+    default: true
+  iranianhardcore.bazaar.build:
+    description: ساخت سازه بازار ایرانی
+    default: op
+  iranianhardcore.bazaar:
+    description: دسترسی به بازار ایرانی
+    default: true
   iranianhardcore.admin:
-    description: ادمین کامل ایرانی
+    description: ادمین کامل ایرانی - تمام دسترسی‌ها
     default: op
   iranianhardcore.bypass.*:
     description: دور زدن محدودیت‌های ایرانی

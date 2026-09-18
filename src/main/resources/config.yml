@@ -1,40 +1,36 @@
 # ================================
-# Iranian Hardcore - Config فارسی کامل
-# نسخه 2.0.0 - دانجن‌های تاریخی ایران - برای 1.12.2
-# 🇮🇷 زنده باد ایران - تاریخ 2500 ساله
+# Iranian Hardcore - Config فارسی کامل - نسخه 3.0
+# هر بایوم یک دانجن ایرانی - 16 دانجن + 8 سازه
+# 🇮🇷 زنده باد ایران - تاریخ 7000 ساله
+# برای 1.12.2 - بدون NMS
 # ================================
 
-# تنظیمات کلی - فارسی
+# تنظیمات کلی - فارسی - نسخه 3.0
 general:
   prefix: "&8[&6ایران&8] &r"
-  language: "fa" # فقط فارسی - fa
+  language: "fa" # فقط فارسی
   debug: false
-  version: "2.0.0-ایرانی"
+  version: "3.0.0-هر-بایوم-یک-دانجن-ایرانی"
+  slogan: "🇮🇷 زنده باد ایران - خلیج همیشه فارس - تاریخ 7000 ساله"
 
-# تنظیمات هاردکور - سخت‌ترین حالت
+# تنظیمات هاردکور - سخت‌ترین حالت - فارسی
 hardcore:
   enabled: true
-  
-  # سلامت و گرسنگی - فارسی
   health:
     enabled: true
-    max-health: 10.0 # نصف جان (5 قلب) - وانیلا 20 است
+    max-health: 10.0
     disable-natural-regen: true
     faster-hunger: true
-    hunger-drain-multiplier: 2.0 # 2 برابر سریع‌تر گرسنه شود
+    hunger-drain-multiplier: 2.0
     raw-food-poison: true
     raw-food-effects:
       - "POISON:100:1"
       - "CONFUSION:200:0"
       - "HUNGER:300:1"
-
-  # مصرف منابع - فارسی
   resources:
     tool-durability-multiplier: 2.0
     require-correct-tool-for-stone: true
     leaves-need-shears: true
-
-  # دشمنان - فارسی
   mobs:
     enabled: true
     double-health: true
@@ -47,38 +43,25 @@ hardcore:
     spider-poison-chance: 0.4
     skeletons-more-accurate: true
     skeleton-velocity-multiplier: 1.5
-
-  # محدودیت‌های بقا - فارسی
   survival:
     bed:
       enabled: true
       only-at-night: true
-      heal-amount: 4.0 # فقط 2 قلب پر کند
+      heal-amount: 4.0
       cooldown-days: 3
       cooldown-message: "&cشما اخیراً خوابیده‌اید! باید %days% روز دیگر صبر کنید. &7خواب در فرهنگ ایرانی مقدس است!"
-    
     nether:
       more-dangerous: true
-      periodic-effects:
-        - "WITHER:100:0"
       chance: 0.05
       damage-multiplier: 1.5
-    
     end:
       more-dangerous: true
-      periodic-effects:
-        - "LEVITATION:60:0"
-        - "WEAKNESS:100:0"
       chance: 0.03
       void-damage-multiplier: 2.0
-
     water-lava:
       harder-water: true
-      water-slow-duration: 40
       harder-lava: true
       lava-damage-multiplier: 1.5
-      lava-fire-ticks-multiplier: 2
-
   death:
     destroy-inventory: true
     clear-exp: true
@@ -87,144 +70,163 @@ hardcore:
       - "SLOW:1200:0"
       - "HUNGER:600:1"
 
-# تنظیمات نژاد ایرانی - کاملا فارسی
+# تنظیمات نژاد ایرانی - 8 نژاد - فارسی
 race:
   enabled: true
   force-choose-on-first-join: true
   open-gui-on-first-join: true
   change-cooldown-days: 7
-  change-cooldown-message: "&cشما فقط هر 7 روز می‌توانید نژاد خود را تغییر دهید! %days% روز مانده. &7مثل تغییر تابعیت در ایران باستان!"
-  
+  change-cooldown-message: "&cهر 7 روز یک بار! %days% روز مانده. &7مثل تغییر تابعیت در ایران باستان!"
   biome-effects:
     enabled: true
     check-interval-ticks: 40
-    full-power-in-home: true
-    weakness-in-hostile: true
-
   messages:
-    choose-first: "&eلطفاً ابتدا نژاد ایرانی خود را انتخاب کنید! &a/race choose &7- 8 نژاد تاریخی"
-    already-have-race: "&cشما قبلاً نژاد %race% را دارید! &7به ایران خوش آمدید!"
-    race-selected: "&aنژاد شما با موفقیت به %race% تغییر یافت! &6زنده باد ایران!"
-    no-race: "&cشما هنوز نژادی انتخاب نکرده‌اید! &7ایرانی نیستی؟"
-    info-header: "&8&l&m-------------------\n&6&l اطلاعات نژاد ایرانی شما\n&8&l&m-------------------"
+    choose-first: "&eلطفاً نژاد ایرانی خود را انتخاب کنید! &a/race choose &7- 8 نژاد"
+    already-have-race: "&cشما نژاد %race% را دارید! &7ایرانی اصیل!"
+    race-selected: "&aنژاد شما به %race% تغییر یافت! &6زنده باد ایران!"
 
 # ================================
-# دانجن‌های تاریخی ایران - جدید 2.0
-# 🇮🇷 8 دانجن بر اساس تاریخ واقعی ایران
+# دانجن‌های تاریخی ایران - نسخه 3.0 - هر بایوم یک دانجن
+# 🇮🇷 16 دانجن برای پوشش تمام 40+ بایوم 1.12.2
 # ================================
 dungeons:
   enabled: true
-  spawn-chance: 0.005 # 0.5% شانس اسپاون در هر چانک جدید - کم برای جلوگیری از لگ
-  min-distance: 500 # حداقل فاصله بین دانجن‌ها (بلوک)
-  broadcast-discovery: true # اعلام کشف دانجن به همه
+  spawn-chance: 0.006 # 0.6% - کمی بیشتر برای پوشش همه بایوم‌ها
+  min-distance: 400 # حداقل فاصله 400 بلوک
+  broadcast-discovery: true
   
-  # تنظیمات هر دانجن
-  alamut_castle:
-    enabled: true
-    biomes: ["EXTREME_HILLS", "EXTREME_HILLS_MOUNTAINS", "SMALL_MOUNTAINS"]
-    difficulty: 5
-    persian-name: "قلعه الموت - آشیانه عقاب"
-    history: "قلعه حسن صباح، رهبر اسماعیلیان، 1090 میلادی، قزوین"
-  
-  anahita_temple:
-    enabled: true
-    biomes: ["FOREST", "BIRCH_FOREST", "ROOFED_FOREST", "JUNGLE"]
-    difficulty: 4
-    persian-name: "معبد آناهیتا - الهه آب"
-    history: "بزرگترین معبد سنگی ایران، کنگاور کرمانشاه، دوره هخامنشی"
-  
-  arge_bam:
-    enabled: true
-    biomes: ["DESERT", "MESA"]
-    difficulty: 5
-    persian-name: "ارگ بم - بزرگترین بنای خشتی جهان"
-    history: "180 هزار متر مربع، 2500 سال قدمت، بم کرمان، یونسکو"
-  
-  bandar_siraf:
-    enabled: true
-    biomes: ["OCEAN", "BEACH", "DEEP_OCEAN"]
-    difficulty: 4
-    persian-name: "بندر سیراف - مروارید خلیج فارس"
-    history: "بزرگترین بندر ساسانی، بوشهر، خلیج همیشه فارس"
-  
-  ghaleh_babak:
-    enabled: true
-    biomes: ["ICE_PLAINS", "ICE_MOUNTAINS", "COLD_TAIGA"]
-    difficulty: 5
-    persian-name: "قلعه بابک - دژ بابک خرمدین"
-    history: "2300 متر ارتفاع، 22 سال مقاومت، کلیبر آذربایجان"
-  
-  chogha_zanbil:
-    enabled: true
-    biomes: ["SWAMPLAND", "RIVER"]
-    difficulty: 4
-    persian-name: "زیگورات چغازنبیل - 3250 ساله"
-    history: "ساخته اونتاش-گال، 1250 قبل از میلاد، شوش خوزستان"
-  
-  dakhmeh_zartoshti:
-    enabled: true
-    biomes: ["HELL"]
-    difficulty: 5
-    persian-name: "دخمه زرتشتی - برج خاموشان"
-    history: "آیین 3000 ساله زرتشت، آتشکده آذرگشسب، یزد"
-  
-  takht_jamshid_sky:
-    enabled: true
-    biomes: ["SKY"]
-    difficulty: 6
-    persian-name: "تخت جمشید آسمانی - پارسه"
-    history: "باشکوه‌ترین کاخ جهان باستان، 515 قبل از میلاد، مرودشت فارس"
+  # 16 دانجن - هر بایوم پوشش داده شده
+  all-biomes-covered: true
+  list:
+    - "ALAMUT_CASTLE - قلعه الموت - کوهستان"
+    - "ANAHITA_TEMPLE - معبد آناهیتا - جنگل"
+    - "ARGE_BAM - ارگ بم - بیابان"
+    - "BANDAR_SIRAF - بندر سیراف - اقیانوس - خلیج فارس"
+    - "GHALEH_BABAK - قلعه بابک - برفی"
+    - "CHOGHA_ZANBIL - چغازنبیل - مرداب"
+    - "DAKHMEH_ZARTOSHTI - دخمه زرتشتی - ندر"
+    - "TAKHT_JAMSHID_SKY - تخت جمشید - اند"
+    - "PASARGAD_TOMB - آرامگاه کوروش - دشت"
+    - "BISOTUN_INSCRIPTION - کتیبه بیستون - کوه"
+    - "NAQSH_ROSTAM - نقش رستم - مِسا"
+    - "TAKHT_SOLEYMAN - تخت سلیمان - یخ"
+    - "HEGMATANEH - هگمتانه - تایگا"
+    - "SUSA_PALACE - کاخ شوش - جنگل توس"
+    - "YAZD_JAMEH_MOSQUE - مسجد جامع یزد - بیابان تپه"
+    - "AZADI_TOWER - برج آزادی - ساوانا - نماد ایران"
 
 # ================================
-# سازه‌های ایرانی روی مپ - جدید 2.0
-# بازار، کاروانسرا، چایخانه، آب‌انبار
+# سازه‌های ایرانی روی مپ - نسخه 3.0 - 8 سازه
+# بازار، کاروانسرا، چایخانه، آب‌انبار، مسجد، روستا
 # ================================
 structures:
   enabled: true
-  spawn-chance: 0.01 # 1% شانس - بیشتر از دانجن
+  spawn-chance: 0.012 # 1.2% - بیشتر از دانجن
   
   bazaar:
     enabled: true
-    persian-name: "بازار ایرانی - حجره‌های سنتی"
-    description: "بازار با فرش‌فروش، چای‌فروش، جواهر‌فروش"
-    biomes: ["PLAINS", "DESERT", "SAVANNA"]
+    persian-name: "بازار ایرانی - حجره‌های سنتی - بازار تهران و اصفهان"
+    count: "4 حجره با فروشندگان فارسی"
   
   caravanserai:
     enabled: true
-    persian-name: "کاروانسرای شاه عباسی - جاده ابریشم"
-    description: "استراحتگاه کاروانیان، ساخته شاه عباس صفوی"
-    biomes: ["DESERT", "MESA"]
+    persian-name: "کاروانسرای شاه عباسی - جاده ابریشم - 999 کاروانسرا"
   
   chaikhaneh:
     enabled: true
-    persian-name: "چایخانه سنتی - سماور و قلیان"
-    description: "چایخانه با چای لاهیجان و فرش ایرانی"
-    biomes: ["FOREST", "TAIGA", "PLAINS"]
+    persian-name: "چایخانه سنتی - سماور ذغالی - چای لاهیجان"
   
   ab_anbar:
     enabled: true
-    persian-name: "آب‌انبار یزدی - بادگیر کویری"
-    description: "آب‌انبار خنک با بادگیر، هنر یزدی‌ها"
-    biomes: ["DESERT"]
+    persian-name: "آب‌انبار یزدی - بادگیر کویری - هنر یزدی‌ها"
+  
+  mosque:
+    enabled: true
+    persian-name: "مسجد کوچک روستایی - گنبد فیروزه‌ای"
+  
+  village:
+    enabled: true
+    persian-name: "روستای ایرانی - کندوان، میمند، ابیانه، ماسوله"
 
 # ================================
-# پیام‌های فارسی - کاملا فارسی
+# بازار ایرانی - نسخه 3.0 - جدید
+# خرید و فروش با سکه دریک هخامنشی
+# ================================
+bazaar:
+  enabled: true
+  currency: "GOLD_NUGGET" # سکه دریک
+  currency-name: "سکه دریک هخامنشی - اولین سکه جهان - داریوش بزرگ"
+  start-coins: 5 # سکه اولیه برای بازیکن جدید
+  
+  categories:
+    weapons:
+      name: "⚔ راسته شمشیرگرها - بازار سلاح‌فروشان"
+      items:
+        - "شمشیر الموت - 20 سکه"
+        - "شمشیر بابک - 18 سکه"
+        - "آکیناکه هخامنشی - 30 سکه"
+        - "کمان آرش - 25 سکه"
+    jewels:
+      name: "💎 راسته زرگرها - بازار جواهر‌فروشان"
+      items:
+        - "تاج کوروش - 50 سکه"
+        - "مروارید خلیج فارس - 15 سکه"
+        - "آتش مقدس - 20 سکه"
+    carpets:
+      name: "🧶 راسته فرش‌فروشان"
+      items:
+        - "فرش کرمانی - 10 سکه"
+        - "پر سیمرغ - 12 سکه"
+    food:
+      name: "☕ راسته عطاران"
+      items:
+        - "چای لاهیجان - 5 سکه"
+        - "منشور کوروش - 30 سکه"
+
+# ================================
+# روستاهای ایرانی - نسخه 3.0 - جدید
+# ================================
+villages:
+  enabled: true
+  transform-vanilla: true # تبدیل روستاهای وانیلا به ایرانی
+  persian-names:
+    - "کندوان - آذربایجان - خانه‌های صخره‌ای"
+    - "میمند - کرمان - 3000 ساله"
+    - "ابیانه - اصفهان - سرخ"
+    - "ماسوله - گیلان - پلکانی"
+    - "پالنگان - کردستان"
+    - "روستای خور - اصفهان"
+  villager-names:
+    - "حاج کریم - کدخدا"
+    - "مشهدی حسن - کشاورز"
+    - "کربلایی تقی - نانوا"
+    - "اصغر آقا - آهنگر"
+    - "فاطمه خانم - قالیباف"
+
+# ================================
+# پیام‌های فارسی - کاملا فارسی - نسخه 3.0
 # ================================
 messages:
-  no-permission: "&cشما دسترسی لازم را ندارید! &7این بخش مخصوص ایرانیان اصیل است!"
-  player-only: "&cاین دستور فقط برای بازیکنان ایرانی است!"
-  player-not-found: "&cبازیکن یافت نشد! شاید در تاریخ گم شده!"
-  reloaded: "&aکانفیگ ایرانی با موفقیت ریلود شد! &6زنده باد ایران!"
-  bed-only-night: "&cشما فقط در شب می‌توانید بخوابید! &7مثل نگهبانان تخت جمشید!"
-  bed-not-safe: "&cمحیط امن نیست! هیولاها نزدیک هستند! &7مثل حمله اسکندر به ایران!"
-  inventory-destroyed: "&4&lتمام آیتم‌های شما با مرگ نابود شد! &7مثل ویرانی تخت جمشید توسط اسکندر!"
-  race-gui-title: "&8&lانتخاب نژاد ایرانی - تاریخ ایران"
+  no-permission: "&cدسترسی ندارید! &7مخصوص ایرانیان اصیل!"
+  player-only: "&cفقط بازیکنان ایرانی!"
+  player-not-found: "&cبازیکن یافت نشد! در تاریخ گم شده!"
+  reloaded: "&aکانفیگ ایرانی 3.0 ریلود شد! &6زنده باد ایران! هر بایوم یک دانجن!"
+  bed-only-night: "&cفقط شب! &7مثل نگهبانان تخت جمشید!"
+  bed-not-safe: "&cامن نیست! &7مثل حمله اسکندر!"
+  inventory-destroyed: "&4تمام آیتم‌ها نابود شد! &7مثل ویرانی تخت جمشید!"
+  race-gui-title: "&8&l🇮🇷 انتخاب نژاد ایرانی - 8 نژاد"
   race-info-title: "&6&lاطلاعات نژاد ایرانی: %race%"
   
-  dungeon-discovered: "&6&l🏛 دانجن ایرانی کشف شد: &e%name% &7توسط &a%player%"
-  dungeon-enter: "&6&lوارد دانجن تاریخی شدی: &e%name% &7- %desc%"
-  dungeon-boss-defeated: "&6&l⚔ باس ایرانی شکست خورد: &c%boss% &7در &e%dungeon%"
-  structure-discovered: "&a&l🏘 سازه ایرانی کشف شد: &e%name%"
+  dungeon-discovered: "&6&l🏛 دانجن ایرانی کشف شد: &e%name% &7توسط &a%player% &7- تاریخ ایران!"
+  dungeon-enter: "&6&lوارد دانجن تاریخی شدی: &e%name%"
+  dungeon-boss-defeated: "&6&l⚔ باس ایرانی شکست خورد: &c%boss%"
+  structure-discovered: "&a&l🏘 سازه ایرانی: &e%name%"
+  village-discovered: "&a&l🏘 روستای ایرانی کشف شد: &e%name% &7- معماری کاهگلی"
   
-  persian-welcome: "&6&l🇮🇷 به پلاگین هاردکور ایرانی خوش آمدید! تاریخ 2500 ساله در انتظار شماست!"
-  persian-goodbye: "&c&lخدانگهدار! &7به امید دیدار در تخت جمشید!"
+  bazaar-welcome: "&6&l🏪 به بازار ایرانی خوش آمدید! مثل بازار بزرگ تهران و اصفهان!"
+  bazaar-not-enough-coins: "&cسکه کافی نداری! سکه دریک = GOLD_NUGGET - از دانجن‌ها پیدا کن!"
+  bazaar-bought: "&aخرید موفق! &7%item% &aبه قیمت &6%price% سکه دریک"
+  
+  persian-welcome: "&6&l🇮🇷 به هاردکور ایرانی 3.0 خوش آمدید! هر بایوم یک دانجن تاریخی! 16 دانجن + 8 سازه!"
+  persian-goodbye: "&cخدانگهدار! &7به امید دیدار در تخت جمشید! 🇮🇷"
+  persian-slogan: "&6&lزنده باد ایران - پاینده باد تاریخ 7000 ساله - خلیج همیشه فارس"

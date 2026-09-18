@@ -27,13 +27,13 @@ public class StructureBuilder {
     }
 
     /**
-     * ساخت دانجن بر اساس نوع
+     * ساخت دانجن بر اساس نوع - نسخه 3.0 با 16 دانجن
      */
     public boolean buildDungeon(Location origin, DungeonType type) {
         origin = findGround(origin);
         if (origin == null) return false;
 
-        plugin.getLogger().info("ساخت دانجن " + type.getPersianName() + " در " + origin.getBlockX() + "," + origin.getBlockY() + "," + origin.getBlockZ());
+        plugin.getLogger().info("ساخت دانجن ایرانی " + type.getPersianName() + " در " + origin.getBlockX() + "," + origin.getBlockY() + "," + origin.getBlockZ() + " - بایوم: " + origin.getBlock().getBiome());
 
         switch (type) {
             case ALAMUT_CASTLE:
@@ -52,9 +52,32 @@ public class StructureBuilder {
                 return buildDakhmeh(origin);
             case TAKHT_JAMSHID_SKY:
                 return buildTakhtJamshid(origin);
+            // دانجن‌های جدید 3.0
+            case PASARGAD_TOMB:
+                return buildPasargad(origin);
+            case BISOTUN_INSCRIPTION:
+                return buildBisotun(origin);
+            case NAQSH_ROSTAM:
+                return buildNaqshRostam(origin);
+            case TAKHT_SOLEYMAN:
+                return buildTakhtSoleyman(origin);
+            case HEGMATANEH:
+                return buildHegmataneh(origin);
+            case SUSA_PALACE:
+                return buildSusaPalace(origin);
+            case YAZD_JAMEH_MOSQUE:
+                return buildYazdMosque(origin);
+            case AZADI_TOWER:
+                return buildAzadiTower(origin);
             default:
-                return false;
+                return buildGenericPersianDungeon(origin, type);
         }
+    }
+
+    private boolean buildGenericPersianDungeon(Location origin, DungeonType type) {
+        // برای دانجن‌های جدید که هنوز سازه اختصاصی ندارند، از ارگ بم به عنوان پایه استفاده کن
+        plugin.getLogger().info("ساخت دانجن عمومی برای " + type.getPersianName());
+        return buildArgeBam(origin);
     }
 
     private Location findGround(Location loc) {
@@ -398,6 +421,232 @@ public class StructureBuilder {
         return true;
     }
 
+    // ==================== دانجن‌های جدید نسخه 3.0 ====================
+
+    private boolean buildPasargad(Location origin) {
+        World world = origin.getWorld();
+        int ox = origin.getBlockX();
+        int oy = origin.getBlockY();
+        int oz = origin.getBlockZ();
+
+        // آرامگاه کوروش - 6 پله
+        for (int i = 0; i < 6; i++) {
+            int size = 10 - i;
+            fillArea(world, ox - size, oy + i, oz - size, ox + size, oy + i, oz + size, Material.SANDSTONE);
+        }
+        // اتاق آرامگاه
+        fillArea(world, ox - 3, oy + 6, oz - 4, ox + 3, oy + 10, oz + 4, Material.SANDSTONE);
+        fillArea(world, ox - 2, oy + 7, oz - 3, ox + 2, oy + 9, oz + 3, Material.AIR);
+        setBlock(world, ox, oy + 7, oz, Material.CHEST, true);
+        placeChestWithLoot(world, ox, oy + 7, oz, DungeonType.PASARGAD_TOMB);
+
+        world.spawnEntity(new Location(world, ox, oy + 7, oz + 2), EntityType.SKELETON).setCustomName(MessageUtils.color("&f&lنگهبان پاسارگاد - سرباز جاویدان"));
+
+        // باغ پاسارگاد - چهار باغ ایرانی
+        fillArea(world, ox - 15, oy, oz - 15, ox + 15, oy, oz + 15, Material.GRASS);
+        fillArea(world, ox - 1, oy, oz - 15, ox + 1, oy, oz + 15, Material.WATER);
+        fillArea(world, ox - 15, oy, oz - 1, ox + 15, oy, oz + 1, Material.WATER);
+
+        return true;
+    }
+
+    private boolean buildBisotun(Location origin) {
+        World world = origin.getWorld();
+        int ox = origin.getBlockX();
+        int oy = origin.getBlockY();
+        int oz = origin.getBlockZ();
+
+        // دیوار کوه بیستون 30x20
+        fillArea(world, ox - 15, oy, oz, ox + 15, oy + 20, oz, Material.SMOOTH_BRICK);
+        // کتیبه
+        fillArea(world, ox - 10, oy + 5, oz, ox + 10, oy + 15, oz, Material.SMOOTH_BRICK);
+        // نقش داریوش و اسیران
+        for (int x = -8; x <= 8; x += 2) {
+            setBlock(world, ox + x, oy + 10, oz + 1, Material.GOLD_BLOCK, false);
+        }
+
+        setBlock(world, ox, oy + 6, oz + 1, Material.CHEST, true);
+        placeChestWithLoot(world, ox, oy + 6, oz + 1, DungeonType.BISOTUN_INSCRIPTION);
+
+        world.spawnEntity(new Location(world, ox, oy + 6, oz + 2), EntityType.VILLAGER).setCustomName(MessageUtils.color("&7&lکاتب بیستون - داریوش بزرگ"));
+
+        return true;
+    }
+
+    private boolean buildNaqshRostam(Location origin) {
+        World world = origin.getWorld();
+        int ox = origin.getBlockX();
+        int oy = origin.getBlockY();
+        int oz = origin.getBlockZ();
+
+        // کوه نقش رستم
+        fillArea(world, ox - 17, oy, oz, ox + 17, oy + 25, oz + 7, Material.SANDSTONE);
+        // 4 آرامگاه هخامنشی
+        for (int x = -12; x <= 12; x += 8) {
+            fillArea(world, ox + x - 2, oy + 10, oz, ox + x + 2, oy + 15, oz, Material.AIR);
+            fillArea(world, ox + x - 2, oy + 15, oz, ox + x + 2, oy + 16, oz, Material.SANDSTONE);
+            setBlock(world, ox + x, oy + 11, oz + 1, Material.CHEST, true);
+            placeChestWithLoot(world, ox + x, oy + 11, oz + 1, DungeonType.NAQSH_ROSTAM);
+        }
+
+        // کعبه زرتشت
+        buildWalls(world, ox, oy, oz + 12, 3, 8, Material.SANDSTONE);
+        fillArea(world, ox - 3, oy + 8, oz + 9, ox + 3, oy + 8, oz + 15, Material.SANDSTONE);
+
+        world.spawnEntity(new Location(world, ox, oy + 11, oz + 2), EntityType.SKELETON).setCustomName(MessageUtils.color("&6&lخشایارشا - شاه جنگاور"));
+
+        return true;
+    }
+
+    private boolean buildTakhtSoleyman(Location origin) {
+        World world = origin.getWorld();
+        int ox = origin.getBlockX();
+        int oy = origin.getBlockY();
+        int oz = origin.getBlockZ();
+
+        // دیوار تخت سلیمان 30x30
+        buildWalls(world, ox, oy, oz, 15, 8, Material.SMOOTH_BRICK);
+        // دریاچه جوشان وسط
+        fillArea(world, ox - 8, oy, oz - 8, ox + 8, oy, oz + 8, Material.WATER);
+        fillArea(world, ox - 6, oy, oz - 6, ox + 6, oy, oz + 6, Material.ICE);
+        // آتشکده
+        buildWalls(world, ox, oy, oz, 4, 6, Material.NETHER_BRICK);
+        setBlock(world, ox, oy + 2, oz, Material.FIRE, false);
+
+        setBlock(world, ox + 10, oy + 1, oz, Material.CHEST, true);
+        placeChestWithLoot(world, ox + 10, oy + 1, oz, DungeonType.TAKHT_SOLEYMAN);
+
+        world.spawnEntity(new Location(world, ox, oy + 1, oz), EntityType.BLAZE).setCustomName(MessageUtils.color("&b&lموبد تخت سلیمان"));
+
+        return true;
+    }
+
+    private boolean buildHegmataneh(Location origin) {
+        World world = origin.getWorld();
+        int ox = origin.getBlockX();
+        int oy = origin.getBlockY();
+        int oz = origin.getBlockZ();
+
+        // هگمتانه - 7 دیوار رنگی
+        for (int r = 16; r >= 4; r -= 2) {
+            Material mat = Material.WOOL;
+            byte data = (byte) (r % 16);
+            buildCircle(world, ox, oy + (16 - r), oz, r, 3, mat);
+        }
+
+        // کاخ مرکزی
+        buildWalls(world, ox, oy, oz, 4, 6, Material.SMOOTH_BRICK);
+        setBlock(world, ox, oy + 1, oz, Material.CHEST, true);
+        placeChestWithLoot(world, ox, oy + 1, oz, DungeonType.HEGMATANEH);
+
+        world.spawnEntity(new Location(world, ox, oy + 1, oz + 1), EntityType.ZOMBIE).setCustomName(MessageUtils.color("&2&lدیاکو - بنیان‌گذار ماد"));
+
+        return true;
+    }
+
+    private boolean buildSusaPalace(Location origin) {
+        World world = origin.getWorld();
+        int ox = origin.getBlockX();
+        int oy = origin.getBlockY();
+        int oz = origin.getBlockZ();
+
+        // آپادانای شوش 28x28
+        fillArea(world, ox - 14, oy, oz - 14, ox + 14, oy, oz + 14, Material.BRICK);
+        // ستون‌ها
+        for (int x = -10; x <= 10; x += 5) {
+            for (int z = -10; z <= 10; z += 5) {
+                buildColumn(world, ox + x, oy + 1, oz + z, 10, Material.SMOOTH_BRICK);
+                setBlock(world, ox + x, oy + 11, oz + z, Material.GOLD_BLOCK, false);
+            }
+        }
+        // سقف
+        fillArea(world, ox - 14, oy + 12, oz - 14, ox + 14, oy + 12, oz + 14, Material.BRICK);
+
+        // گاو بالدار
+        setBlock(world, ox - 14, oy + 1, oz, Material.SANDSTONE, false);
+        setBlock(world, ox + 14, oy + 1, oz, Material.SANDSTONE, false);
+
+        setBlock(world, ox, oy + 1, oz, Material.CHEST, true);
+        placeChestWithLoot(world, ox, oy + 1, oz, DungeonType.SUSA_PALACE);
+
+        world.spawnEntity(new Location(world, ox, oy + 1, oz + 2), EntityType.IRON_GOLEM).setCustomName(MessageUtils.color("&e&lسردار شوش"));
+
+        return true;
+    }
+
+    private boolean buildYazdMosque(Location origin) {
+        World world = origin.getWorld();
+        int ox = origin.getBlockX();
+        int oy = origin.getBlockY();
+        int oz = origin.getBlockZ();
+
+        // مسجد جامع یزد 25x30
+        buildWalls(world, ox, oy, oz, 12, 8, Material.SANDSTONE);
+        fillArea(world, ox - 12, oy + 8, oz - 15, ox + 12, oy + 8, oz + 15, Material.SANDSTONE);
+
+        // دو مناره 52 متری (ساده 20 بلوک)
+        buildTower(world, ox - 12, oy, oz - 15, 2, 20, Material.SANDSTONE);
+        buildTower(world, ox + 12, oy, oz - 15, 2, 20, Material.SANDSTONE);
+
+        // گنبد فیروزه‌ای
+        buildDome(world, ox, oy + 9, oz, 8, Material.WOOL, (byte) 9); // فیروزه‌ای
+
+        // محراب
+        fillArea(world, ox - 2, oy + 1, oz + 12, ox + 2, oy + 4, oz + 15, Material.GOLD_BLOCK);
+
+        setBlock(world, ox, oy + 1, oz, Material.CHEST, true);
+        placeChestWithLoot(world, ox, oy + 1, oz, DungeonType.YAZD_JAMEH_MOSQUE);
+
+        return true;
+    }
+
+    private boolean buildAzadiTower(Location origin) {
+        World world = origin.getWorld();
+        int ox = origin.getBlockX();
+        int oy = origin.getBlockY();
+        int oz = origin.getBlockZ();
+
+        // برج آزادی - 4 پایه
+        buildColumn(world, ox - 6, oy, oz - 6, 15, Material.QUARTZ_BLOCK);
+        buildColumn(world, ox + 6, oy, oz - 6, 15, Material.QUARTZ_BLOCK);
+        buildColumn(world, ox - 6, oy, oz + 6, 15, Material.QUARTZ_BLOCK);
+        buildColumn(world, ox + 6, oy, oz + 6, 15, Material.QUARTZ_BLOCK);
+
+        // طاق
+        fillArea(world, ox - 6, oy + 15, oz - 6, ox + 6, oy + 18, oz + 6, Material.QUARTZ_BLOCK);
+        fillArea(world, ox - 3, oy + 15, oz - 3, ox + 3, oy + 18, oz + 3, Material.AIR);
+
+        // برج بالا
+        buildWalls(world, ox, oy + 18, oz, 3, 10, Material.QUARTZ_BLOCK);
+
+        // پرچم ایران
+        buildColumn(world, ox, oy + 28, oz, 5, Material.FENCE);
+        fillArea(world, ox, oy + 33, oz, ox, oy + 35, oz, Material.WOOL, (byte) 14); // قرمز
+        fillArea(world, ox, oy + 32, oz, ox, oy + 32, oz, Material.WOOL); // سفید
+        fillArea(world, ox, oy + 31, oz, ox, oy + 31, oz, Material.WOOL, (byte) 5); // سبز
+
+        setBlock(world, ox, oy + 1, oz, Material.CHEST, true);
+        placeChestWithLoot(world, ox, oy + 1, oz, DungeonType.AZADI_TOWER);
+
+        return true;
+    }
+
+    // برای گنبد با رنگ
+    private void buildDome(World world, int ox, int oy, int oz, int radius, Material mat, byte data) {
+        for (int y = 0; y < radius; y++) {
+            int r = radius - y;
+            for (int x = -r; x <= r; x++) {
+                for (int z = -r; z <= r; z++) {
+                    if (x * x + z * z <= r * r && x * x + z * z >= (r - 1) * (r - 1)) {
+                        Block b = world.getBlockAt(ox + x, oy + y, oz + z);
+                        b.setType(mat);
+                        try { b.setData(data); } catch (Exception ignored) {}
+                    }
+                }
+            }
+        }
+    }
+
     // ==================== متدهای کمکی ساخت ====================
 
     private void fillArea(World world, int x1, int y1, int z1, int x2, int y2, int z2, Material mat) {
@@ -523,7 +772,7 @@ public class StructureBuilder {
             Chest chest = (Chest) block.getState();
             chest.getInventory().clear();
 
-            // لوت مخصوص هر دانجن
+            // لوت مخصوص هر دانجن - نسخه 3.0 با 16 دانجن
             switch (type) {
                 case ALAMUT_CASTLE:
                     chest.getInventory().addItem(PersianItems.createShamshirAlamut());
@@ -567,9 +816,54 @@ public class StructureBuilder {
                     chest.getInventory().addItem(PersianItems.createKamanArash());
                     chest.getInventory().addItem(new ItemStack(Material.DIAMOND_BLOCK, 3));
                     break;
+                case PASARGAD_TOMB:
+                    chest.getInventory().addItem(PersianItems.createTajKourosh());
+                    chest.getInventory().addItem(PersianItems.createManshurKourosh());
+                    chest.getInventory().addItem(new ItemStack(Material.GOLD_BLOCK, 2));
+                    break;
+                case BISOTUN_INSCRIPTION:
+                    chest.getInventory().addItem(PersianItems.createLohIlami());
+                    chest.getInventory().addItem(new ItemStack(Material.BOOK, 10));
+                    chest.getInventory().addItem(PersianItems.createSekkeHakhamaneshi());
+                    break;
+                case NAQSH_ROSTAM:
+                    chest.getInventory().addItem(PersianItems.createTajKourosh());
+                    chest.getInventory().addItem(PersianItems.createShamshirHakhamaneshi());
+                    chest.getInventory().addItem(new ItemStack(Material.GOLD_INGOT, 20));
+                    break;
+                case TAKHT_SOLEYMAN:
+                    chest.getInventory().addItem(PersianItems.createAtashMoghadas());
+                    chest.getInventory().addItem(PersianItems.createMorvaridKhalij());
+                    chest.getInventory().addItem(new ItemStack(Material.DIAMOND, 5));
+                    break;
+                case HEGMATANEH:
+                    chest.getInventory().addItem(PersianItems.createShamshirHakhamaneshi());
+                    chest.getInventory().addItem(new ItemStack(Material.GOLD_INGOT, 15));
+                    chest.getInventory().addItem(new ItemStack(Material.IRON_INGOT, 20));
+                    break;
+                case SUSA_PALACE:
+                    chest.getInventory().addItem(PersianItems.createLohIlami());
+                    chest.getInventory().addItem(new ItemStack(Material.GOLD_BLOCK, 1));
+                    chest.getInventory().addItem(PersianItems.createFarshKermani());
+                    break;
+                case YAZD_JAMEH_MOSQUE:
+                    chest.getInventory().addItem(PersianItems.createFarshKermani());
+                    chest.getInventory().addItem(new ItemStack(Material.EMERALD, 15));
+                    chest.getInventory().addItem(new ItemStack(Material.CARPET, 10, (short) 9));
+                    break;
+                case AZADI_TOWER:
+                    chest.getInventory().addItem(PersianItems.createSekkeHakhamaneshi());
+                    chest.getInventory().addItem(new ItemStack(Material.WOOL, 3, (short) 14));
+                    chest.getInventory().addItem(new ItemStack(Material.WOOL, 3, (short) 0));
+                    chest.getInventory().addItem(new ItemStack(Material.WOOL, 3, (short) 5));
+                    break;
+                default:
+                    chest.getInventory().addItem(PersianItems.getRandomPersianLoot());
+                    chest.getInventory().addItem(new ItemStack(Material.GOLD_INGOT, 5));
+                    break;
             }
 
-            // لوت تصادفی اضافی
+            // لوت تصادفی اضافی - 3 آیتم ایرانی
             for (int i = 0; i < 3; i++) {
                 chest.getInventory().addItem(PersianItems.getRandomPersianLoot());
             }
