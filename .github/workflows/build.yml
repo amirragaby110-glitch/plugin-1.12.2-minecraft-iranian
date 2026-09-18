@@ -20,26 +20,16 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: |
-        set -o pipefail
-        mvn -B clean package -DskipTests -e 2>&1 | tee maven.log
-        ls -lh target/
+      run: mvn -B clean package -DskipTests
+    - name: List target
+      run: ls -lh target/
     - name: Upload Jar Artifact
-      if: success()
       uses: actions/upload-artifact@v4
       with:
         name: IranianHardcore-3.5.0
         path: target/*.jar
-    - name: Create release with log on failure
-      if: failure()
-      run: |
-        echo "Creating release with log..."
-        BODY=$(cat maven.log | head -n 1000)
-        gh release create log-${{ github.run_id }}-maven --title "Build log ${{ github.run_id }} maven" --notes "$BODY" || echo "release create failed"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload to Release
-      if: github.event_name == 'release' && success()
+      if: github.event_name == 'release'
       uses: softprops/action-gh-release@v1
       with:
         files: target/*.jar
@@ -60,25 +50,16 @@ jobs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
     - name: Build with Gradle
-      run: |
-        set -o pipefail
-        gradle build --no-daemon --stacktrace 2>&1 | tee gradle.log
-        ls -lh build/libs/
+      run: gradle build --no-daemon
+    - name: List build/libs
+      run: ls -lh build/libs/
     - name: Upload Jar Artifact Gradle
-      if: success()
       uses: actions/upload-artifact@v4
       with:
         name: IranianHardcore-3.5.0-Gradle
         path: build/libs/*.jar
-    - name: Create release with log on failure
-      if: failure()
-      run: |
-        BODY=$(cat gradle.log | head -n 1000)
-        gh release create log-${{ github.run_id }}-gradle --title "Build log ${{ github.run_id }} gradle" --notes "$BODY" || echo "failed"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload to Release Gradle
-      if: github.event_name == 'release' && success()
+      if: github.event_name == 'release'
       uses: softprops/action-gh-release@v1
       with:
         files: build/libs/*.jar
