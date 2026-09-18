@@ -24,22 +24,33 @@ jobs:
         java -version
         mvn -version
         ls -la
-    - name: Build with Maven
-      run: mvn -B clean package -DskipTests -e
-    - name: List target
-      if: always()
-      run: ls -lh target/ || echo "no target"
+    - name: Build with Maven capture log
+      run: |
+        mvn -B clean package -DskipTests -e > maven.log 2>&1 || true
+        echo "=== MAVEN LOG START ==="
+        cat maven.log
+        echo "=== MAVEN LOG END ==="
+        ls -lh target/ 2>&1 || echo "no target"
+        mvn -B clean package -DskipTests
     - name: Upload Jar Artifact
       if: success()
       uses: actions/upload-artifact@v4
       with:
         name: IranianHardcore-3.5.0
         path: target/*.jar
-    - name: Upload to Release
-      if: github.event_name == 'release' && success()
-      uses: softprops/action-gh-release@v1
-      with:
-        files: target/*.jar
+    - name: Save log to branch on failure
+      if: failure()
+      run: |
+        cat maven.log
+        git config user.name "github-actions"
+        git config user.email "actions@github.com"
+        git checkout --orphan build-logs
+        git rm -rf . || true
+        cp $GITHUB_WORKSPACE/maven.log ./maven-${{ github.run_id }}.log || cp maven.log ./maven-${{ github.run_id }}.log || echo "no log" > ./maven-${{ github.run_id }}.log
+        ls -la
+        git add .
+        git commit -m "log ${{ github.run_id }}"
+        git push origin build-logs --force
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -56,21 +67,31 @@ jobs:
         cache: gradle
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
-    - name: Build with Gradle
-      run: gradle build --no-daemon --stacktrace
-    - name: List build/libs
-      if: always()
-      run: ls -lh build/libs/ || echo "no build/libs"
+    - name: Build with Gradle capture
+      run: |
+        gradle build --no-daemon --stacktrace > gradle.log 2>&1 || true
+        echo "=== GRADLE LOG START ==="
+        cat gradle.log
+        echo "=== GRADLE LOG END ==="
+        gradle build --no-daemon --stacktrace
     - name: Upload Jar Artifact Gradle
       if: success()
       uses: actions/upload-artifact@v4
       with:
         name: IranianHardcore-3.5.0-Gradle
         path: build/libs/*.jar
-    - name: Upload to Release Gradle
-      if: github.event_name == 'release' && success()
-      uses: softprops/action-gh-release@v1
-      with:
-        files: build/libs/*.jar
+    - name: Save log to branch on failure
+      if: failure()
+      run: |
+        cat gradle.log
+        git config user.name "github-actions"
+        git config user.email "actions@github.com"
+        git checkout --orphan build-logs-gradle
+        git rm -rf . || true
+        cp $GITHUB_WORKSPACE/gradle.log ./gradle-${{ github.run_id }}.log || cp gradle.log ./gradle-${{ github.run_id }}.log || echo "no log" > ./gradle-${{ github.run_id }}.log
+        ls -la
+        git add .
+        git commit -m "log ${{ github.run_id }}"
+        git push origin build-logs-gradle --force
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
