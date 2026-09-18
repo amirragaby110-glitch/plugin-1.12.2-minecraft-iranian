@@ -1,0 +1,59 @@
+name: 🇮🇷 ساخت پلاگین ایرانی - هر بایوم یک قوم
+
+on:
+  push:
+    branches: [ main, arena/* ]
+  pull_request:
+    branches: [ main ]
+  release:
+    types: [created]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: ☕ نصب Java 8
+      uses: actions/setup-java@v3
+      with:
+        java-version: '8'
+        distribution: 'temurin'
+    
+    - name: 🔨 کامپایل با Maven
+      run: mvn clean package -o
+      # -o آفلاین نیست، باید اینترنت داشته باشد برای Spigot API
+      # اگر آفلاین بود، از cache استفاده می‌کند
+    
+    - name: 📦 آپلود فایل Jar
+      uses: actions/upload-artifact@v3
+      with:
+        name: IranianHardcore-3.5.0
+        path: target/*.jar
+    
+    - name: 🚀 آپلود به Release (اگر Release باشد)
+      if: github.event_name == 'release'
+      uses: softprops/action-gh-release@v1
+      with:
+        files: target/*.jar
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  build-with-gradle:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: ☕ نصب Java 8
+      uses: actions/setup-java@v3
+      with:
+        java-version: '8'
+        distribution: 'temurin'
+    
+    - name: 🔨 کامپایل با Gradle
+      run: |
+        chmod +x gradlew 2>/dev/null || echo "No gradlew, using gradle"
+        gradle build 2>/dev/null || ./gradlew build 2>/dev/null || mvn clean package
+      continue-on-error: true
