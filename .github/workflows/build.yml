@@ -19,25 +19,24 @@ jobs:
         java-version: '8'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven and save log
+    - name: Build with Maven
       run: |
-        mvn -B clean package -DskipTests -e > maven.log 2>&1 || true
-        cat maven.log
-        echo "===TRY BUILD AGAIN==="
-        mvn -B clean package -DskipTests || true
-        ls -lh target/ 2>&1 || echo "no target"
-    - name: Upload log artifact
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: maven-log-${{ github.run_id }}
-        path: maven.log
+        java -version
+        mvn -version
+        mvn -B clean package -DskipTests -e
+        ls -lh target/
     - name: Upload Jar Artifact
-      if: success()
       uses: actions/upload-artifact@v4
       with:
         name: IranianHardcore-3.5.0
         path: target/*.jar
+    - name: Upload to Release
+      if: github.event_name == 'release'
+      uses: softprops/action-gh-release@v1
+      with:
+        files: target/*.jar
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   build-gradle:
     runs-on: ubuntu-latest
@@ -54,19 +53,17 @@ jobs:
       uses: gradle/actions/setup-gradle@v3
     - name: Build with Gradle
       run: |
-        gradle build --no-daemon --stacktrace > gradle.log 2>&1 || true
-        cat gradle.log
-        gradle build --no-daemon --stacktrace || true
-        ls -lh build/libs/ 2>&1 || echo "no libs"
-    - name: Upload gradle log
-      if: always()
-      uses: actions/upload-artifact@v4
-      with:
-        name: gradle-log-${{ github.run_id }}
-        path: gradle.log
+        gradle build --no-daemon --stacktrace
+        ls -lh build/libs/
     - name: Upload Jar Artifact Gradle
-      if: success()
       uses: actions/upload-artifact@v4
       with:
         name: IranianHardcore-3.5.0-Gradle
         path: build/libs/*.jar
+    - name: Upload to Release Gradle
+      if: github.event_name == 'release'
+      uses: softprops/action-gh-release@v1
+      with:
+        files: build/libs/*.jar
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
