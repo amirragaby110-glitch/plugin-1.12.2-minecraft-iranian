@@ -8,32 +8,19 @@
     <version>3.5.0</version>
     <packaging>jar</packaging>
     <name>IranianHardcore</name>
-    <description>پلاگین هاردکور ایرانی 3.5</description>
+    <description>پلاگین هاردکور ایرانی 3.5 - هر بایوم یک قوم ایرانی - 14 قوم + 16 دانجن + 8 سازه + بازار ایرانی</description>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-    <repositories>
-        <repository>
-            <id>jitpack.io</id>
-            <url>https://jitpack.io</url>
-        </repository>
-        <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
-        <repository>
-            <id>papermc-repo</id>
-            <url>https://repo.papermc.io/repository/maven-public/</url>
-        </repository>
-    </repositories>
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>
             <version>1.12.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/lib/spigot-api-1.12.2-R0.1-SNAPSHOT.jar</systemPath>
         </dependency>
     </dependencies>
     <build>
