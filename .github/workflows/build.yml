@@ -30,12 +30,17 @@ jobs:
       with:
         name: IranianHardcore-3.5.0
         path: target/*.jar
-    - name: Create issue with log on failure
+    - name: Push log via gh api on failure
       if: failure()
       run: |
-        echo "Creating issue with log..."
-        cat maven.log | head -n 200
-        gh issue create --title "❌ Build failed ${{ github.run_id }} - Maven log" --body "$(cat maven.log | head -n 500)" || echo "Failed to create issue"
+        echo "Attempting to push log via gh api..."
+        LOG_B64=$(base64 -w 0 maven.log)
+        echo "Log size $(wc -c < maven.log) bytes, b64 $(echo $LOG_B64 | wc -c)"
+        gh api repos/${{ github.repository }}/contents/logs/maven-${{ github.run_id }}.log \
+          --method PUT \
+          --field message="Add maven log ${{ github.run_id }}" \
+          --field content="$LOG_B64" || echo "gh api failed"
+        echo "Done"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload to Release
@@ -70,11 +75,14 @@ jobs:
       with:
         name: IranianHardcore-3.5.0-Gradle
         path: build/libs/*.jar
-    - name: Create issue with log on failure
+    - name: Push log via gh api on failure
       if: failure()
       run: |
-        cat gradle.log | head -n 200
-        gh issue create --title "❌ Gradle build failed ${{ github.run_id }}" --body "$(cat gradle.log | head -n 500)" || echo "Failed"
+        LOG_B64=$(base64 -w 0 gradle.log)
+        gh api repos/${{ github.repository }}/contents/logs/gradle-${{ github.run_id }}.log \
+          --method PUT \
+          --field message="Add gradle log ${{ github.run_id }}" \
+          --field content="$LOG_B64" || echo "gh api failed"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload to Release Gradle
