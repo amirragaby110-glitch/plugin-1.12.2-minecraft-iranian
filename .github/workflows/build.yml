@@ -20,16 +20,32 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B clean package -DskipTests
-    - name: List target
-      run: ls -lh target/
+      run: |
+        set -o pipefail
+        mvn -B clean package -DskipTests 2>&1 | tee maven.log
+        ls -lh target/
     - name: Upload Jar Artifact
+      if: success()
       uses: actions/upload-artifact@v4
       with:
         name: IranianHardcore-3.5.0
         path: target/*.jar
+    - name: Push log to branch on failure
+      if: failure()
+      run: |
+        echo "Build failed, pushing log to branch..."
+        git config user.name "github-actions"
+        git config user.email "actions@github.com"
+        BRANCH="logs/maven-${{ github.run_id }}"
+        git checkout -b $BRANCH
+        cp maven.log ./maven-${{ github.run_id }}.log || echo "no log" > ./maven-${{ github.run_id }}.log
+        git add .
+        git commit -m "Add build log ${{ github.run_id }}"
+        git push origin $BRANCH
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload to Release
-      if: github.event_name == 'release'
+      if: github.event_name == 'release' && success()
       uses: softprops/action-gh-release@v1
       with:
         files: target/*.jar
@@ -50,16 +66,31 @@ jobs:
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v3
     - name: Build with Gradle
-      run: gradle build --no-daemon
-    - name: List build/libs
-      run: ls -lh build/libs/
+      run: |
+        set -o pipefail
+        gradle build --no-daemon 2>&1 | tee gradle.log
+        ls -lh build/libs/
     - name: Upload Jar Artifact Gradle
+      if: success()
       uses: actions/upload-artifact@v4
       with:
         name: IranianHardcore-3.5.0-Gradle
         path: build/libs/*.jar
+    - name: Push log to branch on failure
+      if: failure()
+      run: |
+        git config user.name "github-actions"
+        git config user.email "actions@github.com"
+        BRANCH="logs/gradle-${{ github.run_id }}"
+        git checkout -b $BRANCH
+        cp gradle.log ./gradle-${{ github.run_id }}.log || echo "no log" > ./gradle-${{ github.run_id }}.log
+        git add .
+        git commit -m "Add gradle log ${{ github.run_id }}"
+        git push origin $BRANCH
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload to Release Gradle
-      if: github.event_name == 'release'
+      if: github.event_name == 'release' && success()
       uses: softprops/action-gh-release@v1
       with:
         files: build/libs/*.jar
