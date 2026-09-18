@@ -11,8 +11,9 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.UUID;
 
 /**
- * مدیریت نژاد بازیکنان
- * ذخیره، بارگذاری، اعمال افکت‌ها
+ * مدیریت اقوام ایرانی - هر بایوم یک قوم
+ * نسخه 3.5 - کاملا فارسی - اقوام واقعی ایران
+ * ذخیره، بارگذاری، اعمال قابلیت‌های مخصوص هر قوم
  */
 public class RaceManager {
 
@@ -22,9 +23,6 @@ public class RaceManager {
         this.plugin = plugin;
     }
 
-    /**
-     * گرفتن نژاد بازیکن
-     */
     public RaceType getRace(UUID uuid) {
         String id = plugin.getConfigManager().getPlayerRace(uuid);
         if (id == null) return null;
@@ -40,38 +38,39 @@ public class RaceManager {
     }
 
     /**
-     * تنظیم نژاد بازیکن
+     * تنظیم قوم ایرانی بازیکن - کاملا فارسی
      */
     public void setRace(Player player, RaceType race) {
         UUID uuid = player.getUniqueId();
         plugin.getConfigManager().setPlayerRace(uuid, race.getId());
-        // ثبت کولدان تغییر نژاد
         long now = player.getWorld().getFullTime();
         plugin.getConfigManager().setRaceChangeCooldown(uuid, now);
 
         applyImmediatePerks(player, race);
 
-        player.sendMessage(MessageUtils.withPrefix("&aنژاد شما به &6" + race.getPersianName() + " &aتغییر یافت!"));
-        player.sendMessage(MessageUtils.color("&7" + String.join("\n&7", race.getLore())));
+        player.sendMessage(MessageUtils.withPrefix("&a&lقوم ایرانی شما به &6&l" + race.getPersianName() + " &a&lتغییر یافت!"));
+        player.sendMessage(MessageUtils.color("&6&l🇮🇷 زنده باد قوم " + race.getPersianName() + "!"));
+        player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
+        for (String line : race.getLore()) {
+            player.sendMessage(MessageUtils.color(line));
+        }
+        player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
+        player.sendMessage(MessageUtils.withPrefix("&7برای اطلاعات بیشتر: &e/race info"));
+        player.sendTitle(MessageUtils.color("&6" + race.getPersianName()), MessageUtils.color("&aبه قوم ایرانی خوش آمدید!"), 20, 60, 20);
+        player.getWorld().playSound(player.getLocation(), org.bukkit.Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.5f);
     }
 
-    /**
-     * تنظیم نژاد بدون کولدان (برای ادمین)
-     */
     public void setRaceNoCooldown(Player player, RaceType race) {
         plugin.getConfigManager().setPlayerRace(player.getUniqueId(), race.getId());
         applyImmediatePerks(player, race);
-        player.sendMessage(MessageUtils.withPrefix("&aنژاد شما توسط ادمین به &6" + race.getPersianName() + " &aتنظیم شد!"));
+        player.sendMessage(MessageUtils.withPrefix("&aقوم شما توسط ادمین به &6" + race.getPersianName() + " &aتنظیم شد! &6🇮🇷"));
     }
 
-    /**
-     * آیا بازیکن می‌تواند نژادش را تغییر دهد؟ (هر 7 روز)
-     */
     public boolean canChangeRace(Player player) {
         if (player.hasPermission("iranianhardcore.bypass.racecooldown")) return true;
         UUID uuid = player.getUniqueId();
         long lastChange = plugin.getConfigManager().getRaceChangeCooldown(uuid);
-        if (lastChange == 0) return true; // اولین بار
+        if (lastChange == 0) return true;
 
         long now = player.getWorld().getFullTime();
         long cooldownTicks = plugin.getConfigManager().getConfig().getInt("race.change-cooldown-days", 7) * 24000L;
@@ -80,9 +79,6 @@ public class RaceManager {
         return diff >= cooldownTicks;
     }
 
-    /**
-     * روزهای باقی‌مانده تا امکان تغییر نژاد
-     */
     public long getRemainingDaysForRaceChange(Player player) {
         UUID uuid = player.getUniqueId();
         long lastChange = plugin.getConfigManager().getRaceChangeCooldown(uuid);
@@ -95,26 +91,25 @@ public class RaceManager {
         return (remainingTicks / 24000) + 1;
     }
 
-    /**
-     * افکت‌های فوری هنگام انتخاب نژاد
-     */
     private void applyImmediatePerks(Player player, RaceType race) {
-        // پاک کردن افکت‌های قبلی نژاد (اختیاری)
-        // player.getActivePotionEffects().forEach(e -> player.removePotionEffect(e.getType()));
-
-        // اعمال افکت‌های پایه بسته به نژاد
         switch (race) {
-            case OCEANBORN:
-                player.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, Integer.MAX_VALUE, 0, false, false), true);
+            case BANDARI:
+            case ARAB_KHUZESTAN:
+            case GILAK:
+                player.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 6000, 0, false, false), true);
                 break;
-            case NETHERBORN:
-                player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, Integer.MAX_VALUE, 0, false, false), true);
+            case BALOCH:
+            case FARS:
+                player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 6000, 0, false, false), true);
+                break;
+            case AZARI:
+                player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 6000, 0, false, false), true);
+                player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 6000, 0, false, false), true);
                 break;
             default:
                 break;
         }
 
-        // برای اطمینان جان بازیکن درست بماند (هاردکور 10)
         Bukkit.getScheduler().runTaskLater(plugin, () -> {
             try {
                 if (player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() != 10.0) {
@@ -125,41 +120,43 @@ public class RaceManager {
         }, 5L);
     }
 
-    /**
-     * حذف نژاد
-     */
     public void clearRace(Player player) {
         plugin.getConfigManager().removePlayerRace(player.getUniqueId());
+        player.sendMessage(MessageUtils.withPrefix("&cقوم ایرانی شما پاک شد!"));
     }
 
-    /**
-     * اطلاعات نژاد برای نمایش
-     */
     public void sendRaceInfo(Player player) {
         RaceType race = getRace(player);
         if (race == null) {
-            player.sendMessage(MessageUtils.withPrefix("&cشما هنوز نژادی انتخاب نکرده‌اید! &e/race choose"));
+            player.sendMessage(MessageUtils.withPrefix("&cشما هنوز قوم ایرانی انتخاب نکرده‌اید!"));
+            player.sendMessage(MessageUtils.withPrefix("&eبرای انتخاب: &a/race choose &7یا &a/قوم"));
+            player.sendMessage(MessageUtils.withPrefix("&7اقوام ایرانی: فارس، آذری، کرد، لر، بلوچ، عرب، ترکمن، گیلک، مازنی، بختیاری، قشقایی، بندری، خراسانی، سیستانی"));
             return;
         }
 
         player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        player.sendMessage(MessageUtils.color("&6&l نژاد شما: &e" + race.getPersianName() + " (" + race.getEnglishName() + ")"));
+        player.sendMessage(MessageUtils.color("&6&l🇮🇷 قوم ایرانی شما: &e&l" + race.getPersianName()));
+        player.sendMessage(MessageUtils.color("&7انگلیسی: &f" + race.getEnglishName()));
         player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
         for (String line : race.getLore()) {
             player.sendMessage(MessageUtils.color(line));
         }
-        player.sendMessage(MessageUtils.color("&7بایوم‌های خانه: &a" + race.getHomeBiomes().size() + " بایوم"));
-        player.sendMessage(MessageUtils.color("&7بایوم‌های دشمن: &c" + race.getHostileBiomes().size() + " بایوم"));
-        player.sendMessage(MessageUtils.color("&7بایوم فعلی: &f" + player.getLocation().getBlock().getBiome().name()));
+        player.sendMessage(MessageUtils.color("&7بایوم‌های خانه (قدرت کامل): &a" + race.getHomeBiomes().size() + " بایوم"));
+        for (org.bukkit.block.Biome b : race.getHomeBiomes()) {
+            player.sendMessage(MessageUtils.color("&8- &a" + b.name()));
+        }
+        player.sendMessage(MessageUtils.color("&7بایوم‌های دشمن (ضعف): &c" + race.getHostileBiomes().size() + " بایوم"));
+        player.sendMessage(MessageUtils.color("&7بایوم فعلی شما: &f" + player.getLocation().getBlock().getBiome().name()));
         boolean isHome = race.isHomeBiome(player.getLocation().getBlock().getBiome());
         boolean isHostile = race.isHostileBiome(player.getLocation().getBlock().getBiome());
         if (isHome) {
-            player.sendMessage(MessageUtils.color("&a✔ شما در بایوم خانه خود هستید - قدرت کامل!"));
+            player.sendMessage(MessageUtils.color("&a&l✔ شما در سرزمین قوم خود هستید - قدرت کامل! زنده باد " + race.getPersianName() + "!"));
         } else if (isHostile) {
-            player.sendMessage(MessageUtils.color("&c✘ شما در بایوم دشمن هستید - ضعیف شده‌اید!"));
+            player.sendMessage(MessageUtils.color("&c&l✘ شما در سرزمین دشمن قوم خود هستید - ضعیف شده‌اید!"));
         } else {
-            player.sendMessage(MessageUtils.color("&e~ شما در بایوم خنثی هستید."));
+            player.sendMessage(MessageUtils.color("&e&l~ شما در سرزمین بی‌طرف هستید."));
         }
         player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
+        player.sendMessage(MessageUtils.color("&7برای تغییر قوم: &e/race change &7(هر 7 روز)"));
     }
 }

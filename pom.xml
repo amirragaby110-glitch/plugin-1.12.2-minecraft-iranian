@@ -6,11 +6,11 @@
 
     <groupId>ir.iranian</groupId>
     <artifactId>iranian-hardcore</artifactId>
-    <version>3.0.0</version>
+    <version>3.5.0</version>
     <packaging>jar</packaging>
 
     <name>IranianHardcore</name>
-    <description>پلاگین هاردکور ایرانی 3.0 - هر بایوم یک دانجن ایرانی - 16 دانجن تاریخی (تخت جمشید، الموت، ارگ بم، پاسارگاد، بیستون، نقش رستم، تخت سلیمان، هگمتانه، شوش، یزد، آزادی، چغازنبیل، سیراف، بابک، آناهیتا، دخمه) + 8 سازه ایرانی (بازار، کاروانسرا، چایخانه، آب‌انبار، مسجد، روستاهای کندوان/میمند/ابیانه) + بازار ایرانی با سکه دریک + کاملا فارسی - 🇮🇷 خلیج همیشه فارس - هر بایوم یک دانجن</description>
+    <description>پلاگین هاردکور ایرانی 3.5 - هر بایوم یک قوم ایرانی - 14 قوم (فارس، آذری، کرد، لر، بلوچ، عرب، ترکمن، گیلک، مازنی، بختیاری، قشقایی، بندری، خراسانی، سیستانی) با قابلیت مخصوص + 16 دانجن + 8 سازه + بازار ایرانی + روستا - انتخاب قوم اول ورود - کاملا فارسی - 🇮🇷</description>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -19,12 +19,10 @@
     </properties>
 
     <repositories>
-        <!-- Spigot repository for 1.12.2 API -->
         <repository>
             <id>spigot-repo</id>
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
-        <!-- Sonatype for other dependencies if needed -->
         <repository>
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
@@ -32,7 +30,6 @@
     </repositories>
 
     <dependencies>
-        <!-- Spigot API 1.12.2 -->
         <dependency>
             <groupId>org.spigotmc</groupId>
             <artifactId>spigot-api</artifactId>

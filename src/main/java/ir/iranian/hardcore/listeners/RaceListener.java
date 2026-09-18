@@ -15,8 +15,9 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 /**
- * لیسنر برای اعمال قدرت‌های نژاد بر اساس بایوم
- * هر 2 ثانیه چک می‌کند و افکت مناسب می‌دهد
+ * لیسنر اقوام ایرانی - نسخه 3.5 - هر بایوم یک قوم
+ * هر قوم ایرانی قدرت مخصوص در بایوم خانه خود دارد
+ * کاملا فارسی - بر اساس فرهنگ واقعی اقوام ایران
  */
 public class RaceListener implements Listener {
 
@@ -50,15 +51,48 @@ public class RaceListener implements Listener {
         boolean isHostile = race.isHostileBiome(biome);
         World.Environment env = player.getWorld().getEnvironment();
 
-        // پاک کردن افکت‌های ضعیف قبلی؟ نه، فقط اضافه کن با مدت کوتاه
-
         switch (race) {
-            case MOUNTAINBORN:
+            // ========== قوم پارس - فارس ==========
+            case FARS:
+                if (isHome) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 0, false, false), true); // معماری هخامنشی
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 0, false, false), true); // قدرت شاهنشاهی
+                    if (player.getFoodLevel() < 20 && Math.random() < 0.1) {
+                        player.setSaturation(Math.min(20, player.getSaturation() + 0.3f)); // کشاورزی فارس
+                    }
+                }
+                if (isHostile) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 0, false, false), true);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 100, 0, false, false), true);
+                }
+                break;
+
+            // ========== قوم آذری - آذربایجان ==========
+            case AZARI:
+                if (isHome) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 0, false, false), true); // مقاومت سرما
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 0, false, false), true); // سرعت در برف
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 100, 0, false, false), true); // مقاومت به سرما
+                    if (player.getFoodLevel() < 20 && Math.random() < 0.05) {
+                        player.setSaturation(player.getSaturation() + 0.2f);
+                    }
+                }
+                if (isHostile) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 0, false, false), true);
+                    if (env == World.Environment.NORMAL && biome.name().contains("DESERT") && Math.random() < 0.02) {
+                        player.setFireTicks(40);
+                    }
+                }
+                break;
+
+            // ========== قوم کرد - زاگرس ==========
+            case KURD:
                 if (isHome) {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 0, false, false), true);
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 0, false, false), true);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100, 0, false, false), true); // پرش زاگرس
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 100, 0, false, false), true); // قدرت جنگاوری
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 0, false, false), true);
                 }
-                // کندی در آب
                 if (isInWater(player)) {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 60, 0, false, false), true);
                 }
@@ -67,13 +101,77 @@ public class RaceListener implements Listener {
                 }
                 break;
 
-            case FORESTBORN:
+            // ========== قوم لر - لرستان ==========
+            case LOR:
+                if (isHome) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 100, 0, false, false), true); // قدرت بدنی
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 0, false, false), true);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 0, false, false), true);
+                    if (isNearLeaves(player)) {
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 0, false, false), true);
+                    }
+                }
+                if (isHostile) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 0, false, false), true);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 100, 0, false, false), true);
+                }
+                break;
+
+            // ========== قوم بلوچ - بلوچستان ==========
+            case BALOCH:
+                if (isHome) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 0, false, false), true); // سرعت در شن
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 100, 0, false, false), true); // مقاومت گرما
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 200, 0, false, false), true); // دید در شب کویر
+                    if (player.getFoodLevel() < 20 && Math.random() < 0.1) {
+                        player.setSaturation(Math.min(20, player.getSaturation() + 0.5f)); // مقاومت تشنگی
+                    }
+                }
+                if (isHostile) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 0, false, false), true);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 100, 0, false, false), true);
+                }
+                break;
+
+            // ========== قوم عرب خوزستان ==========
+            case ARAB_KHUZESTAN:
+                if (isHome) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 200, 0, false, false), true);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 100, 0, false, false), true); // گرمای خوزستان
+                    if (isInWater(player)) {
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 0, false, false), true);
+                    }
+                }
+                if (isHostile) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 0, false, false), true);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 100, 0, false, false), true);
+                }
+                break;
+
+            // ========== قوم ترکمن ==========
+            case TURKMEN:
+                if (isHome) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 1, false, false), true); // سوارکاری - سرعت بالا
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100, 1, false, false), true); // پرش اسب
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 0, false, false), true);
+                }
+                if (isHostile) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 0, false, false), true);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 100, 0, false, false), true);
+                }
+                break;
+
+            // ========== قوم گیلک ==========
+            case GILAK:
                 if (isHome) {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 0, false, false), true);
                     player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 0, false, false), true);
-                    // اگر نزدیک برگ باشد، نامرئی نسبی
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 200, 0, false, false), true); // رطوبت گیلان
                     if (isNearLeaves(player)) {
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100, 0, false, false), true);
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, 100, 0, false, false), true); // جنگل هیرکانی
+                    }
+                    if (player.getFoodLevel() < 20 && Math.random() < 0.1) {
+                        player.setSaturation(player.getSaturation() + 0.3f); // برنج گیلان
                     }
                 }
                 if (isHostile) {
@@ -83,13 +181,43 @@ public class RaceListener implements Listener {
                 }
                 break;
 
-            case DESERTBORN:
+            // ========== قوم مازنی ==========
+            case MAZANI:
                 if (isHome) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 0, false, false), true); // کشاورزی
                     player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 0, false, false), true);
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 100, 0, false, false), true);
-                    // گرسنگی کمتر: اگر غذا کم است، کمی پر کن
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 200, 0, false, false), true); // دریای خزر
+                    if (isInWater(player)) {
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 200, 0, false, false), true);
+                    }
+                }
+                if (isHostile) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 0, false, false), true);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 100, 0, false, false), true);
+                }
+                break;
+
+            // ========== قوم بختیاری ==========
+            case BAKHTIARI:
+                if (isHome) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100, 1, false, false), true); // کوچ‌نشینی
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 0, false, false), true);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 0, false, false), true);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 100, 0, false, false), true);
+                }
+                if (isInWater(player)) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 60, 1, false, false), true);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 60, 0, false, false), true);
+                }
+                break;
+
+            // ========== قوم قشقایی ==========
+            case QASHQAI:
+                if (isHome) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 1, false, false), true); // کوچ سریع
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100, 0, false, false), true);
                     if (player.getFoodLevel() < 20 && Math.random() < 0.1) {
-                        player.setSaturation(Math.min(20, player.getSaturation() + 0.5f));
+                        player.setSaturation(player.getSaturation() + 0.4f); // دامداری
                     }
                 }
                 if (isHostile) {
@@ -98,26 +226,22 @@ public class RaceListener implements Listener {
                 }
                 break;
 
-            case OCEANBORN:
-                if (isHome || env == World.Environment.NORMAL && isInWater(player)) {
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 200, 0, false, false), true);
+            // ========== قوم بندری ==========
+            case BANDARI:
+                if (isHome || (env == World.Environment.NORMAL && isInWater(player))) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 200, 0, false, false), true); // 3 برابر نفس
                     player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 200, 0, false, false), true);
                     if (isInWater(player)) {
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 1, false, false), true);
+                        player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 1, false, false), true); // شنای سریع
                         player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 0, false, false), true);
-                        // نفس طولانی: هوا را پر نگه دار
                         if (player.getRemainingAir() < player.getMaximumAir() - 20) {
-                            player.setRemainingAir(player.getRemainingAir() + 10);
+                            player.setRemainingAir(player.getRemainingAir() + 10); // نفس طولانی
                         }
                     }
                 } else {
-                    // خشکی = ضعف
                     if (!isInWater(player)) {
                         player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 0, false, false), true);
                         player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 100, 0, false, false), true);
-                        if (Math.random() < 0.05) {
-                            player.setFoodLevel(Math.max(0, player.getFoodLevel() - 1));
-                        }
                     }
                 }
                 if (isHostile) {
@@ -125,81 +249,31 @@ public class RaceListener implements Listener {
                 }
                 break;
 
-            case FROSTBORN:
+            // ========== قوم خراسانی ==========
+            case KHORASANI:
                 if (isHome) {
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 0, false, false), true);
                     player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 100, 0, false, false), true);
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 0, false, false), true);
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 100, 0, false, false), true); // مقاومت به سرما به صورت مقاومت به آتش شبیه‌سازی
-                    // در برف گرسنگی کمتر
-                    if (player.getFoodLevel() < 20 && Math.random() < 0.05) {
-                        player.setSaturation(player.getSaturation() + 0.2f);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.LUCK, 200, 0, false, false), true); // فرهنگ و ادب
+                    if (player.getFoodLevel() < 20 && Math.random() < 0.08) {
+                        player.setSaturation(player.getSaturation() + 0.3f); // زعفران
                     }
                 }
                 if (isHostile) {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 0, false, false), true);
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 100, 0, false, false), true);
-                    // در بیابان آتش بگیر
-                    if (env == World.Environment.NORMAL && biome.name().contains("DESERT") && Math.random() < 0.02) {
-                        player.setFireTicks(40);
-                    }
                 }
                 break;
 
-            case SWAMPBORN:
+            // ========== قوم سیستانی ==========
+            case SISTANI:
                 if (isHome) {
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 200, 0, false, false), true);
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 200, 0, false, false), true);
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 100, 1, false, false), true); // قدرت رستم
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 100, 0, false, false), true); // کویر
                     player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 0, false, false), true);
-                    // مقاومت به مسمومیت در مرداب - در Event جداگانه
                 }
                 if (isHostile) {
-                    // ضعف در برابر آتش
+                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 0, false, false), true);
                     player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 100, 0, false, false), true);
-                    if (player.getFireTicks() > 0) {
-                        player.setFireTicks(player.getFireTicks() + 20);
-                    }
-                }
-                break;
-
-            case NETHERBORN:
-                if (env == World.Environment.NETHER || isHome) {
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 200, 0, false, false), true);
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 0, false, false), true);
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 100, 0, false, false), true);
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 0, false, false), true);
-                }
-                if (isHostile || isInWater(player)) {
-                    // ضعف شدید در آب
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 1, false, false), true);
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 100, 1, false, false), true);
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 60, 0, false, false), true);
-                    if (isInWater(player)) {
-                        player.damage(1.0);
-                    }
-                }
-                break;
-
-            case ENDBORN:
-                if (env == World.Environment.THE_END || isHome) {
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 0, false, false), true);
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100, 1, false, false), true);
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 200, 0, false, false), true);
-                    player.addPotionEffect(new PotionEffect(PotionEffectType.FAST_DIGGING, 100, 0, false, false), true);
-                }
-                // ضعف در نور خورشید
-                if (env == World.Environment.NORMAL) {
-                    long time = player.getWorld().getTime();
-                    boolean isDay = time < 12300 || time > 23850;
-                    if (isDay && player.getWorld().getHighestBlockYAt(player.getLocation()) <= player.getLocation().getBlockY()) {
-                        // در معرض آفتاب
-                        if (player.getLocation().getBlock().getLightFromSky() > 10) {
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 100, 0, false, false), true);
-                            player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 0, false, false), true);
-                            if (Math.random() < 0.02) {
-                                player.setFireTicks(20);
-                            }
-                        }
-                    }
                 }
                 break;
         }
@@ -236,46 +310,41 @@ public class RaceListener implements Listener {
         RaceType race = plugin.getRaceManager().getRace(player);
         if (race == null) return;
 
-        if (race == RaceType.MOUNTAINBORN || race == RaceType.ENDBORN) {
-            // 70% کاهش دمیج سقوط
-            event.setDamage(event.getDamage() * 0.3);
-        }
-
-        // اگر در بایوم خانه کوهستان باشد، کاهش بیشتر
-        if (race == RaceType.MOUNTAINBORN && race.isHomeBiome(player.getLocation().getBlock().getBiome())) {
-            event.setDamage(event.getDamage() * 0.5);
-            if (event.getDamage() < 2.0) {
-                event.setCancelled(true);
+        // اقوام کوهستانی مقاومت سقوط دارند
+        if (race == RaceType.KURD || race == RaceType.BAKHTIARI || race == RaceType.LOR || race == RaceType.QASHQAI) {
+            event.setDamage(event.getDamage() * 0.3); // 70% کاهش
+            if (race.isHomeBiome(player.getLocation().getBlock().getBiome())) {
+                event.setDamage(event.getDamage() * 0.5);
+                if (event.getDamage() < 2.0) {
+                    event.setCancelled(true);
+                }
             }
         }
     }
 
     @EventHandler
     public void onPlayerMoveForRace(PlayerMoveEvent event) {
-        // افکت‌های فوری هنگام حرکت
         Player player = event.getPlayer();
         RaceType race = plugin.getRaceManager().getRace(player);
         if (race == null) return;
 
-        // Oceanborn شنا سریع‌تر
-        if (race == RaceType.OCEANBORN && isInWater(player)) {
-            // افزایش سرعت شنا با Velocity
+        // بندری شنا سریع‌تر
+        if (race == RaceType.BANDARI && isInWater(player)) {
             if (player.isSprinting()) {
                 if (Math.random() < 0.3) {
-                    player.setVelocity(player.getLocation().getDirection().multiply(0.1));
+                    player.setVelocity(player.getLocation().getDirection().multiply(0.12));
                 }
             }
         }
 
-        // Netherborn در آب دمیج ببیند
-        if (race == RaceType.NETHERBORN && isInWater(player)) {
-            if (Math.random() < 0.1) {
-                player.damage(0.5);
+        // آذری در آب گرم دمیج نبیند اما در آب سرد قدرتمند
+        if (race == RaceType.AZARI && isInWater(player) && player.getLocation().getBlock().getBiome().name().contains("COLD")) {
+            if (player.getRemainingAir() < player.getMaximumAir() - 10) {
+                player.setRemainingAir(player.getRemainingAir() + 5);
             }
         }
     }
 
-    // برای Swampborn مقاومت به Poison
     @EventHandler
     public void onPoisonDamage(EntityDamageEvent event) {
         if (!(event.getEntity() instanceof Player)) return;
@@ -283,10 +352,10 @@ public class RaceListener implements Listener {
         RaceType race = plugin.getRaceManager().getRace(player);
         if (race == null) return;
 
-        if (race == RaceType.SWAMPBORN) {
+        // عرب خوزستان و گیلک مقاومت به رطوبت و مسمومیت
+        if (race == RaceType.ARAB_KHUZESTAN || race == RaceType.GILAK) {
             Biome biome = player.getLocation().getBlock().getBiome();
             if (race.isHomeBiome(biome)) {
-                // در مرداب به Poison مقاوم است
                 if (player.hasPotionEffect(PotionEffectType.POISON)) {
                     player.removePotionEffect(PotionEffectType.POISON);
                     event.setCancelled(true);

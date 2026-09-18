@@ -1,33 +1,33 @@
 name: IranianHardcore
-version: 3.0.0
+version: 3.5.0
 main: ir.iranian.hardcore.IranianHardcorePlugin
 api-version: 1.12
 author: IranianTeam
-authors: [Amir, IranianHardcoreDev, TeamMelli, TarikhIran]
-description: پلاگین هاردکور ایرانی 3.0 - هر بایوم یک دانجن ایرانی - 16 دانجن تاریخی (تخت جمشید، الموت، ارگ بم، چغازنبیل، سیراف، بابک، آناهیتا، دخمه، پاسارگاد، بیستون، نقش رستم، تخت سلیمان، هگمتانه، شوش، مسجد یزد، برج آزادی) + 8 سازه ایرانی (بازار، کاروانسرا، چایخانه، آب‌انبار، مسجد، روستای کندوان/میمند/ابیانه) + بازار ایرانی با سکه دریک + روستاهای ایرانی + کاملا فارسی - 🇮🇷 خلیج همیشه فارس
+authors: [Amir, IranianHardcoreDev, TeamMelli, TarikhIran, AghvamIran]
+description: پلاگین هاردکور ایرانی 3.5 - هر بایوم یک قوم ایرانی - 14 قوم ایرانی (فارس، آذری، کرد، لر، بلوچ، عرب خوزستان، ترکمن، گیلک، مازنی، بختیاری، قشقایی، بندری، خراسانی، سیستانی) با قابلیت‌های مخصوص + 16 دانجن تاریخی + 8 سازه ایرانی + بازار ایرانی + روستاهای ایرانی - کاملا فارسی - انتخاب نژاد اول ورود - 🇮🇷 خلیج همیشه فارس
 website: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian
 prefix: IranianHardcore
 
-# دستورات - کاملا فارسی - نسخه 3.0 هر بایوم یک دانجن
+# دستورات - کاملا فارسی - نسخه 3.5 هر بایوم یک قوم ایرانی
 commands:
   race:
-    description: مدیریت نژاد ایرانی - 8 نژاد تاریخی ایران برای هر بایوم
-    usage: /race <choose|info|change|help|admin> - دستور نژاد ایرانی
-    aliases: [nezhad, نژاد, reghad]
+    description: مدیریت اقوام ایرانی - هر بایوم یک قوم - 14 قوم ایرانی با قابلیت مخصوص - انتخاب اول ورود
+    usage: /race <choose|info|change|list|help|admin> - دستور قوم ایرانی
+    aliases: [nezhad, نژاد, reghad, qowm, قوم, aghvam, اقوام, tribe]
   hardcore:
-    description: دستورات ادمین هاردکور ایرانی - سخت‌ترین حالت
+    description: دستورات ادمین هاردکور ایرانی - سخت‌ترین حالت RLCraft
     usage: /hardcore <reload|info|setrace|reset> - دستورات ادمین
     aliases: [hc, sakht, سخت]
   dungeon:
-    description: مدیریت 16 دانجن تاریخی ایران - هر بایوم یک دانجن - تخت جمشید، الموت، ارگ بم، پاسارگاد، بیستون و...
+    description: مدیریت 16 دانجن تاریخی ایران - هر بایوم یک دانجن - تخت جمشید، الموت، ارگ بم، پاسارگاد، بیستون، نقش رستم، تخت سلیمان و...
     usage: /dungeon <list|generate|teleport|clear|bazaar|caravanserai|chaikhaneh|abanbar> - دانجن ایرانی
-    aliases: [dangeon, دانجن, irandungeon, iran, تختجمشید]
+    aliases: [dangeon, دانجن, irandungeon, iran, تختجمشید, dungeons]
   bazaar:
-    description: بازار ایرانی - خرید و فروش آیتم‌های ایرانی با سکه دریک هخامنشی - کاملا فارسی
+    description: بازار ایرانی - خرید و فروش آیتم‌های ایرانی با سکه دریک هخامنشی - کاملا فارسی - مثل بازار تهران
     usage: /bazaar [open|build|help] - بازار ایرانی
-    aliases: [bazar, بازار, shop, فروشگاه, store, مغازه]
+    aliases: [bazar, بازار, shop, فروشگاه, store, مغازه, bazarirani]
 
-# پرمیشن‌ها - کاملا فارسی - نسخه 3.0
+# پرمیشن‌ها - کاملا فارسی - نسخه 3.5 هر بایوم یک قوم
 permissions:
   iranianhardcore.*:
     description: دسترسی به تمام قابلیت‌های ایرانی - ادمین کل
@@ -40,23 +40,23 @@ permissions:
       iranianhardcore.admin: true
       iranianhardcore.bypass.*: true
   iranianhardcore.race.*:
-    description: تمام پرمیشن‌های نژاد ایرانی
+    description: تمام پرمیشن‌های اقوام ایرانی - هر بایوم یک قوم
     default: true
     children:
       iranianhardcore.race.choose: true
       iranianhardcore.race.info: true
       iranianhardcore.race.change: true
   iranianhardcore.race.choose:
-    description: انتخاب نژاد ایرانی
+    description: انتخاب قوم ایرانی - اول ورود
     default: true
   iranianhardcore.race.info:
-    description: دیدن اطلاعات نژاد ایرانی
+    description: دیدن اطلاعات قوم ایرانی و قابلیت‌ها
     default: true
   iranianhardcore.race.change:
-    description: تغییر نژاد ایرانی (هر 7 روز)
+    description: تغییر قوم ایرانی (هر 7 روز بازی)
     default: true
   iranianhardcore.race.admin:
-    description: مدیریت نژاد دیگران - ادمین
+    description: مدیریت قوم دیگران - ادمین
     default: op
   iranianhardcore.hardcore.*:
     description: پرمیشن‌های هاردکور ایرانی
@@ -72,7 +72,7 @@ permissions:
     description: اطلاعات هاردکور ایرانی
     default: op
   iranianhardcore.hardcore.setrace:
-    description: تنظیم نژاد بازیکن دیگر
+    description: تنظیم قوم بازیکن دیگر
     default: op
   iranianhardcore.dungeon.*:
     description: تمام پرمیشن‌های 16 دانجن ایرانی
@@ -126,7 +126,7 @@ permissions:
     description: دور زدن کولدان تخت ایرانی
     default: op
   iranianhardcore.bypass.racecooldown:
-    description: دور زدن کولدان تغییر نژاد ایرانی
+    description: دور زدن کولدان تغییر قوم ایرانی
     default: op
   iranianhardcore.bypass.hardcore:
     description: دور زدن سختی‌های ایرانی

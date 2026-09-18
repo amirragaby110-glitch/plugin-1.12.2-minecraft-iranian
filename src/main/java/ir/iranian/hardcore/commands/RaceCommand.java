@@ -15,12 +15,12 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * دستورات نژاد
- * /race choose - باز کردن GUI
- * /race info - اطلاعات نژاد
- * /race change - تغییر نژاد (با کولدان)
- * /race help - راهنما
- * /race admin - دستورات ادمین
+ * دستورات قوم ایرانی - هر بایوم یک قوم - نسخه 3.5 کاملا فارسی
+ * /race choose - انتخاب قوم ایرانی (GUI 54 اسلاته)
+ * /race info - اطلاعات قوم
+ * /race change - تغییر قوم هر 7 روز
+ * /قوم - دستور فارسی
+ * /نژاد - دستور فارسی
  */
 public class RaceCommand implements CommandExecutor, TabCompleter {
 
@@ -44,8 +44,10 @@ public class RaceCommand implements CommandExecutor, TabCompleter {
             case "choose":
             case "select":
             case "gui":
+            case "انتخاب":
+            case "قوم":
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(MessageUtils.color("&cفقط بازیکنان می‌توانند نژاد انتخاب کنند!"));
+                    sender.sendMessage(MessageUtils.color("&cفقط بازیکنان ایرانی می‌توانند قوم انتخاب کنند!"));
                     return true;
                 }
                 Player player = (Player) sender;
@@ -54,9 +56,11 @@ public class RaceCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 plugin.getRaceGUI().openRaceGUI(player);
+                player.sendMessage(MessageUtils.withPrefix("&aمنوی اقوام ایرانی باز شد! &7یکی از اقوام اصیل ایران را انتخاب کنید"));
                 break;
 
             case "info":
+            case "اطلاعات":
                 if (!(sender instanceof Player)) {
                     sender.sendMessage(MessageUtils.color("&cفقط بازیکنان!"));
                     return true;
@@ -67,22 +71,20 @@ public class RaceCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 if (args.length >= 2) {
-                    // اطلاعات نژاد دیگر یا اطلاعات یک نژاد خاص
                     RaceType type = RaceType.fromId(args[1]);
                     if (type != null) {
                         sendRaceDetail(infoPlayer, type);
                     } else {
-                        // بازیکن دیگر
                         Player target = Bukkit.getPlayer(args[1]);
                         if (target != null) {
                             RaceType race = plugin.getRaceManager().getRace(target);
                             if (race == null) {
-                                infoPlayer.sendMessage(MessageUtils.withPrefix("&cبازیکن " + target.getName() + " نژادی ندارد!"));
+                                infoPlayer.sendMessage(MessageUtils.withPrefix("&cبازیکن " + target.getName() + " هنوز قوم ایرانی انتخاب نکرده!"));
                             } else {
-                                infoPlayer.sendMessage(MessageUtils.withPrefix("&7نژاد " + target.getName() + ": &6" + race.getPersianName()));
+                                infoPlayer.sendMessage(MessageUtils.withPrefix("&7قوم " + target.getName() + ": &6" + race.getPersianName() + " &7- بایوم: " + target.getLocation().getBlock().getBiome().name()));
                             }
                         } else {
-                            infoPlayer.sendMessage(MessageUtils.withPrefix("&cنژاد یا بازیکن یافت نشد!"));
+                            infoPlayer.sendMessage(MessageUtils.withPrefix("&cقوم یا بازیکن یافت نشد! /race list"));
                         }
                     }
                 } else {
@@ -91,6 +93,7 @@ public class RaceCommand implements CommandExecutor, TabCompleter {
                 break;
 
             case "change":
+            case "تغییر":
                 if (!(sender instanceof Player)) {
                     sender.sendMessage(MessageUtils.color("&cفقط بازیکنان!"));
                     return true;
@@ -101,7 +104,7 @@ public class RaceCommand implements CommandExecutor, TabCompleter {
                     return true;
                 }
                 if (!plugin.getRaceManager().hasRace(changePlayer)) {
-                    changePlayer.sendMessage(MessageUtils.withPrefix("&cشما هنوز نژادی ندارید! &e/race choose"));
+                    changePlayer.sendMessage(MessageUtils.withPrefix("&cشما هنوز قوم ایرانی ندارید! &e/race choose &7یا &a/قوم"));
                     return true;
                 }
                 if (!plugin.getRaceManager().canChangeRace(changePlayer)) {
@@ -115,25 +118,34 @@ public class RaceCommand implements CommandExecutor, TabCompleter {
                 break;
 
             case "list":
-                sender.sendMessage(MessageUtils.color("&6&lلیست نژادها:"));
+            case "لیست":
+            case "اقوام":
+                sender.sendMessage(MessageUtils.color("&8&l&m-------------------"));
+                sender.sendMessage(MessageUtils.color("&6&l🇮🇷 لیست اقوام ایرانی - هر بایوم یک قوم"));
+                sender.sendMessage(MessageUtils.color("&8&l&m-------------------"));
                 for (RaceType race : RaceType.values()) {
-                    sender.sendMessage(MessageUtils.color("&7- &6" + race.getPersianName() + " &7(" + race.getId() + ") &f: " + race.getEnglishName()));
+                    sender.sendMessage(MessageUtils.color("&7- &6" + race.getPersianName() + " &7(" + race.getId() + ") &8- &f" + race.getEnglishName() + " &7| بایوم: " + race.getHomeBiomes().get(0).name()));
                 }
+                sender.sendMessage(MessageUtils.color("&8&l&m-------------------"));
+                sender.sendMessage(MessageUtils.color("&7تعداد: &a" + RaceType.values().length + " قوم ایرانی"));
                 break;
 
             case "help":
+            case "راهنما":
                 sendHelp(sender);
                 break;
 
             case "admin":
+            case "ادمین":
             case "set":
                 if (!sender.hasPermission("iranianhardcore.race.admin")) {
                     sender.sendMessage(MessageUtils.getPrefixedMessage("messages.no-permission", "&cدسترسی ندارید!"));
                     return true;
                 }
                 if (args.length < 3) {
-                    sender.sendMessage(MessageUtils.color("&cاستفاده: /race admin set <player> <race>"));
-                    sender.sendMessage(MessageUtils.color("&cمثال: /race admin set Amir MOUNTAINBORN"));
+                    sender.sendMessage(MessageUtils.color("&cاستفاده: /race admin set <بازیکن> <قوم>"));
+                    sender.sendMessage(MessageUtils.color("&cمثال: /race admin set Amir FARS"));
+                    sender.sendMessage(MessageUtils.color("&cمثال فارسی: /race admin set Amir کرد"));
                     return true;
                 }
                 if (args[1].equalsIgnoreCase("set")) {
@@ -143,19 +155,19 @@ public class RaceCommand implements CommandExecutor, TabCompleter {
                         return true;
                     }
                     if (args.length < 4) {
-                        sender.sendMessage(MessageUtils.color("&cنژاد را وارد کنید!"));
+                        sender.sendMessage(MessageUtils.color("&cقوم را وارد کنید! /race list"));
                         return true;
                     }
                     RaceType race = RaceType.fromId(args[3]);
                     if (race == null) {
-                        sender.sendMessage(MessageUtils.withPrefix("&cنژاد نامعتبر! لیست: /race list"));
+                        sender.sendMessage(MessageUtils.withPrefix("&cقوم نامعتبر! لیست: /race list"));
                         return true;
                     }
                     plugin.getRaceManager().setRaceNoCooldown(target, race);
-                    sender.sendMessage(MessageUtils.withPrefix("&aنژاد " + target.getName() + " به " + race.getPersianName() + " تنظیم شد!"));
-                } else if (args[1].equalsIgnoreCase("clear") || args[1].equalsIgnoreCase("reset")) {
+                    sender.sendMessage(MessageUtils.withPrefix("&aقوم " + target.getName() + " به " + race.getPersianName() + " تنظیم شد! 🇮🇷"));
+                } else if (args[1].equalsIgnoreCase("clear") || args[1].equalsIgnoreCase("reset") || args[1].equalsIgnoreCase("پاک")) {
                     if (args.length < 3) {
-                        sender.sendMessage(MessageUtils.color("&cاستفاده: /race admin clear <player>"));
+                        sender.sendMessage(MessageUtils.color("&cاستفاده: /race admin clear <بازیکن>"));
                         return true;
                     }
                     Player target = Bukkit.getPlayer(args[2]);
@@ -164,7 +176,7 @@ public class RaceCommand implements CommandExecutor, TabCompleter {
                         return true;
                     }
                     plugin.getRaceManager().clearRace(target);
-                    sender.sendMessage(MessageUtils.withPrefix("&aنژاد " + target.getName() + " پاک شد!"));
+                    sender.sendMessage(MessageUtils.withPrefix("&aقوم " + target.getName() + " پاک شد!"));
                 } else if (args[1].equalsIgnoreCase("reload")) {
                     plugin.getConfigManager().reload();
                     sender.sendMessage(MessageUtils.getPrefixedMessage("messages.reloaded", "&aریلود شد!"));
@@ -172,7 +184,6 @@ public class RaceCommand implements CommandExecutor, TabCompleter {
                 break;
 
             default:
-                // اگر مستقیم نام نژاد وارد کرد (برای انتخاب سریع)
                 RaceType direct = RaceType.fromId(sub);
                 if (direct != null && sender instanceof Player) {
                     Player p = (Player) sender;
@@ -195,42 +206,44 @@ public class RaceCommand implements CommandExecutor, TabCompleter {
 
     private void sendHelp(CommandSender sender) {
         sender.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        sender.sendMessage(MessageUtils.color("&6&l دستورات نژاد - Iranian Hardcore"));
+        sender.sendMessage(MessageUtils.color("&6&l🇮🇷 دستورات اقوام ایرانی - هر بایوم یک قوم"));
         sender.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        sender.sendMessage(MessageUtils.color("&e/race choose &7- باز کردن منوی انتخاب نژاد"));
-        sender.sendMessage(MessageUtils.color("&e/race info [race/player] &7- اطلاعات نژاد"));
-        sender.sendMessage(MessageUtils.color("&e/race change &7- تغییر نژاد (هر 7 روز)"));
-        sender.sendMessage(MessageUtils.color("&e/race list &7- لیست تمام نژادها"));
+        sender.sendMessage(MessageUtils.color("&e/race choose &7یا &e/قوم &7- باز کردن منوی انتخاب قوم ایرانی (14 قوم)"));
+        sender.sendMessage(MessageUtils.color("&e/race info [قوم/بازیکن] &7- اطلاعات قوم ایرانی"));
+        sender.sendMessage(MessageUtils.color("&e/race change &7- تغییر قوم (هر 7 روز)"));
+        sender.sendMessage(MessageUtils.color("&e/race list &7یا &e/اقوام &7- لیست تمام اقوام ایرانی"));
         sender.sendMessage(MessageUtils.color("&e/race help &7- راهنما"));
+        sender.sendMessage(MessageUtils.color("&8&l&m-------------------"));
+        sender.sendMessage(MessageUtils.color("&6&lاقوام ایرانی:"));
+        sender.sendMessage(MessageUtils.color("&7فارس، آذری، کرد، لر، بلوچ، عرب، ترکمن، گیلک، مازنی، بختیاری، قشقایی، بندری، خراسانی، سیستانی"));
+        sender.sendMessage(MessageUtils.color("&8&l&m-------------------"));
         if (sender.hasPermission("iranianhardcore.race.admin")) {
-            sender.sendMessage(MessageUtils.color("&c/race admin set <player> <race> &7- تنظیم نژاد"));
-            sender.sendMessage(MessageUtils.color("&c/race admin clear <player> &7- پاک کردن نژاد"));
-            sender.sendMessage(MessageUtils.color("&c/race admin reload &7- ریلود کانفیگ"));
+            sender.sendMessage(MessageUtils.color("&c/race admin set <بازیکن> <قوم> &7- تنظیم قوم"));
+            sender.sendMessage(MessageUtils.color("&c/race admin clear <بازیکن> &7- پاک کردن قوم"));
         }
         sender.sendMessage(MessageUtils.color("&8&l&m-------------------"));
     }
 
     private void sendRaceDetail(Player player, RaceType race) {
         player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        player.sendMessage(MessageUtils.color("&6&l اطلاعات نژاد: " + race.getPersianName()));
+        player.sendMessage(MessageUtils.color("&6&l🇮🇷 اطلاعات قوم ایرانی: " + race.getPersianName()));
         player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
         for (String line : race.getLore()) {
             player.sendMessage(MessageUtils.color(line));
         }
-        player.sendMessage(MessageUtils.color("&7بایوم‌های خانه: &a" + race.getHomeBiomes().size() + " عدد"));
+        player.sendMessage(MessageUtils.color("&7بایوم‌های خانه (قدرت کامل): &a" + race.getHomeBiomes().size() + " عدد"));
         for (org.bukkit.block.Biome b : race.getHomeBiomes()) {
-            player.sendMessage(MessageUtils.color("&8- &f" + b.name()));
+            player.sendMessage(MessageUtils.color("&8- &a" + b.name()));
         }
-        player.sendMessage(MessageUtils.color("&7بایوم‌های دشمن: &c" + race.getHostileBiomes().size() + " عدد"));
+        player.sendMessage(MessageUtils.color("&7بایوم‌های دشمن (ضعف): &c" + race.getHostileBiomes().size() + " عدد"));
         player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
-
         if (args.length == 1) {
-            List<String> subs = Arrays.asList("choose", "info", "change", "list", "help", "admin");
+            List<String> subs = Arrays.asList("choose", "info", "change", "list", "help", "admin", "انتخاب", "اطلاعات", "تغییر", "لیست", "اقوام", "قوم");
             for (String s : subs) {
                 if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
                     completions.add(s);
@@ -242,14 +255,14 @@ public class RaceCommand implements CommandExecutor, TabCompleter {
                 }
             }
         } else if (args.length == 2) {
-            if (args[0].equalsIgnoreCase("info")) {
+            if (args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("اطلاعات")) {
                 for (RaceType race : RaceType.values()) {
                     if (race.getId().toLowerCase().startsWith(args[1].toLowerCase())) {
                         completions.add(race.getId());
                     }
                 }
-            } else if (args[0].equalsIgnoreCase("admin")) {
-                List<String> adminSubs = Arrays.asList("set", "clear", "reload");
+            } else if (args[0].equalsIgnoreCase("admin") || args[0].equalsIgnoreCase("ادمین")) {
+                List<String> adminSubs = Arrays.asList("set", "clear", "reload", "پاک");
                 for (String s : adminSubs) {
                     if (s.toLowerCase().startsWith(args[1].toLowerCase())) {
                         completions.add(s);
@@ -258,7 +271,6 @@ public class RaceCommand implements CommandExecutor, TabCompleter {
             }
         } else if (args.length == 3) {
             if (args[0].equalsIgnoreCase("admin") && args[1].equalsIgnoreCase("set")) {
-                // بازیکنان آنلاین
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     if (p.getName().toLowerCase().startsWith(args[2].toLowerCase())) {
                         completions.add(p.getName());
@@ -274,7 +286,6 @@ public class RaceCommand implements CommandExecutor, TabCompleter {
                 }
             }
         }
-
         return completions;
     }
 }
