@@ -169,7 +169,7 @@ public class DungeonManager {
         player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
         for (DungeonType type : DungeonType.values()) {
             player.sendMessage(MessageUtils.color("&7- &6" + type.getPersianName() + " &7(" + type.getId() + ") &8- &f" + type.getDescription()));
-            player.sendMessage(MessageUtils.color("  &7بایوم: &a" + type.getBiomes().size() + " بایوم &7| سختی: &c" + "★".repeat(type.getDifficulty())));
+            player.sendMessage(MessageUtils.color("  &7بایوم: &a" + type.getBiomes().size() + " بایوم &7| سختی: &c" + repeatStar(type.getDifficulty())));
         }
         player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
         player.sendMessage(MessageUtils.color("&7تعداد ساخته شده: &a" + generatedDungeons.size()));
@@ -183,5 +183,13 @@ public class DungeonManager {
         generatedDungeons.clear();
         plugin.getConfigManager().getDungeonsConfig().set("generated-dungeons", null);
         plugin.getConfigManager().saveDungeonsConfig();
+    }
+
+    private String repeatStar(int count) {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < count; i++) {
+            sb.append("★");
+        }
+        return sb.toString();
     }
 }

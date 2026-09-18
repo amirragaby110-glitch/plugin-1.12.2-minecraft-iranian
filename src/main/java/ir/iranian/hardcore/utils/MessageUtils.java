@@ -5,6 +5,9 @@ import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * ابزار پیام‌رسانی با پشتیبانی فارسی و رنگ
  */
@@ -19,6 +22,15 @@ public class MessageUtils {
     public static String color(String text) {
         if (text == null) return "";
         return ChatColor.translateAlternateColorCodes('&', text);
+    }
+
+    public static List<String> color(List<String> texts) {
+        if (texts == null) return new ArrayList<>();
+        List<String> colored = new ArrayList<>();
+        for (String text : texts) {
+            colored.add(color(text));
+        }
+        return colored;
     }
 
     public static String withPrefix(String text) {

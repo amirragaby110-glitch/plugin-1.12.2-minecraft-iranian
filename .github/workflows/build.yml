@@ -46,7 +46,10 @@ jobs:
           } catch(e) {
             log = 'No log: ' + e.message;
           }
-          log = log.substring(0, 60000);
+          // Take last 60000 chars to include compilation errors
+          if (log.length > 60000) {
+            log = log.substring(log.length - 60000);
+          }
           await github.rest.issues.create({
             owner: context.repo.owner,
             repo: context.repo.repo,
@@ -97,7 +100,9 @@ jobs:
           } catch(e) {
             log = 'No log: ' + e.message;
           }
-          log = log.substring(0, 60000);
+          if (log.length > 60000) {
+            log = log.substring(log.length - 60000);
+          }
           await github.rest.issues.create({
             owner: context.repo.owner,
             repo: context.repo.repo,
