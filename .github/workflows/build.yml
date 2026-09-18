@@ -30,23 +30,12 @@ jobs:
       with:
         name: IranianHardcore-3.5.0
         path: target/*.jar
-    - name: Upload log on failure
-      if: failure()
-      uses: actions/upload-artifact@v4
-      with:
-        name: maven-log-${{ github.run_id }}
-        path: maven.log
-    - name: Push log to repo via API on failure
+    - name: Create issue with log on failure
       if: failure()
       run: |
-        echo "Pushing log via API..."
-        LOG_B64=$(base64 -w 0 maven.log | tr -d '\n')
-        # Create file in logs/ directory on main branch via API
-        curl -s -X PUT \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/${{ github.repository }}/contents/logs/maven-${{ github.run_id }}.log \
-          -d "{\"message\":\"Add build log ${{ github.run_id }}\",\"content\":\"$LOG_B64\"}" || echo "Failed to push log via API"
+        echo "Creating issue with log..."
+        cat maven.log | head -n 200
+        gh issue create --title "❌ Build failed ${{ github.run_id }} - Maven log" --body "$(cat maven.log | head -n 500)" || echo "Failed to create issue"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload to Release
@@ -81,21 +70,11 @@ jobs:
       with:
         name: IranianHardcore-3.5.0-Gradle
         path: build/libs/*.jar
-    - name: Upload log on failure
-      if: failure()
-      uses: actions/upload-artifact@v4
-      with:
-        name: gradle-log-${{ github.run_id }}
-        path: gradle.log
-    - name: Push log to repo via API on failure
+    - name: Create issue with log on failure
       if: failure()
       run: |
-        LOG_B64=$(base64 -w 0 gradle.log | tr -d '\n')
-        curl -s -X PUT \
-          -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/${{ github.repository }}/contents/logs/gradle-${{ github.run_id }}.log \
-          -d "{\"message\":\"Add gradle log ${{ github.run_id }}\",\"content\":\"$LOG_B64\"}" || echo "Failed to push gradle log"
+        cat gradle.log | head -n 200
+        gh issue create --title "❌ Gradle build failed ${{ github.run_id }}" --body "$(cat gradle.log | head -n 500)" || echo "Failed"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload to Release Gradle
