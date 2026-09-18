@@ -1,0 +1,128 @@
+# ================================
+# Iranian Hardcore - Config
+# نسخه 1.0.0 - برای 1.12.2
+# ================================
+
+# تنظیمات کلی
+general:
+  prefix: "&8[&cسخت&8] &r"
+  language: "fa" # fa یا en
+  debug: false
+
+# تنظیمات هاردکور
+hardcore:
+  enabled: true
+  
+  # سلامت و گرسنگی
+  health:
+    enabled: true
+    max-health: 10.0 # نصف جان (5 قلب) - مقدار وانیلا 20 است
+    disable-natural-regen: true
+    faster-hunger: true
+    hunger-drain-multiplier: 2.0 # چند برابر سریع‌تر گرسنه شود
+    raw-food-poison: true
+    raw-food-effects:
+      - "POISON:100:1" # نوع:مدت(تیک):قدرت
+      - "CONFUSION:200:0"
+      - "HUNGER:300:1"
+
+  # مصرف منابع
+  resources:
+    tool-durability-multiplier: 2.0
+    require-correct-tool-for-stone: true
+    leaves-need-shears: true
+
+  # دشمنان
+  mobs:
+    enabled: true
+    double-health: true
+    damage-multiplier: 1.5
+    double-night-spawn: true
+    zombies-break-doors: true
+    creeper-stronger-explosion: true
+    creeper-explosion-multiplier: 1.8
+    spiders-poison: true
+    spider-poison-chance: 0.4
+    skeletons-more-accurate: true
+    skeleton-velocity-multiplier: 1.5
+
+  # محدودیت‌های بقا
+  survival:
+    # خواب
+    bed:
+      enabled: true
+      only-at-night: true
+      heal-amount: 4.0 # فقط 2 قلب پر کند نه کامل
+      cooldown-days: 3 # هر 3 روز بازی یک بار
+      cooldown-message: "&cشما اخیراً خوابیده‌اید! باید %days% روز دیگر صبر کنید."
+    
+    # ندر و اند خطرناک‌تر
+    nether:
+      more-dangerous: true
+      periodic-effects:
+        - "WITHER:100:0"
+      chance: 0.05 # هر تیک 5 درصد شانس افکت
+      damage-multiplier: 1.5
+    
+    end:
+      more-dangerous: true
+      periodic-effects:
+        - "LEVITATION:60:0"
+        - "WEAKNESS:100:0"
+      chance: 0.03
+      void-damage-multiplier: 2.0
+
+    # آب و گدازه سخت‌تر
+    water-lava:
+      harder-water: true
+      water-slow-duration: 40
+      harder-lava: true
+      lava-damage-multiplier: 1.5
+      lava-fire-ticks-multiplier: 2
+
+  # مرگ
+  death:
+    destroy-inventory: true # آیتم‌ها نابود شوند نه دراپ
+    clear-exp: true
+    respawn-debuffs:
+      - "WEAKNESS:1200:1" # 60 ثانیه
+      - "SLOW:1200:0"
+      - "HUNGER:600:1"
+
+# تنظیمات نژاد
+race:
+  enabled: true
+  # آیا انتخاب نژاد اجباری است؟
+  force-choose-on-first-join: true
+  # آیا GUI هنگام ورود اول باز شود؟
+  open-gui-on-first-join: true
+  # تغییر نژاد هر 7 روز
+  change-cooldown-days: 7
+  change-cooldown-message: "&cشما فقط هر 7 روز می‌توانید نژاد خود را تغییر دهید! %days% روز مانده."
+  
+  # افکت‌های بایوم
+  biome-effects:
+    enabled: true
+    check-interval-ticks: 40 # هر 2 ثانیه
+    full-power-in-home: true
+    weakness-in-hostile: true
+
+  # پیام‌ها
+  messages:
+    choose-first: "&eلطفاً ابتدا نژاد خود را انتخاب کنید! &a/race choose"
+    already-have-race: "&cشما قبلاً نژاد %race% را دارید!"
+    race-selected: "&aنژاد شما با موفقیت به %race% تغییر یافت!"
+    no-race: "&cشما هنوز نژادی انتخاب نکرده‌اید!"
+    info-header: "&8&l&m-------------------\n&6&l اطلاعات نژاد شما\n&8&l&m-------------------"
+
+# پیام‌های فارسی
+messages:
+  no-permission: "&cشما دسترسی لازم را ندارید!"
+  player-only: "&cاین دستور فقط برای بازیکنان است!"
+  player-not-found: "&cبازیکن یافت نشد!"
+  reloaded: "&aکانفیگ با موفقیت ریلود شد!"
+  bed-only-night: "&cشما فقط در شب می‌توانید بخوابید!"
+  bed-not-safe: "&cمحیط امن نیست! هیولاها نزدیک هستند!"
+  inventory-destroyed: "&4&lتمام آیتم‌های شما با مرگ نابود شد!"
+  race-gui-title: "&8&lانتخاب نژاد"
+  race-info-title: "&6&lاطلاعات نژاد: %race%"

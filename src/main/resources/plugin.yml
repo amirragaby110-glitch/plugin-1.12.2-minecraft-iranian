@@ -1,0 +1,84 @@
+name: IranianHardcore
+version: 1.0.0
+main: ir.iranian.hardcore.IranianHardcorePlugin
+api-version: 1.12
+author: IranianTeam
+authors: [Amir, IranianHardcoreDev]
+description: پلاگین هاردکور فوق سخت برای 1.12.2 - الهام گرفته از RLCraft و Blood N Bones - شامل سیستم نژاد و مکانیک‌های بقا
+website: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian
+
+# دستورات
+commands:
+  race:
+    description: مدیریت نژاد بازیکن
+    usage: /race <choose|info|change|help|admin>
+    aliases: [nezhad, reghad]
+  hardcore:
+    description: دستورات ادمین هاردکور
+    usage: /hardcore <reload|info|setrace|reset>
+    aliases: [hc, sakht]
+
+# پرمیشن‌ها
+permissions:
+  iranianhardcore.*:
+    description: دسترسی به تمام قابلیت‌ها
+    default: op
+    children:
+      iranianhardcore.race.*: true
+      iranianhardcore.hardcore.*: true
+      iranianhardcore.admin: true
+      iranianhardcore.bypass.*: true
+  iranianhardcore.race.*:
+    description: تمام پرمیشن‌های نژاد
+    default: true
+    children:
+      iranianhardcore.race.choose: true
+      iranianhardcore.race.info: true
+      iranianhardcore.race.change: true
+  iranianhardcore.race.choose:
+    description: انتخاب نژاد
+    default: true
+  iranianhardcore.race.info:
+    description: دیدن اطلاعات نژاد
+    default: true
+  iranianhardcore.race.change:
+    description: تغییر نژاد (با محدودیت زمانی)
+    default: true
+  iranianhardcore.race.admin:
+    description: مدیریت نژاد دیگران
+    default: op
+  iranianhardcore.hardcore.*:
+    description: پرمیشن‌های هاردکور
+    default: op
+    children:
+      iranianhardcore.hardcore.reload: true
+      iranianhardcore.hardcore.info: true
+      iranianhardcore.hardcore.setrace: true
+  iranianhardcore.hardcore.reload:
+    description: ریلود کانفیگ
+    default: op
+  iranianhardcore.hardcore.info:
+    description: اطلاعات هاردکور
+    default: op
+  iranianhardcore.hardcore.setrace:
+    description: تنظیم نژاد بازیکن دیگر
+    default: op
+  iranianhardcore.admin:
+    description: ادمین کامل
+    default: op
+  iranianhardcore.bypass.*:
+    description: دور زدن محدودیت‌ها
+    default: op
+    children:
+      iranianhardcore.bypass.bedcooldown: true
+      iranianhardcore.bypass.racecooldown: true
+      iranianhardcore.bypass.hardcore: true
+  iranianhardcore.bypass.bedcooldown:
+    description: دور زدن کولدان تخت
+    default: op
+  iranianhardcore.bypass.racecooldown:
+    description: دور زدن کولدان تغییر نژاد
+    default: op
+  iranianhardcore.bypass.hardcore:
+    description: دور زدن سختی‌ها
+    default: op
