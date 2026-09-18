@@ -10,7 +10,7 @@
     <packaging>jar</packaging>
 
     <name>IranianHardcore</name>
-    <description>پلاگین هاردکور ایرانی 3.5 - هر بایوم یک قوم ایرانی - 14 قوم (فارس، آذری، کرد، لر، بلوچ، عرب، ترکمن، گیلک، مازنی، بختیاری، قشقایی، بندری، خراسانی، سیستانی) با قابلیت مخصوص + 16 دانجن + 8 سازه + بازار ایرانی + روستا - انتخاب قوم اول ورود - کاملا فارسی - 🇮🇷</description>
+    <description>پلاگین هاردکور ایرانی 3.5 - هر بایوم یک قوم ایرانی - 14 قوم + 16 دانجن + 8 سازه + بازار ایرانی - کاملا فارسی - 🇮🇷</description>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
@@ -24,8 +24,16 @@
             <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
         </repository>
         <repository>
+            <id>spigot-group</id>
+            <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
+        </repository>
+        <repository>
             <id>sonatype</id>
             <url>https://oss.sonatype.org/content/groups/public/</url>
+        </repository>
+        <repository>
+            <id>jitpack</id>
+            <url>https://jitpack.io</url>
         </repository>
     </repositories>
 
