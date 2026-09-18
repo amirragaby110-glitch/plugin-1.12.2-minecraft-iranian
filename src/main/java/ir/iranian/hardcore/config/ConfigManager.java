@@ -11,10 +11,12 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * مدیریت تمام فایل‌های کانفیگ پلاگین
- * - config.yml : تنظیمات اصلی
+ * مدیریت تمام فایل‌های کانفیگ پلاگین - نسخه 2.0 فارسی کامل
+ * - config.yml : تنظیمات اصلی (کاملا فارسی)
  * - races.yml : ذخیره نژاد بازیکنان
  * - data.yml : کولدان‌ها (تخت و تغییر نژاد)
+ * - dungeons.yml : دانجن‌های ساخته شده ایرانی
+ * - structures.yml : سازه‌های ایرانی مپ
  */
 public class ConfigManager {
 
@@ -23,9 +25,13 @@ public class ConfigManager {
     private FileConfiguration config;
     private FileConfiguration racesConfig;
     private FileConfiguration dataConfig;
+    private FileConfiguration dungeonsConfig;
+    private FileConfiguration structuresConfig;
 
     private File racesFile;
     private File dataFile;
+    private File dungeonsFile;
+    private File structuresFile;
 
     // کش برای سرعت بیشتر
     private final Map<UUID, String> raceCache = new HashMap<>();
@@ -68,10 +74,40 @@ public class ConfigManager {
         }
         dataConfig = YamlConfiguration.loadConfiguration(dataFile);
 
+        // dungeons.yml - جدید برای دانجن‌های ایرانی
+        dungeonsFile = new File(plugin.getDataFolder(), "dungeons.yml");
+        if (!dungeonsFile.exists()) {
+            try {
+                dungeonsFile.createNewFile();
+                YamlConfiguration cfg = YamlConfiguration.loadConfiguration(dungeonsFile);
+                cfg.set("generated-dungeons", null);
+                cfg.set("info", "این فایل محل دانجن‌های ایرانی ساخته شده را ذخیره می‌کند تا دوباره ساخته نشوند");
+                cfg.save(dungeonsFile);
+            } catch (IOException e) {
+                plugin.getLogger().severe("خطا در ساخت dungeons.yml: " + e.getMessage());
+            }
+        }
+        dungeonsConfig = YamlConfiguration.loadConfiguration(dungeonsFile);
+
+        // structures.yml - سازه‌های ایرانی
+        structuresFile = new File(plugin.getDataFolder(), "structures.yml");
+        if (!structuresFile.exists()) {
+            try {
+                structuresFile.createNewFile();
+                YamlConfiguration cfg = YamlConfiguration.loadConfiguration(structuresFile);
+                cfg.set("generated-structures", null);
+                cfg.set("info", "محل سازه‌های ایرانی مثل بازار و کاروانسرا");
+                cfg.save(structuresFile);
+            } catch (IOException e) {
+                plugin.getLogger().severe("خطا در ساخت structures.yml: " + e.getMessage());
+            }
+        }
+        structuresConfig = YamlConfiguration.loadConfiguration(structuresFile);
+
         // پر کردن کش
         loadCacheFromFiles();
 
-        plugin.getLogger().info("تمام کانفیگ‌ها بارگذاری شد.");
+        plugin.getLogger().info("تمام کانفیگ‌ها (شامل دانجن‌های ایرانی) بارگذاری شد.");
     }
 
     private void loadCacheFromFiles() {
@@ -117,11 +153,37 @@ public class ConfigManager {
         config = plugin.getConfig();
         racesConfig = YamlConfiguration.loadConfiguration(racesFile);
         dataConfig = YamlConfiguration.loadConfiguration(dataFile);
+        dungeonsConfig = YamlConfiguration.loadConfiguration(dungeonsFile);
+        structuresConfig = YamlConfiguration.loadConfiguration(structuresFile);
         loadCacheFromFiles();
     }
 
     public FileConfiguration getConfig() {
         return config;
+    }
+
+    public FileConfiguration getDungeonsConfig() {
+        return dungeonsConfig;
+    }
+
+    public FileConfiguration getStructuresConfig() {
+        return structuresConfig;
+    }
+
+    public void saveDungeonsConfig() {
+        try {
+            dungeonsConfig.save(dungeonsFile);
+        } catch (IOException e) {
+            plugin.getLogger().severe("خطا در ذخیره dungeons.yml: " + e.getMessage());
+        }
+    }
+
+    public void saveStructuresConfig() {
+        try {
+            structuresConfig.save(structuresFile);
+        } catch (IOException e) {
+            plugin.getLogger().severe("خطا در ذخیره structures.yml: " + e.getMessage());
+        }
     }
 
     // ==================== Race Storage ====================

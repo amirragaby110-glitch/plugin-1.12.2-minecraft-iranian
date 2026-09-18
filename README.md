@@ -1,200 +1,256 @@
-# Iranian Hardcore - پلاگین هاردکور فوق سخت برای 1.12.2
+# 🇮🇷 Iranian Hardcore - پلاگین هاردکور ایرانی نسخه 2.0
 
-پلاگین **IranianHardcore** یک پلاگین Bukkit/Spigot/Paper برای نسخه **1.12.2** است که بازی را در حد سخت‌ترین مودهای ماینکرافت مثل **RLCraft** و **Blood N Bones** چالش‌برانگیز می‌کند، اما به صورت پلاگین و بدون نیاز به مود.
+پلاگین **IranianHardcore 2.0** نسخه ارتقا یافته و **کاملا فارسی** برای **1.12.2** است که تاریخ 2500 ساله ایران را به ماینکرافت می‌آورد!
 
-همچنین شامل **سیستم نژاد (Race System)** کامل با 8 نژاد مخصوص بایوم‌ها است.
+### ✨ ویژگی‌های جدید نسخه 2.0:
+- **8 دانجن تاریخی ایران** در هر بایوم
+- **4 سازه ایرانی** روی مپ (بازار، کاروانسرا، چایخانه، آب‌انبار)
+- **آیتم‌های ایرانی** با نام فارسی (تاج کوروش، شمشیرها، فرش، مروارید خلیج فارس)
+- **کاملا فارسی** - تمام پیام‌ها، GUI، دستورات
 
 ---
 
-## 📦 ساختار پروژه
+## 📦 ساختار پروژه نسخه 2.0
 
 ```
 IranianHardcore/
-├── pom.xml
+├── pom.xml (2.0.0)
+├── build.gradle
 ├── src/main/
 │   ├── java/ir/iranian/hardcore/
-│   │   ├── IranianHardcorePlugin.java         # کلاس اصلی
-│   │   ├── config/
-│   │   │   └── ConfigManager.java             # مدیریت config.yml + races.yml + data.yml
-│   │   ├── race/
-│   │   │   ├── RaceType.java                  # Enum تمام نژادها با بایوم‌ها
-│   │   │   └── RaceManager.java               # منطق انتخاب و ذخیره نژاد
-│   │   ├── hardcore/
-│   │   │   └── HardcoreManager.java           # تنظیمات جهانی هاردکور
+│   │   ├── IranianHardcorePlugin.java (اصلی 2.0)
+│   │   ├── config/ConfigManager.java (پشتیبانی dungeons.yml + structures.yml)
+│   │   ├── race/ (8 نژاد ایرانی)
+│   │   ├── hardcore/ (مکانیک‌های سخت)
+│   │   ├── dungeons/
+│   │   │   ├── DungeonType.java (8 دانجن تاریخی)
+│   │   │   ├── DungeonManager.java
+│   │   │   └── StructureBuilder.java (سازنده بدون NMS)
+│   │   ├── structures/
+│   │   │   └── PersianStructures.java (بازار، کاروانسرا...)
+│   │   ├── items/
+│   │   │   └── PersianItems.java (آیتم‌های فارسی)
 │   │   ├── listeners/
-│   │   │   ├── PlayerHardcoreListener.java    # جان نصف، گرسنگی، ابزار، مرگ
-│   │   │   ├── MobHardcoreListener.java       # ماب‌های قوی‌تر
-│   │   │   ├── SurvivalListener.java          # تخت، آب/لاوا
-│   │   │   └── RaceListener.java              # افکت‌های نژاد بر اساس بایوم
-│   │   ├── gui/
-│   │   │   └── RaceGUI.java                   # منوی GUI انتخاب نژاد
+│   │   │   ├── PlayerHardcoreListener.java
+│   │   │   ├── MobHardcoreListener.java
+│   │   │   ├── SurvivalListener.java
+│   │   │   ├── RaceListener.java
+│   │   │   └── DungeonListener.java (جدید)
+│   │   ├── gui/RaceGUI.java
 │   │   ├── commands/
-│   │   │   ├── RaceCommand.java               # /race
-│   │   │   └── HardcoreCommand.java           # /hardcore
-│   │   └── utils/
-│   │       └── MessageUtils.java              # رنگ و پیام فارسی
+│   │   │   ├── RaceCommand.java
+│   │   │   ├── HardcoreCommand.java
+│   │   │   └── DungeonCommand.java (جدید)
+│   │   └── utils/MessageUtils.java
 │   └── resources/
-│       ├── plugin.yml
-│       └── config.yml
+│       ├── plugin.yml (2.0 با دستور dungeon)
+│       └── config.yml (کاملا فارسی + تنظیمات دانجن)
 └── README.md
 ```
 
 ---
 
-## ⚙️ ویژگی‌های هاردکور
+## 🏛️ دانجن‌های تاریخی ایران - 8 دانجن در هر بایوم
 
-### 1. سلامت و گرسنگی
-- **جان نصف**: `GENERIC_MAX_HEALTH = 10.0` (5 قلب)
-- **گرسنگی سریع**: ضریب `2.0` در `FoodLevelChangeEvent` + `setExhaustion`
-- **رژن طبیعی غیرفعال**: `naturalRegeneration = false` + کنسل `EntityRegainHealthEvent`
-- **غذای خام مسموم**: `RAW_BEEF`, `RAW_CHICKEN`, `PORK`, `MUTTON`, `RABBIT`, `RAW_FISH` → Poison + Nausea + Hunger
+| دانجن | نام فارسی | بایوم | سختی | باس | تاریخ واقعی | لوت ویژه |
+|-------|-----------|-------|------|-----|-------------|----------|
+| **ALAMUT_CASTLE** | قلعه الموت - آشیانه عقاب | کوهستان Extreme Hills | ★★★★★ | حسن صباح | 1090 میلادی، قزوین، 2100 متر | شمشیر الموت |
+| **ANAHITA_TEMPLE** | معبد آناهیتا - الهه آب | جنگل Forest/Jungle | ★★★★☆ | کاهن آناهیتا | هخامنشی، کنگاور کرمانشاه، 32 ستون | تندیس آناهیتا |
+| **ARGE_BAM** | ارگ بم - بزرگترین بنای خشتی جهان | بیابان Desert/Mesa | ★★★★★ | حاکم بم | 2500 ساله، 180 هزار متر، یونسکو | فرش کرمانی |
+| **BANDAR_SIRAF** | بندر سیراف - مروارید خلیج فارس | اقیانوس Ocean/Beach | ★★★★☆ | ناخدای سیراف | بندر ساسانی، بوشهر، خلیج همیشه فارس | مروارید خلیج فارس |
+| **GHALEH_BABAK** | قلعه بابک - دژ بابک خرمدین | برفی Ice Plains | ★★★★★ | بابک خرمدین | 2300 متر، 22 سال مقاومت، کلیبر | شمشیر بابک |
+| **CHOGHA_ZANBIL** | زیگورات چغازنبیل - 3250 ساله | مرداب Swampland | ★★★★☆ | کاهن ایلامی | 1250 قبل از میلاد، شوش خوزستان | لوح میخی ایلامی |
+| **DAKHMEH_ZARTOSHTI** | دخمه زرتشتی - برج خاموشان | ندر Nether | ★★★★★ | موبد زرتشتی | آیین 3000 ساله، آذرگشسب یزد | آتش مقدس |
+| **TAKHT_JAMSHID_SKY** | تخت جمشید آسمانی - پارسه | اند End | ★★★★★★ نهایی | داریوش بزرگ | 515 قبل از میلاد، مرودشت فارس | تاج کوروش + منشور |
 
-### 2. مصرف منابع
-- **خرابی ابزار 2 برابر**: `PlayerItemDamageEvent.setDamage(damage * 2)`
-- **سنگ فقط با پیک‌اکس**: `BlockBreakEvent` چک ابزار
-- **برگ بدون قیچی هیچی نده**: اگر ابزار `SHEARS` نباشد، بلوک هوا می‌شود بدون دراپ
-
-### 3. دشمنان
-- **جان 2 برابر و دمیج 1.5 برابر**: via `Attribute.GENERIC_MAX_HEALTH` و `GENERIC_ATTACK_DAMAGE`
-- **اسپاون 2 برابر در شب**: در `CreatureSpawnEvent` اگر `time 13000-23000` باشد 50% ماب اضافه اسپاون
-- **زامبی در شکن**: `Zombie.setCanBreakDoors(true)`
-- **کریپر قوی‌تر**: `EntityExplodeEvent.setYield(yield * 1.8)` + انفجار دوم
-- **عنکبوت مسموم**: `EntityDamageByEntityEvent` → 40% شانس Poison
-- **اسکلت دقیق‌تر**: `EntityShootBowEvent` → سرعت تیر `*1.5`
-
-### 4. بقا
-- **خواب فقط شب + کولدان 3 روز**: `PlayerBedEnterEvent` چک `world.getFullTime()` ذخیره در `data.yml`
-- **هیل خواب فقط 2 قلب**: `PlayerBedLeaveEvent` → `healAmount = 4.0`
-- **ندر خطرناک‌تر**: تسک هر 3 ثانیه → Wither + آتش
-- **اند خطرناک‌تر**: Levitation + Weakness + Void دمیج 2 برابر
-- **آب سخت‌تر**: هوا سریع‌تر تمام می‌شود + کندی
-- **لاوا سخت‌تر**: دمیج 1.5 برابر + FireTicks بیشتر + کندی
-
-### 5. مرگ
-- **نابودی اینونتوری**: `PlayerDeathEvent.getDrops().clear()` + `setDroppedExp(0)`
-- **دیباف اسپاون**: Weakness 60s + Slow 60s + Hunger 30s
+### ویژگی‌های هر دانجن:
+- **ساخت بدون NMS**: فقط با Bukkit API، با بلوک‌گذاری مستقیم
+- **باس فارسی**: نام فارسی + CustomName + قدرت بالا
+- **لوت ایرانی**: آیتم‌های با نام فارسی و Lore تاریخی
+- **تولید تصادفی**: 0.5% شانس در هر چانک جدید، حداقل 500 بلوک فاصله
+- **پیام کشف**: وقتی نزدیک می‌شوی Title فارسی + صدا
 
 ---
 
-## 🧬 سیستم نژادها
+## 🏘️ سازه‌های ایرانی روی مپ - 4 سازه
 
-| نژاد | بایوم خانه | بایوم دشمن | قدرت | ضعف |
-|------|-----------|-----------|------|-----|
-| **Mountainborn** کوهستان | Extreme Hills, Mesa | Ocean, River | 70% کاهش سقوط، مقاومت | کندی در آب |
-| **Forestborn** جنگل | Forest, Taiga, Jungle | Desert | سرعت و عجله در جنگل | ضعف در بیابان |
-| **Desertborn** بیابان | Desert, Savanna | Ice Plains, Cold | گرسنگی کمتر، مقاومت آتش | کندی در سرما |
-| **Oceanborn** اقیانوس | Ocean, Beach, River | Desert, Nether | نفس 3 برابر، شنای سریع | ضعف در خشکی |
-| **Frostborn** برفی | Ice Plains, Cold Taiga | Desert, Nether | مقاومت، سرعت در برف | آتش در بیابان |
-| **Swampborn** مرداب | Swamp, Mushroom | Nether, Desert | مصونیت Poison، تنفس | ضعف آتش |
-| **Netherborn** نتر | Nether (HELL) | Ocean, Ice | مصونیت آتش، قدرت در ندر | دمیج در آب |
-| **Endborn** پایان | End (SKY) | Plains, Desert | مقاومت سقوط، پرش | ضعف نور خورشید |
+| سازه | نام فارسی | بایوم | توضیحات |
+|------|-----------|-------|---------|
+| **BAZAAR** | بازار ایرانی | دشت و بیابان | 4 حجره با فرش‌فروش کرمانی، چای‌فروش لاهیجانی، جواهر‌فروش اصفهانی |
+| **CARAVANSERAI** | کاروانسرای شاه عباسی | بیابان | حیاط مرکزی با حوض، حجره‌های کاروانیان، دروازه باشکوه - جاده ابریشم |
+| **CHAIKHANEH** | چایخانه سنتی | جنگل و دشت | کلبه چوبی با فرش قرمز، سماور، تخت سنتی، چای لاهیجان |
+| **AB_ANBAR** | آب‌انبار یزدی | بیابان | گودال 10 بلوکی زیر زمین با آب، گنبد، بادگیر 10 بلوکی یزدی |
 
-- **قدرت کامل فقط در بایوم خانه**
-- **ضعف در بایوم دشمن**
-- ذخیره در `plugins/IranianHardcore/races.yml`
-- کولدان تغییر نژاد: 7 روز بازی (`168000` تیک)
+- **شانس اسپاون**: 1% در هر چانک جدید
+- **روستاییان فارسی**: با نام‌های ایرانی (فرش‌فروش کرمانی...)
 
-### دستورات نژاد
+---
+
+## ⚔️ آیتم‌های ایرانی - کاملا فارسی
+
+### شمشیرها:
+- **شمشیر الموت** - تیغه حسن صباح - Sharpness 5, Fire 2
+- **شمشیر بابک خرمدین** - شیر آذربایجان
+- **آکیناکه هخامنشی** - شمشیر جاویدان - Sharpness 6
+- **کمان آرش کمانگیر** - مرز ایران - Power 7, Infinity
+
+### تاج و جواهرات:
+- **تاج کوروش بزرگ** - شاه شاهان - Protection 6
+- **منشور کوروش** - اولین اعلامیه حقوق بشر - کتاب
+- **مروارید خلیج فارس** - اشک دریا - تنفس زیر آب
+- **سکه دریک هخامنشی** - اولین سکه جهان
+
+### صنایع دستی:
+- **فرش دستباف کرمانی** - نقش شاه عباسی
+- **پر سیمرغ** - پرنده شاهنامه - پرواز
+- **چای ایرانی لاهیجان** - عطر بهشت
+- **خشت ایلامی** - خط میخی - 1250 قبل از میلاد
+- **آتش مقدس زرتشتی** - آذرگشسب
+
+---
+
+## ⚙️ ویژگی‌های هاردکور (نسخه 1.0 حفظ شده)
+
+### سلامت و گرسنگی:
+- جان نصف 5 قلب، گرسنگی 2 برابر سریع‌تر، رژن غیرفعال، غذای خام مسموم
+
+### منابع:
+- ابزار 2 برابر خرابی، سنگ فقط با پیک‌اکس، برگ بدون قیچی هیچی نده
+
+### دشمنان:
+- ماب 2 برابر جان و 1.5 برابر دمیج، اسپاون 2 برابر شب، زامبی درشکن، کریپر قوی‌تر، عنکبوت مسموم، اسکلت دقیق‌تر
+
+### بقا:
+- خواب فقط شب + کولدان 3 روز + هیل فقط 2 قلب، ندر/اند خطرناک‌تر، آب/لاوا سخت‌تر
+
+### مرگ:
+- اینونتوری نابود می‌شود، دیباف ضعف هنگام اسپاون
+
+---
+
+## 🧬 سیستم نژادها - 8 نژاد ایرانی
+
+| نژاد | بایوم خانه | قدرت | ضعف |
+|------|-----------|------|-----|
+| کوهستان | Extreme Hills, Mesa | مقاومت سقوط 70% | کندی در آب |
+| جنگل | Forest, Taiga, Jungle | سرعت در جنگل | ضعف بیابان |
+| بیابان | Desert, Savanna | گرسنگی کمتر | ضعف سرما |
+| اقیانوس | Ocean, Beach | نفس 3 برابر | ضعف خشکی |
+| برفی | Ice Plains | مقاومت سرما | کندی بیابان |
+| مرداب | Swamp | مصونیت Poison | ضعف آتش |
+| نتر | Nether | مصونیت آتش | دمیج در آب |
+| پایان | End | مقاومت سقوط | ضعف نور خورشید |
+
+---
+
+## 🎮 دستورات - کاملا فارسی
+
+### نژاد:
 ```
-/race choose          # باز کردن GUI انتخاب
-/race info [race]     # اطلاعات نژاد فعلی یا یک نژاد خاص
-/race change          # تغییر نژاد (با کولدان 7 روز)
-/race list            # لیست نژادها
-/race admin set <player> <race>   # ادمین: تنظیم نژاد
-/race admin clear <player>        # ادمین: پاک کردن نژاد
+/race choose - منوی انتخاب نژاد ایرانی
+/race info - اطلاعات نژاد
+/race change - تغییر نژاد هر 7 روز
+/race list - لیست نژادها
+/race admin set <player> <race> - ادمین
 ```
 
-### دستورات هاردکور
+### هاردکور:
 ```
-/hardcore reload                  # ریلود کانفیگ
-/hardcore info                    # اطلاعات پلاگین
-/hardcore setrace <player> <race> # تنظیم نژاد
-/hardcore reset <player>          # ریست داده‌ها
+/hardcore reload - ریلود کانفیگ فارسی
+/hardcore info - اطلاعات
+/hardcore setrace <player> <race>
+/hardcore reset <player>
 ```
 
-### پرمیشن‌ها
-```yaml
-iranianhardcore.race.choose: true
-iranianhardcore.race.info: true
-iranianhardcore.race.change: true
-iranianhardcore.race.admin: op
-iranianhardcore.hardcore.reload: op
-iranianhardcore.bypass.bedcooldown: op
-iranianhardcore.bypass.racecooldown: op
-iranianhardcore.bypass.hardcore: op
-iranianhardcore.admin: op
+### دانجن‌های ایرانی - جدید:
+```
+/dungeon list - لیست 8 دانجن تاریخی ایران
+/dungeon generate <نوع> - ساخت دانجن نزدیک شما
+  مثال: /dungeon generate ALAMUT_CASTLE
+  مثال: /dungeon generate TAKHT_JAMSHID_SKY
+/dungeon teleport [شماره] - تلپورت به دانجن
+/dungeon clear - پاک کردن لیست (ادمین)
+/dungeon bazaar - ساخت بازار ایرانی
+/dungeon caravanserai - ساخت کاروانسرای شاه عباسی
+/dungeon chaikhaneh - ساخت چایخانه سنتی
+/dungeon abanbar - ساخت آب‌انبار یزدی
+```
+
+### پرمیشن‌ها:
+```
+iranianhardcore.race.* - نژاد
+iranianhardcore.dungeon.* - دانجن ایرانی
+iranianhardcore.admin - ادمین کامل
+iranianhardcore.bypass.* - دور زدن محدودیت
 ```
 
 ---
 
-## 🛠️ نحوه کامپایل
+## 🛠️ کامپایل
 
-### پیش‌نیازها
-- Java 8 (JDK 1.8)
-- Maven 3.x
-- اینترنت برای دانلود Spigot API
-
-### مراحل
 ```bash
-# کلون پروژه
-git clone <repo-url>
+git clone <repo>
 cd plugin-1.12.2-minecraft-iranian
-
-# کامپایل
 mvn clean package
-
-# خروجی در target/
-# target/iranian-hardcore-1.0.0.jar
-```
-
-فایل `target/iranian-hardcore-1.0.0.jar` را در پوشه `plugins/` سرور Spigot/Paper 1.12.2 قرار دهید و سرور را ریستارت کنید.
-
----
-
-## 📥 نصب روی سرور
-
-1. سرور 1.12.2 Spigot یا Paper دانلود کنید (https://getbukkit.org/download/spigot)
-2. فایل jar کامپایل شده را در `plugins/` بگذارید
-3. سرور را یک بار اجرا کنید تا `config.yml` ساخته شود
-4. تنظیمات را در `plugins/IranianHardcore/config.yml` ویرایش کنید
-5. `/hardcore reload` یا ریستارت سرور
-
----
-
-## ⚙️ کانفیگ نمونه
-
-تمام ویژگی‌ها در `config.yml` قابل خاموش/روشن و تنظیم هستند. مثلاً:
-
-```yaml
-hardcore:
-  health:
-    max-health: 10.0
-    faster-hunger: true
-  mobs:
-    double-health: true
-    damage-multiplier: 1.5
-race:
-  change-cooldown-days: 7
+# خروجی: target/iranian-hardcore-2.0.0.jar
 ```
 
 ---
 
-## 🧩 بدون NMS
+## 📥 نصب
 
-این پلاگین **تا حد امکان از NMS استفاده نمی‌کند** و فقط از API خود Spigot استفاده می‌کند تا با تمام نسخه‌های Paper/Spigot 1.12.2 سازگار باشد.
-
----
-
-## 📜 لایسنس
-
-MIT - آزاد برای استفاده و ویرایش
+1. Spigot/Paper 1.12.2 دانلود کنید
+2. `iranian-hardcore-2.0.0.jar` را در `plugins/` بگذارید
+3. سرور را اجرا کنید - کانفیگ فارسی ساخته می‌شود
+4. `plugins/IranianHardcore/config.yml` را ویرایش کنید (کاملا فارسی)
+5. `/hardcore reload`
 
 ---
 
-## 👨‍💻 توسعه‌دهنده
+## 🗺️ نحوه کار دانجن‌ها
 
-IranianTeam - برای جامعه ماینکرافت ایران
+- **خودکار**: وقتی بازیکن چانک جدید را کشف می‌کند، 0.5% شانس ساخت دانجن ایرانی مناسب بایوم
+- **دستی**: `/dungeon generate ALAMUT_CASTLE` - 50 بلوک جلوتر می‌سازد
+- **ذخیره**: محل دانجن‌ها در `plugins/IranianHardcore/dungeons.yml` ذخیره می‌شود تا دوباره ساخته نشود
+- **فاصله**: حداقل 500 بلوک بین دانجن‌ها
 
-> اگر باگ یا پیشنهادی دارید، Issue باز کنید یا Pull Request بفرستید!
+---
+
+## 🇮🇷 پیام فارسی
+
+تمام پیام‌ها، GUI، Lore آیتم‌ها، نام باس‌ها، تابلوها **کاملا فارسی** است:
+
+```
+[ایران] 🏛 دانجن ایرانی کشف شد: قلعه الموت توسط Amir
+[ایران] وارد دانجن تاریخی شدی: تخت جمشید آسمانی - باشکوه‌ترین کاخ جهان
+[ایران] ⚔ باس ایرانی شکست خورد: داریوش بزرگ در تخت جمشید
 ```
 
+---
+
+## 👨‍💻 تیم ایرانی
+
+**IranianTeam** - برای جامعه ماینکرافت ایران
+
+**شعار**: زنده باد ایران! پاینده باد تاریخ 2500 ساله!
+
+- تخت جمشید، الموت، ارگ بم، چغازنبیل، سیراف، بابک، آناهیتا، دخمه زرتشتی
+- بازار، کاروانسرا، چایخانه، آب‌انبار
+- خلیج همیشه فارس
+
+MIT License - آزاد برای ایرانیان
+
+---
+
+## 🔥 تفاوت نسخه 2.0 با 1.0
+
+| ویژگی | 1.0 | 2.0 ایرانی |
+|-------|-----|------------|
+| دانجن | ❌ | ✅ 8 دانجن تاریخی ایران |
+| سازه ایرانی | ❌ | ✅ 4 سازه (بازار...) |
+| آیتم ایرانی | ❌ | ✅ 12 آیتم با نام فارسی |
+| زبان | فارسی/انگلیسی | ✅ کاملا فارسی |
+| باس | ماب وانیلا | ✅ باس با نام فارسی |
+| دستور dungeon | ❌ | ✅ کامل |
+| config | فارسی | ✅ کاملا فارسی + تنظیمات دانجن |
+| نسخه | 1.0.0 | 2.0.0 |

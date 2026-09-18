@@ -6,11 +6,11 @@
 
     <groupId>ir.iranian</groupId>
     <artifactId>iranian-hardcore</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
     <packaging>jar</packaging>
 
     <name>IranianHardcore</name>
-    <description>سخت‌ترین پلاگین هاردکور برای ماینکرافت 1.12.2 - الهام گرفته از RLCraft</description>
+    <description>پلاگین هاردکور ایرانی 2.0 - 8 دانجن تاریخی ایران (تخت جمشید، الموت، ارگ بم، چغازنبیل، سیراف، بابک، آناهیتا، دخمه) + سازه‌های ایرانی + کاملا فارسی - 🇮🇷</description>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>

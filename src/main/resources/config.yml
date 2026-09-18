@@ -1,38 +1,40 @@
 # ================================
-# Iranian Hardcore - Config
-# نسخه 1.0.0 - برای 1.12.2
+# Iranian Hardcore - Config فارسی کامل
+# نسخه 2.0.0 - دانجن‌های تاریخی ایران - برای 1.12.2
+# 🇮🇷 زنده باد ایران - تاریخ 2500 ساله
 # ================================
 
-# تنظیمات کلی
+# تنظیمات کلی - فارسی
 general:
-  prefix: "&8[&cسخت&8] &r"
-  language: "fa" # fa یا en
+  prefix: "&8[&6ایران&8] &r"
+  language: "fa" # فقط فارسی - fa
   debug: false
+  version: "2.0.0-ایرانی"
 
-# تنظیمات هاردکور
+# تنظیمات هاردکور - سخت‌ترین حالت
 hardcore:
   enabled: true
   
-  # سلامت و گرسنگی
+  # سلامت و گرسنگی - فارسی
   health:
     enabled: true
-    max-health: 10.0 # نصف جان (5 قلب) - مقدار وانیلا 20 است
+    max-health: 10.0 # نصف جان (5 قلب) - وانیلا 20 است
     disable-natural-regen: true
     faster-hunger: true
-    hunger-drain-multiplier: 2.0 # چند برابر سریع‌تر گرسنه شود
+    hunger-drain-multiplier: 2.0 # 2 برابر سریع‌تر گرسنه شود
     raw-food-poison: true
     raw-food-effects:
-      - "POISON:100:1" # نوع:مدت(تیک):قدرت
+      - "POISON:100:1"
       - "CONFUSION:200:0"
       - "HUNGER:300:1"
 
-  # مصرف منابع
+  # مصرف منابع - فارسی
   resources:
     tool-durability-multiplier: 2.0
     require-correct-tool-for-stone: true
     leaves-need-shears: true
 
-  # دشمنان
+  # دشمنان - فارسی
   mobs:
     enabled: true
     double-health: true
@@ -46,22 +48,20 @@ hardcore:
     skeletons-more-accurate: true
     skeleton-velocity-multiplier: 1.5
 
-  # محدودیت‌های بقا
+  # محدودیت‌های بقا - فارسی
   survival:
-    # خواب
     bed:
       enabled: true
       only-at-night: true
-      heal-amount: 4.0 # فقط 2 قلب پر کند نه کامل
-      cooldown-days: 3 # هر 3 روز بازی یک بار
-      cooldown-message: "&cشما اخیراً خوابیده‌اید! باید %days% روز دیگر صبر کنید."
+      heal-amount: 4.0 # فقط 2 قلب پر کند
+      cooldown-days: 3
+      cooldown-message: "&cشما اخیراً خوابیده‌اید! باید %days% روز دیگر صبر کنید. &7خواب در فرهنگ ایرانی مقدس است!"
     
-    # ندر و اند خطرناک‌تر
     nether:
       more-dangerous: true
       periodic-effects:
         - "WITHER:100:0"
-      chance: 0.05 # هر تیک 5 درصد شانس افکت
+      chance: 0.05
       damage-multiplier: 1.5
     
     end:
@@ -72,7 +72,6 @@ hardcore:
       chance: 0.03
       void-damage-multiplier: 2.0
 
-    # آب و گدازه سخت‌تر
     water-lava:
       harder-water: true
       water-slow-duration: 40
@@ -80,49 +79,152 @@ hardcore:
       lava-damage-multiplier: 1.5
       lava-fire-ticks-multiplier: 2
 
-  # مرگ
   death:
-    destroy-inventory: true # آیتم‌ها نابود شوند نه دراپ
+    destroy-inventory: true
     clear-exp: true
     respawn-debuffs:
-      - "WEAKNESS:1200:1" # 60 ثانیه
+      - "WEAKNESS:1200:1"
       - "SLOW:1200:0"
       - "HUNGER:600:1"
 
-# تنظیمات نژاد
+# تنظیمات نژاد ایرانی - کاملا فارسی
 race:
   enabled: true
-  # آیا انتخاب نژاد اجباری است؟
   force-choose-on-first-join: true
-  # آیا GUI هنگام ورود اول باز شود؟
   open-gui-on-first-join: true
-  # تغییر نژاد هر 7 روز
   change-cooldown-days: 7
-  change-cooldown-message: "&cشما فقط هر 7 روز می‌توانید نژاد خود را تغییر دهید! %days% روز مانده."
+  change-cooldown-message: "&cشما فقط هر 7 روز می‌توانید نژاد خود را تغییر دهید! %days% روز مانده. &7مثل تغییر تابعیت در ایران باستان!"
   
-  # افکت‌های بایوم
   biome-effects:
     enabled: true
-    check-interval-ticks: 40 # هر 2 ثانیه
+    check-interval-ticks: 40
     full-power-in-home: true
     weakness-in-hostile: true
 
-  # پیام‌ها
   messages:
-    choose-first: "&eلطفاً ابتدا نژاد خود را انتخاب کنید! &a/race choose"
-    already-have-race: "&cشما قبلاً نژاد %race% را دارید!"
-    race-selected: "&aنژاد شما با موفقیت به %race% تغییر یافت!"
-    no-race: "&cشما هنوز نژادی انتخاب نکرده‌اید!"
-    info-header: "&8&l&m-------------------\n&6&l اطلاعات نژاد شما\n&8&l&m-------------------"
+    choose-first: "&eلطفاً ابتدا نژاد ایرانی خود را انتخاب کنید! &a/race choose &7- 8 نژاد تاریخی"
+    already-have-race: "&cشما قبلاً نژاد %race% را دارید! &7به ایران خوش آمدید!"
+    race-selected: "&aنژاد شما با موفقیت به %race% تغییر یافت! &6زنده باد ایران!"
+    no-race: "&cشما هنوز نژادی انتخاب نکرده‌اید! &7ایرانی نیستی؟"
+    info-header: "&8&l&m-------------------\n&6&l اطلاعات نژاد ایرانی شما\n&8&l&m-------------------"
 
-# پیام‌های فارسی
+# ================================
+# دانجن‌های تاریخی ایران - جدید 2.0
+# 🇮🇷 8 دانجن بر اساس تاریخ واقعی ایران
+# ================================
+dungeons:
+  enabled: true
+  spawn-chance: 0.005 # 0.5% شانس اسپاون در هر چانک جدید - کم برای جلوگیری از لگ
+  min-distance: 500 # حداقل فاصله بین دانجن‌ها (بلوک)
+  broadcast-discovery: true # اعلام کشف دانجن به همه
+  
+  # تنظیمات هر دانجن
+  alamut_castle:
+    enabled: true
+    biomes: ["EXTREME_HILLS", "EXTREME_HILLS_MOUNTAINS", "SMALL_MOUNTAINS"]
+    difficulty: 5
+    persian-name: "قلعه الموت - آشیانه عقاب"
+    history: "قلعه حسن صباح، رهبر اسماعیلیان، 1090 میلادی، قزوین"
+  
+  anahita_temple:
+    enabled: true
+    biomes: ["FOREST", "BIRCH_FOREST", "ROOFED_FOREST", "JUNGLE"]
+    difficulty: 4
+    persian-name: "معبد آناهیتا - الهه آب"
+    history: "بزرگترین معبد سنگی ایران، کنگاور کرمانشاه، دوره هخامنشی"
+  
+  arge_bam:
+    enabled: true
+    biomes: ["DESERT", "MESA"]
+    difficulty: 5
+    persian-name: "ارگ بم - بزرگترین بنای خشتی جهان"
+    history: "180 هزار متر مربع، 2500 سال قدمت، بم کرمان، یونسکو"
+  
+  bandar_siraf:
+    enabled: true
+    biomes: ["OCEAN", "BEACH", "DEEP_OCEAN"]
+    difficulty: 4
+    persian-name: "بندر سیراف - مروارید خلیج فارس"
+    history: "بزرگترین بندر ساسانی، بوشهر، خلیج همیشه فارس"
+  
+  ghaleh_babak:
+    enabled: true
+    biomes: ["ICE_PLAINS", "ICE_MOUNTAINS", "COLD_TAIGA"]
+    difficulty: 5
+    persian-name: "قلعه بابک - دژ بابک خرمدین"
+    history: "2300 متر ارتفاع، 22 سال مقاومت، کلیبر آذربایجان"
+  
+  chogha_zanbil:
+    enabled: true
+    biomes: ["SWAMPLAND", "RIVER"]
+    difficulty: 4
+    persian-name: "زیگورات چغازنبیل - 3250 ساله"
+    history: "ساخته اونتاش-گال، 1250 قبل از میلاد، شوش خوزستان"
+  
+  dakhmeh_zartoshti:
+    enabled: true
+    biomes: ["HELL"]
+    difficulty: 5
+    persian-name: "دخمه زرتشتی - برج خاموشان"
+    history: "آیین 3000 ساله زرتشت، آتشکده آذرگشسب، یزد"
+  
+  takht_jamshid_sky:
+    enabled: true
+    biomes: ["SKY"]
+    difficulty: 6
+    persian-name: "تخت جمشید آسمانی - پارسه"
+    history: "باشکوه‌ترین کاخ جهان باستان، 515 قبل از میلاد، مرودشت فارس"
+
+# ================================
+# سازه‌های ایرانی روی مپ - جدید 2.0
+# بازار، کاروانسرا، چایخانه، آب‌انبار
+# ================================
+structures:
+  enabled: true
+  spawn-chance: 0.01 # 1% شانس - بیشتر از دانجن
+  
+  bazaar:
+    enabled: true
+    persian-name: "بازار ایرانی - حجره‌های سنتی"
+    description: "بازار با فرش‌فروش، چای‌فروش، جواهر‌فروش"
+    biomes: ["PLAINS", "DESERT", "SAVANNA"]
+  
+  caravanserai:
+    enabled: true
+    persian-name: "کاروانسرای شاه عباسی - جاده ابریشم"
+    description: "استراحتگاه کاروانیان، ساخته شاه عباس صفوی"
+    biomes: ["DESERT", "MESA"]
+  
+  chaikhaneh:
+    enabled: true
+    persian-name: "چایخانه سنتی - سماور و قلیان"
+    description: "چایخانه با چای لاهیجان و فرش ایرانی"
+    biomes: ["FOREST", "TAIGA", "PLAINS"]
+  
+  ab_anbar:
+    enabled: true
+    persian-name: "آب‌انبار یزدی - بادگیر کویری"
+    description: "آب‌انبار خنک با بادگیر، هنر یزدی‌ها"
+    biomes: ["DESERT"]
+
+# ================================
+# پیام‌های فارسی - کاملا فارسی
+# ================================
 messages:
-  no-permission: "&cشما دسترسی لازم را ندارید!"
-  player-only: "&cاین دستور فقط برای بازیکنان است!"
-  player-not-found: "&cبازیکن یافت نشد!"
-  reloaded: "&aکانفیگ با موفقیت ریلود شد!"
-  bed-only-night: "&cشما فقط در شب می‌توانید بخوابید!"
-  bed-not-safe: "&cمحیط امن نیست! هیولاها نزدیک هستند!"
-  inventory-destroyed: "&4&lتمام آیتم‌های شما با مرگ نابود شد!"
-  race-gui-title: "&8&lانتخاب نژاد"
-  race-info-title: "&6&lاطلاعات نژاد: %race%"
+  no-permission: "&cشما دسترسی لازم را ندارید! &7این بخش مخصوص ایرانیان اصیل است!"
+  player-only: "&cاین دستور فقط برای بازیکنان ایرانی است!"
+  player-not-found: "&cبازیکن یافت نشد! شاید در تاریخ گم شده!"
+  reloaded: "&aکانفیگ ایرانی با موفقیت ریلود شد! &6زنده باد ایران!"
+  bed-only-night: "&cشما فقط در شب می‌توانید بخوابید! &7مثل نگهبانان تخت جمشید!"
+  bed-not-safe: "&cمحیط امن نیست! هیولاها نزدیک هستند! &7مثل حمله اسکندر به ایران!"
+  inventory-destroyed: "&4&lتمام آیتم‌های شما با مرگ نابود شد! &7مثل ویرانی تخت جمشید توسط اسکندر!"
+  race-gui-title: "&8&lانتخاب نژاد ایرانی - تاریخ ایران"
+  race-info-title: "&6&lاطلاعات نژاد ایرانی: %race%"
+  
+  dungeon-discovered: "&6&l🏛 دانجن ایرانی کشف شد: &e%name% &7توسط &a%player%"
+  dungeon-enter: "&6&lوارد دانجن تاریخی شدی: &e%name% &7- %desc%"
+  dungeon-boss-defeated: "&6&l⚔ باس ایرانی شکست خورد: &c%boss% &7در &e%dungeon%"
+  structure-discovered: "&a&l🏘 سازه ایرانی کشف شد: &e%name%"
+  
+  persian-welcome: "&6&l🇮🇷 به پلاگین هاردکور ایرانی خوش آمدید! تاریخ 2500 ساله در انتظار شماست!"
+  persian-goodbye: "&c&lخدانگهدار! &7به امید دیدار در تخت جمشید!"

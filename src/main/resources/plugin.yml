@@ -1,84 +1,113 @@
 name: IranianHardcore
-version: 1.0.0
+version: 2.0.0
 main: ir.iranian.hardcore.IranianHardcorePlugin
 api-version: 1.12
 author: IranianTeam
-authors: [Amir, IranianHardcoreDev]
-description: پلاگین هاردکور فوق سخت برای 1.12.2 - الهام گرفته از RLCraft و Blood N Bones - شامل سیستم نژاد و مکانیک‌های بقا
+authors: [Amir, IranianHardcoreDev, TeamMelli]
+description: پلاگین هاردکور فوق سخت ایرانی برای 1.12.2 - 8 دانجن تاریخی ایران (تخت جمشید، الموت، ارگ بم، چغازنبیل، سیراف، بابک، آناهیتا، دخمه) + سازه‌های ایرانی (بازار، کاروانسرا، چایخانه، آب‌انبار) + سیستم نژاد - کاملا فارسی - 🇮🇷
 website: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian
+prefix: IranianHardcore
 
-# دستورات
+# دستورات - کاملا فارسی
 commands:
   race:
-    description: مدیریت نژاد بازیکن
-    usage: /race <choose|info|change|help|admin>
-    aliases: [nezhad, reghad]
+    description: مدیریت نژاد ایرانی - انتخاب نژاد تاریخی ایران
+    usage: /race <choose|info|change|help|admin> - دستور نژاد
+    aliases: [nezhad, نژاد, reghad]
   hardcore:
-    description: دستورات ادمین هاردکور
-    usage: /hardcore <reload|info|setrace|reset>
-    aliases: [hc, sakht]
+    description: دستورات ادمین هاردکور ایرانی
+    usage: /hardcore <reload|info|setrace|reset> - دستورات ادمین
+    aliases: [hc, sakht, سخت]
+  dungeon:
+    description: مدیریت دانجن‌های تاریخی ایران - تخت جمشید، الموت، ارگ بم و...
+    usage: /dungeon <list|generate|teleport|clear|bazaar|caravanserai|chaikhaneh|abanbar> - دانجن ایرانی
+    aliases: [dangeon, دانجن, irandungeon, iran]
 
-# پرمیشن‌ها
+# پرمیشن‌ها - کاملا فارسی
 permissions:
   iranianhardcore.*:
-    description: دسترسی به تمام قابلیت‌ها
+    description: دسترسی به تمام قابلیت‌های ایرانی
     default: op
     children:
       iranianhardcore.race.*: true
       iranianhardcore.hardcore.*: true
+      iranianhardcore.dungeon.*: true
       iranianhardcore.admin: true
       iranianhardcore.bypass.*: true
   iranianhardcore.race.*:
-    description: تمام پرمیشن‌های نژاد
+    description: تمام پرمیشن‌های نژاد ایرانی
     default: true
     children:
       iranianhardcore.race.choose: true
       iranianhardcore.race.info: true
       iranianhardcore.race.change: true
   iranianhardcore.race.choose:
-    description: انتخاب نژاد
+    description: انتخاب نژاد ایرانی
     default: true
   iranianhardcore.race.info:
-    description: دیدن اطلاعات نژاد
+    description: دیدن اطلاعات نژاد ایرانی
     default: true
   iranianhardcore.race.change:
-    description: تغییر نژاد (با محدودیت زمانی)
+    description: تغییر نژاد ایرانی (با محدودیت زمانی)
     default: true
   iranianhardcore.race.admin:
-    description: مدیریت نژاد دیگران
+    description: مدیریت نژاد دیگران - ادمین
     default: op
   iranianhardcore.hardcore.*:
-    description: پرمیشن‌های هاردکور
+    description: پرمیشن‌های هاردکور ایرانی
     default: op
     children:
       iranianhardcore.hardcore.reload: true
       iranianhardcore.hardcore.info: true
       iranianhardcore.hardcore.setrace: true
   iranianhardcore.hardcore.reload:
-    description: ریلود کانفیگ
+    description: ریلود کانفیگ ایرانی
     default: op
   iranianhardcore.hardcore.info:
-    description: اطلاعات هاردکور
+    description: اطلاعات هاردکور ایرانی
     default: op
   iranianhardcore.hardcore.setrace:
     description: تنظیم نژاد بازیکن دیگر
     default: op
+  iranianhardcore.dungeon.*:
+    description: تمام پرمیشن‌های دانجن ایرانی
+    default: op
+    children:
+      iranianhardcore.dungeon.list: true
+      iranianhardcore.dungeon.generate: true
+      iranianhardcore.dungeon.teleport: true
+      iranianhardcore.dungeon.admin: true
+  iranianhardcore.dungeon.list:
+    description: دیدن لیست دانجن‌های ایرانی
+    default: true
+  iranianhardcore.dungeon.generate:
+    description: ساخت دانجن ایرانی
+    default: op
+  iranianhardcore.dungeon.teleport:
+    description: تلپورت به دانجن ایرانی
+    default: true
+  iranianhardcore.dungeon.admin:
+    description: مدیریت دانجن‌های ایرانی - ادمین
+    default: op
+  iranianhardcore.dungeon:
+    description: دسترسی به دستور دانجن ایرانی
+    default: op
   iranianhardcore.admin:
-    description: ادمین کامل
+    description: ادمین کامل ایرانی
     default: op
   iranianhardcore.bypass.*:
-    description: دور زدن محدودیت‌ها
+    description: دور زدن محدودیت‌های ایرانی
     default: op
     children:
       iranianhardcore.bypass.bedcooldown: true
       iranianhardcore.bypass.racecooldown: true
       iranianhardcore.bypass.hardcore: true
   iranianhardcore.bypass.bedcooldown:
-    description: دور زدن کولدان تخت
+    description: دور زدن کولدان تخت ایرانی
     default: op
   iranianhardcore.bypass.racecooldown:
-    description: دور زدن کولدان تغییر نژاد
+    description: دور زدن کولدان تغییر نژاد ایرانی
     default: op
   iranianhardcore.bypass.hardcore:
-    description: دور زدن سختی‌ها
+    description: دور زدن سختی‌های ایرانی
     default: op
