@@ -5,6 +5,7 @@ on:
     branches: [ main ]
   release:
     types: [created]
+  workflow_dispatch:
 
 jobs:
   build:
@@ -19,18 +20,31 @@ jobs:
       with:
         java-version: '8'
         distribution: 'temurin'
+        cache: maven
+    
+    - name: Check Java and Maven
+      run: |
+        java -version
+        mvn -version
+        ls -la
+        cat pom.xml
     
     - name: Build with Maven
-      run: mvn clean package
+      run: mvn -B clean package -DskipTests
+    
+    - name: List target
+      if: always()
+      run: ls -lh target/ || echo "no target"
     
     - name: Upload Jar Artifact
+      if: success()
       uses: actions/upload-artifact@v4
       with:
         name: IranianHardcore-3.5.0
         path: target/*.jar
     
     - name: Upload to Release
-      if: github.event_name == 'release'
+      if: github.event_name == 'release' && success()
       uses: softprops/action-gh-release@v1
       with:
         files: target/*.jar
