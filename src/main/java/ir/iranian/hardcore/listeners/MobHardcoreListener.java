@@ -62,7 +62,7 @@ public class MobHardcoreListener implements Listener {
         // زامبی در شکن
         if (plugin.getConfigManager().getBoolean("hardcore.mobs.zombies-break-doors", true)) {
             if (entity instanceof Zombie) {
-                ((Zombie) entity).setCanBreakDoors(true);
+                // setCanBreakDoors not in 1.12.2 - removed for compatibility
                 // زامبی بچه و قوی‌تر
                 ((Zombie) entity).setBaby(false);
             }

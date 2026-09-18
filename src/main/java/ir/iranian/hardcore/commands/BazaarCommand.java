@@ -80,7 +80,6 @@ public class BazaarCommand implements CommandExecutor, TabCompleter {
                         break;
                     case "abanbar":
                     case "آبانبار":
-                    case "abanbar":
                         plugin.getPersianStructures().buildAbAnbar(player.getLocation());
                         player.sendMessage(MessageUtils.withPrefix("&aآب‌انبار یزدی ساخته شد!"));
                         break;

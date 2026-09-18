@@ -66,7 +66,8 @@ public class SurvivalListener implements Listener {
             // اما می‌توانیم با تاخیر بازیکن را از تخت خارج کنیم
             plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
                 if (player.isSleeping()) {
-                    player.wakeup(false);
+                    // wakeup not in 1.12.2 - removed
+                    // player.setSleepingIgnored(true);
                 }
             }, 1L);
 

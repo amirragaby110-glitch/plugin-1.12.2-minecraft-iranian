@@ -110,10 +110,10 @@ public class StructureBuilder {
         buildWalls(world, ox, oy, oz, 9, 8, Material.AIR); // داخل خالی
 
         // برج‌های گوشه
-        buildTower(world, ox - 10, oy, oz - 10, 6, 12, Material.STONE_BRICK);
-        buildTower(world, ox + 10, oy, oz - 10, 6, 12, Material.STONE_BRICK);
-        buildTower(world, ox - 10, oy, oz + 10, 6, 12, Material.STONE_BRICK);
-        buildTower(world, ox + 10, oy, oz + 10, 6, 12, Material.STONE_BRICK);
+        buildTower(world, ox - 10, oy, oz - 10, 6, 12, Material.SMOOTH_BRICK);
+        buildTower(world, ox + 10, oy, oz - 10, 6, 12, Material.SMOOTH_BRICK);
+        buildTower(world, ox - 10, oy, oz + 10, 6, 12, Material.SMOOTH_BRICK);
+        buildTower(world, ox + 10, oy, oz + 10, 6, 12, Material.SMOOTH_BRICK);
 
         // برج مرکزی (آشیانه عقاب)
         buildTower(world, ox, oy, oz, 5, 18, Material.SMOOTH_BRICK);
@@ -648,6 +648,25 @@ public class StructureBuilder {
     }
 
     // ==================== متدهای کمکی ساخت ====================
+
+    private void fillArea(World world, int x1, int y1, int z1, int x2, int y2, int z2, Material mat, byte data) {
+        fillArea(world, x1, y1, z1, x2, y2, z2, mat);
+        // For colored wool, set data via setBlock
+        int minX = Math.min(x1, x2);
+        int maxX = Math.max(x1, x2);
+        int minY = Math.min(y1, y2);
+        int maxY = Math.max(y1, y2);
+        int minZ = Math.min(z1, z2);
+        int maxZ = Math.max(z1, z2);
+        for (int x = minX; x <= maxX; x++) {
+            for (int y = minY; y <= maxY; y++) {
+                for (int z = minZ; z <= maxZ; z++) {
+                    Block block = world.getBlockAt(x, y, z);
+                    block.setData(data);
+                }
+            }
+        }
+    }
 
     private void fillArea(World world, int x1, int y1, int z1, int x2, int y2, int z2, Material mat) {
         int minX = Math.min(x1, x2);
