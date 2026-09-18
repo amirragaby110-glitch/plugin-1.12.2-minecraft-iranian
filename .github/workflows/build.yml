@@ -9,7 +9,6 @@ on:
 
 permissions:
   contents: write
-  issues: write
 
 jobs:
   build:
@@ -24,39 +23,25 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: |
-        mvn -B clean package -DskipTests
-        ls -lh target/
+      run: mvn -B clean package -DskipTests
+    - name: List target
+      run: ls -lh target/
     - name: Upload Jar Artifact
       uses: actions/upload-artifact@v4
       with:
         name: IranianHardcore-3.5.0
         path: target/*.jar
-    - name: Push Jar to repo via git
-      if: success()
-      run: |
-        echo "Pushing Jar to repo..."
-        ls -lh target/*.jar
-        cp target/*.jar ./IranianHardcore-3.5.0.jar || cp target/iranian-hardcore-3.5.0.jar ./IranianHardcore-3.5.0.jar
-        git config user.name "github-actions"
-        git config user.email "actions@github.com"
-        git add -f IranianHardcore-3.5.0.jar
-        git commit -m "Add Jar ${{ github.run_id }} - ready for direct download" || echo "No changes"
-        git push origin main || echo "Push failed"
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    - name: Create release with Jar via gh api
+    - name: Push Jar to repo for direct download
       if: success()
       run: |
         JAR=$(ls target/*.jar | head -n1)
         echo "Jar: $JAR"
-        # Encode Jar as base64 and push via contents API
-        B64=$(base64 -w 0 $JAR)
-        echo "B64 size: $(echo $B64 | wc -c)"
-        gh api repos/${{ github.repository }}/contents/jars/IranianHardcore-3.5.0-${{ github.run_id }}.jar \
-          --method PUT \
-          --field message="Add Jar ${{ github.run_id }}" \
-          --field content="$B64" || echo "Failed to push Jar via API"
+        cp $JAR ./IranianHardcore-3.5.0.jar
+        git config user.name "github-actions"
+        git config user.email "actions@github.com"
+        git add -f IranianHardcore-3.5.0.jar
+        git commit -m "Update Jar ${{ github.run_id }} - ready for direct download" || echo "No changes"
+        git push origin main || echo "Push failed"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload to Release
@@ -66,27 +51,3 @@ jobs:
         files: target/*.jar
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  build-gradle:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    - name: Setup Java 8
-      uses: actions/setup-java@v4
-      with:
-        java-version: '8'
-        distribution: 'temurin'
-        cache: gradle
-    - name: Setup Gradle
-      uses: gradle/actions/setup-gradle@v3
-    - name: Build with Gradle
-      run: |
-        gradle build --no-daemon || echo "Gradle failed (expected, requires Java 17)"
-        ls -lh build/libs/ || echo "No libs"
-    - name: Upload Jar Artifact Gradle
-      if: success()
-      uses: actions/upload-artifact@v4
-      with:
-        name: IranianHardcore-3.5.0-Gradle
-        path: build/libs/*.jar
