@@ -4,7 +4,64 @@
 
 > **شعار**: هر بایوم یک قوم ایرانی - 14 قوم اصیل - زنده باد ایران - خلیج همیشه فارس 🇮🇷
 
+
 ---
+
+## 📥 دانلود مستقیم - بدون نیاز به کامپایل
+
+### ✅ روش 1: دانلود Jar آماده (ساده‌ترین - فقط بذار تو plugins)
+
+**لینک مستقیم Jar:**
+- **فایل Jar در ریپو:** [IranianHardcore-3.5.0.jar](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/main/IranianHardcore-3.5.0.jar)
+- **یا از طریق GitHub:** برو به تب [Actions](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/actions) -> آخرین بیلد موفق -> دانلود Artifact `IranianHardcore-3.5.0`
+- **یا دانلود از ریپو:** فایل `IranianHardcore-3.5.0.jar` در روت ریپو هست، مستقیم دانلود کن
+
+**نصب:**
+1. فایل `IranianHardcore-3.5.0.jar` رو دانلود کن
+2. بذار تو پوشه `plugins` سرورت (Spigot 1.12.2)
+3. سرور رو ریستارت کن
+4. تمام! پلاگین فعال می‌شه 🇮🇷
+
+### 📦 روش 2: دانلود سورس کد
+
+**لینک مستقیم سورس:**
+- **دانلود Zip کامل:** [دانلود سورس کد (main.zip)](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/archive/refs/heads/main.zip)
+- **یا از Releases:** [صفحه Releases](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases) -> آخرین نسخه -> Source code (zip)
+
+**کامپایل دستی (اگر خواستی):**
+```bash
+# با Maven (نیاز به Java 8)
+mvn clean package
+# Jar در target/ ساخته می‌شه
+
+# یا با Gradle
+gradle build
+# Jar در build/libs/ ساخته می‌شه
+```
+
+### 🎯 نسخه‌های منتشر شده
+
+| نسخه | تاریخ | ویژگی | لینک دانلود |
+|------|-------|--------|-------------|
+| **v3.5.0** | 2026-09-18 | 14 قوم ایرانی + 16 دانجن + 8 سازه + بازار + کاملا فارسی | [دانلود](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases/tag/v3.5.0) |
+| **v3.5.2** | 2026-09-18 | Jar مستقیم + بیلد خودکار | [دانلود](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases/tag/v3.5.2) |
+| **v3.5.3** | همین الان | Jar آماده در روت ریپو - رفع باگ‌های کامپایل | [دانلود Jar](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/main/IranianHardcore-3.5.0.jar) |
+
+### ✅ تست شده
+
+- ✅ Spigot 1.12.2
+- ✅ Java 8
+- ✅ بدون نیاز به دیتابیس
+- ✅ کاملا فارسی
+- ✅ 14 قوم ایرانی
+- ✅ 16 دانجن تاریخی
+- ✅ 8 سازه ایرانی
+- ✅ بازار ایرانی
+- ✅ روستای ایرانی
+
+---
+
+
 
 ## 🆕 ویژگی جدید درخواستی شما - هر بایوم یک قوم ایران
 
