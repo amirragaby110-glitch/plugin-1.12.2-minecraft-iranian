@@ -22,15 +22,15 @@ public enum RaceType {
             Material.GOLD_BLOCK,
             Arrays.asList(
                     Biome.PLAINS,
-                    Biome.SUNFLOWER_PLAINS,
+                    Biome.MUTATED_PLAINS,
                     Biome.DESERT_HILLS,
-                    Biome.SAVANNA_PLATEAU,
+                    Biome.SAVANNA_ROCK,
                     Biome.PLAINS // تخت جمشید، پاسارگاد
             ),
             Arrays.asList(
-                    Biome.ICE_PLAINS,
+                    Biome.ICE_FLATS,
                     Biome.FROZEN_OCEAN,
-                    Biome.ICE_PLAINS_SPIKES
+                    Biome.MUTATED_ICE_FLATS
             ),
             Arrays.asList(
                     "&6&l👑 قوم پارس - بنیان‌گذاران ایران",
@@ -57,11 +57,11 @@ public enum RaceType {
             "Azari Turk",
             Material.SNOW_BLOCK,
             Arrays.asList(
-                    Biome.ICE_PLAINS,
+                    Biome.ICE_FLATS,
                     Biome.ICE_MOUNTAINS,
-                    Biome.COLD_TAIGA,
-                    Biome.COLD_TAIGA_HILLS,
-                    Biome.COLD_TAIGA_MOUNTAINS,
+                    Biome.TAIGA_COLD,
+                    Biome.TAIGA_COLD_HILLS,
+                    Biome.MUTATED_TAIGA_COLD,
                     Biome.FROZEN_RIVER
             ),
             Arrays.asList(
@@ -95,9 +95,9 @@ public enum RaceType {
             Material.STONE,
             Arrays.asList(
                     Biome.EXTREME_HILLS,
-                    Biome.EXTREME_HILLS_MOUNTAINS,
-                    Biome.SMALL_MOUNTAINS,
-                    Biome.EXTREME_HILLS_PLUS_MOUNTAINS
+                    Biome.MUTATED_EXTREME_HILLS,
+                    Biome.SMALLER_EXTREME_HILLS,
+                    Biome.MUTATED_EXTREME_HILLS_WITH_TREES
             ),
             Arrays.asList(
                     Biome.OCEAN,
@@ -131,13 +131,13 @@ public enum RaceType {
             Arrays.asList(
                     Biome.FOREST_HILLS,
                     Biome.BIRCH_FOREST_HILLS,
-                    Biome.EXTREME_HILLS_PLUS,
+                    Biome.EXTREME_HILLS_WITH_TREES,
                     Biome.FOREST
             ),
             Arrays.asList(
                     Biome.DESERT,
                     Biome.OCEAN,
-                    Biome.BEACH
+                    Biome.BEACHES
             ),
             Arrays.asList(
                     "&6&l🌲 قوم لر - شیران لرستان",
@@ -167,13 +167,13 @@ public enum RaceType {
                     Biome.DESERT,
                     Biome.DESERT_HILLS,
                     Biome.MESA,
-                    Biome.MESA_BRYCE,
-                    Biome.MESA_PLATEAU,
-                    Biome.DESERT_MOUNTAINS
+                    Biome.MUTATED_MESA,
+                    Biome.MESA_CLEAR_ROCK,
+                    Biome.MUTATED_DESERT
             ),
             Arrays.asList(
-                    Biome.ICE_PLAINS,
-                    Biome.COLD_TAIGA,
+                    Biome.ICE_FLATS,
+                    Biome.TAIGA_COLD,
                     Biome.FROZEN_OCEAN
             ),
             Arrays.asList(
@@ -202,13 +202,13 @@ public enum RaceType {
             Material.WATER_BUCKET,
             Arrays.asList(
                     Biome.SWAMPLAND,
-                    Biome.SWAMPLAND_MOUNTAINS,
+                    Biome.MUTATED_SWAMPLAND,
                     Biome.RIVER,
                     Biome.MUSHROOM_ISLAND,
-                    Biome.MUSHROOM_SHORE
+                    Biome.MUSHROOM_ISLAND_SHORE
             ),
             Arrays.asList(
-                    Biome.ICE_PLAINS,
+                    Biome.ICE_FLATS,
                     Biome.ICE_MOUNTAINS
             ),
             Arrays.asList(
@@ -237,14 +237,14 @@ public enum RaceType {
             Material.WOOL,
             Arrays.asList(
                     Biome.SAVANNA,
-                    Biome.SAVANNA_PLATEAU,
-                    Biome.SAVANNA_MOUNTAINS,
-                    Biome.SAVANNA_PLATEAU_MOUNTAINS
+                    Biome.SAVANNA_ROCK,
+                    Biome.MUTATED_SAVANNA,
+                    Biome.MUTATED_SAVANNA_ROCK
             ),
             Arrays.asList(
                     Biome.JUNGLE,
                     Biome.SWAMPLAND,
-                    Biome.ICE_PLAINS
+                    Biome.ICE_FLATS
             ),
             Arrays.asList(
                     "&a&l🐎 قوم ترکمن - سوارکاران صحرا",
@@ -272,11 +272,11 @@ public enum RaceType {
             Material.LEAVES,
             Arrays.asList(
                     Biome.ROOFED_FOREST,
-                    Biome.ROOFED_FOREST_MOUNTAINS,
+                    Biome.MUTATED_ROOFED_FOREST,
                     Biome.JUNGLE,
                     Biome.JUNGLE_HILLS,
-                    Biome.FLOWER_FOREST,
-                    Biome.MEGA_SPRUCE_TAIGA
+                    Biome.MUTATED_FOREST,
+                    Biome.REDWOOD_TAIGA_HILLS
             ),
             Arrays.asList(
                     Biome.DESERT,
@@ -312,8 +312,8 @@ public enum RaceType {
                     Biome.BIRCH_FOREST_HILLS,
                     Biome.TAIGA,
                     Biome.TAIGA_HILLS,
-                    Biome.MEGA_TAIGA,
-                    Biome.BIRCH_FOREST_HILLS_MOUNTAINS
+                    Biome.REDWOOD_TAIGA,
+                    Biome.MUTATED_BIRCH_FOREST_HILLS
             ),
             Arrays.asList(
                     Biome.DESERT,
@@ -345,15 +345,15 @@ public enum RaceType {
             "Bakhtiari",
             Material.IRON_INGOT,
             Arrays.asList(
-                    Biome.EXTREME_HILLS_PLUS,
-                    Biome.EXTREME_HILLS_PLUS_MOUNTAINS,
-                    Biome.MEGA_TAIGA_HILLS,
-                    Biome.TAIGA_MOUNTAINS,
-                    Biome.MEGA_SPRUCE_TAIGA_HILLS
+                    Biome.EXTREME_HILLS_WITH_TREES,
+                    Biome.MUTATED_EXTREME_HILLS_WITH_TREES,
+                    Biome.REDWOOD_TAIGA_HILLS,
+                    Biome.MUTATED_TAIGA,
+                    Biome.MUTATED_REDWOOD_TAIGA_HILLS
             ),
             Arrays.asList(
                     Biome.OCEAN,
-                    Biome.BEACH,
+                    Biome.BEACHES,
                     Biome.DEEP_OCEAN
             ),
             Arrays.asList(
@@ -381,14 +381,14 @@ public enum RaceType {
             "Qashqai",
             Material.CARPET,
             Arrays.asList(
-                    Biome.MESA_PLATEAU,
-                    Biome.MESA_PLATEAU_FOREST,
-                    Biome.MESA_PLATEAU_MOUNTAINS,
-                    Biome.MESA_PLATEAU_FOREST_MOUNTAINS,
-                    Biome.SAVANNA_MOUNTAINS
+                    Biome.MESA_CLEAR_ROCK,
+                    Biome.MESA_CLEAR_ROCK,
+                    Biome.MESA_ROCK,
+                    Biome.MUTATED_MESA_CLEAR_ROCK,
+                    Biome.MUTATED_SAVANNA
             ),
             Arrays.asList(
-                    Biome.ICE_PLAINS,
+                    Biome.ICE_FLATS,
                     Biome.FROZEN_OCEAN,
                     Biome.COLD_BEACH
             ),
@@ -419,14 +419,14 @@ public enum RaceType {
             Arrays.asList(
                     Biome.OCEAN,
                     Biome.DEEP_OCEAN,
-                    Biome.BEACH,
+                    Biome.BEACHES,
                     Biome.COLD_BEACH,
                     Biome.STONE_BEACH,
                     Biome.FROZEN_OCEAN
             ),
             Arrays.asList(
                     Biome.EXTREME_HILLS,
-                    Biome.ICE_PLAINS,
+                    Biome.ICE_FLATS,
                     Biome.ICE_MOUNTAINS
             ),
             Arrays.asList(
@@ -456,8 +456,8 @@ public enum RaceType {
             Material.BOOK,
             Arrays.asList(
                     Biome.PLAINS,
-                    Biome.SUNFLOWER_PLAINS,
-                    Biome.SAVANNA_PLATEAU_MOUNTAINS
+                    Biome.MUTATED_PLAINS,
+                    Biome.MUTATED_SAVANNA_ROCK
             ),
             Arrays.asList(
                     Biome.SWAMPLAND,
@@ -488,12 +488,12 @@ public enum RaceType {
             "Sistani",
             Material.SANDSTONE,
             Arrays.asList(
-                    Biome.DESERT_MOUNTAINS,
-                    Biome.MESA_PLATEAU_MOUNTAINS,
+                    Biome.MUTATED_DESERT,
+                    Biome.MESA_ROCK,
                     Biome.DESERT_HILLS
             ),
             Arrays.asList(
-                    Biome.ICE_PLAINS,
+                    Biome.ICE_FLATS,
                     Biome.JUNGLE,
                     Biome.SWAMPLAND
             ),

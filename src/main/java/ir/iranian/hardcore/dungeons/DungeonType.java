@@ -25,9 +25,9 @@ public enum DungeonType {
             Material.COBBLESTONE,
             Arrays.asList(
                     Biome.EXTREME_HILLS,
-                    Biome.EXTREME_HILLS_MOUNTAINS,
-                    Biome.EXTREME_HILLS_PLUS,
-                    Biome.SMALL_MOUNTAINS
+                    Biome.MUTATED_EXTREME_HILLS,
+                    Biome.EXTREME_HILLS_WITH_TREES,
+                    Biome.SMALLER_EXTREME_HILLS
             ),
             Arrays.asList(
                     "&8&l🏔 قلعه الموت - آشیانه عقاب",
@@ -58,7 +58,7 @@ public enum DungeonType {
                     Biome.BIRCH_FOREST,
                     Biome.ROOFED_FOREST,
                     Biome.JUNGLE,
-                    Biome.FLOWER_FOREST
+                    Biome.MUTATED_FOREST
             ),
             Arrays.asList(
                     "&b&l🏛 معبد آناهیتا - الهه آب",
@@ -87,7 +87,7 @@ public enum DungeonType {
                     Biome.DESERT,
                     Biome.DESERT_HILLS,
                     Biome.MESA,
-                    Biome.MESA_PLATEAU
+                    Biome.MESA_CLEAR_ROCK
             ),
             Arrays.asList(
                     "&e&l🏜 ارگ بم - نگین کویر",
@@ -115,7 +115,7 @@ public enum DungeonType {
             Arrays.asList(
                     Biome.OCEAN,
                     Biome.DEEP_OCEAN,
-                    Biome.BEACH,
+                    Biome.BEACHES,
                     Biome.STONE_BEACH
             ),
             Arrays.asList(
@@ -142,11 +142,11 @@ public enum DungeonType {
             "دژ تسخیرناپذیر بابک خرمدین",
             Material.SNOW_BLOCK,
             Arrays.asList(
-                    Biome.ICE_PLAINS,
+                    Biome.ICE_FLATS,
                     Biome.ICE_MOUNTAINS,
-                    Biome.COLD_TAIGA,
-                    Biome.COLD_TAIGA_HILLS,
-                    Biome.ICE_PLAINS_SPIKES
+                    Biome.TAIGA_COLD,
+                    Biome.TAIGA_COLD_HILLS,
+                    Biome.MUTATED_ICE_FLATS
             ),
             Arrays.asList(
                     "&f&l❄ قلعه بابک - دژ عقاب",
@@ -173,7 +173,7 @@ public enum DungeonType {
             Material.BRICK,
             Arrays.asList(
                     Biome.SWAMPLAND,
-                    Biome.SWAMPLAND_MOUNTAINS,
+                    Biome.MUTATED_SWAMPLAND,
                     Biome.RIVER,
                     Biome.MUSHROOM_ISLAND
             ),
@@ -257,7 +257,7 @@ public enum DungeonType {
             Arrays.asList(
                     Biome.PLAINS,
                     Biome.SAVANNA,
-                    Biome.SAVANNA_PLATEAU
+                    Biome.SAVANNA_ROCK
             ),
             Arrays.asList(
                     "&f&l⚰ آرامگاه کوروش - پاسارگاد",
@@ -283,7 +283,7 @@ public enum DungeonType {
             "بزرگترین کتیبه جهان - داریوش بزرگ",
             Material.SMOOTH_BRICK,
             Arrays.asList(
-                    Biome.EXTREME_HILLS_PLUS_MOUNTAINS,
+                    Biome.MUTATED_EXTREME_HILLS_WITH_TREES,
                     Biome.STONE_BEACH,
                     Biome.COLD_BEACH
             ),
@@ -311,10 +311,10 @@ public enum DungeonType {
             "آرامگاه 4 شاه هخامنشی در دل کوه",
             Material.SANDSTONE,
             Arrays.asList(
-                    Biome.MESA_BRYCE,
-                    Biome.MESA_PLATEAU_FOREST,
-                    Biome.MESA_PLATEAU_MOUNTAINS,
-                    Biome.DESERT_MOUNTAINS
+                    Biome.MUTATED_MESA,
+                    Biome.MESA_CLEAR_ROCK,
+                    Biome.MESA_ROCK,
+                    Biome.MUTATED_DESERT
             ),
             Arrays.asList(
                     "&6&l⛰ نقش رستم - آرامگاه شاهان",
@@ -342,7 +342,7 @@ public enum DungeonType {
             Arrays.asList(
                     Biome.FROZEN_OCEAN,
                     Biome.FROZEN_RIVER,
-                    Biome.COLD_TAIGA_MOUNTAINS
+                    Biome.MUTATED_TAIGA_COLD
             ),
             Arrays.asList(
                     "&b&l🏔 تخت سلیمان - دریاچه مقدس",
@@ -370,8 +370,8 @@ public enum DungeonType {
             Arrays.asList(
                     Biome.TAIGA,
                     Biome.TAIGA_HILLS,
-                    Biome.MEGA_TAIGA,
-                    Biome.MEGA_SPRUCE_TAIGA
+                    Biome.REDWOOD_TAIGA,
+                    Biome.REDWOOD_TAIGA_HILLS
             ),
             Arrays.asList(
                     "&2&l🏰 هگمتانه - پایتخت مادها",
@@ -398,7 +398,7 @@ public enum DungeonType {
             Material.BRICK,
             Arrays.asList(
                     Biome.BIRCH_FOREST_HILLS,
-                    Biome.BIRCH_FOREST_HILLS_MOUNTAINS,
+                    Biome.MUTATED_BIRCH_FOREST_HILLS,
                     Biome.FOREST_HILLS
             ),
             Arrays.asList(
@@ -426,8 +426,8 @@ public enum DungeonType {
             Material.SANDSTONE,
             Arrays.asList(
                     Biome.DESERT_HILLS,
-                    Biome.SAVANNA_MOUNTAINS,
-                    Biome.MESA_PLATEAU_FOREST_MOUNTAINS
+                    Biome.MUTATED_SAVANNA,
+                    Biome.MUTATED_MESA_CLEAR_ROCK
             ),
             Arrays.asList(
                     "&9&l🕌 مسجد جامع یزد - شاهکار کویر",
@@ -453,11 +453,11 @@ public enum DungeonType {
             "نماد تهران - دروازه تمدن بزرگ",
             Material.QUARTZ_BLOCK,
             Arrays.asList(
-                    Biome.SAVANNA_PLATEAU_MOUNTAINS,
+                    Biome.MUTATED_SAVANNA_ROCK,
                     Biome.JUNGLE_HILLS,
-                    Biome.JUNGLE_MOUNTAINS,
+                    Biome.MUTATED_JUNGLE,
                     Biome.MUSHROOM_ISLAND,
-                    Biome.MUSHROOM_SHORE
+                    Biome.MUSHROOM_ISLAND_SHORE
             ),
             Arrays.asList(
                     "&f&l🗽 برج آزادی - نماد ایران مدرن",
