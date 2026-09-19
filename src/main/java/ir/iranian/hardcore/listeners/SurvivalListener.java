@@ -8,10 +8,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockFromToEvent;
 import org.bukkit.event.player.PlayerBedEnterEvent;
 import org.bukkit.event.player.PlayerBedLeaveEvent;
+import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
@@ -164,6 +168,84 @@ public class SurvivalListener implements Listener {
                 if (Math.random() < 0.1) {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 60, 1));
                     player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 60, 0));
+                }
+            }
+        }
+    }
+
+    // ========== v4.0 Thirst - Noshidan Ab ==========
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onPlayerDrinkWater(PlayerItemConsumeEvent event) {
+        if (plugin.getThirstManager() == null) return;
+        if (!plugin.getConfigManager().getBoolean("thirst.enabled", true)) return;
+
+        ItemStack item = event.getItem();
+        if (item == null) return;
+
+        Player player = event.getPlayer();
+        Material type = item.getType();
+
+        // Ab noshidan ba shishe ab
+        if (type == Material.POTION) {
+            // Check if it's Mashk Ab or normal water bottle
+            if (item.hasItemMeta() && item.getItemMeta().hasDisplayName()) {
+                String displayName = item.getItemMeta().getDisplayName();
+                if (displayName.contains("Mashk") || displayName.contains("مشک")) {
+                    // Mashk Ab - 30% thirst restore
+                    int amount = plugin.getConfigManager().getInt("thirst.water-bottle.mashk-ab", 30);
+                    boolean drank = plugin.getThirstManager().drinkWater(player, amount);
+                    if (!drank) {
+                        String notThirsty = plugin.getLanguageManager().getText("&a💧 تشنه نیستی!", "&a💧 Teshne nisti!");
+                        player.sendMessage(MessageUtils.withPrefix(notThirsty));
+                        event.setCancelled(true);
+                    }
+                    return;
+                }
+            }
+            // Normal water bottle
+            int amount = plugin.getConfigManager().getInt("thirst.water-bottle.amount", 25);
+            plugin.getThirstManager().drinkWater(player, amount);
+        }
+    }
+
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onPlayerInteractWater(PlayerInteractEvent event) {
+        if (plugin.getThirstManager() == null) return;
+        if (!plugin.getConfigManager().getBoolean("thirst.enabled", true)) return;
+
+        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
+
+        ItemStack item = event.getItem();
+        if (item == null) return;
+
+        Player player = event.getPlayer();
+
+        // Right click with empty hand near water to drink? Or with glass bottle?
+        // Mashk Ab right-click handling (POTION with custom lore)
+        if (item.getType() == Material.POTION || item.getType() == Material.GLASS_BOTTLE) {
+            // If right-clicking water source, fill bottle -> handled by thirst manager via drink?
+            // For Mashk Ab, allow right-click to drink even without consume event (some versions)
+            if (item.getType() == Material.POTION && item.hasItemMeta() && item.getItemMeta().hasLore()) {
+                // Try to drink Mashk via right-click
+                if (event.getAction() == Action.RIGHT_CLICK_AIR || event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+                    // Only if not sneaking and thirst < 100
+                    if (!player.isSneaking()) {
+                        double thirst = plugin.getThirstManager().getThirst(player);
+                        if (thirst < 100.0) {
+                            // Let consume event handle, but also support direct right-click for 1.12
+                        }
+                    }
+                }
+            }
+        }
+
+        // Glass bottle filling near water -> give thirst? Handled separately
+        if (item.getType() == Material.GLASS_BOTTLE) {
+            if (event.getClickedBlock() != null) {
+                Material clickedType = event.getClickedBlock().getType();
+                if (clickedType == Material.WATER || clickedType == Material.STATIONARY_WATER) {
+                    // Player tries to fill bottle with water - also restores a bit of thirst? No, just allow
                 }
             }
         }

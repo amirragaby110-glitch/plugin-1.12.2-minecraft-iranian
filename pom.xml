@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ir.iranian</groupId>
     <artifactId>iranian-hardcore</artifactId>
-    <version>3.5.0</version>
+    <version>4.0.0</version>
     <packaging>jar</packaging>
     <name>IranianHardcore</name>
-    <description>پلاگین هاردکور ایرانی 3.5 - هر بایوم یک قوم ایرانی - 14 قوم + 16 دانجن + 8 سازه + بازار ایرانی</description>
+    <description>Plugin Hardcore Irani v4.0 Finglish - 14 ghom + 16 dungeon + Climate + Thirst + 7 mobs Irani + Resource Pack - Spigot 1.12.2 Aternos</description>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>

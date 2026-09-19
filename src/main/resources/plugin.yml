@@ -1,133 +1,95 @@
 name: IranianHardcore
-version: 3.5.0
+version: 4.0.0
 main: ir.iranian.hardcore.IranianHardcorePlugin
 api-version: 1.12
 author: IranianTeam
 authors: [Amir, IranianHardcoreDev, TeamMelli, TarikhIran, AghvamIran]
-description: پلاگین هاردکور ایرانی 3.5 - هر بایوم یک قوم ایرانی - 14 قوم ایرانی (فارس، آذری، کرد، لر، بلوچ، عرب خوزستان، ترکمن، گیلک، مازنی، بختیاری، قشقایی، بندری، خراسانی، سیستانی) با قابلیت‌های مخصوص + 16 دانجن تاریخی + 8 سازه ایرانی + بازار ایرانی + روستاهای ایرانی - کاملا فارسی - انتخاب نژاد اول ورود - 🇮🇷 خلیج همیشه فارس
+description: Plugin Hardcore Irani v4.0 Finglish - 14 ghom Irani + 16 dungeon tarikhi + 8 saze Irani + Bazar Irani + Ab o hava (sard/garm) + Teshnegi (bayad ab bokhori) + 7 mob jadid Irani (Div, Simurgh, Zahhak) + Resource Pack makhsus - Bedune niaz be compile - Faghat bezar too plugins - Khalij hameshe Fars - Zende bad Iran
 website: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian
 prefix: IranianHardcore
 
-# دستورات - کاملا فارسی - نسخه 3.5 هر بایوم یک قوم ایرانی
+# Dastorat - v4.0 Finglish - Har biome yek ghom Irani + Climate + Thirst + Mobs
 commands:
   race:
-    description: مدیریت اقوام ایرانی - هر بایوم یک قوم - 14 قوم ایرانی با قابلیت مخصوص - انتخاب اول ورود
-    usage: /race <choose|info|change|list|help|admin> - دستور قوم ایرانی
-    aliases: [nezhad, نژاد, reghad, qowm, قوم, aghvam, اقوام, tribe]
+    description: Modiriat aghvame Irani - Har biome yek ghom - 14 ghom Irani ba ghabeliat makhsus - Entekhab aval vorood - Finglish
+    usage: /race <choose|info|change|list|help|admin> - Dastor ghome Irani
+    aliases: [nezhad, نژاد, reghad, qowm, قوم, aghvam, اقوام, tribe, ghom]
   hardcore:
-    description: دستورات ادمین هاردکور ایرانی - سخت‌ترین حالت RLCraft
-    usage: /hardcore <reload|info|setrace|reset> - دستورات ادمین
+    description: Dastorat admin hardcore Irani - Sakhtarin halat
+    usage: /hardcore <reload|info|setrace|reset> - Dastorat admin
     aliases: [hc, sakht, سخت]
   dungeon:
-    description: مدیریت 16 دانجن تاریخی ایران - هر بایوم یک دانجن - تخت جمشید، الموت، ارگ بم، پاسارگاد، بیستون، نقش رستم، تخت سلیمان و...
-    usage: /dungeon <list|generate|teleport|clear|bazaar|caravanserai|chaikhaneh|abanbar> - دانجن ایرانی
+    description: Modiriat 16 dungeon tarikhi Iran - Har biome yek dungeon - Takht Jamshid, Alamut, Arge Bam, Pasargad, Bisotun, Naghsh Rostam, Takht Soleyman
+    usage: /dungeon <list|generate|teleport|clear|bazaar|caravanserai|chaikhaneh|abanbar> - Dungeon Irani
     aliases: [dangeon, دانجن, irandungeon, iran, تختجمشید, dungeons]
   bazaar:
-    description: بازار ایرانی - خرید و فروش آیتم‌های ایرانی با سکه دریک هخامنشی - کاملا فارسی - مثل بازار تهران
-    usage: /bazaar [open|build|help] - بازار ایرانی
+    description: Bazar Irani - Kharid va forosh item haye Irani ba sekke Derik Hakhamaneshi - Mesle bazar Tehran
+    usage: /bazaar [open|build|help] - Bazar Irani
     aliases: [bazar, بازار, shop, فروشگاه, store, مغازه, bazarirani]
+  iranian:
+    description: Dastor asli Iranian Hardcore v4.0 - Teshnegi, Dama, Mob haye Irani, Resource Pack - Finglish
+    usage: /iranian <thirst|temperature|drink|mashk|resourcepack|spawnmob|help> - Dastor Irani
+    aliases: [iran, irani, ایران, ایرانی, persian]
 
-# پرمیشن‌ها - کاملا فارسی - نسخه 3.5 هر بایوم یک قوم
+# Permission ha - v4.0
 permissions:
   iranianhardcore.*:
-    description: دسترسی به تمام قابلیت‌های ایرانی - ادمین کل
+    description: Dastresi be tamam ghabeliat haye Irani - Admin kol
     default: op
     children:
       iranianhardcore.race.*: true
       iranianhardcore.hardcore.*: true
       iranianhardcore.dungeon.*: true
       iranianhardcore.bazaar.*: true
+      iranianhardcore.iranian.*: true
       iranianhardcore.admin: true
       iranianhardcore.bypass.*: true
   iranianhardcore.race.*:
-    description: تمام پرمیشن‌های اقوام ایرانی - هر بایوم یک قوم
+    description: Tamam permission haye aghvame Irani
     default: true
     children:
       iranianhardcore.race.choose: true
       iranianhardcore.race.info: true
       iranianhardcore.race.change: true
   iranianhardcore.race.choose:
-    description: انتخاب قوم ایرانی - اول ورود
+    description: Entekhab ghome Irani - Aval vorood
     default: true
   iranianhardcore.race.info:
-    description: دیدن اطلاعات قوم ایرانی و قابلیت‌ها
+    description: Didan etelaat ghome Irani
     default: true
   iranianhardcore.race.change:
-    description: تغییر قوم ایرانی (هر 7 روز بازی)
+    description: Taghir ghome Irani (har 7 rooz bazi)
     default: true
   iranianhardcore.race.admin:
-    description: مدیریت قوم دیگران - ادمین
+    description: Modiriat ghome digaran - Admin
     default: op
   iranianhardcore.hardcore.*:
-    description: پرمیشن‌های هاردکور ایرانی
+    description: Permission haye hardcore Irani
     default: op
-    children:
-      iranianhardcore.hardcore.reload: true
-      iranianhardcore.hardcore.info: true
-      iranianhardcore.hardcore.setrace: true
-  iranianhardcore.hardcore.reload:
-    description: ریلود کانفیگ ایرانی
-    default: op
-  iranianhardcore.hardcore.info:
-    description: اطلاعات هاردکور ایرانی
-    default: op
-  iranianhardcore.hardcore.setrace:
-    description: تنظیم قوم بازیکن دیگر
-    default: op
-  iranianhardcore.dungeon.*:
-    description: تمام پرمیشن‌های 16 دانجن ایرانی
-    default: op
-    children:
-      iranianhardcore.dungeon.list: true
-      iranianhardcore.dungeon.generate: true
-      iranianhardcore.dungeon.teleport: true
-      iranianhardcore.dungeon.admin: true
-  iranianhardcore.dungeon.list:
-    description: دیدن لیست 16 دانجن ایرانی
-    default: true
-  iranianhardcore.dungeon.generate:
-    description: ساخت دانجن ایرانی در هر بایوم
-    default: op
-  iranianhardcore.dungeon.teleport:
-    description: تلپورت به دانجن ایرانی
-    default: true
-  iranianhardcore.dungeon.admin:
-    description: مدیریت دانجن‌های ایرانی - ادمین
-    default: op
-  iranianhardcore.dungeon:
-    description: دسترسی به دستور دانجن ایرانی
-    default: op
-  iranianhardcore.bazaar.*:
-    description: تمام پرمیشن‌های بازار ایرانی
+  iranianhardcore.iranian.*:
+    description: Permission haye Iranian v4.0 - Teshnegi, Dama, Mob, ResourcePack
     default: true
     children:
-      iranianhardcore.bazaar.open: true
-      iranianhardcore.bazaar.build: true
-  iranianhardcore.bazaar.open:
-    description: باز کردن بازار ایرانی
+      iranianhardcore.iranian.thirst: true
+      iranianhardcore.iranian.temperature: true
+      iranianhardcore.iranian.drink: true
+      iranianhardcore.iranian.resourcepack: true
+      iranianhardcore.iranian.spawnmob: true
+  iranianhardcore.iranian.thirst:
+    description: Didan mizan teshnegi
     default: true
-  iranianhardcore.bazaar.build:
-    description: ساخت سازه بازار ایرانی
+  iranianhardcore.iranian.temperature:
+    description: Didan dama badan
+    default: true
+  iranianhardcore.iranian.drink:
+    description: Noshidan ab
+    default: true
+  iranianhardcore.iranian.resourcepack:
+    description: Daryaft resource pack Irani
+    default: true
+  iranianhardcore.iranian.spawnmob:
+    description: Sakht mob Irani - Admin
     default: op
-  iranianhardcore.bazaar:
-    description: دسترسی به بازار ایرانی
-    default: true
   iranianhardcore.admin:
-    description: ادمین کامل ایرانی - تمام دسترسی‌ها
-    default: op
-  iranianhardcore.bypass.*:
-    description: دور زدن محدودیت‌های ایرانی
-    default: op
-    children:
-      iranianhardcore.bypass.bedcooldown: true
-      iranianhardcore.bypass.racecooldown: true
-      iranianhardcore.bypass.hardcore: true
-  iranianhardcore.bypass.bedcooldown:
-    description: دور زدن کولدان تخت ایرانی
-    default: op
-  iranianhardcore.bypass.racecooldown:
-    description: دور زدن کولدان تغییر قوم ایرانی
-    default: op
-  iranianhardcore.bypass.hardcore:
-    description: دور زدن سختی‌های ایرانی
+    description: Admin kamel Irani
     default: op

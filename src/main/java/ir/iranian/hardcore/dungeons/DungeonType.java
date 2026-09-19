@@ -19,7 +19,7 @@ public enum DungeonType {
 
     ALAMUT_CASTLE(
             "ALAMUT_CASTLE",
-            "قلعه الموت",
+            "Ghale Alamoat",
             "Alamut Castle",
             "قلعه افسانه‌ای حسن صباح در البرز",
             Material.COBBLESTONE,
@@ -48,7 +48,7 @@ public enum DungeonType {
 
     ANAHITA_TEMPLE(
             "ANAHITA_TEMPLE",
-            "معبد آناهیتا",
+            "Maabade Anahita",
             "Anahita Temple",
             "معبد الهه آب‌های ایران باستان",
             Material.SMOOTH_BRICK,
@@ -79,7 +79,7 @@ public enum DungeonType {
 
     ARGE_BAM(
             "ARGE_BAM",
-            "ارگ بم",
+            "Arge Bam",
             "Arg-e Bam",
             "بزرگترین بنای خشتی جهان در کویر",
             Material.SANDSTONE,
@@ -108,7 +108,7 @@ public enum DungeonType {
 
     BANDAR_SIRAF(
             "BANDAR_SIRAF",
-            "بندر سیراف",
+            "Bandar Siraf",
             "Siraf Port",
             "بندر افسانه‌ای ایران در خلیج فارس",
             Material.WOOD,
@@ -137,7 +137,7 @@ public enum DungeonType {
 
     GHALEH_BABAK(
             "GHALEH_BABAK",
-            "قلعه بابک",
+            "Ghale Babak",
             "Babak Castle",
             "دژ تسخیرناپذیر بابک خرمدین",
             Material.SNOW_BLOCK,
@@ -167,7 +167,7 @@ public enum DungeonType {
 
     CHOGHA_ZANBIL(
             "CHOGHA_ZANBIL",
-            "زیگورات چغازنبیل",
+            "Ziggurat Chogha Zanbil",
             "Chogha Zanbil Ziggurat",
             "زیگورات 3250 ساله ایلامی",
             Material.BRICK,
@@ -196,7 +196,7 @@ public enum DungeonType {
 
     DAKHMEH_ZARTOSHTI(
             "DAKHMEH_ZARTOSHTI",
-            "دخمه زرتشتی",
+            "Dakhme Zartoshti",
             "Tower of Silence",
             "برج خاموشان و آتشکده زرتشتی",
             Material.NETHER_BRICK,
@@ -278,7 +278,7 @@ public enum DungeonType {
 
     BISOTUN_INSCRIPTION(
             "BISOTUN_INSCRIPTION",
-            "کتیبه بیستون",
+            "Katibe Bisotun",
             "Bisotun Inscription",
             "بزرگترین کتیبه جهان - داریوش بزرگ",
             Material.SMOOTH_BRICK,
@@ -306,7 +306,7 @@ public enum DungeonType {
 
     NAQSH_ROSTAM(
             "NAQSH_ROSTAM",
-            "نقش رستم",
+            "Naghsh Rostam",
             "Naqsh-e Rostam",
             "آرامگاه 4 شاه هخامنشی در دل کوه",
             Material.SANDSTONE,
@@ -335,7 +335,7 @@ public enum DungeonType {
 
     TAKHT_SOLEYMAN(
             "TAKHT_SOLEYMAN",
-            "تخت سلیمان",
+            "Takht Soleyman",
             "Takht-e Soleyman",
             "مقدس‌ترین مکان زرتشتیان - دریاچه جوشان",
             Material.ICE,
@@ -420,7 +420,7 @@ public enum DungeonType {
 
     YAZD_JAMEH_MOSQUE(
             "YAZD_JAMEH_MOSQUE",
-            "مسجد جامع یزد",
+            "Masjed Jame Yazd",
             "Yazd Jameh Mosque",
             "بلندترین مناره‌های جهان - شاهکار صفوی",
             Material.SANDSTONE,
@@ -448,7 +448,7 @@ public enum DungeonType {
 
     AZADI_TOWER(
             "AZADI_TOWER",
-            "برج آزادی",
+            "Borj Azadi",
             "Azadi Tower",
             "نماد تهران - دروازه تمدن بزرگ",
             Material.QUARTZ_BLOCK,

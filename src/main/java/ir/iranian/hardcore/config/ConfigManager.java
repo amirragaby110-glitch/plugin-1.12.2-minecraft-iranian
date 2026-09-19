@@ -265,4 +265,9 @@ public class ConfigManager {
     public String getString(String path, String def) {
         return config.getString(path, def);
     }
+
+    public void saveConfig() {
+        plugin.saveConfig();
+        config = plugin.getConfig();
+    }
 }

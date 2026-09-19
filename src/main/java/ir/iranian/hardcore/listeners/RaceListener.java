@@ -212,7 +212,7 @@ public class RaceListener implements Listener {
                 break;
 
             // ========== قوم قشقایی ==========
-            case QASHQAI:
+            case QASHQAYI:
                 if (isHome) {
                     player.addPotionEffect(new PotionEffect(PotionEffectType.SPEED, 100, 1, false, false), true); // کوچ سریع
                     player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP, 100, 0, false, false), true);
@@ -311,7 +311,7 @@ public class RaceListener implements Listener {
         if (race == null) return;
 
         // اقوام کوهستانی مقاومت سقوط دارند
-        if (race == RaceType.KURD || race == RaceType.BAKHTIARI || race == RaceType.LOR || race == RaceType.QASHQAI) {
+        if (race == RaceType.KURD || race == RaceType.BAKHTIARI || race == RaceType.LOR || race == RaceType.QASHQAYI) {
             event.setDamage(event.getDamage() * 0.3); // 70% کاهش
             if (race.isHomeBiome(player.getLocation().getBlock().getBiome())) {
                 event.setDamage(event.getDamage() * 0.5);

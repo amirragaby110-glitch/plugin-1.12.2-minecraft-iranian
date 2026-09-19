@@ -1,19 +1,29 @@
 # ================================
-# Iranian Hardcore - Config فارسی کامل - نسخه 3.5
-# هر بایوم یک قوم ایرانی - 14 قوم + 16 دانجن + 8 سازه
-# 🇮🇷 زنده باد ایران - تاریخ 7000 ساله - اقوام ایرانی
-# برای 1.12.2 - بدون NMS
+# Iranian Hardcore - Config v4.0 Finglish + Climate + Thirst + Mobs + ResourcePack
+# هر بایوم یک قوم ایرانی - 14 قوم + 16 دانجن + 8 سازه + آب و هوا + تشنگی + ماب جدید
+# 🇮🇷 Zende bad Iran - Tarikh 7000 sale - Aghvame Irani
+# Baraye 1.12.2 - Bedune NMS - Finglish compatible
 # ================================
 
-# تنظیمات کلی - فارسی - نسخه 3.5
+# Tanzimat koli - v4.0 Finglish (default for compatibility)
 general:
-  prefix: "&8[&6ایران&8] &r"
-  language: "fa" # فقط فارسی
+  prefix: "&8[&6Iran&8] &r"
+  prefix-finglish: "&8[&6Iran&8] &r"
+  prefix-fa: "&8[&6ایران&8] &r"
+  language: "finglish" # Options: finglish (default, Persian with English letters), fa (Persian), en (English)
   debug: false
-  version: "3.5.0-هر-بایوم-یک-قوم-ایرانی"
-  slogan: "🇮🇷 هر بایوم یک قوم ایرانی - 14 قوم اصیل - زنده باد ایران - خلیج همیشه فارس"
+  version: "4.0.0-finglish-climate-thirst-mobs-resourcepack"
+  slogan: "🇮🇷 Har biome yek ghome Irani - 14 ghome asil - Zende bad Iran - Khalij hameshe Fars"
+  slogan-fa: "🇮🇷 هر بایوم یک قوم ایرانی - 14 قوم اصیل - زنده باد ایران - خلیج همیشه فارس"
 
-# تنظیمات هاردکور - سخت‌ترین حالت - فارسی
+# Language settings
+language:
+  current: "finglish"
+  available: ["finglish", "fa"]
+  # Finglish = Persian written with English letters for servers where Persian doesn't display
+  # Example: "Salam" instead of "سلام"
+
+# Tanzimat hardcore - Sakhtarin halat
 hardcore:
   enabled: true
   health:
@@ -36,7 +46,7 @@ hardcore:
     double-health: true
     damage-multiplier: 1.5
     double-night-spawn: true
-    zombies-break-doors: true
+    zombies-break-doors: false # Not in 1.12.2 API
     creeper-stronger-explosion: true
     creeper-explosion-multiplier: 1.8
     spiders-poison: true
@@ -49,7 +59,8 @@ hardcore:
       only-at-night: true
       heal-amount: 4.0
       cooldown-days: 3
-      cooldown-message: "&cشما اخیراً خوابیده‌اید! باید %days% روز دیگر صبر کنید. &7خواب در فرهنگ ایرانی مقدس است!"
+      cooldown-message: "Shoma akharan khabideid! Bayad %days% rooz digar sabr konid."
+      cooldown-message-fa: "شما اخیراً خوابیده‌اید! باید %days% روز دیگر صبر کنید."
     nether:
       more-dangerous: true
       chance: 0.05
@@ -70,163 +81,204 @@ hardcore:
       - "SLOW:1200:0"
       - "HUNGER:600:1"
 
-# تنظیمات نژاد ایرانی - 8 نژاد - فارسی
+# ================================
+# Climate & Temperature System - v4.0 NEW
+# Ab o hava sard/garm bar bazi تاثير mizare
+# ================================
+climate:
+  enabled: true
+  # Cold biomes cause freezing, need fire and warm clothes
+  cold:
+    enabled: true
+    damage-at: -90 # Temperature -90 to -100 causes damage
+    slow-at: -30
+    message-interval: 15 # seconds
+  # Hot biomes cause heatstroke, need water and shade
+  hot:
+    enabled: true
+    damage-at: 90
+    slow-at: 30
+    thirst-drain-multiplier: 1.5
+    message-interval: 15
+  # Check interval
+  check-interval-ticks: 60 # 3 seconds
+
+# ================================
+# Thirst System - v4.0 NEW
+# Bazikon bayad ab bokhore, vagarna mimire
+# ================================
+thirst:
+  enabled: true
+  max-thirst: 100
+  start-thirst: 100
+  drain-rate: 0.3 # Base drain per 4 seconds
+  sprint-drain: 0.4
+  hot-biome-drain: 1.0
+  hardcore-multiplier: 1.5
+  # Effects
+  slow-at: 40
+  critical-at: 20
+  damage-at: 0
+  message-interval: 20 # seconds
+  # Drink amounts
+  water-bottle: 25
+  mashk-ab: 30
+  # Items
+  enable-mashk: true # Iranian water skin
+
+# ================================
+# Custom Iranian Mobs - v4.0 NEW
+# Mob haye afsaneie Irani - Div, Simurgh, Zahhak
+# ================================
+mobs:
+  custom:
+    enabled: true
+    spawn-chance: 0.05 # 5% every 2 minutes per world
+    replace-natural: false # Replace 8% of natural spawns with Iranian mobs
+    broadcast-rare: true
+    list:
+      - "DIV_SEPID - Div Sepid - White Demon - 40 HP - Mountain, Night"
+      - "DIV_SIAH - Div Siah - Black Demon - 25 HP - Desert"
+      - "SIMURGH - Simurgh - Legendary bird - 30 HP - Alborz, Sky"
+      - "ZAHHAK - Zahhak - Evil king with snakes - 50 HP - Castle, Dungeon"
+      - "ROSTAM_GHOST - Rooh Rostam - Hero ghost - 60 HP - Zabolestan"
+      - "AL - Al - Female demon - 20 HP - Swamp, Jungle"
+      - "KAVEH - Kaveh Ahangar - Friendly blacksmith - 80 HP - Plains, Village"
+
+# ================================
+# Resource Pack - v4.0 NEW
+# Texture haye makhsus baraye mob haye Irani
+# ================================
+resourcepack:
+  enabled: true
+  auto-send-on-join: false # Set true to auto send on join
+  url: "" # Will use default GitHub raw link if empty
+  hash: ""
+  # Default: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/main/resourcepack/IranianHardcore-ResourcePack.zip
+  prompt: true
+
+# Tanzimat nezhad Irani - 14 ghom - Finglish
 race:
   enabled: true
   force-choose-on-first-join: true
   open-gui-on-first-join: true
   change-cooldown-days: 7
-  change-cooldown-message: "&cهر 7 روز یک بار! %days% روز مانده. &7مثل تغییر تابعیت در ایران باستان!"
+  change-cooldown-message: "Har 7 rooz yek bar! %days% rooz mande."
+  change-cooldown-message-fa: "هر 7 روز یک بار! %days% روز مانده."
   biome-effects:
     enabled: true
     check-interval-ticks: 40
   messages:
-    choose-first: "&eلطفاً نژاد ایرانی خود را انتخاب کنید! &a/race choose &7- 8 نژاد"
-    already-have-race: "&cشما نژاد %race% را دارید! &7ایرانی اصیل!"
-    race-selected: "&aنژاد شما به %race% تغییر یافت! &6زنده باد ایران!"
+    choose-first: "Lotfan ghome Irani khod ra entekhab konid! /race choose - 14 ghom"
+    choose-first-fa: "لطفاً قوم ایرانی خود را انتخاب کنید! /race choose - 14 قوم"
+    already-have-race: "Shoma nezhade %race% ra darid! Irani asil!"
+    already-have-race-fa: "شما نژاد %race% را دارید! ایرانی اصیل!"
+    race-selected: "Nezhade shoma be %race% taghir yaft! Zende bad Iran!"
+    race-selected-fa: "نژاد شما به %race% تغییر یافت! زنده باد ایران!"
 
-# ================================
-# دانجن‌های تاریخی ایران - نسخه 3.0 - هر بایوم یک دانجن
-# 🇮🇷 16 دانجن برای پوشش تمام 40+ بایوم 1.12.2
-# ================================
+# Dungeons - 16 dungeon tarikhi
 dungeons:
   enabled: true
-  spawn-chance: 0.006 # 0.6% - کمی بیشتر برای پوشش همه بایوم‌ها
-  min-distance: 400 # حداقل فاصله 400 بلوک
+  spawn-chance: 0.006
+  min-distance: 400
   broadcast-discovery: true
-  
-  # 16 دانجن - هر بایوم پوشش داده شده
   all-biomes-covered: true
   list:
-    - "ALAMUT_CASTLE - قلعه الموت - کوهستان"
-    - "ANAHITA_TEMPLE - معبد آناهیتا - جنگل"
-    - "ARGE_BAM - ارگ بم - بیابان"
-    - "BANDAR_SIRAF - بندر سیراف - اقیانوس - خلیج فارس"
-    - "GHALEH_BABAK - قلعه بابک - برفی"
-    - "CHOGHA_ZANBIL - چغازنبیل - مرداب"
-    - "DAKHMEH_ZARTOSHTI - دخمه زرتشتی - ندر"
-    - "TAKHT_JAMSHID_SKY - تخت جمشید - اند"
-    - "PASARGAD_TOMB - آرامگاه کوروش - دشت"
-    - "BISOTUN_INSCRIPTION - کتیبه بیستون - کوه"
-    - "NAQSH_ROSTAM - نقش رستم - مِسا"
-    - "TAKHT_SOLEYMAN - تخت سلیمان - یخ"
-    - "HEGMATANEH - هگمتانه - تایگا"
-    - "SUSA_PALACE - کاخ شوش - جنگل توس"
-    - "YAZD_JAMEH_MOSQUE - مسجد جامع یزد - بیابان تپه"
-    - "AZADI_TOWER - برج آزادی - ساوانا - نماد ایران"
+    - "ALAMUT_CASTLE - Ghale Alamoat - Kohestan"
+    - "ANAHITA_TEMPLE - Maabade Anahita - Jangal"
+    - "ARGE_BAM - Arge Bam - Biaban"
+    - "BANDAR_SIRAF - Bandar Siraf - Oghyanos - Khalij Fars"
+    - "GHALEH_BABAK - Ghale Babak - Barfi"
+    - "CHOGHA_ZANBIL - Chogha Zanbil - Mordab"
+    - "DAKHMEH_ZARTOSHTI - Dakhme Zartoshti - Nether"
+    - "TAKHT_JAMSHID_SKY - Takht Jamshid - End"
+    - "PASARGAD_TOMB - Aramgah Kourosh - Dasht"
+    - "BISOTUN_INSCRIPTION - Katibe Bisotun - Koh"
+    - "NAQSH_ROSTAM - Naghsh Rostam - Mesa"
+    - "TAKHT_SOLEYMAN - Takht Soleyman - Yakh"
+    - "HEGMATANEH - Hegmataneh - Taiga"
+    - "SUSA_PALACE - Kakh Shush - Jangal Toos"
+    - "YAZD_JAMEH_MOSQUE - Masjed Jame Yazd - Biaban Tape"
+    - "AZADI_TOWER - Borj Azadi - Savana - Namad Iran"
 
-# ================================
-# سازه‌های ایرانی روی مپ - نسخه 3.0 - 8 سازه
-# بازار، کاروانسرا، چایخانه، آب‌انبار، مسجد، روستا
-# ================================
+# Structures - 8 saze Irani
 structures:
   enabled: true
-  spawn-chance: 0.012 # 1.2% - بیشتر از دانجن
-  
+  spawn-chance: 0.012
   bazaar:
     enabled: true
-    persian-name: "بازار ایرانی - حجره‌های سنتی - بازار تهران و اصفهان"
-    count: "4 حجره با فروشندگان فارسی"
-  
+    persian-name: "Bazar Irani - Hojre haye sonati"
+    finglish-name: "Bazar Irani - Traditional shops"
   caravanserai:
     enabled: true
-    persian-name: "کاروانسرای شاه عباسی - جاده ابریشم - 999 کاروانسرا"
-  
+    persian-name: "Karvansaray Shah Abbasi"
+    finglish-name: "Karvansaraye Shah Abbasi - Silk Road"
   chaikhaneh:
     enabled: true
-    persian-name: "چایخانه سنتی - سماور ذغالی - چای لاهیجان"
-  
+    persian-name: "Chaykhane sonati"
+    finglish-name: "Chaykhane sonati - Samavar"
   ab_anbar:
     enabled: true
-    persian-name: "آب‌انبار یزدی - بادگیر کویری - هنر یزدی‌ها"
-  
+    persian-name: "Ab Anbar Yazdi"
+    finglish-name: "Ab Anbar Yazdi - Badgir"
   mosque:
     enabled: true
-    persian-name: "مسجد کوچک روستایی - گنبد فیروزه‌ای"
-  
+    persian-name: "Masjed kochak roostayi"
+    finglish-name: "Masjed Roostayi"
   village:
     enabled: true
-    persian-name: "روستای ایرانی - کندوان، میمند، ابیانه، ماسوله"
+    persian-name: "Roostaye Irani - Kandovan, Meymand"
+    finglish-name: "Roostaye Irani - Kandovan"
 
-# ================================
-# بازار ایرانی - نسخه 3.0 - جدید
-# خرید و فروش با سکه دریک هخامنشی
-# ================================
+# Bazar Irani
 bazaar:
   enabled: true
-  currency: "GOLD_NUGGET" # سکه دریک
-  currency-name: "سکه دریک هخامنشی - اولین سکه جهان - داریوش بزرگ"
-  start-coins: 5 # سکه اولیه برای بازیکن جدید
-  
+  currency: "GOLD_NUGGET"
+  currency-name: "Sekke Derik Hakhamaneshi"
+  currency-name-fa: "سکه دریک هخامنشی"
+  start-coins: 5
   categories:
     weapons:
-      name: "⚔ راسته شمشیرگرها - بازار سلاح‌فروشان"
-      items:
-        - "شمشیر الموت - 20 سکه"
-        - "شمشیر بابک - 18 سکه"
-        - "آکیناکه هخامنشی - 30 سکه"
-        - "کمان آرش - 25 سکه"
+      name: "⚔ Rasteye Shamshir - Bazar Salah"
+      name-fa: "⚔ راسته شمشیرگرها"
     jewels:
-      name: "💎 راسته زرگرها - بازار جواهر‌فروشان"
-      items:
-        - "تاج کوروش - 50 سکه"
-        - "مروارید خلیج فارس - 15 سکه"
-        - "آتش مقدس - 20 سکه"
+      name: "💎 Rasteye Zargar"
+      name-fa: "💎 راسته زرگرها"
     carpets:
-      name: "🧶 راسته فرش‌فروشان"
-      items:
-        - "فرش کرمانی - 10 سکه"
-        - "پر سیمرغ - 12 سکه"
+      name: "🧶 Rasteye Farsh"
+      name-fa: "🧶 راسته فرش‌فروشان"
     food:
-      name: "☕ راسته عطاران"
-      items:
-        - "چای لاهیجان - 5 سکه"
-        - "منشور کوروش - 30 سکه"
+      name: "☕ Rasteye Attar"
+      name-fa: "☕ راسته عطاران"
 
-# ================================
-# روستاهای ایرانی - نسخه 3.0 - جدید
-# ================================
+# Villages Irani
 villages:
   enabled: true
-  transform-vanilla: true # تبدیل روستاهای وانیلا به ایرانی
+  transform-vanilla: true
   persian-names:
-    - "کندوان - آذربایجان - خانه‌های صخره‌ای"
-    - "میمند - کرمان - 3000 ساله"
-    - "ابیانه - اصفهان - سرخ"
-    - "ماسوله - گیلان - پلکانی"
-    - "پالنگان - کردستان"
-    - "روستای خور - اصفهان"
+    - "Kandovan - Azarbayjan"
+    - "Meymand - Kerman - 3000 sale"
+    - "Abyaneh - Esfahan - Sorkh"
+    - "Masooleh - Gilan - Pelekani"
   villager-names:
-    - "حاج کریم - کدخدا"
-    - "مشهدی حسن - کشاورز"
-    - "کربلایی تقی - نانوا"
-    - "اصغر آقا - آهنگر"
-    - "فاطمه خانم - قالیباف"
+    - "Haj Karim - Kadkhoda"
+    - "Mashhadi Hassan - Keshavarz"
 
-# ================================
-# پیام‌های فارسی - کاملا فارسی - نسخه 3.0
-# ================================
+# Payam haye Finglish - baraye server hayi ke Farsi namayesh dade nemishe
 messages:
-  no-permission: "&cدسترسی ندارید! &7مخصوص ایرانیان اصیل!"
-  player-only: "&cفقط بازیکنان ایرانی!"
-  player-not-found: "&cبازیکن یافت نشد! در تاریخ گم شده!"
-  reloaded: "&aکانفیگ ایرانی 3.0 ریلود شد! &6زنده باد ایران! هر بایوم یک دانجن!"
-  bed-only-night: "&cفقط شب! &7مثل نگهبانان تخت جمشید!"
-  bed-not-safe: "&cامن نیست! &7مثل حمله اسکندر!"
-  inventory-destroyed: "&4تمام آیتم‌ها نابود شد! &7مثل ویرانی تخت جمشید!"
-  race-gui-title: "&8&l🇮🇷 انتخاب نژاد ایرانی - 8 نژاد"
-  race-info-title: "&6&lاطلاعات نژاد ایرانی: %race%"
-  
-  dungeon-discovered: "&6&l🏛 دانجن ایرانی کشف شد: &e%name% &7توسط &a%player% &7- تاریخ ایران!"
-  dungeon-enter: "&6&lوارد دانجن تاریخی شدی: &e%name%"
-  dungeon-boss-defeated: "&6&l⚔ باس ایرانی شکست خورد: &c%boss%"
-  structure-discovered: "&a&l🏘 سازه ایرانی: &e%name%"
-  village-discovered: "&a&l🏘 روستای ایرانی کشف شد: &e%name% &7- معماری کاهگلی"
-  
-  bazaar-welcome: "&6&l🏪 به بازار ایرانی خوش آمدید! مثل بازار بزرگ تهران و اصفهان!"
-  bazaar-not-enough-coins: "&cسکه کافی نداری! سکه دریک = GOLD_NUGGET - از دانجن‌ها پیدا کن!"
-  bazaar-bought: "&aخرید موفق! &7%item% &aبه قیمت &6%price% سکه دریک"
-  
-  persian-welcome: "&6&l🇮🇷 به هاردکور ایرانی 3.0 خوش آمدید! هر بایوم یک دانجن تاریخی! 16 دانجن + 8 سازه!"
-  persian-goodbye: "&cخدانگهدار! &7به امید دیدار در تخت جمشید! 🇮🇷"
-  persian-slogan: "&6&lزنده باد ایران - پاینده باد تاریخ 7000 ساله - خلیج همیشه فارس"
+  no-permission: "Dastresi nadarid! Makhsus Iranian asil!"
+  no-permission-fa: "دسترسی ندارید! مخصوص ایرانیان اصیل!"
+  player-only: "Faghat bazikonan Irani!"
+  player-only-fa: "فقط بازیکنان ایرانی!"
+  player-not-found: "Bazikon yaft nashod!"
+  player-not-found-fa: "بازیکن یافت نشد!"
+  reloaded: "Config Irani reload shod! Zende bad Iran!"
+  reloaded-fa: "کانفیگ ایرانی ریلود شد! زنده باد ایران!"
+  race-gui-title: "&8&l🇮🇷 Entekhab Nezhade Irani - 14 Nezhade"
+  race-gui-title-fa: "&8&l🇮🇷 انتخاب نژاد ایرانی - 14 نژاد"
+  dungeon-discovered: "&6&l🏛 Dungeon Irani kashf shod: &e%name% &7tavasot &a%player%"
+  dungeon-discovered-fa: "&6&l🏛 دانجن ایرانی کشف شد: &e%name% &7توسط &a%player%"
+  persian-welcome: "&6&l🇮🇷 Be Hardcore Irani v4.0 khosh amadid! Finglish + Climate + Thirst + Mobs!"
+  persian-welcome-fa: "&6&l🇮🇷 به هاردکور ایرانی خوش آمدید!"
+  persian-slogan: "&6&lZende bad Iran - Payande bad tarikh 7000 sale - Khalij hameshe Fars"
+  persian-slogan-fa: "&6&lزنده باد ایران - پاینده باد تاریخ 7000 ساله - خلیج همیشه فارس"
