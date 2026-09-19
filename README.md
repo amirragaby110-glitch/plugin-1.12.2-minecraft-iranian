@@ -1,15 +1,47 @@
-# Iranian Hardcore v5.0 - Ultimate Finglish Edition 🇮🇷
+# Iranian Hardcore v5.1 - Ultimate Finglish Edition 🇮🇷
 
-**Version 5.0.0** - Bozorgtarin va kameltarin update plugin Hardcore Irani baraye **Minecraft 1.12.2 (Spigot / Paper / CraftBukkit / Aternos)**!
+**Version 5.1.0** - Bozorgtarin update ba **Sohbat-e Sooti-ye Mobs (Voice/Speech bedune chat spam)**, **Memari-ye Asil va Shokoohmand-e Bastani**, **Texture va Modelhaye 3D Custom dar Resource Pack**, va **Behinehsazi-ye TPS baraye Server-haye Aternos**!
 
-Hameye matnha, menyuha, payamha va etelaat be soorate **100% Finglish (Latin script)** neveshte shodeand ta dar serverhaye Aternos va tamam client-ha bedune hich moshkel ya alameye soal (???) be surate shaffaf va ziba namayesh dadeh shavand.
-
-> **Shoar**: 7000 sal tarikh va farhange Iran dar Minecraft - Zende bad Iran - Khalij-e Hameshe Fars 🇮🇷
+### 📥 Download Direct Link:
+- **Plugin Jar (v5.1.0)**: [IranianHardcore-5.1.0.jar](./IranianHardcore-5.1.0.jar)
+- **Resource Pack (v5.1.0)**: [IranianHardcore-ResourcePack.zip](./IranianHardcore-ResourcePack.zip)
+- **GitHub Release v5.1.0**: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases/tag/v5.1.0
 
 ---
 
-## 🌟 Vizhegi-haye v5.0 (New Features):
+## 🚀 Taghirat va Behbood-haye Jadid dar v5.1:
 
+### 🔊 1. Sohbat Kardan-e Mobs va Villager-ha ba Seda (Zero Chat Spam)
+- **Hazf-e Kamel-e Chat Spam:** Dige mobha va villagerha chat box ro ba payamhaye texti por nemikonan!
+- **Sedaye Sooti (Vocal Audio Sequences):** Har mob sedaye makhsoos be khod dare (ghorreshe Div-e Sepid va Zahhak ba pitch-e ghaliz, sedaye arwah-e kohan, ahang-e sedaye kargaran va villagerha).
+- **Hologram-e Shenavar (Floating Speech Bubbles):** Vaghti mob ya villager sohbat mikone, yek matne shenavar balaye saresh be moddat-e 2.5 saniye namayesh dadeh shode va sepas khodkar mahv mishavad.
+- **ActionBar Subtitle:** Harf-haye mobha be surate subtitle ziba rooye ActionBar (balaye hotbar) namayesh dadeh mishavad.
+- **Title va Soundscape baraye Boss-ha:** Enraged va Ultimate Phase-haye boss-ha ba Title va seda-ye cinematic hamrah ast.
+
+### 🏛️ 2. Memari-ye Kamelan Asil va Vagheyee baraye Dungeons
+- **Hazf-e Cube-haye sade va matnhaye ghalat:** Hameye dungeonha az noe ba memari-ye vagheyee sakhteh mishavand:
+  - **Takht Jamshid (Persepolis):** Kakh-e Apadana ba 16 sotoon-e ghaliz-e marmari, Takht-e Shahanshahi, Atashdan-haye tala va Gard-e Javidan.
+  - **Alamut Castle:** Dezh-e koohestani ba divarhaye mozkam, 4 borj-e defa'i, ketabkhaneh va azmayeshgah-e Hassan Sabbah.
+  - **Arge Bam:** Bozorgtarin dezh-e kheshti ba rasteye bazar va kakh-e chahar-fasl.
+  - **Chogha Zanbil:** Ziggurat-e 3-tabagheh-ye Elami ba pele-ye asil va atashgah-e balatarin tabagheh.
+  - **Takht Soleyman:** Atashkadeh-ye Azargoshasb va daryacheye moghaddas.
+  - **Bandar Siraf:** Eskelleh va kashti-ye bazargani-ye Khalij-e Fars.
+
+### 🎨 3. Texture va Modelhaye Custom dar Resource Pack
+- **10 Texture Pixel-Art PNG 16x16:**
+  - mashk_ab.png (Mashk-e poosti-ye ab)
+  - canteen.png (Ghomghame-ye fooladi)
+  - sword_kourosh.png, sword_alamut.png, sword_babak.png, sword_zulfiqar.png
+  - ghormeh_sabzi.png, dizi_sangak.png, chai_lahijan.png
+  - derik_tala.png (Sekke-ye Derik-e Hakhamaneshi)
+  - pack.png (Icon-e Shir o Khorshid va Parcham-e Iran)
+- **Model Overrides (Minecraft 1.12.2):** Durability predicate model override baraye Diamond Sword, Iron Sword, Potion, Bread, Gold Nugget, Carrot on a stick ba vizhegi-ye Unbreakable ke aslehe va itemha bedune khesarat model-e jadid migirand.
+
+### ⚡ 4. Behinehsazi-ye TPS baraye Server-haye Aternos
+- **Saboksazi-ye PlayerMoveEvent:** Tamam mohasebat-e sangin-e vector va barresi-ye blockha az event-e harekat hazf shode va faghat hengam-e uboor az marz-e chunk ya ba interval barresi mishavad.
+- **100% Finglish:** Hameye matnha bedune character-e farsi neveshte shodeand ta hich moshkele encoding va alameye soal rooye Aternos pish nayayad.
+
+---
 ### 1. ⚔ 900 Shamshir Irani (900 Craftable Iranian Swords)
 - **900 Shamshir ba vizhegi va name monhaser be fard** bar asas tarikh, ostoureha va shahrhaye Iran:
   - Akinake Kourosh Bozorg, Shamshir Zulfiqar Ali, Shamshir Rostam Dastan, Tighe Hassan Sabbah (Alamut), Shamshir Babak Khorramdin, Shamshir Nader Shah Afshar, Shamshir Shah Abbas Safavi, Shamshir Aryobarzan, Shamshir Kaveh Ahangar va sadha shamshir digar!
