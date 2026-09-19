@@ -136,9 +136,12 @@ public class ThirstManager {
             String colored = MessageUtils.color(message);
             Class<?> chatMessageTypeClass = Class.forName("net.md_5.bungee.api.ChatMessageType");
             Class<?> textComponentClass = Class.forName("net.md_5.bungee.api.chat.TextComponent");
+            Class<?> baseComponentClass = Class.forName("net.md_5.bungee.api.chat.BaseComponent");
             Object chatMessageType = chatMessageTypeClass.getField("ACTION_BAR").get(null);
             Object textComponent = textComponentClass.getConstructor(String.class).newInstance(colored);
-            player.spigot().sendMessage((net.md_5.bungee.api.ChatMessageType) chatMessageType, (net.md_5.bungee.api.chat.BaseComponent) textComponent);
+            Object spigot = player.getClass().getMethod("spigot").invoke(player);
+            spigot.getClass().getMethod("sendMessage", chatMessageTypeClass, baseComponentClass)
+                    .invoke(spigot, chatMessageType, textComponent);
         } catch (Exception e) {
             // Fallback
         }

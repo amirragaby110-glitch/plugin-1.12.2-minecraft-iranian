@@ -272,19 +272,18 @@ public class TemperatureManager {
     private void sendActionBar(Player player, String message) {
         try {
             String colored = MessageUtils.color(message);
-            // For 1.12.2, use title with action bar via NMS or via sending packet
-            // Simple method: use sendActionBar via reflection or via title
-            // We'll use the old method: player.sendActionBar is 1.16+, so for 1.12 we use title with 0, 40, 0 and action bar via packet
-            // For simplicity, we'll send as message above hotbar using spigot method if available
-            // Try via player.spigot().sendMessage(ChatMessageType.ACTION_BAR, ...)
-            // We'll use reflection to avoid compile error
+            // For 1.12.2, use reflection to avoid compile-time dependency on bungee chat
             Class<?> chatMessageTypeClass = Class.forName("net.md_5.bungee.api.ChatMessageType");
             Class<?> textComponentClass = Class.forName("net.md_5.bungee.api.chat.TextComponent");
+            Class<?> baseComponentClass = Class.forName("net.md_5.bungee.api.chat.BaseComponent");
             Object chatMessageType = chatMessageTypeClass.getField("ACTION_BAR").get(null);
             Object textComponent = textComponentClass.getConstructor(String.class).newInstance(colored);
-            player.spigot().sendMessage((net.md_5.bungee.api.ChatMessageType) chatMessageType, (net.md_5.bungee.api.chat.BaseComponent) textComponent);
+            // Use reflection to call spigot().sendMessage(ChatMessageType, BaseComponent)
+            Object spigot = player.getClass().getMethod("spigot").invoke(player);
+            spigot.getClass().getMethod("sendMessage", chatMessageTypeClass, baseComponentClass)
+                    .invoke(spigot, chatMessageType, textComponent);
         } catch (Exception e) {
-            // Fallback: send as normal message if action bar fails
+            // Fallback: do nothing or send as title if needed
             // player.sendMessage(MessageUtils.color(message));
         }
     }
