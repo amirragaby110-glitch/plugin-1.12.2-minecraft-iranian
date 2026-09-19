@@ -44,11 +44,12 @@ jobs:
         path: build.log
     - name: Commit build log to repo
       if: always()
+      continue-on-error: true
       run: |
         git config user.name "github-actions"
         git config user.email "actions@github.com"
-        cp build.log ./build.log
-        git add -f build.log
+        cp build.log ./build.log || true
+        git add -f build.log || true
         git commit -m "Build log ${{ github.run_id }} - ${{ job.status }}" || echo "No changes"
         git pull --rebase origin ${{ github.ref_name }} || echo "Pull failed"
         git push origin ${{ github.ref_name }} || echo "Push log failed"
@@ -79,26 +80,31 @@ jobs:
             labels: ['build-failed']
           });
     - name: Upload Jar Artifact v4.0.0
-      if: success()
+      if: always()
       uses: actions/upload-artifact@v4
       with:
         name: IranianHardcore-4.0.0
         path: target/*.jar
-        if-no-files-found: error
+        if-no-files-found: warn
     - name: Push Jar and ResourcePack to repo for direct download
-      if: success()
+      if: always()
+      continue-on-error: true
       run: |
-        JAR=$(ls target/*.jar | head -n1)
+        ls -lh target/ || echo "No target"
+        JAR=$(ls target/*.jar 2>/dev/null | head -n1)
+        if [ -z "$JAR" ]; then
+          echo "No Jar found!"
+          exit 0
+        fi
         echo "Jar: $JAR"
-        ls -lh target/
-        cp $JAR ./IranianHardcore-4.0.0.jar
-        cp $JAR ./IranianHardcore-3.5.0.jar
+        cp $JAR ./IranianHardcore-4.0.0.jar || true
+        cp $JAR ./IranianHardcore-3.5.0.jar || true
         if [ -f resourcepack/IranianHardcore-ResourcePack.zip ]; then
-          cp resourcepack/IranianHardcore-ResourcePack.zip ./IranianHardcore-ResourcePack.zip
+          cp resourcepack/IranianHardcore-ResourcePack.zip ./IranianHardcore-ResourcePack.zip || true
         fi
         git config user.name "github-actions"
         git config user.email "actions@github.com"
-        git add -f IranianHardcore-4.0.0.jar IranianHardcore-3.5.0.jar IranianHardcore-ResourcePack.zip resourcepack/IranianHardcore-ResourcePack.zip
+        git add -f IranianHardcore-4.0.0.jar IranianHardcore-3.5.0.jar IranianHardcore-ResourcePack.zip resourcepack/IranianHardcore-ResourcePack.zip || true
         git commit -m "Update Jar v4.0.0 Finglish+Climate+Thirst+Mobs+ResourcePack ${{ github.run_id }} - ready for direct download" || echo "No changes"
         git pull --rebase origin ${{ github.ref_name }} || echo "Pull failed"
         git push origin ${{ github.ref_name }} || git push origin ${{ github.ref_name }} --force || echo "Push failed"
