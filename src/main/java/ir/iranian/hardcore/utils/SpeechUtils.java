@@ -1,8 +1,6 @@
 package ir.iranian.hardcore.utils;
 
 import ir.iranian.hardcore.IranianHardcorePlugin;
-import net.md_5.bungee.api.ChatMessageType;
-import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.World;
@@ -12,12 +10,49 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.lang.reflect.Array;
+import java.lang.reflect.Method;
+
 /**
- * Speech & Vocalization utility for Iranian Mobs & Villagers (v5.0 Finglish)
+ * Speech & Vocalization utility for Iranian Mobs & Villagers (v5.1 Finglish)
  * Plays vocal audio sequences, renders floating in-world speech bubbles above heads,
  * and displays RPG-style subtitles via ActionBar instead of spamming public chat.
  */
 public class SpeechUtils {
+
+    private static boolean bungeecordChecked = false;
+    private static Method spigotMethod = null;
+    private static Method sendMessageMethod = null;
+    private static Method fromLegacyTextMethod = null;
+    private static Object actionBarType = null;
+    private static Class<?> textComponentClass = null;
+
+    static {
+        initReflection();
+    }
+
+    private static void initReflection() {
+        try {
+            Class<?> chatMessageTypeClass = Class.forName("net.md_5.bungee.api.ChatMessageType");
+            for (Object constant : chatMessageTypeClass.getEnumConstants()) {
+                if (constant.toString().equals("ACTION_BAR")) {
+                    actionBarType = constant;
+                    break;
+                }
+            }
+            textComponentClass = Class.forName("net.md_5.bungee.api.chat.TextComponent");
+            Class<?> baseComponentClass = Class.forName("net.md_5.bungee.api.chat.BaseComponent");
+            Class<?> baseComponentArrayClass = Array.newInstance(baseComponentClass, 0).getClass();
+
+            fromLegacyTextMethod = textComponentClass.getMethod("fromLegacyText", String.class);
+            Class<?> spigotClass = Class.forName("org.bukkit.entity.Player$Spigot");
+            sendMessageMethod = spigotClass.getMethod("sendMessage", chatMessageTypeClass, baseComponentArrayClass);
+            spigotMethod = Player.class.getMethod("spigot");
+            bungeecordChecked = true;
+        } catch (Throwable ignored) {
+            bungeecordChecked = false;
+        }
+    }
 
     /**
      * Entity speaks: vocal sound plays, floating speech bubble hovers over head,
@@ -49,12 +84,24 @@ public class SpeechUtils {
     }
 
     /**
-     * Sends action bar message to a player
+     * Sends action bar message to a player safely via reflection
      */
     public static void sendActionBar(Player player, String message) {
         if (player == null || !player.isOnline()) return;
+        String colored = MessageUtils.color(message);
+
+        if (bungeecordChecked && spigotMethod != null && sendMessageMethod != null && fromLegacyTextMethod != null && actionBarType != null) {
+            try {
+                Object spigot = spigotMethod.invoke(player);
+                Object components = fromLegacyTextMethod.invoke(null, colored);
+                sendMessageMethod.invoke(spigot, actionBarType, components);
+                return;
+            } catch (Throwable ignored) {}
+        }
+
+        // Fallback: send as brief subtitle if actionbar unavailable
         try {
-            player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(MessageUtils.color(message)));
+            player.sendTitle("", colored, 0, 40, 10);
         } catch (Throwable ignored) {}
     }
 
@@ -97,7 +144,6 @@ public class SpeechUtils {
                         cancel();
                         return;
                     }
-                    // Follow entity head movement
                     stand.teleport(entity.getLocation().clone().add(0, entity.getEyeHeight() + 0.45, 0));
                 }
             }.runTaskTimer(IranianHardcorePlugin.getInstance(), 5L, 5L);

@@ -230,13 +230,13 @@ public class IranianMobsManager implements Listener {
             mobSpeechCooldown.put(damager.getUniqueId(), now);
             String line = null;
             String mobTitle = "Doshman";
-            Sound vocalSound = Sound.ENTITY_ZOMBIE_GROWL;
+            Sound vocalSound = Sound.ENTITY_ZOMBIE_AMBIENT;
             float pitch = 1.0f;
 
             if (damager instanceof Zombie) {
                 line = zombieLines[random.nextInt(zombieLines.length)];
                 mobTitle = "Zombie";
-                vocalSound = Sound.ENTITY_ZOMBIE_GROWL;
+                vocalSound = Sound.ENTITY_ZOMBIE_AMBIENT;
                 pitch = 0.8f;
             } else if (damager instanceof Skeleton) {
                 line = skeletonLines[random.nextInt(skeletonLines.length)];
@@ -276,14 +276,14 @@ public class IranianMobsManager implements Listener {
             case DIV_SEPID: return Sound.ENTITY_POLAR_BEAR_WARNING;
             case DIV_SIAH: return Sound.ENTITY_WITHER_SPAWN;
             case ZAHHAK: return Sound.ENTITY_ENDERDRAGON_GROWL;
-            case AFRASIAB: return Sound.ENTITY_VINDICATOR_CELEBRATE;
+            case AFRASIAB: return Sound.ENTITY_EVOCATION_ILLAGER_CAST_SPELL;
             case ROSTAM_GHOST: return Sound.BLOCK_ENCHANTMENT_TABLE_USE;
             case DARIUS_GHOST:
             case CYRUS_GHOST: return Sound.ENTITY_EVOCATION_ILLAGER_PREPARE_SUMMON;
             case KAVEH: return Sound.ENTITY_VILLAGER_YES;
-            case SIMURGH: return Sound.ENTITY_PARROT_IMITATE_ENDER_DRAGON;
+            case SIMURGH: return Sound.ENTITY_PARROT_IMITATE_ENDERDRAGON;
             case AL: return Sound.ENTITY_WITCH_AMBIENT;
-            case HASHASHIN_ALAMOAT: return Sound.ENTITY_VINDICATOR_AMBIENT;
+            case HASHASHIN_ALAMOAT: return Sound.ENTITY_VINDICATION_ILLAGER_AMBIENT;
             default: return Sound.ENTITY_BLAZE_AMBIENT;
         }
     }
