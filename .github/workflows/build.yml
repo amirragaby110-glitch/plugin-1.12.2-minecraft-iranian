@@ -23,10 +23,23 @@ jobs:
         distribution: 'temurin'
         cache: maven
     - name: Build with Maven
-      run: mvn -B clean package -DskipTests
+      run: |
+        mvn -B clean package -DskipTests 2>&1 | tee build.log
+        echo "Exit code: ${PIPESTATUS[0]}" | tee -a build.log
+        exit ${PIPESTATUS[0]}
     - name: List target
-      run: ls -lh target/
+      if: always()
+      run: |
+        ls -lh target/ || echo "No target"
+        cat build.log | tail -n 200
+    - name: Upload build log
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-log
+        path: build.log
     - name: Upload Jar Artifact v4.0.0
+      if: success()
       uses: actions/upload-artifact@v4
       with:
         name: IranianHardcore-4.0.0
@@ -38,7 +51,6 @@ jobs:
         echo "Jar: $JAR"
         cp $JAR ./IranianHardcore-4.0.0.jar
         cp $JAR ./IranianHardcore-3.5.0.jar
-        # Also keep resource pack zip if exists
         if [ -f resourcepack/IranianHardcore-ResourcePack.zip ]; then
           cp resourcepack/IranianHardcore-ResourcePack.zip ./IranianHardcore-ResourcePack.zip
         fi
