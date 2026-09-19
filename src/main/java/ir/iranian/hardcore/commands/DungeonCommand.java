@@ -17,13 +17,13 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * دستورات دانجن‌های ایرانی - کاملا فارسی
- * /dungeon list - لیست دانجن‌ها
- * /dungeon generate <type> - ساخت دانجن نزدیک
- * /dungeon teleport <id> - تلپورت به دانجن
- * /dungeon clear - پاک کردن همه دانجن‌ها
- * /dungeon bazaar - ساخت بازار ایرانی
- * /dungeon caravanserai - ساخت کاروانسرا
+ * Dastorate dungeonhaye Irani - v5.0 Finglish
+ * /dungeon list - List 30 dungeon tarikhi
+ * /dungeon generate <type> - Sakhtane dungeon nazdik
+ * /dungeon teleport <id> - Teleport be dungeon
+ * /dungeon clear - Pak kardane dadeha
+ * /dungeon bazaar - Sakhtane bazar Irani
+ * /dungeon caravanserai - Sakhtane karvansara
  */
 public class DungeonCommand implements CommandExecutor, TabCompleter {
 
@@ -35,9 +35,8 @@ public class DungeonCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-
         if (!sender.hasPermission("iranianhardcore.dungeon")) {
-            sender.sendMessage(MessageUtils.getPrefixedMessage("messages.no-permission", "&cدسترسی ندارید!"));
+            sender.sendMessage(MessageUtils.getPrefixedMessage("messages.no-permission", "&cDastresi nadarid!"));
             return true;
         }
 
@@ -50,177 +49,159 @@ public class DungeonCommand implements CommandExecutor, TabCompleter {
 
         switch (sub) {
             case "list":
-            case "لیست":
-                if (sender instanceof Player) {
-                    plugin.getDungeonManager().listDungeons((Player) sender);
-                } else {
-                    sender.sendMessage(MessageUtils.color("&6&l لیست دانجن‌های ایرانی:"));
-                    for (DungeonType type : DungeonType.values()) {
-                        sender.sendMessage(MessageUtils.color("&7- " + type.getPersianName() + " (" + type.getId() + ")"));
-                    }
+                sender.sendMessage(MessageUtils.color("&8&l[----------------------------------------]"));
+                sender.sendMessage(MessageUtils.color("&6&lList 30 Dungeon Tarikhi Iran:"));
+                for (DungeonType type : DungeonType.values()) {
+                    sender.sendMessage(MessageUtils.color("&7- &e" + type.name() + " &7: &a" + type.getFinglishName() + " &7(&b" + type.getBiomeName() + "&7) Boss: &c" + type.getBossName()));
                 }
-                break;
+                sender.sendMessage(MessageUtils.color("&8&l[----------------------------------------]"));
+                return true;
 
             case "generate":
-            case "ساخت":
+            case "spawn":
             case "create":
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(MessageUtils.color("&cفقط بازیکنان!"));
+                    sender.sendMessage(MessageUtils.color("&cFaghat bazikonan!"));
                     return true;
                 }
                 Player player = (Player) sender;
                 if (args.length < 2) {
-                    player.sendMessage(MessageUtils.withPrefix("&cاستفاده: /dungeon generate <نوع>"));
-                    player.sendMessage(MessageUtils.withPrefix("&7مثال: /dungeon generate ALAMUT_CASTLE"));
+                    player.sendMessage(MessageUtils.withPrefix("&cEstefadeh: /dungeon generate <type>"));
+                    player.sendMessage(MessageUtils.withPrefix("&7Mesal: /dungeon generate ALAMUT_CASTLE"));
                     return true;
                 }
-                DungeonType type = DungeonType.fromId(args[1]);
+                DungeonType type = DungeonType.fromName(args[1]);
                 if (type == null) {
-                    player.sendMessage(MessageUtils.withPrefix("&cدانجن یافت نشد! /dungeon list"));
+                    player.sendMessage(MessageUtils.withPrefix("&cDungeon yaft nashod! /dungeon list"));
                     return true;
                 }
-                plugin.getDungeonManager().generateNearPlayer(player, type);
-                break;
+                plugin.getDungeonManager().forceGenerateDungeon(player, type);
+                return true;
 
             case "teleport":
             case "tp":
-            case "تلپورت":
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(MessageUtils.color("&cفقط بازیکنان!"));
+                    sender.sendMessage(MessageUtils.color("&cFaghat bazikonan!"));
                     return true;
                 }
                 Player tpPlayer = (Player) sender;
-                if (plugin.getDungeonManager().getGeneratedDungeons().isEmpty()) {
-                    tpPlayer.sendMessage(MessageUtils.withPrefix("&cهنوز دانجنی ساخته نشده!"));
+                Map<String, Location> dungeons = plugin.getDungeonManager().getGeneratedDungeons();
+                if (dungeons.isEmpty()) {
+                    tpPlayer.sendMessage(MessageUtils.withPrefix("&cHanooz dungeoni sakhte nashode!"));
                     return true;
                 }
                 if (args.length < 2) {
-                    // لیست دانجن‌های ساخته شده
-                    tpPlayer.sendMessage(MessageUtils.color("&6&l دانجن‌های ساخته شده:"));
+                    tpPlayer.sendMessage(MessageUtils.color("&6&lDungeonhaye sakhte shode:"));
                     int i = 0;
-                    for (Map.Entry<String, Location> entry : plugin.getDungeonManager().getGeneratedDungeons().entrySet()) {
+                    for (Map.Entry<String, Location> entry : dungeons.entrySet()) {
                         Location loc = entry.getValue();
-                        tpPlayer.sendMessage(MessageUtils.color("&7" + i + ": &e" + entry.getKey() + " &7در &f" + loc.getBlockX() + "," + loc.getBlockZ()));
+                        tpPlayer.sendMessage(MessageUtils.color("&7" + i + ": &e" + entry.getKey() + " &7dar &f" + loc.getBlockX() + "," + loc.getBlockZ()));
                         i++;
-                        if (i > 10) break;
                     }
+                    tpPlayer.sendMessage(MessageUtils.withPrefix("&7Estefadeh: /dungeon teleport <shomare>"));
                     return true;
                 }
                 try {
                     int index = Integer.parseInt(args[1]);
-                    List<Location> locs = new ArrayList<>(plugin.getDungeonManager().getGeneratedDungeons().values());
+                    List<Location> locs = new ArrayList<>(dungeons.values());
                     if (index >= 0 && index < locs.size()) {
-                        Location target = locs.get(index).clone().add(0, 5, 0);
-                        tpPlayer.teleport(target);
-                        tpPlayer.sendMessage(MessageUtils.withPrefix("&aبه دانجن تلپورت شدی!"));
+                        tpPlayer.teleport(locs.get(index));
+                        tpPlayer.sendMessage(MessageUtils.withPrefix("&aBe dungeon teleport shodid!"));
                     } else {
-                        tpPlayer.sendMessage(MessageUtils.withPrefix("&cایندکس نامعتبر!"));
+                        tpPlayer.sendMessage(MessageUtils.withPrefix("&cIndexe nameetabar!"));
                     }
                 } catch (NumberFormatException e) {
-                    tpPlayer.sendMessage(MessageUtils.withPrefix("&cعدد وارد کن!"));
+                    tpPlayer.sendMessage(MessageUtils.withPrefix("&cLotfan adad vared konid!"));
                 }
-                break;
+                return true;
 
             case "clear":
-            case "پاک":
                 if (!sender.hasPermission("iranianhardcore.admin")) {
-                    sender.sendMessage(MessageUtils.getPrefixedMessage("messages.no-permission", "&cدسترسی ادمین لازم است!"));
+                    sender.sendMessage(MessageUtils.getPrefixedMessage("messages.no-permission", "&cDastresi admin lazem ast!"));
                     return true;
                 }
-                plugin.getDungeonManager().clearAll();
-                sender.sendMessage(MessageUtils.withPrefix("&aتمام دانجن‌های ثبت شده پاک شد! (سازه‌ها باقی می‌مانند)"));
-                break;
+                plugin.getDungeonManager().clearGeneratedDungeons();
+                sender.sendMessage(MessageUtils.withPrefix("&aTamam dungeonhaye sabt shode pak shod!"));
+                return true;
 
             case "bazaar":
-            case "بازار":
-                if (!(sender instanceof Player)) return true;
+                if (!(sender instanceof Player)) {
+                    sender.sendMessage(MessageUtils.color("&cFaghat bazikonan!"));
+                    return true;
+                }
                 Player bazaarPlayer = (Player) sender;
-                Location bazaarLoc = bazaarPlayer.getLocation();
-                bazaarLoc.setY(bazaarLoc.getWorld().getHighestBlockYAt(bazaarLoc));
-                plugin.getPersianStructures().buildBazaar(bazaarLoc);
-                bazaarPlayer.sendMessage(MessageUtils.withPrefix("&aبازار ایرانی ساخته شد! &e" + PersianStructures.StructureType.BAZAAR.getPersianName()));
-                break;
+                plugin.getPersianStructures().forceBuildStructure(bazaarPlayer.getLocation(), PersianStructures.StructureType.BAZAAR);
+                bazaarPlayer.sendMessage(MessageUtils.withPrefix("&aBazar Irani sakhte shod!"));
+                return true;
 
             case "caravanserai":
-            case "کاروانسرا":
-                if (!(sender instanceof Player)) return true;
+                if (!(sender instanceof Player)) {
+                    sender.sendMessage(MessageUtils.color("&cFaghat bazikonan!"));
+                    return true;
+                }
                 Player caraPlayer = (Player) sender;
-                Location caraLoc = caraPlayer.getLocation();
-                caraLoc.setY(caraLoc.getWorld().getHighestBlockYAt(caraLoc));
-                plugin.getPersianStructures().buildCaravanserai(caraLoc);
-                caraPlayer.sendMessage(MessageUtils.withPrefix("&aکاروانسرای شاه عباسی ساخته شد!"));
-                break;
+                plugin.getPersianStructures().forceBuildStructure(caraPlayer.getLocation(), PersianStructures.StructureType.CARAVANSERAI);
+                caraPlayer.sendMessage(MessageUtils.withPrefix("&aKarvansaraye Shah Abbasi sakhte shod!"));
+                return true;
 
             case "chaikhaneh":
-            case "چایخانه":
-                if (!(sender instanceof Player)) return true;
+                if (!(sender instanceof Player)) {
+                    sender.sendMessage(MessageUtils.color("&cFaghat bazikonan!"));
+                    return true;
+                }
                 Player chaiPlayer = (Player) sender;
-                Location chaiLoc = chaiPlayer.getLocation();
-                chaiLoc.setY(chaiLoc.getWorld().getHighestBlockYAt(chaiLoc));
-                plugin.getPersianStructures().buildChaikhaneh(chaiLoc);
-                chaiPlayer.sendMessage(MessageUtils.withPrefix("&aچایخانه سنتی ساخته شد!"));
-                break;
+                plugin.getPersianStructures().forceBuildStructure(chaiPlayer.getLocation(), PersianStructures.StructureType.CHAIKHANEH);
+                chaiPlayer.sendMessage(MessageUtils.withPrefix("&aChaykhane sonati sakhte shod!"));
+                return true;
 
             case "abanbar":
-            case "آبانبار":
-                if (!(sender instanceof Player)) return true;
+                if (!(sender instanceof Player)) {
+                    sender.sendMessage(MessageUtils.color("&cFaghat bazikonan!"));
+                    return true;
+                }
                 Player abPlayer = (Player) sender;
-                Location abLoc = abPlayer.getLocation();
-                abLoc.setY(abPlayer.getWorld().getHighestBlockYAt(abLoc));
-                plugin.getPersianStructures().buildAbAnbar(abLoc);
-                abPlayer.sendMessage(MessageUtils.withPrefix("&aآب‌انبار یزدی ساخته شد!"));
-                break;
+                plugin.getPersianStructures().forceBuildStructure(abPlayer.getLocation(), PersianStructures.StructureType.AB_ANBAR);
+                abPlayer.sendMessage(MessageUtils.withPrefix("&aAb Anbare Yazdi sakhte shod!"));
+                return true;
 
             case "help":
-            case "راهنما":
-                sendHelp(sender);
-                break;
-
             default:
                 sendHelp(sender);
-                break;
+                return true;
         }
-
-        return true;
     }
 
     private void sendHelp(CommandSender sender) {
-        sender.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        sender.sendMessage(MessageUtils.color("&6&l دستورات دانجن‌های ایرانی - کاملا فارسی"));
-        sender.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        sender.sendMessage(MessageUtils.color("&e/dungeon list &7- لیست تمام دانجن‌های ایرانی"));
-        sender.sendMessage(MessageUtils.color("&e/dungeon generate <نوع> &7- ساخت دانجن نزدیک شما"));
-        sender.sendMessage(MessageUtils.color("&e/dungeon teleport [شماره] &7- تلپورت به دانجن"));
-        sender.sendMessage(MessageUtils.color("&e/dungeon clear &7- پاک کردن لیست دانجن‌ها (ادمین)"));
-        sender.sendMessage(MessageUtils.color("&e/dungeon bazaar &7- ساخت بازار ایرانی"));
-        sender.sendMessage(MessageUtils.color("&e/dungeon caravanserai &7- ساخت کاروانسرای شاه عباسی"));
-        sender.sendMessage(MessageUtils.color("&e/dungeon chaikhaneh &7- ساخت چایخانه سنتی"));
-        sender.sendMessage(MessageUtils.color("&e/dungeon abanbar &7- ساخت آب‌انبار یزدی"));
-        sender.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        sender.sendMessage(MessageUtils.color("&7انواع دانجن:"));
-        for (DungeonType type : DungeonType.values()) {
-            sender.sendMessage(MessageUtils.color("&8- &6" + type.getPersianName() + " &7(" + type.getId() + ")"));
-        }
-        sender.sendMessage(MessageUtils.color("&8&l&m-------------------"));
+        sender.sendMessage(MessageUtils.color("&8&l[----------------------------------------]"));
+        sender.sendMessage(MessageUtils.color("&6&lDastorate 30 Dungeon Tarikhi Iran:"));
+        sender.sendMessage(MessageUtils.color("&e/dungeon list &7- List tamam 30 dungeon"));
+        sender.sendMessage(MessageUtils.color("&e/dungeon generate <type> &7- Sakhtane dungeon nazdik shoma"));
+        sender.sendMessage(MessageUtils.color("&e/dungeon teleport [shomare] &7- Teleport be dungeon"));
+        sender.sendMessage(MessageUtils.color("&e/dungeon clear &7- Pak kardane list"));
+        sender.sendMessage(MessageUtils.color("&e/dungeon bazaar &7- Sakhtane bazar"));
+        sender.sendMessage(MessageUtils.color("&e/dungeon caravanserai &7- Sakhtane karvansara"));
+        sender.sendMessage(MessageUtils.color("&e/dungeon chaikhaneh &7- Sakhtane chaykhane"));
+        sender.sendMessage(MessageUtils.color("&e/dungeon abanbar &7- Sakhtane Ab Anbar"));
+        sender.sendMessage(MessageUtils.color("&8&l[----------------------------------------]"));
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        List<String> list = new ArrayList<>();
+        List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             List<String> subs = Arrays.asList("list", "generate", "teleport", "clear", "bazaar", "caravanserai", "chaikhaneh", "abanbar", "help");
             for (String s : subs) {
-                if (s.startsWith(args[0].toLowerCase())) list.add(s);
+                if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
+                    completions.add(s);
+                }
             }
-        } else if (args.length == 2) {
-            if (args[0].equalsIgnoreCase("generate")) {
-                for (DungeonType type : DungeonType.values()) {
-                    if (type.getId().toLowerCase().startsWith(args[1].toLowerCase())) {
-                        list.add(type.getId());
-                    }
+        } else if (args.length == 2 && args[0].equalsIgnoreCase("generate")) {
+            for (DungeonType type : DungeonType.values()) {
+                if (type.name().toLowerCase().startsWith(args[1].toLowerCase())) {
+                    completions.add(type.name());
                 }
             }
         }
-        return list;
+        return completions;
     }
 }

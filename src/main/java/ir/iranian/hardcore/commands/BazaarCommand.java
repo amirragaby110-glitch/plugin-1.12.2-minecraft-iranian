@@ -1,6 +1,7 @@
 package ir.iranian.hardcore.commands;
 
 import ir.iranian.hardcore.IranianHardcorePlugin;
+import ir.iranian.hardcore.structures.PersianStructures;
 import ir.iranian.hardcore.utils.MessageUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -13,9 +14,9 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * دستور بازار ایرانی - کاملا فارسی - نسخه 3.0
- * /bazaar - باز کردن بازار ایرانی
- * /bazaar <type> - ساخت سازه بازار
+ * Dastor Bazar Irani - v5.0 Finglish
+ * /bazaar - Baz kardane Bazar Irani
+ * /bazaar build <type> - Sakhtane saze bazar
  */
 public class BazaarCommand implements CommandExecutor, TabCompleter {
 
@@ -27,18 +28,22 @@ public class BazaarCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (!plugin.getConfigManager().getBoolean("bazaar.enabled", true)) {
+            sender.sendMessage(MessageUtils.withPrefix("&cBazar Irani gheyre faal ast!"));
+            return true;
+        }
 
         if (!(sender instanceof Player)) {
-            sender.sendMessage(MessageUtils.color("&cفقط بازیکنان ایرانی می‌توانند وارد بازار شوند!"));
+            sender.sendMessage(MessageUtils.color("&cFaghat bazikonan mitavanand vared-e bazar shavand!"));
             return true;
         }
 
         Player player = (Player) sender;
 
         if (args.length == 0) {
-            // باز کردن بازار اصلی
-            plugin.getPersianBazaar().openMainBazaar(player);
-            player.sendMessage(MessageUtils.withPrefix("&aبه بازار ایرانی خوش آمدید! &7مثل بازار بزرگ تهران"));
+            // Open main bazaar
+            plugin.getPersianBazaar().openMainMenu(player);
+            player.sendMessage(MessageUtils.withPrefix("&aBe Bazar Irani khosh amadid! &7Mesle Bazar Bozorge Tehran"));
             return true;
         }
 
@@ -46,99 +51,88 @@ public class BazaarCommand implements CommandExecutor, TabCompleter {
 
         switch (sub) {
             case "open":
-            case "باز":
-            case "بازار":
-                plugin.getPersianBazaar().openMainBazaar(player);
-                break;
+            case "bazar":
+                plugin.getPersianBazaar().openMainMenu(player);
+                return true;
 
             case "build":
-            case "ساخت":
                 if (!player.hasPermission("iranianhardcore.admin")) {
-                    player.sendMessage(MessageUtils.getPrefixedMessage("messages.no-permission", "&cدسترسی ادمین لازم است!"));
+                    player.sendMessage(MessageUtils.getPrefixedMessage("messages.no-permission", "&cDastresi admin lazem ast!"));
                     return true;
                 }
                 if (args.length < 2) {
-                    player.sendMessage(MessageUtils.withPrefix("&cاستفاده: /bazaar build <bazaar|caravanserai|chaikhaneh|abanbar|mosque|village>"));
+                    player.sendMessage(MessageUtils.withPrefix("&cEstefadeh: /bazaar build <bazaar|caravanserai|chaikhaneh|abanbar|mosque|village>"));
                     return true;
                 }
-                String type = args[1].toLowerCase();
-                switch (type) {
+                String struct = args[1].toLowerCase();
+                switch (struct) {
                     case "bazaar":
-                    case "بازار":
-                        plugin.getPersianStructures().buildBazaar(player.getLocation());
-                        player.sendMessage(MessageUtils.withPrefix("&aبازار ایرانی ساخته شد!"));
+                        plugin.getPersianStructures().forceBuildStructure(player.getLocation(), PersianStructures.StructureType.BAZAAR);
+                        player.sendMessage(MessageUtils.withPrefix("&aBazar Irani sakhte shod!"));
                         break;
                     case "caravanserai":
-                    case "کاروانسرا":
-                        plugin.getPersianStructures().buildCaravanserai(player.getLocation());
-                        player.sendMessage(MessageUtils.withPrefix("&aکاروانسرای شاه عباسی ساخته شد!"));
+                        plugin.getPersianStructures().forceBuildStructure(player.getLocation(), PersianStructures.StructureType.CARAVANSERAI);
+                        player.sendMessage(MessageUtils.withPrefix("&aKarvansaraye Shah Abbasi sakhte shod!"));
                         break;
                     case "chaikhaneh":
-                    case "چایخانه":
-                        plugin.getPersianStructures().buildChaikhaneh(player.getLocation());
-                        player.sendMessage(MessageUtils.withPrefix("&aچایخانه سنتی ساخته شد!"));
+                        plugin.getPersianStructures().forceBuildStructure(player.getLocation(), PersianStructures.StructureType.CHAIKHANEH);
+                        player.sendMessage(MessageUtils.withPrefix("&aChaykhane sonati sakhte shod!"));
                         break;
                     case "abanbar":
-                    case "آبانبار":
-                        plugin.getPersianStructures().buildAbAnbar(player.getLocation());
-                        player.sendMessage(MessageUtils.withPrefix("&aآب‌انبار یزدی ساخته شد!"));
+                        plugin.getPersianStructures().forceBuildStructure(player.getLocation(), PersianStructures.StructureType.AB_ANBAR);
+                        player.sendMessage(MessageUtils.withPrefix("&aAb Anbare Yazdi sakhte shod!"));
                         break;
                     case "village":
-                    case "روستا":
-                        plugin.getVillageManager().buildIranianVillage(player.getLocation());
-                        player.sendMessage(MessageUtils.withPrefix("&aروستای ایرانی ساخته شد!"));
+                        plugin.getPersianStructures().forceBuildStructure(player.getLocation(), PersianStructures.StructureType.VILLAGE);
+                        player.sendMessage(MessageUtils.withPrefix("&aRoostaye Irani sakhte shod!"));
                         break;
                     default:
-                        player.sendMessage(MessageUtils.withPrefix("&cنوع سازه نامعتبر!"));
+                        player.sendMessage(MessageUtils.withPrefix("&cNoe saze nameetabar!"));
                         break;
                 }
-                break;
+                return true;
 
             case "help":
-            case "راهنما":
-                sendHelp(player);
-                break;
-
             default:
-                plugin.getPersianBazaar().openMainBazaar(player);
-                break;
+                sendHelp(player);
+                return true;
         }
-
-        return true;
     }
 
     private void sendHelp(Player player) {
-        player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        player.sendMessage(MessageUtils.color("&6&l🏪 بازار ایرانی - راهنما - کاملا فارسی"));
-        player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        player.sendMessage(MessageUtils.color("&e/bazaar &7- باز کردن بازار ایرانی"));
-        player.sendMessage(MessageUtils.color("&e/bazaar build bazaar &7- ساخت بازار"));
-        player.sendMessage(MessageUtils.color("&e/bazaar build caravanserai &7- کاروانسرا"));
-        player.sendMessage(MessageUtils.color("&e/bazaar build chaikhaneh &7- چایخانه"));
-        player.sendMessage(MessageUtils.color("&e/bazaar build abanbar &7- آب‌انبار"));
-        player.sendMessage(MessageUtils.color("&e/bazaar build village &7- روستای ایرانی"));
-        player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        player.sendMessage(MessageUtils.color("&7واحد پول: &eسکه دریک هخامنشی (GOLD_NUGGET)"));
-        player.sendMessage(MessageUtils.color("&7سکه را از دانجن‌ها پیدا کنید!"));
-        player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
+        player.sendMessage(MessageUtils.color("&8&l[----------------------------------------]"));
+        player.sendMessage(MessageUtils.color("&6&lBazar Irani - Rahnama - Finglish"));
+        player.sendMessage(MessageUtils.color("&e/bazaar &7- Baz kardane Bazar Irani"));
+        player.sendMessage(MessageUtils.color("&e/bazaar build bazaar &7- Sakhtane bazar"));
+        player.sendMessage(MessageUtils.color("&e/bazaar build caravanserai &7- Karvansara"));
+        player.sendMessage(MessageUtils.color("&e/bazaar build chaikhaneh &7- Chaykhane"));
+        player.sendMessage(MessageUtils.color("&e/bazaar build abanbar &7- Ab Anbar"));
+        player.sendMessage(MessageUtils.color("&e/bazaar build village &7- Roostaye Irani"));
+        player.sendMessage(MessageUtils.color("&7Vahede pool: &eSekke Derik Hakhamaneshi (GOLD_NUGGET)"));
+        player.sendMessage(MessageUtils.color("&7Sekke ra az dungeonha peyda konid!"));
+        player.sendMessage(MessageUtils.color("&8&l[----------------------------------------]"));
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
-        List<String> list = new ArrayList<>();
+        List<String> completions = new ArrayList<>();
         if (args.length == 1) {
-            List<String> subs = Arrays.asList("open", "build", "help", "بازار", "ساخت", "راهنما");
+            List<String> subs = Arrays.asList("open", "build", "help");
             for (String s : subs) {
-                if (s.startsWith(args[0].toLowerCase())) list.add(s);
+                if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
+                    completions.add(s);
+                }
             }
         } else if (args.length == 2) {
-            if (args[0].equalsIgnoreCase("build") || args[0].equalsIgnoreCase("ساخت")) {
-                List<String> types = Arrays.asList("bazaar", "caravanserai", "chaikhaneh", "abanbar", "village");
-                for (String s : types) {
-                    if (s.startsWith(args[1].toLowerCase())) list.add(s);
+            if (args[0].equalsIgnoreCase("build")) {
+                List<String> structs = Arrays.asList("bazaar", "caravanserai", "chaikhaneh", "abanbar", "mosque", "village");
+                for (String s : structs) {
+                    if (s.toLowerCase().startsWith(args[1].toLowerCase())) {
+                        completions.add(s);
+                    }
                 }
             }
         }
-        return list;
+        return completions;
     }
 }

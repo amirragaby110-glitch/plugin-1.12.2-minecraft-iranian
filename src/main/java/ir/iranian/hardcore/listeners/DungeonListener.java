@@ -1,7 +1,10 @@
 package ir.iranian.hardcore.listeners;
 
 import ir.iranian.hardcore.IranianHardcorePlugin;
+import ir.iranian.hardcore.dungeons.DungeonType;
 import ir.iranian.hardcore.utils.MessageUtils;
+import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -9,11 +12,10 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 
+import java.util.Map;
+
 /**
- * لیسنر دانجن‌های ایرانی - کاملا فارسی
- * - تولید دانجن در چانک جدید
- * - پیام ورود به دانجن
- * - لوت باس
+ * Listener baraye dungeonhaye Irani - v5.0 Finglish
  */
 public class DungeonListener implements Listener {
 
@@ -26,9 +28,7 @@ public class DungeonListener implements Listener {
     @EventHandler
     public void onChunkLoad(ChunkLoadEvent event) {
         if (event.isNewChunk()) {
-            // تولید دانجن ایرانی با شانس کم
             plugin.getDungeonManager().tryGenerateInChunk(event.getChunk());
-            // تولید سازه ایرانی
             plugin.getPersianStructures().tryGenerateInChunk(event.getChunk());
         }
     }
@@ -38,54 +38,60 @@ public class DungeonListener implements Listener {
         if (event.getEntity().getCustomName() == null) return;
         String name = event.getEntity().getCustomName();
 
-        // اگر باس ایرانی بود، پیام حماسی
-        if (name.contains("حسن صباح") || name.contains("بابک") || name.contains("داریوش") ||
-                name.contains("آناهیتا") || name.contains("سیراف") || name.contains("بم") ||
-                name.contains("چغازنبیل") || name.contains("زرتشتی")) {
+        // Check if boss was an Iranian dungeon boss
+        boolean isIranianBoss = name.contains("Hassan Sabbah") || name.contains("Babak") ||
+                name.contains("Daryoosh") || name.contains("Anahita") || name.contains("Siraf") ||
+                name.contains("Bam") || name.contains("Chogha") || name.contains("Zartosht") ||
+                name.contains("Kourosh") || name.contains("Zahhak") || name.contains("Afrasiab");
 
-            // پیام به همه بازیکنان نزدیک
+        if (isIranianBoss) {
+            String killerName = (event.getEntity().getKiller() != null) ? event.getEntity().getKiller().getName() : "Yek Delavar";
             for (Player p : event.getEntity().getWorld().getPlayers()) {
-                if (p.getLocation().distance(event.getEntity().getLocation()) < 100) {
-                    p.sendMessage(MessageUtils.withPrefix("&6&l⚔ باس ایرانی شکست خورد!"));
-                    p.sendMessage(MessageUtils.withPrefix("&7" + name + " &fتوسط &a" + (event.getEntity().getKiller() != null ? event.getEntity().getKiller().getName() : "کسی") + " &fکشته شد!"));
-                    p.getWorld().playSound(p.getLocation(), org.bukkit.Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 0.5f);
+                if (p.getLocation().distance(event.getEntity().getLocation()) < 120) {
+                    p.sendMessage(MessageUtils.color("&8&l[----------------------------------------]"));
+                    p.sendMessage(MessageUtils.withPrefix("&6&lBosse Irani shekast khord!"));
+                    p.sendMessage(MessageUtils.withPrefix("&e" + name + " &ftavasote &a" + killerName + " &fkoshte shod!"));
+                    p.sendMessage(MessageUtils.color("&6Zende bad delavarane Iran zamin!"));
+                    p.sendMessage(MessageUtils.color("&8&l[----------------------------------------]"));
+                    p.playSound(p.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
                 }
             }
 
-            // دراپ ویژه
-            event.getDrops().clear();
-            event.setDroppedExp(100);
+            event.setDroppedExp(250);
 
-            if (name.contains("حسن صباح")) {
-                event.getDrops().add(new org.bukkit.inventory.ItemStack(org.bukkit.Material.DIAMOND_SWORD));
-            } else if (name.contains("داریوش")) {
-                event.getDrops().add(new org.bukkit.inventory.ItemStack(org.bukkit.Material.GOLD_BLOCK, 5));
-                event.getDrops().add(new org.bukkit.inventory.ItemStack(org.bukkit.Material.DIAMOND_BLOCK, 2));
+            // Reward legendary Iranian sword
+            if (plugin.getSwordsManager() != null) {
+                event.getDrops().add(plugin.getSwordsManager().getRandomSword());
+            }
+            if (plugin.getFoodsManager() != null) {
+                event.getDrops().add(plugin.getFoodsManager().getRandomFood());
             }
         }
     }
 
     @EventHandler
     public void onPlayerMove(PlayerMoveEvent event) {
-        // اگر بازیکن وارد محدوده دانجن شد، پیام بده
-        // برای سادگی، چک می‌کنیم آیا در نزدیکی دانجن است
         if (event.getFrom().getBlockX() == event.getTo().getBlockX() &&
                 event.getFrom().getBlockZ() == event.getTo().getBlockZ()) return;
 
-        for (java.util.Map.Entry<String, org.bukkit.Location> entry : plugin.getDungeonManager().getGeneratedDungeons().entrySet()) {
-            org.bukkit.Location dungeonLoc = entry.getValue();
-            if (!dungeonLoc.getWorld().equals(event.getPlayer().getWorld())) continue;
+        for (Map.Entry<String, Location> entry : plugin.getDungeonManager().getGeneratedDungeons().entrySet()) {
+            Location dungeonLoc = entry.getValue();
+            if (dungeonLoc.getWorld() == null || !dungeonLoc.getWorld().equals(event.getPlayer().getWorld())) continue;
 
             double dist = event.getPlayer().getLocation().distance(dungeonLoc);
-            if (dist < 30 && dist > 28) { // در حال نزدیک شدن
+            if (dist < 32 && dist > 27) {
                 String typeId = entry.getKey().split("_")[0];
-                ir.iranian.hardcore.dungeons.DungeonType type = ir.iranian.hardcore.dungeons.DungeonType.fromId(typeId);
+                DungeonType type = DungeonType.fromId(typeId);
+                if (type == null) {
+                    type = DungeonType.fromName(entry.getKey());
+                }
                 if (type != null) {
                     Player p = event.getPlayer();
-                    p.sendMessage(MessageUtils.withPrefix("&6&l🏛 نزدیک دانجن ایرانی شدی: &e" + type.getPersianName()));
+                    p.sendMessage(MessageUtils.withPrefix("&6&lNazdike Dungeon Irani shodid: &e" + type.getFinglishName()));
                     p.sendMessage(MessageUtils.withPrefix("&7" + type.getDescription()));
-                    p.sendTitle(MessageUtils.color("&6" + type.getPersianName()), MessageUtils.color("&7" + type.getDescription()), 20, 60, 20);
-                    p.playSound(p.getLocation(), org.bukkit.Sound.BLOCK_PORTAL_AMBIENT, 1.0f, 0.5f);
+                    p.sendMessage(MessageUtils.color("&cBoss: " + type.getBossName()));
+                    p.sendTitle(MessageUtils.color("&6" + type.getFinglishName()), MessageUtils.color("&eBoss: " + type.getBossName()), 20, 60, 20);
+                    p.playSound(p.getLocation(), Sound.BLOCK_PORTAL_AMBIENT, 1.0f, 0.5f);
                 }
                 break;
             }

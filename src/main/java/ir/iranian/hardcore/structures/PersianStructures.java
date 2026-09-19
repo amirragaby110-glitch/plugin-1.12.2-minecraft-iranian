@@ -10,17 +10,18 @@ import org.bukkit.block.Biome;
 import org.bukkit.block.Block;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.IronGolem;
 import org.bukkit.entity.Villager;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Random;
 
 /**
- * سازه‌های ایرانی روی مپ - کاملا فارسی
- * - بازار ایرانی
- * - کاروانسرای شاه عباسی
- * - چایخانه سنتی
- * - آب‌انبار یزدی
+ * Sazehaye Irani rooye map - v5.0 Finglish
+ * - Bazar Irani
+ * - Karvansaraye Shah Abbasi
+ * - Chaykhane sonati
+ * - Ab Anbare Yazdi
  */
 public class PersianStructures {
 
@@ -32,10 +33,12 @@ public class PersianStructures {
     }
 
     public enum StructureType {
-        BAZAAR("بازار ایرانی", "Persian Bazaar", Material.EMERALD_BLOCK, "بازار سنتی با حجره‌های ایرانی"),
-        CARAVANSERAI("کاروانسرای شاه عباسی", "Shah Abbasi Caravanserai", Material.SANDSTONE, "استراحتگاه کاروانیان جاده ابریشم"),
-        CHAIKHANEH("چایخانه سنتی", "Traditional Teahouse", Material.WOOD, "چایخانه با سماور و قلیان"),
-        AB_ANBAR("آب‌انبار یزدی", "Yazd Ab Anbar", Material.SMOOTH_BRICK, "آب‌انبار خنک کویری با بادگیر");
+        BAZAAR("Bazar Irani", "Persian Bazaar", Material.EMERALD_BLOCK, "Bazare sonati ba hojrehaye Irani"),
+        CARAVANSERAI("Karvansaraye Shah Abbasi", "Shah Abbasi Caravanserai", Material.SANDSTONE, "Esterahatgahe jaddaye Abrisham"),
+        CHAIKHANEH("Chaykhane Sonati", "Traditional Teahouse", Material.WOOD, "Chaykhane ba samavar"),
+        AB_ANBAR("Ab Anbare Yazdi", "Yazd Ab Anbar", Material.SMOOTH_BRICK, "Ab Anbare khonake kaviri ba badgir"),
+        MOSQUE("Masjed Roostayi", "Rural Mosque", Material.LAPIS_BLOCK, "Masjede sonati"),
+        VILLAGE("Roostaye Irani", "Iranian Village", Material.COBBLESTONE, "Roostaye sonatie Kandovan");
 
         private final String persianName;
         private final String englishName;
@@ -50,63 +53,85 @@ public class PersianStructures {
         }
 
         public String getPersianName() { return persianName; }
+        public String getEnglishName() { return englishName; }
         public Material getIcon() { return icon; }
+        public String getDesc() { return desc; }
+    }
+
+    public boolean forceBuildStructure(Location origin, StructureType type) {
+        switch (type) {
+            case BAZAAR: return buildBazaar(origin);
+            case CARAVANSERAI: return buildCaravanserai(origin);
+            case CHAIKHANEH: return buildChaikhaneh(origin);
+            case AB_ANBAR: return buildAbAnbar(origin);
+            case VILLAGE:
+                if (plugin.getVillageManager() != null) {
+                    plugin.getVillageManager().generateVillage(origin);
+                    return true;
+                }
+                return buildBazaar(origin);
+            case MOSQUE:
+            default:
+                return buildBazaar(origin);
+        }
     }
 
     /**
-     * ساخت بازار ایرانی - در دهکده‌ها و دشت
+     * Sakhtane Bazar Irani
      */
     public boolean buildBazaar(Location origin) {
         World world = origin.getWorld();
+        if (world == null) return false;
         int ox = origin.getBlockX();
         int oy = origin.getBlockY();
         int oz = origin.getBlockZ();
 
-        // کف بازار 15x15
+        // Floor 15x15
         fill(world, ox - 7, oy, oz - 7, ox + 7, oy, oz + 7, Material.WOOD);
-        fill(world, ox - 7, oy, oz - 7, ox + 7, oy, oz + 7, Material.CARPET, (byte) 14); // قرمز
+        fill(world, ox - 7, oy, oz - 7, ox + 7, oy, oz + 7, Material.CARPET, (byte) 14);
 
-        // حجره‌ها (4 طرف)
+        // Hojreha
         buildHojreh(world, ox - 6, oy, oz - 6);
         buildHojreh(world, ox + 6, oy, oz - 6);
         buildHojreh(world, ox - 6, oy, oz + 6);
         buildHojreh(world, ox + 6, oy, oz + 6);
 
-        // سقف گنبدی بازار (طاق)
+        // Roof
         fill(world, ox - 7, oy + 5, oz - 7, ox + 7, oy + 5, oz + 7, Material.WOOD);
         fill(world, ox - 6, oy + 6, oz - 6, ox + 6, oy + 6, oz + 6, Material.WOOD);
 
-        // روستاییان فروشنده ایرانی
-        spawnPersianVillager(world, ox - 5, oy + 1, oz - 5, "فرش‌فروش کرمانی", PersianItems.createFarshKermani());
-        spawnPersianVillager(world, ox + 5, oy + 1, oz - 5, "چای‌فروش لاهیجانی", PersianItems.createChaiIrani());
-        spawnPersianVillager(world, ox - 5, oy + 1, oz + 5, "جواهر‌فروش اصفهانی", PersianItems.createMorvaridKhalij());
-        spawnPersianVillager(world, ox + 5, oy + 1, oz + 5, "عتیقه‌فروش شیرازی", PersianItems.createSekkeHakhamaneshi());
+        // Villagers
+        spawnPersianVillager(world, ox - 5, oy + 1, oz - 5, "Farshforoosh Kermani");
+        spawnPersianVillager(world, ox + 5, oy + 1, oz - 5, "Chayforoosh Lahijani");
+        spawnPersianVillager(world, ox - 5, oy + 1, oz + 5, "Javaherforoosh Esfahani");
+        spawnPersianVillager(world, ox + 5, oy + 1, oz + 5, "Atigheforoosh Shirazi");
 
-        // چست‌های بازار
+        // Chests
         setChest(world, ox, oy + 1, oz, StructureType.BAZAAR);
 
-        world.spawnEntity(new Location(world, ox, oy + 1, oz), EntityType.IRON_GOLEM).setCustomName(MessageUtils.color("&6نگهبان بازار"));
+        IronGolem golem = (IronGolem) world.spawnEntity(new Location(world, ox, oy + 1, oz), EntityType.IRON_GOLEM);
+        golem.setCustomName(MessageUtils.color("&6Negahbane Bazar"));
+        golem.setCustomNameVisible(true);
 
         return true;
     }
 
     /**
-     * کاروانسرای شاه عباسی - در بیابان
+     * Karvansaraye Shah Abbasi
      */
     public boolean buildCaravanserai(Location origin) {
         World world = origin.getWorld();
+        if (world == null) return false;
         int ox = origin.getBlockX();
         int oy = origin.getBlockY();
         int oz = origin.getBlockZ();
 
-        // دیوار بیرونی 25x25
         buildWalls(world, ox, oy, oz, 12, 6, Material.SANDSTONE);
 
-        // حیاط مرکزی
+        // Courtyard
         fill(world, ox - 8, oy, oz - 8, ox + 8, oy, oz + 8, Material.SANDSTONE);
-        fill(world, ox - 6, oy, oz - 6, ox + 6, oy, oz + 6, Material.WATER); // حوض
+        fill(world, ox - 6, oy, oz - 6, ox + 6, oy, oz + 6, Material.WATER);
 
-        // حجره‌های دور حیاط (استراحتگاه)
         for (int x = -10; x <= 10; x += 5) {
             for (int z = -10; z <= 10; z += 10) {
                 if (Math.abs(x) == 10 || Math.abs(z) == 10) {
@@ -115,84 +140,70 @@ public class PersianStructures {
             }
         }
 
-        // دروازه ورودی باشکوه
         fill(world, ox - 2, oy + 1, oz - 12, ox + 2, oy + 4, oz - 12, Material.AIR);
         fill(world, ox - 3, oy, oz - 13, ox + 3, oy + 5, oz - 13, Material.SANDSTONE);
         fill(world, ox - 2, oy + 1, oz - 13, ox + 2, oy + 4, oz - 13, Material.AIR);
 
-        // چست با آذوقه کاروان
         setChest(world, ox + 8, oy + 1, oz + 8, StructureType.CARAVANSERAI);
         setChest(world, ox - 8, oy + 1, oz - 8, StructureType.CARAVANSERAI);
 
-        spawnPersianVillager(world, ox, oy + 1, oz + 3, "کاروانسرادار عباسی", new ItemStack(Material.BREAD, 10));
+        spawnPersianVillager(world, ox, oy + 1, oz + 3, "Karvansaradar Abbasi");
 
         return true;
     }
 
     /**
-     * چایخانه سنتی - در جنگل و دشت
+     * Chaykhane Sonati
      */
     public boolean buildChaikhaneh(Location origin) {
         World world = origin.getWorld();
+        if (world == null) return false;
         int ox = origin.getBlockX();
         int oy = origin.getBlockY();
         int oz = origin.getBlockZ();
 
-        // کلبه چوبی 9x9
         buildWalls(world, ox, oy, oz, 4, 4, Material.WOOD);
         fill(world, ox - 4, oy + 4, oz - 4, ox + 4, oy + 4, oz + 4, Material.WOOD);
 
-        // داخل: فرش ایرانی
         fill(world, ox - 3, oy, oz - 3, ox + 3, oy, oz + 3, Material.CARPET, (byte) 14);
 
-        // سماور (ساده با بلوک)
         world.getBlockAt(ox, oy + 1, oz).setType(Material.FURNACE);
         world.getBlockAt(ox, oy + 2, oz).setType(Material.CAULDRON);
 
-        // تخت‌های سنتی
         world.getBlockAt(ox - 2, oy + 1, oz - 2).setType(Material.BED_BLOCK);
         world.getBlockAt(ox + 2, oy + 1, oz + 2).setType(Material.BED_BLOCK);
 
-        // چای
         setChest(world, ox + 1, oy + 1, oz, StructureType.CHAIKHANEH);
-
-        spawnPersianVillager(world, ox, oy + 1, oz + 1, "چایچی تبریزی", PersianItems.createChaiIrani());
+        spawnPersianVillager(world, ox, oy + 1, oz + 1, "Chaychie Tabrizi");
 
         return true;
     }
 
     /**
-     * آب‌انبار یزدی - در بیابان
+     * Ab Anbare Yazdi
      */
     public boolean buildAbAnbar(Location origin) {
         World world = origin.getWorld();
+        if (world == null) return false;
         int ox = origin.getBlockX();
         int oy = origin.getBlockY();
         int oz = origin.getBlockZ();
 
-        // گودال آب‌انبار 10 بلوک زیر زمین
         fill(world, ox - 5, oy - 10, oz - 5, ox + 5, oy, oz + 5, Material.SMOOTH_BRICK);
         fill(world, ox - 4, oy - 9, oz - 4, ox + 4, oy - 1, oz + 4, Material.AIR);
         fill(world, ox - 4, oy - 9, oz - 4, ox + 4, oy - 5, oz + 4, Material.WATER);
 
-        // گنبد روی آب‌انبار
         buildDome(world, ox, oy + 1, oz, 6, Material.SMOOTH_BRICK);
-
-        // بادگیر یزدی (برج خنک‌کننده)
         buildWindcatcher(world, ox + 6, oy, oz);
 
-        // پله‌ها به پایین
         for (int y = 0; y < 10; y++) {
             world.getBlockAt(ox + 5, oy - y, oz).setType(Material.SMOOTH_BRICK);
             world.getBlockAt(ox + 4, oy - y, oz).setType(Material.AIR);
         }
 
         setChest(world, ox, oy - 4, oz + 3, StructureType.AB_ANBAR);
-
         return true;
     }
-
-    // ==================== متدهای کمکی ====================
 
     private void buildHojreh(World world, int ox, int oy, int oz) {
         buildWalls(world, ox, oy, oz, 2, 4, Material.WOOD);
@@ -256,9 +267,7 @@ public class PersianStructures {
     }
 
     private void buildWindcatcher(World world, int ox, int oy, int oz) {
-        // برج بادگیر 4x4 ارتفاع 10
         buildWalls(world, ox, oy, oz, 1, 10, Material.SMOOTH_BRICK);
-        // شکاف‌های بادگیر
         for (int y = 5; y < 9; y++) {
             world.getBlockAt(ox - 1, oy + y, oz).setType(Material.AIR);
             world.getBlockAt(ox + 1, oy + y, oz).setType(Material.AIR);
@@ -267,13 +276,12 @@ public class PersianStructures {
         }
     }
 
-    private void spawnPersianVillager(World world, int x, int y, int z, String persianName, ItemStack tradeItem) {
+    private void spawnPersianVillager(World world, int x, int y, int z, String finglishName) {
         Location loc = new Location(world, x, y, z);
         Villager villager = (Villager) world.spawnEntity(loc, EntityType.VILLAGER);
-        villager.setCustomName(MessageUtils.color("&e" + persianName));
+        villager.setCustomName(MessageUtils.color("&e" + finglishName));
         villager.setCustomNameVisible(true);
         villager.setProfession(Villager.Profession.FARMER);
-        // در 1.12 معامله سفارشی سخت است، فقط نام فارسی می‌دهیم
     }
 
     private void setChest(World world, int x, int y, int z, StructureType type) {
@@ -301,25 +309,25 @@ public class PersianStructures {
                     chest.getInventory().addItem(new ItemStack(Material.WATER_BUCKET, 3));
                     chest.getInventory().addItem(new ItemStack(Material.GOLD_NUGGET, 5));
                     break;
+                default:
+                    chest.getInventory().addItem(PersianItems.getRandomPersianLoot());
+                    break;
             }
             chest.update();
         }
     }
 
-    /**
-     * تولید تصادفی سازه ایرانی در چانک
-     */
     public void tryGenerateInChunk(org.bukkit.Chunk chunk) {
         if (!plugin.getConfigManager().getBoolean("structures.enabled", true)) return;
 
-        double chance = plugin.getConfigManager().getDouble("structures.spawn-chance", 0.01); // 1%
+        double chance = plugin.getConfigManager().getDouble("structures.spawn-chance", 0.015);
         if (random.nextDouble() > chance) return;
 
         Location center = new Location(chunk.getWorld(), chunk.getX() * 16 + 8, 0, chunk.getZ() * 16 + 8);
         center.setY(chunk.getWorld().getHighestBlockYAt(center));
 
         Biome biome = center.getBlock().getBiome();
-        StructureType toBuild = null;
+        StructureType toBuild;
 
         if (biome.name().contains("DESERT") || biome.name().contains("MESA")) {
             toBuild = random.nextBoolean() ? StructureType.CARAVANSERAI : StructureType.AB_ANBAR;
@@ -333,13 +341,8 @@ public class PersianStructures {
 
         StructureType finalType = toBuild;
         org.bukkit.Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            switch (finalType) {
-                case BAZAAR: buildBazaar(center); break;
-                case CARAVANSERAI: buildCaravanserai(center); break;
-                case CHAIKHANEH: buildChaikhaneh(center); break;
-                case AB_ANBAR: buildAbAnbar(center); break;
-            }
-            plugin.getLogger().info("سازه ایرانی " + finalType.getPersianName() + " در " + center.getBlockX() + "," + center.getBlockZ() + " ساخته شد");
+            forceBuildStructure(center, finalType);
+            plugin.getLogger().info("Sazeye Irani " + finalType.getPersianName() + " dar " + center.getBlockX() + "," + center.getBlockZ() + " sakhte shod");
         }, 20L);
     }
 }

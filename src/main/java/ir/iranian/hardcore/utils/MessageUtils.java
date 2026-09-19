@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * ابزار پیام‌رسانی با پشتیبانی فارسی و رنگ
+ * Abzar payam-resani ba poshtibani Finglish va rang
  */
 public class MessageUtils {
 
-    private static String prefix = "&8[&cسخت&8] &r";
+    private static String prefix = "&8[&6Iran&8] &r";
 
     public static void setPrefix(String p) {
         prefix = p;

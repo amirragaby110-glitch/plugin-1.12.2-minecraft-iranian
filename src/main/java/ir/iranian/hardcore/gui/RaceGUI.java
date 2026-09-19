@@ -18,223 +18,157 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * GUI Entekhab Ghome Irani - v4.0 Finglish
- * 54 slot (6 radif) - 14 ghom Irani + etelaat
- * Finglish - baraye khandane behtar dar client haye English
+ * Race selection GUI - v5.0 Finglish
+ * 100% Finglish compatible for Aternos & Spigot 1.12.2
  */
 public class RaceGUI implements Listener {
 
     private final IranianHardcorePlugin plugin;
-    private final String guiTitle;
+    public static final String GUI_TITLE = MessageUtils.color("&8&lEntekhab Ghome Irani - Aghvam Iran");
+
+    // Slot positions for 14 Iranian tribes in a 54-slot inventory
+    private static final int[] RACE_SLOTS = {
+            10, 11, 12, 13, 14, 15, 16,
+            19, 20, 21, 22, 23, 24, 25
+    };
 
     public RaceGUI(IranianHardcorePlugin plugin) {
         this.plugin = plugin;
-        boolean finglish = true;
-        if (plugin.getLanguageManager() != null) {
-            finglish = plugin.getLanguageManager().isFinglish();
-        }
-        String defaultTitle = finglish ? "&8&l🇮🇷 Entekhab Ghome Irani - Aghvam Iran" : "&8&l🇮🇷 انتخاب قوم ایرانی - اقوام ایران";
-        this.guiTitle = MessageUtils.color(plugin.getConfigManager().getString("messages.race-gui-title", defaultTitle));
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
 
     public void openRaceGUI(Player player) {
-        boolean finglish = plugin.getLanguageManager() != null && plugin.getLanguageManager().isFinglish();
-        Inventory inv = Bukkit.createInventory(null, 54, guiTitle);
+        openRaceSelectionGUI(player);
+    }
 
-        RaceType[] races = RaceType.values();
-        int[] slots = {10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25, 28, 29};
+    public void openRaceSelectionGUI(Player player) {
+        Inventory inv = Bukkit.createInventory(null, 54, GUI_TITLE);
 
-        for (int i = 0; i < races.length && i < slots.length; i++) {
-            RaceType race = races[i];
-            ItemStack item = createRaceItem(race, player, finglish);
-            inv.setItem(slots[i], item);
+        // Fill background with black glass
+        ItemStack filler = createItem(Material.STAINED_GLASS_PANE, (short) 15, " ");
+        for (int i = 0; i < 54; i++) {
+            inv.setItem(i, filler);
         }
 
-        ItemStack info = new ItemStack(Material.BOOK);
-        ItemMeta meta = info.getItemMeta();
-        if (finglish) {
-            meta.setDisplayName(MessageUtils.color("&e&l📚 Rahnama Aghvam Irani"));
-            meta.setLore(MessageUtils.color(Arrays.asList(
-                    "&7Iran moteshakel az aghvam mokhtalef ba farhang ghani ast",
-                    "&7Har ghom ghodrat khas dar biome va sarzamin khod darad",
+        // Add 14 Iranian tribes
+        RaceType[] races = RaceType.values();
+        RaceType currentRace = plugin.getRaceManager().getPlayerRace(player);
+
+        for (int i = 0; i < races.length && i < RACE_SLOTS.length; i++) {
+            RaceType race = races[i];
+            int slot = RACE_SLOTS[i];
+            ItemStack item = createRaceItem(race, race == currentRace);
+            inv.setItem(slot, item);
+        }
+
+        // Info book at top center (slot 4)
+        ItemStack infoBook = new ItemStack(Material.BOOK);
+        ItemMeta meta = infoBook.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName(MessageUtils.color("&e&lRahnaye Aghvame Irani"));
+            List<String> lore = Arrays.asList(
+                    "&7Iran moteshekel az aghvame mokhtalef ba farhange ghani ast",
+                    "&7Har ghom ghodrate khas dar biome va sarzamine khod darad",
                     "&7Va dar biome doshman zaeef mishavad",
                     "",
-                    "&6&lAghvam Irani:",
-                    "&7• Fars - Pars - Takht Jamshid",
-                    "&7• Azari - Azarbayjan - Babak Khorramdin",
-                    "&7• Kord - Zagros - Oghab",
-                    "&7• Lor - Lorestan - Shir",
-                    "&7• Baloch - Balochestan - Kavir",
-                    "&7• Arab Khoozestan - Karoon",
-                    "&7• Torkaman - Asb Torkaman",
-                    "&7• Gilak - Gilan - Baran",
-                    "&7• Mazani - Mazandaran - Tabari",
-                    "&7• Bakhtiari - Kooch-neshin",
-                    "&7• Ghashghaei - Farsh Ghashghaei",
-                    "&7• Bandari - Khalij Fars - Daryanavard",
+                    "&6&lAghvame Irani:",
+                    "&7* Pars - Takht Jamshid, Pasargad",
+                    "&7* Azari - Azarbayjan, Babak Khorramdin",
+                    "&7* Kurd - Zagros, Oghab",
+                    "&7* Lor - Lorestan, Shir",
+                    "&7* Baloch - Baloochestan, Kavir",
+                    "&7* Arab - Khoozestan, Karoon",
+                    "&7* Turkmen - Asbe Torkaman",
+                    "&7* Gilak - Gilan, Baran",
+                    "&7* Mazani - Mazandaran, Tabari",
+                    "&7* Bakhtiari - Kooch neshin",
+                    "&7* Qashqayi - Farshe Ghashghayi",
+                    "&7* Bandari - Khalij Fars, Daryanavard",
+                    "&7* Khorasani - Mashhad, Ferdowsi",
+                    "&7* Sistani - Zabol, Rostam Dastan",
                     "",
-                    "&eBaraye entekhab ghome Irani rooye an click konid",
-                    "&cTaghir ghom faghat har 7 rooz momken ast!",
-                    "&6🇮🇷 Zende bad Iran - Aghvam Irani"
-            )));
-        } else {
-            meta.setDisplayName(MessageUtils.color("&e&l📚 راهنمای اقوام ایرانی"));
-            meta.setLore(MessageUtils.color(Arrays.asList(
-                    "&7ایران متشکل از اقوام مختلف با فرهنگ غنی است",
-                    "&7هر قوم قدرت خاص در بایوم و سرزمین خود دارد",
-                    "&7و در بایوم دشمن ضعیف می‌شود",
-                    "",
-                    "&6&lاقوام ایرانی:",
-                    "&7• فارس - پارس - تخت جمشید",
-                    "&7• آذری - آذربایجان - بابک خرمدین",
-                    "&7• کرد - زاگرس - عقاب",
-                    "&7• لر - لرستان - شیر",
-                    "&7• بلوچ - بلوچستان - کویر",
-                    "&7• عرب خوزستان - کارون",
-                    "&7• ترکمن - اسب ترکمن",
-                    "&7• گیلک - گیلان - باران",
-                    "&7• مازنی - مازندران - طبری",
-                    "&7• بختیاری - کوچ‌نشین",
-                    "&7• قشقایی - فرش قشقایی",
-                    "&7• بندری - خلیج فارس - دریانورد",
-                    "",
-                    "&eبرای انتخاب قوم ایرانی روی آن کلیک کنید",
-                    "&cتغییر قوم فقط هر 7 روز ممکن است!",
-                    "&6🇮🇷 زنده باد ایران - اقوام ایرانی"
-            )));
-        }
-        info.setItemMeta(meta);
-        inv.setItem(4, info);
-
-        ItemStack flag = new ItemStack(Material.WOOL, 1, (short) 14);
-        ItemMeta flagMeta = flag.getItemMeta();
-        if (finglish) {
-            flagMeta.setDisplayName(MessageUtils.color("&c&l🇮🇷 Parcham Iran"));
-            flagMeta.setLore(MessageUtils.color(Arrays.asList(
-                    "&7Iran - Mahd tamadon 7000 sale",
-                    "&7Aghvam mokhtalef, yek mellat vahed",
-                    "",
-                    "&a&lShoar: &fZende bad Iran!",
-                    "&b&lKhalij hameshe Fars!"
-            )));
-        } else {
-            flagMeta.setDisplayName(MessageUtils.color("&c&l🇮🇷 پرچم ایران"));
-            flagMeta.setLore(MessageUtils.color(Arrays.asList(
-                    "&7ایران - مهد تمدن 7000 ساله",
-                    "&7اقوام مختلف، یک ملت واحد",
-                    "",
-                    "&a&lشعار: &fزنده باد ایران!",
-                    "&b&lخلیج همیشه فارس!"
-            )));
-        }
-        flag.setItemMeta(flagMeta);
-        inv.setItem(49, flag);
-
-        RaceType current = plugin.getRaceManager().getRace(player);
-        if (current != null) {
-            ItemStack currentItem = new ItemStack(Material.GOLD_BLOCK);
-            ItemMeta currentMeta = currentItem.getItemMeta();
-            String name = finglish ? current.getFinglishName() : current.getPersianName();
-            if (finglish) {
-                currentMeta.setDisplayName(MessageUtils.color("&6&lGhom feli shoma: " + name));
-                currentMeta.setLore(MessageUtils.color(Arrays.asList(
-                        "&7Shoma ozv ghom &6" + name + " &7hastid",
-                        "&7Biome feli: &f" + player.getLocation().getBlock().getBiome().name(),
-                        "&7Ghodrat: " + (current.isHomeBiome(player.getLocation().getBlock().getBiome()) ? "&aKamel" : "&cZaeef")
-                )));
-            } else {
-                currentMeta.setDisplayName(MessageUtils.color("&6&lقوم فعلی شما: " + name));
-                currentMeta.setLore(MessageUtils.color(Arrays.asList(
-                        "&7شما عضو قوم &6" + name + " &7هستید",
-                        "&7بایوم فعلی: &f" + player.getLocation().getBlock().getBiome().name(),
-                        "&7قدرت: " + (current.isHomeBiome(player.getLocation().getBlock().getBiome()) ? "&aکامل" : "&cضعیف")
-                )));
+                    "&eBaraye entekhabe ghome Irani rooye an click konid",
+                    "&cTaghire ghom faghat har 7 rooz momken ast!",
+                    "&6Zende bad Iran - Aghvame Irani"
+            );
+            List<String> coloredLore = new ArrayList<>();
+            for (String line : lore) {
+                coloredLore.add(MessageUtils.color(line));
             }
-            currentItem.setItemMeta(currentMeta);
-            inv.setItem(53, currentItem);
+            meta.setLore(coloredLore);
+            infoBook.setItemMeta(meta);
         }
+        inv.setItem(4, infoBook);
 
-        ItemStack greenGlass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 5);
-        ItemMeta greenMeta = greenGlass.getItemMeta();
-        greenMeta.setDisplayName(MessageUtils.color(finglish ? "&aSabz - Tabiat Iran" : "&aسبز - طبیعت ایران"));
-        greenGlass.setItemMeta(greenMeta);
+        // Iranian flag colors at the top
+        ItemStack green = createItem(Material.STAINED_GLASS_PANE, (short) 13, "&aSabz - Tabiat Iran");
+        ItemStack white = createItem(Material.STAINED_GLASS_PANE, (short) 0, "&fSefid - Solh Iran");
+        ItemStack red = createItem(Material.STAINED_GLASS_PANE, (short) 14, "&cGhermez - Khoon Shohadaye Iran");
 
-        ItemStack whiteGlass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 0);
-        ItemMeta whiteMeta = whiteGlass.getItemMeta();
-        whiteMeta.setDisplayName(MessageUtils.color(finglish ? "&fSefid - Solh Iran" : "&fسفید - صلح ایران"));
-        whiteGlass.setItemMeta(whiteMeta);
+        inv.setItem(0, green); inv.setItem(1, green); inv.setItem(2, green);
+        inv.setItem(3, white);
+        inv.setItem(5, white);
+        inv.setItem(6, red); inv.setItem(7, red); inv.setItem(8, red);
 
-        ItemStack redGlass = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 14);
-        ItemMeta redMeta = redGlass.getItemMeta();
-        redMeta.setDisplayName(MessageUtils.color(finglish ? "&cGhermez - Khoon Shohaday Iran" : "&cقرمز - خون شهدای ایران"));
-        redGlass.setItemMeta(redMeta);
-
-        for (int i = 0; i < 54; i++) {
-            if (inv.getItem(i) == null) {
-                if (i % 3 == 0) inv.setItem(i, greenGlass);
-                else if (i % 3 == 1) inv.setItem(i, whiteGlass);
-                else inv.setItem(i, redGlass);
-            }
-        }
-
-        for (int i = 0; i < races.length && i < slots.length; i++) {
-            RaceType race = races[i];
-            ItemStack item = createRaceItem(race, player, finglish);
-            inv.setItem(slots[i], item);
-        }
-        inv.setItem(4, info);
-        inv.setItem(49, flag);
-        if (current != null) {
-            ItemStack currentItem = new ItemStack(Material.GOLD_BLOCK);
+        // Current race display (slot 49)
+        if (currentRace != null) {
+            ItemStack currentItem = new ItemStack(currentRace.getIcon());
             ItemMeta currentMeta = currentItem.getItemMeta();
-            String name = finglish ? current.getFinglishName() : current.getPersianName();
-            currentMeta.setDisplayName(MessageUtils.color(finglish ? "&6&lGhom feli shoma: " + name : "&6&lقوم فعلی شما: " + name));
-            currentItem.setItemMeta(currentMeta);
-            inv.setItem(53, currentItem);
+            if (currentMeta != null) {
+                currentMeta.setDisplayName(MessageUtils.color("&6&lGhome feli shoma: " + currentRace.getFinglishName()));
+                List<String> curLore = Arrays.asList(
+                        MessageUtils.color("&7Shoma ozve ghome &6" + currentRace.getFinglishName() + " &7hastid"),
+                        MessageUtils.color("&7Biome feli: &f" + player.getLocation().getBlock().getBiome().name()),
+                        MessageUtils.color("&7Ghodrat: " + (currentRace.isHomeBiome(player.getLocation().getBlock().getBiome()) ? "&aKamel" : "&cZaeef"))
+                );
+                currentMeta.setLore(curLore);
+                currentItem.setItemMeta(currentMeta);
+            }
+            inv.setItem(49, currentItem);
         }
 
         player.openInventory(inv);
-        if (finglish) {
-            player.sendMessage(MessageUtils.withPrefix("&aMenu entekhab ghom Irani baz shod! &7Yek ghom az aghvam asil Iran ra entekhab konid"));
-        } else {
-            player.sendMessage(MessageUtils.withPrefix("&aمنوی انتخاب قوم ایرانی باز شد! &7یک قوم از اقوام اصیل ایران را انتخاب کنید"));
-        }
+        player.sendMessage(MessageUtils.withPrefix("&aMenuye entekhabe ghome Irani baz shod! &7Yek ghom az aghvame asile Iran ra entekhab konid"));
     }
 
-    private ItemStack createRaceItem(RaceType race, Player player, boolean finglish) {
+    private ItemStack createRaceItem(RaceType race, boolean isCurrent) {
         ItemStack item = new ItemStack(race.getIcon());
         ItemMeta meta = item.getItemMeta();
-        String displayName = finglish ? race.getFinglishName() : race.getPersianName();
-        meta.setDisplayName(MessageUtils.color("&6&l" + displayName));
+        if (meta != null) {
+            String name = race.getFinglishName();
+            if (isCurrent) {
+                meta.setDisplayName(MessageUtils.color("&a&l✔ " + name + " &e(Ghome shoma)"));
+            } else {
+                meta.setDisplayName(MessageUtils.color("&6&l" + name));
+            }
 
-        List<String> lore = new ArrayList<>();
-        List<String> raceLore = finglish ? race.getLoreFinglish() : race.getLorePersian();
-        for (String line : raceLore) {
-            lore.add(MessageUtils.color(line));
-        }
-        lore.add("");
-        if (finglish) {
-            lore.add(MessageUtils.color("&7Biome haye khane (ghodrat kamel): &a" + race.getHomeBiomes().size()));
-            lore.add(MessageUtils.color("&7Biome haye doshman (zaaf): &c" + race.getHostileBiomes().size()));
+            List<String> lore = new ArrayList<>();
+            for (String line : race.getLoreFinglish()) {
+                lore.add(MessageUtils.color(line));
+            }
             lore.add("");
-            lore.add(MessageUtils.color("&e&l» Baraye entekhab in ghom Irani click konid"));
-        } else {
-            lore.add(MessageUtils.color("&7بایوم‌های خانه (قدرت کامل): &a" + race.getHomeBiomes().size()));
-            lore.add(MessageUtils.color("&7بایوم‌های دشمن (ضعف): &c" + race.getHostileBiomes().size()));
+            lore.add(MessageUtils.color("&7Biomehaye khane (ghodrat kamel): &a" + race.getHomeBiomes().size()));
+            lore.add(MessageUtils.color("&7Biomehaye doshman (zaaf): &c" + race.getHostileBiomes().size()));
             lore.add("");
-            lore.add(MessageUtils.color("&e&l» برای انتخاب این قوم ایرانی کلیک کنید"));
-        }
+            if (isCurrent) {
+                lore.add(MessageUtils.color("&a&l✔ Ghome feli shoma - Irani asil"));
+            } else {
+                lore.add(MessageUtils.color("&7&lClick konid ta ozve in ghom shavid"));
+            }
 
-        RaceType current = plugin.getRaceManager().getRace(player);
-        if (current != null && current == race) {
-            lore.add(MessageUtils.color(finglish ? "&a&l✔ Ghom feli shoma - Irani asil" : "&a&l✔ قوم فعلی شما - ایرانی اصیل"));
-        } else {
-            lore.add(MessageUtils.color(finglish ? "&7&lClick konid ta ozv in ghom shavid" : "&7&lکلیک کنید تا عضو این قوم شوید"));
+            meta.setLore(lore);
+            item.setItemMeta(meta);
         }
+        return item;
+    }
 
-        meta.setLore(lore);
-        item.setItemMeta(meta);
+    private ItemStack createItem(Material material, short data, String name) {
+        ItemStack item = new ItemStack(material, 1, data);
+        ItemMeta meta = item.getItemMeta();
+        if (meta != null) {
+            meta.setDisplayName(MessageUtils.color(name));
+            item.setItemMeta(meta);
+        }
         return item;
     }
 
@@ -243,23 +177,20 @@ public class RaceGUI implements Listener {
         if (!(event.getWhoClicked() instanceof Player)) return;
         Player player = (Player) event.getWhoClicked();
 
-        if (!event.getView().getTitle().equals(guiTitle)) return;
+        if (event.getView() == null || !event.getView().getTitle().equals(GUI_TITLE)) return;
 
         event.setCancelled(true);
 
         ItemStack clicked = event.getCurrentItem();
         if (clicked == null || clicked.getType() == Material.AIR) return;
-        if (clicked.getType() == Material.STAINED_GLASS_PANE || clicked.getType() == Material.BOOK || clicked.getType() == Material.GOLD_BLOCK) {
-            if (clicked.getType() == Material.BOOK || clicked.getType() == Material.GOLD_BLOCK) return;
-            if (clicked.getType() == Material.STAINED_GLASS_PANE) return;
-        }
+        if (clicked.getType() == Material.STAINED_GLASS_PANE || clicked.getType() == Material.BOOK) return;
 
         RaceType selected = null;
         for (RaceType race : RaceType.values()) {
             if (clicked.getType() == race.getIcon()) {
                 if (clicked.getItemMeta() != null && clicked.getItemMeta().getDisplayName() != null) {
                     String display = clicked.getItemMeta().getDisplayName();
-                    if (display.contains(race.getFinglishName()) || display.contains(race.getPersianName()) || display.contains(race.getEnglishName()) || display.contains(race.getId())) {
+                    if (display.contains(race.getFinglishName()) || display.contains(race.getEnglishName()) || display.contains(race.getId())) {
                         selected = race;
                         break;
                     }
@@ -269,24 +200,15 @@ public class RaceGUI implements Listener {
 
         if (selected == null) {
             int slot = event.getSlot();
-            int[] slots = {10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24, 25, 28, 29};
-            RaceType[] races = RaceType.values();
-            for (int i = 0; i < slots.length; i++) {
-                if (slots[i] == slot && i < races.length) {
-                    selected = races[i];
-                    break;
-                }
-            }
+            selected = getRaceFromSlot(slot);
         }
 
         if (selected == null) return;
 
-        RaceType current = plugin.getRaceManager().getRace(player);
+        RaceType current = plugin.getRaceManager().getPlayerRace(player);
         if (current != null) {
             if (!plugin.getRaceManager().canChangeRace(player)) {
-                long remaining = plugin.getRaceManager().getRemainingDaysForRaceChange(player);
-                boolean finglish = plugin.getLanguageManager() != null && plugin.getLanguageManager().isFinglish();
-                String msgKey = finglish ? "general.prefix-finglish" : "race.change-cooldown-message";
+                long remaining = plugin.getRaceManager().getRaceChangeCooldownLeftDays(player);
                 String msg = plugin.getConfigManager().getString("race.change-cooldown-message", "&cBayad %days% rooz digar sabr konid.");
                 msg = msg.replace("%days%", String.valueOf(remaining));
                 player.sendMessage(MessageUtils.withPrefix(msg));
@@ -294,19 +216,26 @@ public class RaceGUI implements Listener {
                 return;
             }
             if (current == selected) {
-                boolean finglish = plugin.getLanguageManager() != null && plugin.getLanguageManager().isFinglish();
-                String name = finglish ? current.getFinglishName() : current.getPersianName();
-                if (finglish) {
-                    player.sendMessage(MessageUtils.withPrefix("&eShoma ozv hamin ghom Irani hastid! &6" + name));
-                } else {
-                    player.sendMessage(MessageUtils.withPrefix("&eشما عضو همین قوم ایرانی هستید! &6" + name));
-                }
+                player.sendMessage(MessageUtils.withPrefix("&eShoma ozve hamin ghome Irani hastid! &6" + current.getFinglishName()));
                 player.closeInventory();
                 return;
             }
         }
 
-        plugin.getRaceManager().setRace(player, selected);
+        plugin.getRaceManager().setPlayerRace(player, selected);
+        plugin.getRaceManager().recordRaceChange(player);
         player.closeInventory();
+    }
+
+    public RaceType getRaceFromSlot(int slot) {
+        for (int i = 0; i < RACE_SLOTS.length; i++) {
+            if (RACE_SLOTS[i] == slot) {
+                RaceType[] races = RaceType.values();
+                if (i < races.length) {
+                    return races[i];
+                }
+            }
+        }
+        return null;
     }
 }

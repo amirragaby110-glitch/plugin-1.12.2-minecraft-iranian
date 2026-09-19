@@ -2,161 +2,260 @@ package ir.iranian.hardcore.race;
 
 import ir.iranian.hardcore.IranianHardcorePlugin;
 import ir.iranian.hardcore.utils.MessageUtils;
-import org.bukkit.Bukkit;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
+import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
- * مدیریت اقوام ایرانی - هر بایوم یک قوم
- * نسخه 3.5 - کاملا فارسی - اقوام واقعی ایران
- * ذخیره، بارگذاری، اعمال قابلیت‌های مخصوص هر قوم
+ * Modiriat aghvame Irani - Har biome yek ghom
+ * v5.0 Finglish - Aghvame vaaghei Iran
+ * Zakhire, bargozaari, aemall ghabeliat haye makhsoose har ghom
  */
 public class RaceManager {
 
     private final IranianHardcorePlugin plugin;
+    private final Map<UUID, RaceType> playerRaces = new HashMap<>();
 
     public RaceManager(IranianHardcorePlugin plugin) {
         this.plugin = plugin;
     }
 
-    public RaceType getRace(UUID uuid) {
-        String id = plugin.getConfigManager().getPlayerRace(uuid);
-        if (id == null) return null;
-        return RaceType.fromId(id);
+    public RaceType getPlayerRace(Player player) {
+        return getPlayerRace(player.getUniqueId());
     }
 
     public RaceType getRace(Player player) {
-        return getRace(player.getUniqueId());
+        return getPlayerRace(player);
     }
 
-    public boolean hasRace(Player player) {
-        return plugin.getConfigManager().hasRace(player.getUniqueId());
-    }
-
-    /**
-     * تنظیم قوم ایرانی بازیکن - کاملا فارسی
-     */
     public void setRace(Player player, RaceType race) {
-        UUID uuid = player.getUniqueId();
-        plugin.getConfigManager().setPlayerRace(uuid, race.getId());
-        long now = player.getWorld().getFullTime();
-        plugin.getConfigManager().setRaceChangeCooldown(uuid, now);
-
-        applyImmediatePerks(player, race);
-
-        player.sendMessage(MessageUtils.withPrefix("&a&lقوم ایرانی شما به &6&l" + race.getPersianName() + " &a&lتغییر یافت!"));
-        player.sendMessage(MessageUtils.color("&6&l🇮🇷 زنده باد قوم " + race.getPersianName() + "!"));
-        player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        for (String line : race.getLore()) {
-            player.sendMessage(MessageUtils.color(line));
-        }
-        player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        player.sendMessage(MessageUtils.withPrefix("&7برای اطلاعات بیشتر: &e/race info"));
-        player.sendTitle(MessageUtils.color("&6" + race.getPersianName()), MessageUtils.color("&aبه قوم ایرانی خوش آمدید!"), 20, 60, 20);
-        player.getWorld().playSound(player.getLocation(), org.bukkit.Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.5f);
-    }
-
-    public void setRaceNoCooldown(Player player, RaceType race) {
-        plugin.getConfigManager().setPlayerRace(player.getUniqueId(), race.getId());
-        applyImmediatePerks(player, race);
-        player.sendMessage(MessageUtils.withPrefix("&aقوم شما توسط ادمین به &6" + race.getPersianName() + " &aتنظیم شد! &6🇮🇷"));
-    }
-
-    public boolean canChangeRace(Player player) {
-        if (player.hasPermission("iranianhardcore.bypass.racecooldown")) return true;
-        UUID uuid = player.getUniqueId();
-        long lastChange = plugin.getConfigManager().getRaceChangeCooldown(uuid);
-        if (lastChange == 0) return true;
-
-        long now = player.getWorld().getFullTime();
-        long cooldownTicks = plugin.getConfigManager().getConfig().getInt("race.change-cooldown-days", 7) * 24000L;
-        long diff = now - lastChange;
-
-        return diff >= cooldownTicks;
+        setPlayerRace(player, race);
     }
 
     public long getRemainingDaysForRaceChange(Player player) {
-        UUID uuid = player.getUniqueId();
-        long lastChange = plugin.getConfigManager().getRaceChangeCooldown(uuid);
-        if (lastChange == 0) return 0;
-        long now = player.getWorld().getFullTime();
-        long cooldownTicks = plugin.getConfigManager().getConfig().getInt("race.change-cooldown-days", 7) * 24000L;
-        long diff = now - lastChange;
-        if (diff >= cooldownTicks) return 0;
-        long remainingTicks = cooldownTicks - diff;
-        return (remainingTicks / 24000) + 1;
+        return getRaceChangeCooldownLeftDays(player);
     }
 
-    private void applyImmediatePerks(Player player, RaceType race) {
+    public RaceType getPlayerRace(UUID uuid) {
+        if (playerRaces.containsKey(uuid)) {
+            return playerRaces.get(uuid);
+        }
+        String raceName = plugin.getConfigManager().getPlayerRace(uuid.toString());
+        if (raceName != null) {
+            RaceType type = RaceType.fromId(raceName);
+            if (type != null) {
+                playerRaces.put(uuid, type);
+                return type;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Tanzim ghome Irani bazikon - Finglish
+     */
+    public void setPlayerRace(Player player, RaceType race) {
+        setPlayerRace(player.getUniqueId(), race);
+        applyRaceInitialStats(player, race);
+
+        player.sendMessage(MessageUtils.color("&8&l[----------------------------------------]"));
+        player.sendMessage(MessageUtils.withPrefix("&a&lGhome Irani shoma be &6&l" + race.getFinglishName() + " &a&ltaghir yaft!"));
+        player.sendMessage(MessageUtils.color("&6&lZende bad ghome " + race.getFinglishName() + "!"));
+        player.sendMessage(MessageUtils.color("&7Biome khane: &a" + race.getHomeBiomes().get(0).name()));
+        player.sendMessage(MessageUtils.color("&7Ghodrat makhsoos: &eFaal shod dar biome khane"));
+        player.sendMessage(MessageUtils.color("&7Zaaf: &cDar biomehaye sardsir/garmasir motafavet"));
+        player.sendMessage(MessageUtils.withPrefix("&7Baraye etelaat bishtar: &e/race info"));
+        player.sendMessage(MessageUtils.color("&8&l[----------------------------------------]"));
+        player.sendTitle(MessageUtils.color("&6" + race.getFinglishName()), MessageUtils.color("&aBe ghome Irani khosh amadid!"), 20, 60, 20);
+    }
+
+    public void setPlayerRaceByAdmin(Player player, RaceType race) {
+        setPlayerRace(player.getUniqueId(), race);
+        applyRaceInitialStats(player, race);
+        player.sendMessage(MessageUtils.withPrefix("&aGhome shoma tavasote admin be &6" + race.getFinglishName() + " &atanzim shod! &6Zende bad Iran!"));
+    }
+
+    public void setPlayerRace(UUID uuid, RaceType race) {
+        playerRaces.put(uuid, race);
+        plugin.getConfigManager().setPlayerRace(uuid.toString(), race.getId());
+    }
+
+    public void applyRaceInitialStats(Player player, RaceType race) {
+        if (race == null) return;
+        try {
+            AttributeInstance maxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+            if (maxHealth != null) {
+                double baseHealth = plugin.getConfigManager().getDouble("hardcore.health.max-health", 10.0);
+                if (race == RaceType.SISTANI || race == RaceType.LOR) {
+                    baseHealth += 2.0;
+                }
+                maxHealth.setBaseValue(baseHealth);
+            }
+            AttributeInstance speed = player.getAttribute(Attribute.GENERIC_MOVEMENT_SPEED);
+            if (speed != null) {
+                double baseSpeed = 0.1;
+                if (race == RaceType.TURKMEN || race == RaceType.QASHQAYI) {
+                    baseSpeed = 0.115;
+                }
+                speed.setBaseValue(baseSpeed);
+            }
+        } catch (Exception ignored) {}
+    }
+
+    public void applyBiomeBuffs(Player player) {
+        RaceType race = getPlayerRace(player);
+        if (race == null) return;
+
+        Biome currentBiome = player.getLocation().getBlock().getBiome();
+
+        if (race.isHomeBiome(currentBiome)) {
+            applyHomeBuffs(player, race);
+        } else if (race.isHostileBiome(currentBiome)) {
+            applyHostileDebuffs(player, race);
+        }
+    }
+
+    private void applyHomeBuffs(Player player, RaceType race) {
         switch (race) {
-            case BANDARI:
-            case ARAB_KHUZESTAN:
-            case GILAK:
-                player.addPotionEffect(new PotionEffect(PotionEffectType.WATER_BREATHING, 6000, 0, false, false), true);
-                break;
-            case BALOCH:
             case FARS:
-                player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 6000, 0, false, false), true);
+                giveEffect(player, PotionEffectType.FAST_DIGGING, 60, 0);
+                giveEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 60, 0);
                 break;
             case AZARI:
-                player.addPotionEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 6000, 0, false, false), true);
-                player.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 6000, 0, false, false), true);
+                giveEffect(player, PotionEffectType.SPEED, 60, 0);
+                giveEffect(player, PotionEffectType.INCREASE_DAMAGE, 60, 0);
                 break;
-            default:
+            case KURD:
+                giveEffect(player, PotionEffectType.JUMP, 60, 1);
+                giveEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 60, 0);
+                break;
+            case LOR:
+                giveEffect(player, PotionEffectType.INCREASE_DAMAGE, 60, 0);
+                giveEffect(player, PotionEffectType.FAST_DIGGING, 60, 0);
+                break;
+            case BALOCH:
+                giveEffect(player, PotionEffectType.SPEED, 60, 0);
+                giveEffect(player, PotionEffectType.FIRE_RESISTANCE, 60, 0);
+                break;
+            case ARAB_KHUZESTAN:
+                giveEffect(player, PotionEffectType.WATER_BREATHING, 60, 0);
+                giveEffect(player, PotionEffectType.FIRE_RESISTANCE, 60, 0);
+                break;
+            case TURKMEN:
+                giveEffect(player, PotionEffectType.SPEED, 60, 1);
+                giveEffect(player, PotionEffectType.JUMP, 60, 0);
+                break;
+            case GILAK:
+                giveEffect(player, PotionEffectType.LUCK, 60, 1);
+                giveEffect(player, PotionEffectType.REGENERATION, 60, 0);
+                break;
+            case MAZANI:
+                giveEffect(player, PotionEffectType.SATURATION, 60, 0);
+                giveEffect(player, PotionEffectType.WATER_BREATHING, 60, 0);
+                break;
+            case BAKHTIARI:
+                giveEffect(player, PotionEffectType.JUMP, 60, 1);
+                giveEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 60, 0);
+                break;
+            case QASHQAYI:
+                giveEffect(player, PotionEffectType.SPEED, 60, 1);
+                giveEffect(player, PotionEffectType.FAST_DIGGING, 60, 0);
+                break;
+            case BANDARI:
+                giveEffect(player, PotionEffectType.WATER_BREATHING, 60, 0);
+                giveEffect(player, PotionEffectType.SPEED, 60, 0);
+                break;
+            case KHORASANI:
+                giveEffect(player, PotionEffectType.LUCK, 60, 1);
+                giveEffect(player, PotionEffectType.NIGHT_VISION, 100, 0);
+                break;
+            case SISTANI:
+                giveEffect(player, PotionEffectType.INCREASE_DAMAGE, 60, 1);
+                giveEffect(player, PotionEffectType.DAMAGE_RESISTANCE, 60, 0);
                 break;
         }
-
-        Bukkit.getScheduler().runTaskLater(plugin, () -> {
-            try {
-                if (player.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue() != 10.0) {
-                    player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(10.0);
-                    if (player.getHealth() > 10.0) player.setHealth(10.0);
-                }
-            } catch (Exception ignored) {}
-        }, 5L);
     }
 
-    public void clearRace(Player player) {
-        plugin.getConfigManager().removePlayerRace(player.getUniqueId());
-        player.sendMessage(MessageUtils.withPrefix("&cقوم ایرانی شما پاک شد!"));
+    private void applyHostileDebuffs(Player player, RaceType race) {
+        giveEffect(player, PotionEffectType.SLOW_DIGGING, 60, 0);
+        giveEffect(player, PotionEffectType.SLOW, 60, 0);
+    }
+
+    private void giveEffect(Player player, PotionEffectType type, int duration, int amplifier) {
+        if (!player.hasPotionEffect(type)) {
+            player.addPotionEffect(new PotionEffect(type, duration, amplifier, false, false));
+        }
+    }
+
+    public boolean canChangeRace(Player player) {
+        long lastChanged = plugin.getConfigManager().getRaceChangeLastUsed(player.getUniqueId().toString());
+        if (lastChanged == 0L) return true;
+        int cooldownDays = plugin.getConfigManager().getInt("race.change-cooldown-days", 7);
+        long cooldownMillis = (long) cooldownDays * 24 * 60 * 60 * 1000;
+        return System.currentTimeMillis() - lastChanged >= cooldownMillis;
+    }
+
+    public long getRaceChangeCooldownLeftDays(Player player) {
+        long lastChanged = plugin.getConfigManager().getRaceChangeLastUsed(player.getUniqueId().toString());
+        if (lastChanged == 0L) return 0;
+        int cooldownDays = plugin.getConfigManager().getInt("race.change-cooldown-days", 7);
+        long cooldownMillis = (long) cooldownDays * 24 * 60 * 60 * 1000;
+        long elapsed = System.currentTimeMillis() - lastChanged;
+        long remaining = cooldownMillis - elapsed;
+        if (remaining <= 0) return 0;
+        return (remaining / (24 * 60 * 60 * 1000)) + 1;
+    }
+
+    public void recordRaceChange(Player player) {
+        plugin.getConfigManager().setRaceChangeLastUsed(player.getUniqueId().toString(), System.currentTimeMillis());
+    }
+
+    public void removePlayerRace(Player player) {
+        playerRaces.remove(player.getUniqueId());
+        plugin.getConfigManager().setPlayerRace(player.getUniqueId().toString(), null);
+        player.sendMessage(MessageUtils.withPrefix("&cGhome Irani shoma pak shod!"));
     }
 
     public void sendRaceInfo(Player player) {
-        RaceType race = getRace(player);
+        RaceType race = getPlayerRace(player);
         if (race == null) {
-            player.sendMessage(MessageUtils.withPrefix("&cشما هنوز قوم ایرانی انتخاب نکرده‌اید!"));
-            player.sendMessage(MessageUtils.withPrefix("&eبرای انتخاب: &a/race choose &7یا &a/قوم"));
-            player.sendMessage(MessageUtils.withPrefix("&7اقوام ایرانی: فارس، آذری، کرد، لر، بلوچ، عرب، ترکمن، گیلک، مازنی، بختیاری، قشقایی، بندری، خراسانی، سیستانی"));
+            player.sendMessage(MessageUtils.withPrefix("&cShoma hanooz ghome Irani entekhab nakardeid!"));
+            player.sendMessage(MessageUtils.withPrefix("&eBaraye entekhab: &a/race choose &7ya &a/ghom"));
+            player.sendMessage(MessageUtils.withPrefix("&7Aghvame Irani: Pars, Azari, Kurd, Lor, Baloch, Arab, Turkmen, Gilak, Mazani, Bakhtiari, Qashqayi, Bandari, Khorasani, Sistani"));
             return;
         }
 
-        player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        player.sendMessage(MessageUtils.color("&6&l🇮🇷 قوم ایرانی شما: &e&l" + race.getPersianName()));
-        player.sendMessage(MessageUtils.color("&7انگلیسی: &f" + race.getEnglishName()));
-        player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        for (String line : race.getLore()) {
-            player.sendMessage(MessageUtils.color(line));
+        player.sendMessage(MessageUtils.color("&8&l[----------------------------------------]"));
+        player.sendMessage(MessageUtils.color("&6&lGhome Irani shoma: &e&l" + race.getFinglishName()));
+        player.sendMessage(MessageUtils.color("&7English: &f" + race.getEnglishName()));
+        for (String lore : race.getLoreFinglish()) {
+            player.sendMessage(MessageUtils.color(lore));
         }
-        player.sendMessage(MessageUtils.color("&7بایوم‌های خانه (قدرت کامل): &a" + race.getHomeBiomes().size() + " بایوم"));
-        for (org.bukkit.block.Biome b : race.getHomeBiomes()) {
-            player.sendMessage(MessageUtils.color("&8- &a" + b.name()));
+        player.sendMessage(MessageUtils.color("&8&l[----------------------------------------]"));
+        player.sendMessage(MessageUtils.color("&7Biomehaye khane (ghodrat kamel): &a" + race.getHomeBiomes().size() + " biome"));
+        for (Biome b : race.getHomeBiomes()) {
+            player.sendMessage(MessageUtils.color("  &a✔ &7" + b.name()));
         }
-        player.sendMessage(MessageUtils.color("&7بایوم‌های دشمن (ضعف): &c" + race.getHostileBiomes().size() + " بایوم"));
-        player.sendMessage(MessageUtils.color("&7بایوم فعلی شما: &f" + player.getLocation().getBlock().getBiome().name()));
-        boolean isHome = race.isHomeBiome(player.getLocation().getBlock().getBiome());
-        boolean isHostile = race.isHostileBiome(player.getLocation().getBlock().getBiome());
-        if (isHome) {
-            player.sendMessage(MessageUtils.color("&a&l✔ شما در سرزمین قوم خود هستید - قدرت کامل! زنده باد " + race.getPersianName() + "!"));
-        } else if (isHostile) {
-            player.sendMessage(MessageUtils.color("&c&l✘ شما در سرزمین دشمن قوم خود هستید - ضعیف شده‌اید!"));
+        player.sendMessage(MessageUtils.color("&7Biomehaye doshman (zaaf): &c" + race.getHostileBiomes().size() + " biome"));
+        player.sendMessage(MessageUtils.color("&7Biome feli shoma: &f" + player.getLocation().getBlock().getBiome().name()));
+
+        Biome current = player.getLocation().getBlock().getBiome();
+        if (race.isHomeBiome(current)) {
+            player.sendMessage(MessageUtils.color("&a&l✔ Shoma dar sarzamine ghome khod hastid - Ghodrat kamel! Zende bad " + race.getFinglishName() + "!"));
+        } else if (race.isHostileBiome(current)) {
+            player.sendMessage(MessageUtils.color("&c&l✘ Shoma dar sarzamine doshmane ghome khod hastid - Zaeef shodeid!"));
         } else {
-            player.sendMessage(MessageUtils.color("&e&l~ شما در سرزمین بی‌طرف هستید."));
+            player.sendMessage(MessageUtils.color("&e&l~ Shoma dar sarzamine bitaraf hastid."));
         }
-        player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        player.sendMessage(MessageUtils.color("&7برای تغییر قوم: &e/race change &7(هر 7 روز)"));
+
+        player.sendMessage(MessageUtils.color("&7Baraye taghir ghom: &e/race change &7(har 7 rooz)"));
+        player.sendMessage(MessageUtils.color("&8&l[----------------------------------------]"));
     }
 }

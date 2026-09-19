@@ -14,8 +14,8 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Random;
 
 /**
- * سازنده سازه‌های ایرانی - بدون NMS، فقط با Bukkit API
- * هر دانجن با بلوک‌گذاری مستقیم ساخته می‌شود
+ * Iran Iran‌Iran Iran - Iran NMSIran Iran Iran Bukkit API
+ * Iran Iran Iran Iran‌Iran Iran Iran Iran‌Iran
  */
 public class StructureBuilder {
 
@@ -27,13 +27,13 @@ public class StructureBuilder {
     }
 
     /**
-     * ساخت دانجن بر اساس نوع - نسخه 3.0 با 16 دانجن
+     * Iran Iran Iran Iran Iran - Iran 3.0 Iran 16 Iran
      */
     public boolean buildDungeon(Location origin, DungeonType type) {
         origin = findGround(origin);
         if (origin == null) return false;
 
-        plugin.getLogger().info("ساخت دانجن ایرانی " + type.getPersianName() + " در " + origin.getBlockX() + "," + origin.getBlockY() + "," + origin.getBlockZ() + " - بایوم: " + origin.getBlock().getBiome());
+        plugin.getLogger().info("Sakht-e dungeon-e Irani " + type.getPersianName() + " Iran " + origin.getBlockX() + "," + origin.getBlockY() + "," + origin.getBlockZ() + " - Iran: " + origin.getBlock().getBiome());
 
         switch (type) {
             case ALAMUT_CASTLE:
@@ -52,7 +52,7 @@ public class StructureBuilder {
                 return buildDakhmeh(origin);
             case TAKHT_JAMSHID_SKY:
                 return buildTakhtJamshid(origin);
-            // دانجن‌های جدید 3.0
+            // Iran‌Iran Iran 3.0
             case PASARGAD_TOMB:
                 return buildPasargad(origin);
             case BISOTUN_INSCRIPTION:
@@ -75,8 +75,8 @@ public class StructureBuilder {
     }
 
     private boolean buildGenericPersianDungeon(Location origin, DungeonType type) {
-        // برای دانجن‌های جدید که هنوز سازه اختصاصی ندارند، از ارگ بم به عنوان پایه استفاده کن
-        plugin.getLogger().info("ساخت دانجن عمومی برای " + type.getPersianName());
+        // Iran Iran‌Iran Iran Iran Iran Iran Iran Iran Iran Iran Iran Iran Iran Iran Iran Iran
+        plugin.getLogger().info("Sakht-e dungeon-e omoomi baraye " + type.getPersianName());
         return buildArgeBam(origin);
     }
 
@@ -86,7 +86,7 @@ public class StructureBuilder {
         int z = loc.getBlockZ();
         int y = world.getHighestBlockYAt(x, z);
         if (y < 5) return null;
-        // برای ندر و اند فرق می‌کند
+        // Iran Iran Iran Iran Iran Iran‌Iran
         if (world.getEnvironment() == World.Environment.NETHER) {
             y = 60;
         } else if (world.getEnvironment() == World.Environment.THE_END) {
@@ -95,59 +95,59 @@ public class StructureBuilder {
         return new Location(world, x, y, z);
     }
 
-    // ==================== قلعه الموت ====================
+    // ==================== Iran Iran ====================
     private boolean buildAlamutCastle(Location origin) {
         World world = origin.getWorld();
         int ox = origin.getBlockX();
         int oy = origin.getBlockY();
         int oz = origin.getBlockZ();
 
-        // پایه صخره‌ای
+        // Iran Iran‌Iran
         fillArea(world, ox - 12, oy - 5, oz - 12, ox + 12, oy, oz + 12, Material.STONE);
 
-        // دیوارهای قلعه 20x20
+        // DivarIran Iran 20x20
         buildWalls(world, ox, oy, oz, 10, 8, Material.COBBLESTONE);
-        buildWalls(world, ox, oy, oz, 9, 8, Material.AIR); // داخل خالی
+        buildWalls(world, ox, oy, oz, 9, 8, Material.AIR); // Dakhel khali
 
-        // برج‌های گوشه
+        // Borj‌Iran Iran
         buildTower(world, ox - 10, oy, oz - 10, 6, 12, Material.SMOOTH_BRICK);
         buildTower(world, ox + 10, oy, oz - 10, 6, 12, Material.SMOOTH_BRICK);
         buildTower(world, ox - 10, oy, oz + 10, 6, 12, Material.SMOOTH_BRICK);
         buildTower(world, ox + 10, oy, oz + 10, 6, 12, Material.SMOOTH_BRICK);
 
-        // برج مرکزی (آشیانه عقاب)
+        // Borj Iran (Iran Iran)
         buildTower(world, ox, oy, oz, 5, 18, Material.SMOOTH_BRICK);
-        // اتاق حسن صباح در بالا
+        // Iran Iran Iran Iran Iran
         fillArea(world, ox - 2, oy + 15, oz - 2, ox + 2, oy + 17, oz + 2, Material.WOOD);
         setBlock(world, ox, oy + 16, oz, Material.CHEST, true);
         placeChestWithLoot(world, ox, oy + 16, oz, DungeonType.ALAMUT_CASTLE);
 
-        // دروازه
+        // Darvazeh
         fillArea(world, ox - 1, oy + 1, oz - 10, ox + 1, oy + 3, oz - 10, Material.AIR);
         setBlock(world, ox, oy + 1, oz - 10, Material.IRON_FENCE, false);
 
-        // اسپاونرها
-        world.spawnEntity(new Location(world, ox, oy + 1, oz), EntityType.ZOMBIE).setCustomName(MessageUtils.color("&8سرباز اسماعیلی"));
-        world.spawnEntity(new Location(world, ox, oy + 16, oz + 1), EntityType.WITCH).setCustomName(MessageUtils.color("&4&lحسن صباح - پیر کوهستان"));
+        // Iran
+        world.spawnEntity(new Location(world, ox, oy + 1, oz), EntityType.ZOMBIE).setCustomName(MessageUtils.color("&8Iran Iran"));
+        world.spawnEntity(new Location(world, ox, oy + 16, oz + 1), EntityType.WITCH).setCustomName(MessageUtils.color("&4&lIran Iran - Iran Iran"));
 
-        // تابلو فارسی
+        // Iran Iran
         setBlock(world, ox, oy + 2, oz + 9, Material.SIGN_POST, false);
 
         return true;
     }
 
-    // ==================== معبد آناهیتا ====================
+    // ==================== Iran Iran ====================
     private boolean buildAnahitaTemple(Location origin) {
         World world = origin.getWorld();
         int ox = origin.getBlockX();
         int oy = origin.getBlockY();
         int oz = origin.getBlockZ();
 
-        // پایه معبد 30x15
+        // Iran Iran 30x15
         fillArea(world, ox - 15, oy, oz - 7, ox + 15, oy, oz + 7, Material.SMOOTH_BRICK);
         fillArea(world, ox - 14, oy, oz - 6, ox + 14, oy, oz + 6, Material.WATER);
 
-        // ستون‌ها (32 ستون مثل کنگاور)
+        // Sotoon‌Iran (32 Sotoon Iran Iran)
         for (int x = -14; x <= 14; x += 4) {
             for (int z = -6; z <= 6; z += 12) {
                 buildColumn(world, ox + x, oy + 1, oz + z, 8, Material.SMOOTH_BRICK);
@@ -159,84 +159,84 @@ public class StructureBuilder {
             }
         }
 
-        // سقف
+        // Saghf
         fillArea(world, ox - 15, oy + 9, oz - 7, ox + 15, oy + 9, oz + 7, Material.SMOOTH_BRICK);
 
-        // حوض مرکزی آناهیتا
+        // Iran Iran Iran
         fillArea(world, ox - 3, oy + 1, oz - 2, ox + 3, oy + 1, oz + 2, Material.WATER);
         fillArea(world, ox - 1, oy + 1, oz - 1, ox + 1, oy + 1, oz + 1, Material.GOLD_BLOCK);
 
-        // مجسمه آناهیتا (ساده)
+        // Iran Iran (Iran)
         buildColumn(world, ox, oy + 1, oz, 3, Material.QUARTZ_BLOCK);
         setBlock(world, ox, oy + 4, oz, Material.DIAMOND_BLOCK, false);
 
-        // چست
+        // Iran
         setBlock(world, ox + 10, oy + 1, oz, Material.CHEST, true);
         placeChestWithLoot(world, ox + 10, oy + 1, oz, DungeonType.ANAHITA_TEMPLE);
 
-        // باس
-        world.spawnEntity(new Location(world, ox, oy + 1, oz + 3), EntityType.EVOKER).setCustomName(MessageUtils.color("&b&lکاهن اعظم آناهیتا"));
+        // Iran
+        world.spawnEntity(new Location(world, ox, oy + 1, oz + 3), EntityType.EVOKER).setCustomName(MessageUtils.color("&b&lIran Iran Iran"));
 
         return true;
     }
 
-    // ==================== ارگ بم ====================
+    // ==================== Iran Iran ====================
     private boolean buildArgeBam(Location origin) {
         World world = origin.getWorld();
         int ox = origin.getBlockX();
         int oy = origin.getBlockY();
         int oz = origin.getBlockZ();
 
-        // دیوار عظیم خشتی 35x35
+        // Divar Iran Iran 35x35
         buildWalls(world, ox, oy, oz, 17, 10, Material.SANDSTONE);
-        // لایه دوم
+        // Iran Iran
         buildWalls(world, ox, oy, oz, 16, 9, Material.AIR);
-        // خندق؟ نه، کویر
+        // Iran Iran Iran
 
-        // خانه‌های داخل ارگ
+        // Iran‌Iran Iran Iran
         for (int i = 0; i < 5; i++) {
             int hx = ox - 12 + random.nextInt(24);
             int hz = oz - 12 + random.nextInt(24);
             buildSmallHouse(world, hx, oy, hz, Material.SANDSTONE);
         }
 
-        // برج و بارو
+        // Borj Iran Iran
         buildTower(world, ox - 17, oy, oz - 17, 5, 12, Material.SANDSTONE);
         buildTower(world, ox + 17, oy, oz - 17, 5, 12, Material.SANDSTONE);
         buildTower(world, ox - 17, oy, oz + 17, 5, 12, Material.SANDSTONE);
         buildTower(world, ox + 17, oy, oz + 17, 5, 12, Material.SANDSTONE);
 
-        // قلعه حاکم در مرکز
+        // Iran Iran Iran Iran
         buildWalls(world, ox, oy, oz, 6, 8, Material.SANDSTONE);
         fillArea(world, ox - 5, oy + 8, oz - 5, ox + 5, oy + 8, oz + 5, Material.SANDSTONE);
         setBlock(world, ox, oy + 1, oz, Material.CHEST, true);
         placeChestWithLoot(world, ox, oy + 1, oz, DungeonType.ARGE_BAM);
 
-        // بازارچه داخل ارگ
+        // BazaarIran Iran Iran
         setBlock(world, ox + 8, oy + 1, oz + 8, Material.CHEST, true);
         placeChestWithLoot(world, ox + 8, oy + 1, oz + 8, DungeonType.ARGE_BAM);
 
-        world.spawnEntity(new Location(world, ox, oy + 1, oz), EntityType.VILLAGER).setCustomName(MessageUtils.color("&6&lحاکم ارگ بم"));
-        world.spawnEntity(new Location(world, ox + 2, oy + 1, oz), EntityType.IRON_GOLEM).setCustomName(MessageUtils.color("&eنگهبان بم"));
+        world.spawnEntity(new Location(world, ox, oy + 1, oz), EntityType.VILLAGER).setCustomName(MessageUtils.color("&6&lIran Iran Iran"));
+        world.spawnEntity(new Location(world, ox + 2, oy + 1, oz), EntityType.IRON_GOLEM).setCustomName(MessageUtils.color("&eIran Iran"));
 
         return true;
     }
 
-    // ==================== بندر سیراف ====================
+    // ==================== Iran Iran ====================
     private boolean buildBandarSiraf(Location origin) {
         World world = origin.getWorld();
         int ox = origin.getBlockX();
         int oy = origin.getBlockY();
         int oz = origin.getBlockZ();
 
-        // اسکله چوبی
+        // Iran Iran
         fillArea(world, ox - 10, oy, oz - 5, ox + 10, oy, oz + 5, Material.WOOD);
         fillArea(world, ox - 12, oy - 2, oz - 6, ox + 12, oy - 1, oz + 6, Material.WOOD);
 
-        // آب اطراف
+        // Iran Iran
         fillArea(world, ox - 14, oy - 1, oz - 8, ox + 14, oy - 1, oz + 8, Material.WATER);
 
-        // انبارها
+        // Iran
         buildSmallHouse(world, ox - 8, oy, oz, Material.WOOD);
         setBlock(world, ox - 8, oy + 1, oz, Material.CHEST, true);
         placeChestWithLoot(world, ox - 8, oy + 1, oz, DungeonType.BANDAR_SIRAF);
@@ -245,163 +245,163 @@ public class StructureBuilder {
         setBlock(world, ox + 8, oy + 1, oz, Material.CHEST, true);
         placeChestWithLoot(world, ox + 8, oy + 1, oz, DungeonType.BANDAR_SIRAF);
 
-        // فانوس دریایی
+        // Iran Iran
         buildTower(world, ox, oy, oz + 12, 3, 15, Material.SANDSTONE);
         setBlock(world, ox, oy + 15, oz + 12, Material.GLOWSTONE, false);
         setBlock(world, ox, oy + 16, oz + 12, Material.FIRE, false);
 
-        // کشتی غرق شده
+        // Iran Iran Iran
         fillArea(world, ox + 15, oy - 3, oz, ox + 20, oy - 1, oz + 3, Material.WOOD);
         setBlock(world, ox + 18, oy - 2, oz + 1, Material.CHEST, true);
         placeChestWithLoot(world, ox + 18, oy - 2, oz + 1, DungeonType.BANDAR_SIRAF);
 
-        world.spawnEntity(new Location(world, ox, oy + 1, oz), EntityType.SKELETON).setCustomName(MessageUtils.color("&b&lناخدای سیراف - دزد دریایی"));
+        world.spawnEntity(new Location(world, ox, oy + 1, oz), EntityType.SKELETON).setCustomName(MessageUtils.color("&b&lIran Iran - Iran Iran"));
 
         return true;
     }
 
-    // ==================== قلعه بابک ====================
+    // ==================== Iran Iran ====================
     private boolean buildGhalehBabak(Location origin) {
         World world = origin.getWorld();
         int ox = origin.getBlockX();
         int oy = origin.getBlockY();
         int oz = origin.getBlockZ();
 
-        // پایه برفی
+        // Iran Iran
         fillArea(world, ox - 11, oy - 3, oz - 11, ox + 11, oy, oz + 11, Material.STONE);
         fillArea(world, ox - 11, oy, oz - 11, ox + 11, oy, oz + 11, Material.SNOW_BLOCK);
 
-        // دیوار قلعه
+        // Divar Iran
         buildWalls(world, ox, oy, oz, 10, 7, Material.COBBLESTONE);
         buildWalls(world, ox, oy, oz, 9, 7, Material.AIR);
 
-        // برج‌ها
+        // Borj‌Iran
         buildTower(world, ox - 10, oy, oz - 10, 4, 10, Material.SMOOTH_BRICK);
         buildTower(world, ox + 10, oy, oz - 10, 4, 10, Material.SMOOTH_BRICK);
 
-        // آتشکده داخل (گرما در سرما)
+        // Iran Iran (Iran Iran Iran)
         fillArea(world, ox - 2, oy + 1, oz - 2, ox + 2, oy + 1, oz + 2, Material.NETHERRACK);
         setBlock(world, ox, oy + 2, oz, Material.FIRE, false);
 
-        // پرچم سرخ خرمدینان
+        // Iran Iran Iran
         buildColumn(world, ox + 5, oy + 1, oz + 5, 8, Material.FENCE);
-        setBlock(world, ox + 5, oy + 9, oz + 5, Material.WOOL, false, (byte) 14); // قرمز
+        setBlock(world, ox + 5, oy + 9, oz + 5, Material.WOOL, false, (byte) 14); // Ghermez
 
-        // چست بابک
+        // Iran Iran
         setBlock(world, ox, oy + 1, oz + 2, Material.CHEST, true);
         placeChestWithLoot(world, ox, oy + 1, oz + 2, DungeonType.GHALEH_BABAK);
 
-        world.spawnEntity(new Location(world, ox, oy + 1, oz), EntityType.ZOMBIE).setCustomName(MessageUtils.color("&c&lبابک خرمدین - شیر آذربایجان"));
+        world.spawnEntity(new Location(world, ox, oy + 1, oz), EntityType.ZOMBIE).setCustomName(MessageUtils.color("&c&lIran Iran - Iran Iran"));
         ((org.bukkit.entity.Zombie) world.spawnEntity(new Location(world, ox, oy + 1, oz), EntityType.ZOMBIE)).setBaby(false);
 
         return true;
     }
 
-    // ==================== زیگورات چغازنبیل ====================
+    // ==================== Iran Iran ====================
     private boolean buildChoghaZanbil(Location origin) {
         World world = origin.getWorld();
         int ox = origin.getBlockX();
         int oy = origin.getBlockY();
         int oz = origin.getBlockZ();
 
-        // زیگورات 5 طبقه
-        // طبقه 1: 28x28 ارتفاع 5
+        // Iran 5 Iran
+        // Iran 1: 28x28 Iran 5
         fillArea(world, ox - 14, oy, oz - 14, ox + 14, oy + 4, oz + 14, Material.BRICK);
-        // طبقه 2: 22x22 ارتفاع 5
+        // Iran 2: 22x22 Iran 5
         fillArea(world, ox - 11, oy + 5, oz - 11, ox + 11, oy + 9, oz + 11, Material.BRICK);
-        // طبقه 3: 16x16 ارتفاع 5
+        // Iran 3: 16x16 Iran 5
         fillArea(world, ox - 8, oy + 10, oz - 8, ox + 8, oy + 14, oz + 8, Material.SANDSTONE);
-        // طبقه 4: 10x10 ارتفاع 5
+        // Iran 4: 10x10 Iran 5
         fillArea(world, ox - 5, oy + 15, oz - 5, ox + 5, oy + 19, oz + 5, Material.SANDSTONE);
-        // طبقه 5: معبد 6x6
+        // Iran 5: Iran 6x6
         fillArea(world, ox - 3, oy + 20, oz - 3, ox + 3, oy + 24, oz + 3, Material.GOLD_BLOCK);
         fillArea(world, ox - 2, oy + 21, oz - 2, ox + 2, oy + 23, oz + 2, Material.AIR);
 
-        // پله‌ها
+        // Iran‌Iran
         for (int y = 0; y < 20; y++) {
             setBlock(world, ox + 14, oy + y, oz, Material.BRICK_STAIRS, false);
         }
 
-        // چست در معبد بالا
+        // Iran Iran Iran Iran
         setBlock(world, ox, oy + 21, oz, Material.CHEST, true);
         placeChestWithLoot(world, ox, oy + 21, oz, DungeonType.CHOGHA_ZANBIL);
 
-        // آب اطراف (مرداب)
+        // Iran Iran (Iran)
         fillArea(world, ox - 16, oy - 1, oz - 16, ox + 16, oy - 1, oz + 16, Material.WATER);
-        fillArea(world, ox - 14, oy, oz - 14, ox + 14, oy, oz + 14, Material.BRICK); // حفظ زیگورات
+        fillArea(world, ox - 14, oy, oz - 14, ox + 14, oy, oz + 14, Material.BRICK); // Iran Iran
 
-        world.spawnEntity(new Location(world, ox, oy + 21, oz + 1), EntityType.SKELETON).setCustomName(MessageUtils.color("&6&lکاهن ایلامی - نگهبان اینشوشیناک"));
+        world.spawnEntity(new Location(world, ox, oy + 21, oz + 1), EntityType.SKELETON).setCustomName(MessageUtils.color("&6&lIran Iran - Iran Iran"));
 
         return true;
     }
 
-    // ==================== دخمه زرتشتی (ندر) ====================
+    // ==================== Iran Iran (Iran) ====================
     private boolean buildDakhmeh(Location origin) {
         World world = origin.getWorld();
         int ox = origin.getBlockX();
         int oy = origin.getBlockY();
         int oz = origin.getBlockZ();
 
-        // برج دایره‌ای 20 قطر
+        // Borj Iran‌Iran 20 Iran
         buildCircle(world, ox, oy, oz, 10, 6, Material.NETHER_BRICK);
         buildCircle(world, ox, oy, oz, 9, 6, Material.AIR);
 
-        // کف استخوان
+        // Kaf Iran
         fillArea(world, ox - 8, oy, oz - 8, ox + 8, oy, oz + 8, Material.SOUL_SAND);
-        // استخوان‌ها
+        // Iran‌Iran
         for (int i = 0; i < 10; i++) {
             int bx = ox - 7 + random.nextInt(14);
             int bz = oz - 7 + random.nextInt(14);
             setBlock(world, bx, oy + 1, bz, Material.BONE_BLOCK, false);
         }
 
-        // آتشکده مرکزی
+        // Iran Iran
         fillArea(world, ox - 2, oy + 1, oz - 2, ox + 2, oy + 1, oz + 2, Material.NETHER_BRICK);
         setBlock(world, ox, oy + 2, oz, Material.FIRE, false);
         setBlock(world, ox, oy + 3, oz, Material.FIRE, false);
 
-        // دیوار آتش
+        // Divar Iran
         buildCircle(world, ox, oy + 1, oz, 3, 4, Material.NETHER_FENCE);
 
-        // چست
+        // Iran
         setBlock(world, ox + 5, oy + 1, oz, Material.CHEST, true);
         placeChestWithLoot(world, ox + 5, oy + 1, oz, DungeonType.DAKHMEH_ZARTOSHTI);
 
-        world.spawnEntity(new Location(world, ox, oy + 1, oz + 2), EntityType.BLAZE).setCustomName(MessageUtils.color("&6&lموبد اعظم - نگهبان آتش"));
+        world.spawnEntity(new Location(world, ox, oy + 1, oz + 2), EntityType.BLAZE).setCustomName(MessageUtils.color("&6&lIran Iran - Iran Iran"));
 
         return true;
     }
 
-    // ==================== تخت جمشید آسمانی (اند) ====================
+    // ==================== Iran Iran Iran (Iran) ====================
     private boolean buildTakhtJamshid(Location origin) {
         World world = origin.getWorld();
         int ox = origin.getBlockX();
         int oy = origin.getBlockY();
         int oz = origin.getBlockZ();
 
-        // پایه عظیم 40x40
+        // Iran Iran 40x40
         fillArea(world, ox - 20, oy, oz - 20, ox + 20, oy + 2, oz + 20, Material.SANDSTONE);
         fillArea(world, ox - 19, oy + 3, oz - 19, ox + 19, oy + 3, oz + 19, Material.GOLD_BLOCK);
 
-        // 100 ستون؟ ما 16 ستون می‌سازیم برای سادگی (4x4)
+        // 100 SotoonIran Iran 16 Sotoon Iran‌Iran Iran Iran (4x4)
         for (int x = -15; x <= 15; x += 10) {
             for (int z = -15; z <= 15; z += 10) {
                 buildColumn(world, ox + x, oy + 4, oz + z, 20, Material.QUARTZ_BLOCK);
-                // سرستون گاو دو سر هخامنشی (ساده)
+                // IranSotoon Iran Iran Iran Iran (Iran)
                 setBlock(world, ox + x, oy + 24, oz + z, Material.GOLD_BLOCK, false);
             }
         }
 
-        // سقف آپادانا
+        // Saghf Iran
         fillArea(world, ox - 20, oy + 25, oz - 20, ox + 20, oy + 26, oz + 20, Material.SANDSTONE);
 
-        // تخت شاهی
+        // Iran Iran
         buildThrone(world, ox, oy + 4, oz + 15);
 
-        // دروازه ملل
+        // Darvazeh Iran
         buildGate(world, ox, oy + 4, oz - 20);
 
-        // چست‌های گنج هخامنشی
+        // Iran‌Iran Iran Iran
         setBlock(world, ox - 10, oy + 4, oz, Material.CHEST, true);
         placeChestWithLoot(world, ox - 10, oy + 4, oz, DungeonType.TAKHT_JAMSHID_SKY);
 
@@ -411,9 +411,9 @@ public class StructureBuilder {
         setBlock(world, ox, oy + 4, oz, Material.CHEST, true);
         placeChestWithLoot(world, ox, oy + 4, oz, DungeonType.TAKHT_JAMSHID_SKY);
 
-        // باس نهایی: داریوش بزرگ
+        // Iran Iran: Iran Iran
         org.bukkit.entity.Enderman boss = (org.bukkit.entity.Enderman) world.spawnEntity(new Location(world, ox, oy + 4, oz + 15), EntityType.ENDERMAN);
-        boss.setCustomName(MessageUtils.color("&6&l👑 داریوش بزرگ - شاه شاهان هخامنشی"));
+        boss.setCustomName(MessageUtils.color("&6&l👑 Iran Iran - Iran Iran Iran"));
         boss.setCustomNameVisible(true);
         boss.setMaxHealth(200);
         boss.setHealth(200);
@@ -421,7 +421,7 @@ public class StructureBuilder {
         return true;
     }
 
-    // ==================== دانجن‌های جدید نسخه 3.0 ====================
+    // ==================== Iran‌Iran Iran Iran 3.0 ====================
 
     private boolean buildPasargad(Location origin) {
         World world = origin.getWorld();
@@ -429,20 +429,20 @@ public class StructureBuilder {
         int oy = origin.getBlockY();
         int oz = origin.getBlockZ();
 
-        // آرامگاه کوروش - 6 پله
+        // Iran Iran - 6 Iran
         for (int i = 0; i < 6; i++) {
             int size = 10 - i;
             fillArea(world, ox - size, oy + i, oz - size, ox + size, oy + i, oz + size, Material.SANDSTONE);
         }
-        // اتاق آرامگاه
+        // Iran Iran
         fillArea(world, ox - 3, oy + 6, oz - 4, ox + 3, oy + 10, oz + 4, Material.SANDSTONE);
         fillArea(world, ox - 2, oy + 7, oz - 3, ox + 2, oy + 9, oz + 3, Material.AIR);
         setBlock(world, ox, oy + 7, oz, Material.CHEST, true);
         placeChestWithLoot(world, ox, oy + 7, oz, DungeonType.PASARGAD_TOMB);
 
-        world.spawnEntity(new Location(world, ox, oy + 7, oz + 2), EntityType.SKELETON).setCustomName(MessageUtils.color("&f&lنگهبان پاسارگاد - سرباز جاویدان"));
+        world.spawnEntity(new Location(world, ox, oy + 7, oz + 2), EntityType.SKELETON).setCustomName(MessageUtils.color("&f&lIran Iran - Iran Iran"));
 
-        // باغ پاسارگاد - چهار باغ ایرانی
+        // Iran Iran - Iran Iran Iran
         fillArea(world, ox - 15, oy, oz - 15, ox + 15, oy, oz + 15, Material.GRASS);
         fillArea(world, ox - 1, oy, oz - 15, ox + 1, oy, oz + 15, Material.WATER);
         fillArea(world, ox - 15, oy, oz - 1, ox + 15, oy, oz + 1, Material.WATER);
@@ -456,11 +456,11 @@ public class StructureBuilder {
         int oy = origin.getBlockY();
         int oz = origin.getBlockZ();
 
-        // دیوار کوه بیستون 30x20
+        // Divar Iran IranSotoon 30x20
         fillArea(world, ox - 15, oy, oz, ox + 15, oy + 20, oz, Material.SMOOTH_BRICK);
-        // کتیبه
+        // Iran
         fillArea(world, ox - 10, oy + 5, oz, ox + 10, oy + 15, oz, Material.SMOOTH_BRICK);
-        // نقش داریوش و اسیران
+        // Iran Iran Iran Iran
         for (int x = -8; x <= 8; x += 2) {
             setBlock(world, ox + x, oy + 10, oz + 1, Material.GOLD_BLOCK, false);
         }
@@ -468,7 +468,7 @@ public class StructureBuilder {
         setBlock(world, ox, oy + 6, oz + 1, Material.CHEST, true);
         placeChestWithLoot(world, ox, oy + 6, oz + 1, DungeonType.BISOTUN_INSCRIPTION);
 
-        world.spawnEntity(new Location(world, ox, oy + 6, oz + 2), EntityType.VILLAGER).setCustomName(MessageUtils.color("&7&lکاتب بیستون - داریوش بزرگ"));
+        world.spawnEntity(new Location(world, ox, oy + 6, oz + 2), EntityType.VILLAGER).setCustomName(MessageUtils.color("&7&lIran IranSotoon - Iran Iran"));
 
         return true;
     }
@@ -479,9 +479,9 @@ public class StructureBuilder {
         int oy = origin.getBlockY();
         int oz = origin.getBlockZ();
 
-        // کوه نقش رستم
+        // Iran Iran Iran
         fillArea(world, ox - 17, oy, oz, ox + 17, oy + 25, oz + 7, Material.SANDSTONE);
-        // 4 آرامگاه هخامنشی
+        // 4 Iran Iran
         for (int x = -12; x <= 12; x += 8) {
             fillArea(world, ox + x - 2, oy + 10, oz, ox + x + 2, oy + 15, oz, Material.AIR);
             fillArea(world, ox + x - 2, oy + 15, oz, ox + x + 2, oy + 16, oz, Material.SANDSTONE);
@@ -489,11 +489,11 @@ public class StructureBuilder {
             placeChestWithLoot(world, ox + x, oy + 11, oz + 1, DungeonType.NAQSH_ROSTAM);
         }
 
-        // کعبه زرتشت
+        // Iran Iran
         buildWalls(world, ox, oy, oz + 12, 3, 8, Material.SANDSTONE);
         fillArea(world, ox - 3, oy + 8, oz + 9, ox + 3, oy + 8, oz + 15, Material.SANDSTONE);
 
-        world.spawnEntity(new Location(world, ox, oy + 11, oz + 2), EntityType.SKELETON).setCustomName(MessageUtils.color("&6&lخشایارشا - شاه جنگاور"));
+        world.spawnEntity(new Location(world, ox, oy + 11, oz + 2), EntityType.SKELETON).setCustomName(MessageUtils.color("&6&lIran - Iran Iran"));
 
         return true;
     }
@@ -504,19 +504,19 @@ public class StructureBuilder {
         int oy = origin.getBlockY();
         int oz = origin.getBlockZ();
 
-        // دیوار تخت سلیمان 30x30
+        // Divar Iran Iran 30x30
         buildWalls(world, ox, oy, oz, 15, 8, Material.SMOOTH_BRICK);
-        // دریاچه جوشان وسط
+        // Iran Iran Iran
         fillArea(world, ox - 8, oy, oz - 8, ox + 8, oy, oz + 8, Material.WATER);
         fillArea(world, ox - 6, oy, oz - 6, ox + 6, oy, oz + 6, Material.ICE);
-        // آتشکده
+        // Iran
         buildWalls(world, ox, oy, oz, 4, 6, Material.NETHER_BRICK);
         setBlock(world, ox, oy + 2, oz, Material.FIRE, false);
 
         setBlock(world, ox + 10, oy + 1, oz, Material.CHEST, true);
         placeChestWithLoot(world, ox + 10, oy + 1, oz, DungeonType.TAKHT_SOLEYMAN);
 
-        world.spawnEntity(new Location(world, ox, oy + 1, oz), EntityType.BLAZE).setCustomName(MessageUtils.color("&b&lموبد تخت سلیمان"));
+        world.spawnEntity(new Location(world, ox, oy + 1, oz), EntityType.BLAZE).setCustomName(MessageUtils.color("&b&lIran Iran Iran"));
 
         return true;
     }
@@ -527,19 +527,19 @@ public class StructureBuilder {
         int oy = origin.getBlockY();
         int oz = origin.getBlockZ();
 
-        // هگمتانه - 7 دیوار رنگی
+        // Iran - 7 Divar Iran
         for (int r = 16; r >= 4; r -= 2) {
             Material mat = Material.WOOL;
             byte data = (byte) (r % 16);
             buildCircle(world, ox, oy + (16 - r), oz, r, 3, mat);
         }
 
-        // کاخ مرکزی
+        // Iran Iran
         buildWalls(world, ox, oy, oz, 4, 6, Material.SMOOTH_BRICK);
         setBlock(world, ox, oy + 1, oz, Material.CHEST, true);
         placeChestWithLoot(world, ox, oy + 1, oz, DungeonType.HEGMATANEH);
 
-        world.spawnEntity(new Location(world, ox, oy + 1, oz + 1), EntityType.ZOMBIE).setCustomName(MessageUtils.color("&2&lدیاکو - بنیان‌گذار ماد"));
+        world.spawnEntity(new Location(world, ox, oy + 1, oz + 1), EntityType.ZOMBIE).setCustomName(MessageUtils.color("&2&lIran - Iran‌Iran Iran"));
 
         return true;
     }
@@ -550,26 +550,26 @@ public class StructureBuilder {
         int oy = origin.getBlockY();
         int oz = origin.getBlockZ();
 
-        // آپادانای شوش 28x28
+        // Iran Iran 28x28
         fillArea(world, ox - 14, oy, oz - 14, ox + 14, oy, oz + 14, Material.BRICK);
-        // ستون‌ها
+        // Sotoon‌Iran
         for (int x = -10; x <= 10; x += 5) {
             for (int z = -10; z <= 10; z += 5) {
                 buildColumn(world, ox + x, oy + 1, oz + z, 10, Material.SMOOTH_BRICK);
                 setBlock(world, ox + x, oy + 11, oz + z, Material.GOLD_BLOCK, false);
             }
         }
-        // سقف
+        // Saghf
         fillArea(world, ox - 14, oy + 12, oz - 14, ox + 14, oy + 12, oz + 14, Material.BRICK);
 
-        // گاو بالدار
+        // Iran Iran
         setBlock(world, ox - 14, oy + 1, oz, Material.SANDSTONE, false);
         setBlock(world, ox + 14, oy + 1, oz, Material.SANDSTONE, false);
 
         setBlock(world, ox, oy + 1, oz, Material.CHEST, true);
         placeChestWithLoot(world, ox, oy + 1, oz, DungeonType.SUSA_PALACE);
 
-        world.spawnEntity(new Location(world, ox, oy + 1, oz + 2), EntityType.IRON_GOLEM).setCustomName(MessageUtils.color("&e&lسردار شوش"));
+        world.spawnEntity(new Location(world, ox, oy + 1, oz + 2), EntityType.IRON_GOLEM).setCustomName(MessageUtils.color("&e&lIran Iran"));
 
         return true;
     }
@@ -580,18 +580,18 @@ public class StructureBuilder {
         int oy = origin.getBlockY();
         int oz = origin.getBlockZ();
 
-        // مسجد جامع یزد 25x30
+        // Masjed Iran Iran 25x30
         buildWalls(world, ox, oy, oz, 12, 8, Material.SANDSTONE);
         fillArea(world, ox - 12, oy + 8, oz - 15, ox + 12, oy + 8, oz + 15, Material.SANDSTONE);
 
-        // دو مناره 52 متری (ساده 20 بلوک)
+        // Iran Iran 52 Iran (Iran 20 Iran)
         buildTower(world, ox - 12, oy, oz - 15, 2, 20, Material.SANDSTONE);
         buildTower(world, ox + 12, oy, oz - 15, 2, 20, Material.SANDSTONE);
 
-        // گنبد فیروزه‌ای
-        buildDome(world, ox, oy + 9, oz, 8, Material.WOOL, (byte) 9); // فیروزه‌ای
+        // Iran Firoozeh-ei
+        buildDome(world, ox, oy + 9, oz, 8, Material.WOOL, (byte) 9); // Firoozeh-ei
 
-        // محراب
+        // Iran
         fillArea(world, ox - 2, oy + 1, oz + 12, ox + 2, oy + 4, oz + 15, Material.GOLD_BLOCK);
 
         setBlock(world, ox, oy + 1, oz, Material.CHEST, true);
@@ -606,24 +606,24 @@ public class StructureBuilder {
         int oy = origin.getBlockY();
         int oz = origin.getBlockZ();
 
-        // برج آزادی - 4 پایه
+        // Borj Iran - 4 Iran
         buildColumn(world, ox - 6, oy, oz - 6, 15, Material.QUARTZ_BLOCK);
         buildColumn(world, ox + 6, oy, oz - 6, 15, Material.QUARTZ_BLOCK);
         buildColumn(world, ox - 6, oy, oz + 6, 15, Material.QUARTZ_BLOCK);
         buildColumn(world, ox + 6, oy, oz + 6, 15, Material.QUARTZ_BLOCK);
 
-        // طاق
+        // Iran
         fillArea(world, ox - 6, oy + 15, oz - 6, ox + 6, oy + 18, oz + 6, Material.QUARTZ_BLOCK);
         fillArea(world, ox - 3, oy + 15, oz - 3, ox + 3, oy + 18, oz + 3, Material.AIR);
 
-        // برج بالا
+        // Borj Iran
         buildWalls(world, ox, oy + 18, oz, 3, 10, Material.QUARTZ_BLOCK);
 
-        // پرچم ایران
+        // Iran Iran
         buildColumn(world, ox, oy + 28, oz, 5, Material.FENCE);
-        fillArea(world, ox, oy + 33, oz, ox, oy + 35, oz, Material.WOOL, (byte) 14); // قرمز
-        fillArea(world, ox, oy + 32, oz, ox, oy + 32, oz, Material.WOOL); // سفید
-        fillArea(world, ox, oy + 31, oz, ox, oy + 31, oz, Material.WOOL, (byte) 5); // سبز
+        fillArea(world, ox, oy + 33, oz, ox, oy + 35, oz, Material.WOOL, (byte) 14); // Ghermez
+        fillArea(world, ox, oy + 32, oz, ox, oy + 32, oz, Material.WOOL); // Sefid
+        fillArea(world, ox, oy + 31, oz, ox, oy + 31, oz, Material.WOOL, (byte) 5); // Sabz
 
         setBlock(world, ox, oy + 1, oz, Material.CHEST, true);
         placeChestWithLoot(world, ox, oy + 1, oz, DungeonType.AZADI_TOWER);
@@ -631,7 +631,7 @@ public class StructureBuilder {
         return true;
     }
 
-    // برای گنبد با رنگ
+    // Iran Iran Iran Iran
     private void buildDome(World world, int ox, int oy, int oz, int radius, Material mat, byte data) {
         for (int y = 0; y < radius; y++) {
             int r = radius - y;
@@ -647,7 +647,7 @@ public class StructureBuilder {
         }
     }
 
-    // ==================== متدهای کمکی ساخت ====================
+    // ==================== Iran Iran Iran ====================
 
     private void fillArea(World world, int x1, int y1, int z1, int x2, int y2, int z2, Material mat, byte data) {
         fillArea(world, x1, y1, z1, x2, y2, z2, mat);
@@ -730,7 +730,7 @@ public class StructureBuilder {
                 }
             }
         }
-        // داخل خالی
+        // Dakhel khali
         for (int x = -radius + 1; x < radius; x++) {
             for (int y = 1; y < height - 1; y++) {
                 for (int z = -radius + 1; z < radius; z++) {
@@ -777,7 +777,7 @@ public class StructureBuilder {
     private void buildGate(World world, int ox, int oy, int oz) {
         fillArea(world, ox - 3, oy, oz, ox + 3, oy + 6, oz, Material.SANDSTONE);
         fillArea(world, ox - 1, oy + 1, oz, ox + 1, oy + 4, oz, Material.AIR);
-        // گاو بالدار
+        // Iran Iran
         setBlock(world, ox - 3, oy + 1, oz + 1, Material.SANDSTONE, false);
         setBlock(world, ox + 3, oy + 1, oz + 1, Material.SANDSTONE, false);
     }
@@ -791,7 +791,7 @@ public class StructureBuilder {
             Chest chest = (Chest) block.getState();
             chest.getInventory().clear();
 
-            // لوت مخصوص هر دانجن - نسخه 3.0 با 16 دانجن
+            // Loot-e makhsoos Iran Iran - Iran 3.0 Iran 16 Iran
             switch (type) {
                 case ALAMUT_CASTLE:
                     chest.getInventory().addItem(PersianItems.createShamshirAlamut());
@@ -882,7 +882,7 @@ public class StructureBuilder {
                     break;
             }
 
-            // لوت تصادفی اضافی - 3 آیتم ایرانی
+            // Loot-e tasadofi Iran - 3 Iran Iran
             for (int i = 0; i < 3; i++) {
                 chest.getInventory().addItem(PersianItems.getRandomPersianLoot());
             }

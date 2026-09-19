@@ -1,25 +1,22 @@
 package ir.iranian.hardcore;
 
 import ir.iranian.hardcore.climate.TemperatureManager;
-import ir.iranian.hardcore.commands.BazaarCommand;
-import ir.iranian.hardcore.commands.DungeonCommand;
-import ir.iranian.hardcore.commands.HardcoreCommand;
-import ir.iranian.hardcore.commands.RaceCommand;
+import ir.iranian.hardcore.commands.*;
 import ir.iranian.hardcore.config.ConfigManager;
+import ir.iranian.hardcore.dungeons.BossFightManager;
 import ir.iranian.hardcore.dungeons.DungeonManager;
+import ir.iranian.hardcore.foods.IranianFoodsManager;
 import ir.iranian.hardcore.gui.RaceGUI;
 import ir.iranian.hardcore.hardcore.HardcoreManager;
+import ir.iranian.hardcore.items.CustomItemRegistry;
 import ir.iranian.hardcore.language.LanguageManager;
-import ir.iranian.hardcore.listeners.DungeonListener;
-import ir.iranian.hardcore.listeners.MobHardcoreListener;
-import ir.iranian.hardcore.listeners.PlayerHardcoreListener;
-import ir.iranian.hardcore.listeners.RaceListener;
-import ir.iranian.hardcore.listeners.SurvivalListener;
+import ir.iranian.hardcore.listeners.*;
 import ir.iranian.hardcore.mobs.IranianMobsManager;
 import ir.iranian.hardcore.race.RaceManager;
 import ir.iranian.hardcore.resourcepack.ResourcePackManager;
 import ir.iranian.hardcore.stores.PersianBazaar;
 import ir.iranian.hardcore.structures.PersianStructures;
+import ir.iranian.hardcore.swords.PersianSwordsManager;
 import ir.iranian.hardcore.thirst.ThirstManager;
 import ir.iranian.hardcore.utils.MessageUtils;
 import ir.iranian.hardcore.villages.IranianVillageManager;
@@ -27,23 +24,28 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
- * IranianHardcore - v4.0 Finglish + Climate + Thirst + Custom Mobs + Resource Pack
- * - Finglish version for servers where Persian doesn't display
- * - Temperature system (cold/hot biomes)
- * - Thirst system (must drink water)
- * - Custom Iranian mobs (Div, Simurgh, Zahhak, etc) with resource pack
- * - Fully compatible with 1.12.2
+ * IranianHardcore - v5.0 Finglish Edition
+ * - 900 Craftable Iranian Swords
+ * - 500 Functional Iranian Foods
+ * - 20,000 Procedural Iranian Items
+ * - 30 Historical Dungeons & 3-Phase Boss Fights
+ * - RLCraft Style Thirst System (Mashk Ab, Dirty Water, Purification)
+ * - Climate, Weather & Seasons System
+ * - 30 Iranian Mobs + Speaking Villagers + All Mobs Speaking Finglish
+ * - Resource Pack v5.0
+ * - 100% Finglish / English letters for Spigot 1.12.2 on Aternos
  */
 public class IranianHardcorePlugin extends JavaPlugin {
 
     private static IranianHardcorePlugin instance;
 
-    // Managers - v4.0
+    // Managers - v5.0
     private ConfigManager configManager;
     private LanguageManager languageManager;
     private RaceManager raceManager;
     private HardcoreManager hardcoreManager;
     private DungeonManager dungeonManager;
+    private BossFightManager bossFightManager;
     private PersianStructures persianStructures;
     private PersianBazaar persianBazaar;
     private IranianVillageManager villageManager;
@@ -52,84 +54,70 @@ public class IranianHardcorePlugin extends JavaPlugin {
     private ThirstManager thirstManager;
     private IranianMobsManager mobsManager;
     private ResourcePackManager resourcePackManager;
+    private PersianSwordsManager swordsManager;
+    private IranianFoodsManager foodsManager;
+    private CustomItemRegistry customItemRegistry;
 
     @Override
     public void onEnable() {
         instance = this;
 
-        // Banner - v4.0 Finglish
+        // Startup banner - v5.0 Finglish
         Bukkit.getConsoleSender().sendMessage("§8§l§m----------------------------------------");
-        Bukkit.getConsoleSender().sendMessage("§6§l🇮🇷 Iranian Hardcore §7- §cVersion 4.0 - Finglish + Climate + Thirst + Mobs");
-        Bukkit.getConsoleSender().sendMessage("§7✨ §a7000 years of Iranian history in Minecraft");
-        Bukkit.getConsoleSender().sendMessage("§7 Version: §a" + getDescription().getVersion() + " §7- Finglish compatible");
-        Bukkit.getConsoleSender().sendMessage("§7 For: §a1.12.2 Spigot/Paper - No NMS");
-        Bukkit.getConsoleSender().sendMessage("§7 Author: §eIranianTeam");
-        Bukkit.getConsoleSender().sendMessage("§7 Language: §aFinglish (Persian with English letters) + Persian");
-        Bukkit.getConsoleSender().sendMessage("§7 Climate: §bTemperature system - Cold/Hot biomes");
-        Bukkit.getConsoleSender().sendMessage("§7 Thirst: §bMust drink water - Mashk Ab");
-        Bukkit.getConsoleSender().sendMessage("§7 Mobs: §c7 Custom Iranian mobs - Div, Simurgh, Zahhak, etc");
-        Bukkit.getConsoleSender().sendMessage("§7 ResourcePack: §aCustom textures for Iranian mobs");
+        Bukkit.getConsoleSender().sendMessage("§6§l Iranian Hardcore §7- §cVersion 5.0 - Finglish Edition");
+        Bukkit.getConsoleSender().sendMessage("§7 7000 years of Iranian history in Minecraft 1.12.2");
+        Bukkit.getConsoleSender().sendMessage("§7 Swords: §6900 Craftable Iranian Swords");
+        Bukkit.getConsoleSender().sendMessage("§7 Foods: §e500 Functional Iranian Foods");
+        Bukkit.getConsoleSender().sendMessage("§7 Items: §b20,000 Procedural Iranian Items");
+        Bukkit.getConsoleSender().sendMessage("§7 Dungeons: §a30 Historical Dungeons + 3-Phase Boss Fights");
+        Bukkit.getConsoleSender().sendMessage("§7 Thirst: §bRLCraft Style Hydration + Mashk Ab");
+        Bukkit.getConsoleSender().sendMessage("§7 Climate: §bTemperature, Weather & Persian Seasons");
+        Bukkit.getConsoleSender().sendMessage("§7 Mobs: §c30 Iranian Mobs + All Mobs Speaking Finglish");
+        Bukkit.getConsoleSender().sendMessage("§7 Villagers: §aIranian Villagers Speaking Finglish");
+        Bukkit.getConsoleSender().sendMessage("§7 Encoding: §a100% Finglish (Safe for Aternos)");
         Bukkit.getConsoleSender().sendMessage("§8§l§m----------------------------------------");
 
         // Load config
         configManager = new ConfigManager(this);
         configManager.loadAll();
 
-        // Language Manager - v4.0 Finglish (default for compatibility)
+        // Language Manager
         languageManager = new LanguageManager(this);
+        MessageUtils.setPrefix(configManager.getString("general.prefix", "&8[&6Iran&8] &r"));
 
-        // Set prefix based on language
-        String lang = languageManager.getCurrentLanguage();
-        String prefix = configManager.getString("general.prefix", lang.equals("finglish") ? "&8[&6Iran&8] &r" : "&8[&6ایران&8] &r");
-        if (lang.equals("finglish")) {
-            prefix = configManager.getString("general.prefix-finglish", "&8[&6Iran&8] &r");
-        }
-        MessageUtils.setPrefix(prefix);
-
-        // Managers - order matters
+        // Core systems
         raceManager = new RaceManager(this);
         hardcoreManager = new HardcoreManager(this);
         dungeonManager = new DungeonManager(this);
+        bossFightManager = new BossFightManager(this);
         persianStructures = new PersianStructures(this);
         persianBazaar = new PersianBazaar(this);
         villageManager = new IranianVillageManager(this);
         raceGUI = new RaceGUI(this);
 
-        // New managers v4.0
+        // v5.0 Features
         temperatureManager = new TemperatureManager(this);
         thirstManager = new ThirstManager(this);
         mobsManager = new IranianMobsManager(this);
         resourcePackManager = new ResourcePackManager(this);
+        swordsManager = new PersianSwordsManager(this);
+        foodsManager = new IranianFoodsManager(this);
+        customItemRegistry = new CustomItemRegistry(this);
 
-        // Apply world settings
+        // Apply world settings & start tasks
         hardcoreManager.applyWorldSettings();
-
-        // Register listeners
         registerListeners();
-
-        // Register commands
         registerCommands();
-
-        // Start tasks
         hardcoreManager.startTasks();
 
-        // Success message - Finglish
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.color(prefix + "&a✅ Iranian plugin v4.0 activated!"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.color(prefix + "&7Races: &6" + ir.iranian.hardcore.race.RaceType.values().length + " &7Iranian tribes"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.color(prefix + "&7Dungeons: &6" + ir.iranian.hardcore.dungeons.DungeonType.values().length + " &7historical dungeons"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.color(prefix + "&7Structures: &68 Iranian structures"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.color(prefix + "&7Bazaar: &aActive with Derik coin"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.color(prefix + "&7Climate: &bTemperature system active - Cold/Hot"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.color(prefix + "&7Thirst: &bThirst system active - Must drink water"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.color(prefix + "&7Custom Mobs: &c7 Iranian mobs - Div, Simurgh, Zahhak"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.color(prefix + "&7ResourcePack: &aCustom textures"));
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.color(prefix + "&a🇮🇷 Zende bad Iran! 7000 years history! Khalij hameshe Fars!"));
+        Bukkit.getConsoleSender().sendMessage(MessageUtils.color("&8[&6Iran&8] &a✅ Iranian Hardcore v5.0 activated successfully!"));
+        Bukkit.getConsoleSender().sendMessage(MessageUtils.color("&8[&6Iran&8] &aZendeh bad Iran! Khalij-e Hameshe Fars!"));
         Bukkit.getConsoleSender().sendMessage("§8§l§m----------------------------------------");
     }
 
     @Override
     public void onDisable() {
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.color("&8[&6Iran&8] &cIranian plugin disabled! Khoda negahdar! 🇮🇷"));
+        Bukkit.getConsoleSender().sendMessage(MessageUtils.color("&8[&6Iran&8] &cIranian plugin disabled! Khoda negahdar! Zendeh bad Iran!"));
         instance = null;
     }
 
@@ -140,8 +128,7 @@ public class IranianHardcorePlugin extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new RaceListener(this), this);
         Bukkit.getPluginManager().registerEvents(new DungeonListener(this), this);
         Bukkit.getPluginManager().registerEvents(villageManager, this);
-        // New managers register themselves
-        getLogger().info("All listeners registered (16 dungeons + bazaar + villages + climate + thirst + mobs + resourcepack)");
+        getLogger().info("All listeners registered successfully!");
     }
 
     private void registerCommands() {
@@ -165,22 +152,22 @@ public class IranianHardcorePlugin extends JavaPlugin {
             getCommand("bazaar").setExecutor(bazaarCommand);
             getCommand("bazaar").setTabCompleter(bazaarCommand);
         }
-        // New command for Iranian features
         if (getCommand("iranian") != null) {
-            ir.iranian.hardcore.commands.IranianCommand iranianCommand = new ir.iranian.hardcore.commands.IranianCommand(this);
+            IranianCommand iranianCommand = new IranianCommand(this);
             getCommand("iranian").setExecutor(iranianCommand);
             getCommand("iranian").setTabCompleter(iranianCommand);
         }
-        getLogger().info("Commands registered (race + hardcore + dungeons + bazaar + iranian)");
+        getLogger().info("Commands registered (race + hardcore + dungeon + bazaar + iranian)");
     }
 
-    // Getters - v4.0
+    // Getters
     public static IranianHardcorePlugin getInstance() { return instance; }
     public ConfigManager getConfigManager() { return configManager; }
     public LanguageManager getLanguageManager() { return languageManager; }
     public RaceManager getRaceManager() { return raceManager; }
     public HardcoreManager getHardcoreManager() { return hardcoreManager; }
     public DungeonManager getDungeonManager() { return dungeonManager; }
+    public BossFightManager getBossFightManager() { return bossFightManager; }
     public PersianStructures getPersianStructures() { return persianStructures; }
     public PersianBazaar getPersianBazaar() { return persianBazaar; }
     public IranianVillageManager getVillageManager() { return villageManager; }
@@ -189,4 +176,7 @@ public class IranianHardcorePlugin extends JavaPlugin {
     public ThirstManager getThirstManager() { return thirstManager; }
     public IranianMobsManager getMobsManager() { return mobsManager; }
     public ResourcePackManager getResourcePackManager() { return resourcePackManager; }
+    public PersianSwordsManager getSwordsManager() { return swordsManager; }
+    public IranianFoodsManager getFoodsManager() { return foodsManager; }
+    public CustomItemRegistry getCustomItemRegistry() { return customItemRegistry; }
 }

@@ -15,11 +15,10 @@ import java.util.Map;
 import java.util.Random;
 
 /**
- * مدیریت دانجن‌های ایرانی
- * - ساخت دانجن
- * - ذخیره محل‌ها
- * - تولید تصادفی در چانک‌ها
- * - کاملا فارسی
+ * Dungeon Manager (v5.0 Finglish)
+ * - 30 Historical Iranian Dungeons
+ * - Manages generation, registry, and auto-chunk spawns
+ * - Completely Finglish, zero Persian Unicode characters.
  */
 public class DungeonManager {
 
@@ -27,7 +26,6 @@ public class DungeonManager {
     private final StructureBuilder builder;
     private final Random random = new Random();
 
-    // کش دانجن‌های ساخته شده
     private final Map<String, Location> generatedDungeons = new HashMap<>();
 
     public DungeonManager(IranianHardcorePlugin plugin) {
@@ -45,27 +43,23 @@ public class DungeonManager {
                 int x = cfg.getInt(path + ".x");
                 int y = cfg.getInt(path + ".y");
                 int z = cfg.getInt(path + ".z");
-                String type = cfg.getString(path + ".type");
                 World world = Bukkit.getWorld(worldName);
                 if (world != null) {
                     generatedDungeons.put(key, new Location(world, x, y, z));
                 }
             }
         }
-        plugin.getLogger().info("تعداد دانجن‌های ایرانی لود شده: " + generatedDungeons.size());
+        plugin.getLogger().info("DungeonManager: Loaded " + generatedDungeons.size() + " Iranian dungeons.");
     }
 
-    /**
-     * ساخت دانجن در لوکیشن مشخص
-     */
     public boolean generateDungeon(Location loc, DungeonType type) {
         if (loc == null || type == null) return false;
 
-        // چک فاصله از دانجن‌های دیگر (حداقل 500 بلوک)
+        // Check distance from existing dungeons (min 400 blocks)
         for (Location existing : generatedDungeons.values()) {
             if (existing.getWorld().equals(loc.getWorld())) {
-                if (existing.distance(loc) < 500) {
-                    return false; // خیلی نزدیک است
+                if (existing.distance(loc) < 400) {
+                    return false;
                 }
             }
         }
@@ -75,7 +69,6 @@ public class DungeonManager {
             String key = type.getId() + "_" + loc.getBlockX() + "_" + loc.getBlockZ() + "_" + System.currentTimeMillis();
             generatedDungeons.put(key, loc);
 
-            // ذخیره در فایل
             FileConfiguration cfg = plugin.getConfigManager().getDungeonsConfig();
             String path = "generated-dungeons." + key;
             cfg.set(path + ".world", loc.getWorld().getName());
@@ -83,57 +76,28 @@ public class DungeonManager {
             cfg.set(path + ".y", loc.getBlockY());
             cfg.set(path + ".z", loc.getBlockZ());
             cfg.set(path + ".type", type.getId());
-            cfg.set(path + ".persianName", type.getPersianName());
+            cfg.set(path + ".finglishName", type.getFinglishName());
             cfg.set(path + ".time", System.currentTimeMillis());
             plugin.getConfigManager().saveDungeonsConfig();
 
-            plugin.getLogger().info("دانجن ایرانی " + type.getPersianName() + " در " + loc.getBlockX() + "," + loc.getBlockY() + "," + loc.getBlockZ() + " ساخته شد!");
+            plugin.getLogger().info("Dungeon Irani " + type.getFinglishName() + " dar " + loc.getBlockX() + "," + loc.getBlockY() + "," + loc.getBlockZ() + " sakhteh shod!");
         }
         return success;
     }
 
-    /**
-     * تولید تصادفی در چانک جدید - با شانس کم
-     */
     public void tryGenerateInChunk(Chunk chunk) {
         if (!plugin.getConfigManager().getBoolean("dungeons.enabled", true)) return;
 
-        double chance = plugin.getConfigManager().getDouble("dungeons.spawn-chance", 0.005); // 0.5%
+        double chance = plugin.getConfigManager().getDouble("dungeons.spawn-chance", 0.005);
         if (random.nextDouble() > chance) return;
 
-        // پیدا کردن بایوم مناسب در چانک
         Location center = new Location(chunk.getWorld(), chunk.getX() * 16 + 8, 0, chunk.getZ() * 16 + 8);
         center.setY(chunk.getWorld().getHighestBlockYAt(center));
 
         Biome biome = center.getBlock().getBiome();
         DungeonType type = DungeonType.getForBiome(biome);
 
-        if (type == null) {
-            // اگر بایوم دقیق نبود، یکی تصادفی بر اساس محیط جهان
-            if (chunk.getWorld().getEnvironment() == World.Environment.NETHER) {
-                type = DungeonType.DAKHMEH_ZARTOSHTI;
-            } else if (chunk.getWorld().getEnvironment() == World.Environment.THE_END) {
-                type = DungeonType.TAKHT_JAMSHID_SKY;
-            } else {
-                // در اورورلد بر اساس بایوم نزدیک‌ترین را انتخاب کن
-                if (biome.name().contains("DESERT") || biome.name().contains("MESA")) {
-                    type = DungeonType.ARGE_BAM;
-                } else if (biome.name().contains("FOREST") || biome.name().contains("JUNGLE")) {
-                    type = DungeonType.ANAHITA_TEMPLE;
-                } else if (biome.name().contains("EXTREME") || biome.name().contains("MOUNTAIN")) {
-                    type = DungeonType.ALAMUT_CASTLE;
-                } else if (biome.name().contains("ICE") || biome.name().contains("COLD")) {
-                    type = DungeonType.GHALEH_BABAK;
-                } else if (biome.name().contains("SWAMP") || biome.name().contains("RIVER")) {
-                    type = DungeonType.CHOGHA_ZANBIL;
-                } else if (biome.name().contains("OCEAN") || biome.name().contains("BEACH")) {
-                    type = DungeonType.BANDAR_SIRAF;
-                }
-            }
-        }
-
         if (type != null) {
-            // تاخیر برای جلوگیری از لگ
             Location finalCenter = center;
             DungeonType finalType = type;
             Bukkit.getScheduler().runTaskLater(plugin, () -> {
@@ -142,37 +106,30 @@ public class DungeonManager {
         }
     }
 
-    /**
-     * ساخت دانجن نزدیک بازیکن (دستور ادمین)
-     */
     public void generateNearPlayer(Player player, DungeonType type) {
         Location loc = player.getLocation();
-        // 50 بلوک جلوتر
-        Location target = loc.clone().add(loc.getDirection().multiply(50));
+        Location target = loc.clone().add(loc.getDirection().multiply(40));
         target.setY(player.getWorld().getHighestBlockYAt(target));
 
         if (generateDungeon(target, type)) {
-            player.sendMessage(MessageUtils.withPrefix("&aدانجن ایرانی &6" + type.getPersianName() + " &aدر نزدیکی شما ساخته شد!"));
-            player.sendMessage(MessageUtils.withPrefix("&7مختصات: &f" + target.getBlockX() + ", " + target.getBlockY() + ", " + target.getBlockZ()));
+            player.sendMessage(MessageUtils.color("&8[&6Iran&8] &aDungeon-e Irani &6" + type.getFinglishName() + " &adar nazdiki-ye shoma sakhteh shod!"));
+            player.sendMessage(MessageUtils.color("&7Mokhtasat: &f" + target.getBlockX() + ", " + target.getBlockY() + ", " + target.getBlockZ()));
             player.teleport(target.clone().add(0, 5, 0));
         } else {
-            player.sendMessage(MessageUtils.withPrefix("&cساخت دانجن ناموفق بود! شاید خیلی نزدیک به دانجن دیگری است."));
+            player.sendMessage(MessageUtils.color("&8[&6Iran&8] &cSakht-e dungeon namovafagh bood! Shayad be dungeon-e digari kheyli nazdik ast."));
         }
     }
 
-    /**
-     * لیست دانجن‌ها
-     */
     public void listDungeons(Player player) {
-        player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        player.sendMessage(MessageUtils.color("&6&l لیست دانجن‌های ایرانی تاریخی"));
-        player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
+        player.sendMessage(MessageUtils.color("&8&m----------------------------------------"));
+        player.sendMessage(MessageUtils.color("&6&l30 Dungeon-e Tarikhi-ye Iran"));
+        player.sendMessage(MessageUtils.color("&8&m----------------------------------------"));
         for (DungeonType type : DungeonType.values()) {
-            player.sendMessage(MessageUtils.color("&7- &6" + type.getPersianName() + " &7(" + type.getId() + ") &8- &f" + type.getDescription()));
-            player.sendMessage(MessageUtils.color("  &7بایوم: &a" + type.getBiomes().size() + " بایوم &7| سختی: &c" + repeatStar(type.getDifficulty())));
+            player.sendMessage(MessageUtils.color("&7- &6" + type.getFinglishName() + " &7(" + type.getId() + ") &8- &f" + type.getDescription()));
+            player.sendMessage(MessageUtils.color("  &7Biomes: &a" + type.getBiomes().size() + " &7| Sakhti: &c" + repeatStar(type.getDifficulty()) + " &7| Boss: &e" + type.getBossName()));
         }
-        player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        player.sendMessage(MessageUtils.color("&7تعداد ساخته شده: &a" + generatedDungeons.size()));
+        player.sendMessage(MessageUtils.color("&8&m----------------------------------------"));
+        player.sendMessage(MessageUtils.color("&7Tedad-e sakhteh-shodeh: &a" + generatedDungeons.size()));
     }
 
     public Map<String, Location> getGeneratedDungeons() {
