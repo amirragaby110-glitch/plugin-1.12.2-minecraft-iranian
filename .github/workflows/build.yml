@@ -28,6 +28,8 @@ jobs:
         mvn -B clean package -DskipTests 2>&1 | tee build.log
         echo "Exit code: ${PIPESTATUS[0]}" | tee -a build.log
         ls -lh target/ | tee -a build.log
+        echo "=== JAR LIST ===" | tee -a build.log
+        ls -lh target/*.jar 2>&1 | tee -a build.log
         exit ${PIPESTATUS[0]}
     - name: List target
       if: always()
@@ -40,6 +42,18 @@ jobs:
       with:
         name: build-log
         path: build.log
+    - name: Commit build log to repo
+      if: always()
+      run: |
+        git config user.name "github-actions"
+        git config user.email "actions@github.com"
+        cp build.log ./build.log
+        git add -f build.log
+        git commit -m "Build log ${{ github.run_id }} - ${{ job.status }}" || echo "No changes"
+        git pull --rebase origin ${{ github.ref_name }} || echo "Pull failed"
+        git push origin ${{ github.ref_name }} || echo "Push log failed"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Create issue with build log on failure
       if: failure()
       uses: actions/github-script@v7
@@ -52,12 +66,11 @@ jobs:
           } catch (e) {
             log = 'Could not read build.log: ' + e.message;
           }
-          // Truncate to 60000 chars for issue body limit
           if (log.length > 60000) {
             log = log.substring(log.length - 60000);
           }
           const title = `Build failed for ${context.sha.substring(0,7)} - run ${context.runId}`;
-          const body = `**Branch:** ${context.ref}\n**Commit:** ${context.sha}\n**Run:** https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}\n\n**Build log (last 60000 chars):**\n\`\`\`\n${log}\n\`\`\``;
+          const body = `**Branch:** ${context.ref}\n**Commit:** ${context.sha}\n**Run:** https://github.com/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}\n\n**Build log:**\n\`\`\`\n${log}\n\`\`\``;
           await github.rest.issues.create({
             owner: context.repo.owner,
             repo: context.repo.repo,
@@ -71,6 +84,7 @@ jobs:
       with:
         name: IranianHardcore-4.0.0
         path: target/*.jar
+        if-no-files-found: error
     - name: Push Jar and ResourcePack to repo for direct download
       if: success()
       run: |
@@ -84,10 +98,10 @@ jobs:
         fi
         git config user.name "github-actions"
         git config user.email "actions@github.com"
-        git add -f IranianHardcore-4.0.0.jar IranianHardcore-3.5.0.jar IranianHardcore-ResourcePack.zip resourcepack/IranianHardcore-ResourcePack.zip build.log
+        git add -f IranianHardcore-4.0.0.jar IranianHardcore-3.5.0.jar IranianHardcore-ResourcePack.zip resourcepack/IranianHardcore-ResourcePack.zip
         git commit -m "Update Jar v4.0.0 Finglish+Climate+Thirst+Mobs+ResourcePack ${{ github.run_id }} - ready for direct download" || echo "No changes"
         git pull --rebase origin ${{ github.ref_name }} || echo "Pull failed"
-        git push origin ${{ github.ref_name }} || echo "Push failed"
+        git push origin ${{ github.ref_name }} || git push origin ${{ github.ref_name }} --force || echo "Push failed"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload to Release
