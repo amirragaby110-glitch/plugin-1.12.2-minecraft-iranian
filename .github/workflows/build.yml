@@ -26,18 +26,30 @@ jobs:
       run: |
         mvn -B clean package -DskipTests 2>&1 | tee build.log
         echo "Exit code: ${PIPESTATUS[0]}" | tee -a build.log
+        ls -lh target/ | tee -a build.log
         exit ${PIPESTATUS[0]}
     - name: List target
       if: always()
       run: |
         ls -lh target/ || echo "No target"
-        cat build.log | tail -n 200
+        cat build.log | tail -n 300
     - name: Upload build log
       if: always()
       uses: actions/upload-artifact@v4
       with:
         name: build-log
         path: build.log
+    - name: Commit build log to repo for debugging
+      if: always()
+      run: |
+        git config user.name "github-actions"
+        git config user.email "actions@github.com"
+        cp build.log ./build.log
+        git add -f build.log
+        git commit -m "Build log ${{ github.run_id }}" || echo "No changes"
+        git push origin ${{ github.ref_name }} || echo "Push log failed"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload Jar Artifact v4.0.0
       if: success()
       uses: actions/upload-artifact@v4
@@ -49,6 +61,7 @@ jobs:
       run: |
         JAR=$(ls target/*.jar | head -n1)
         echo "Jar: $JAR"
+        ls -lh target/
         cp $JAR ./IranianHardcore-4.0.0.jar
         cp $JAR ./IranianHardcore-3.5.0.jar
         if [ -f resourcepack/IranianHardcore-ResourcePack.zip ]; then
@@ -58,6 +71,7 @@ jobs:
         git config user.email "actions@github.com"
         git add -f IranianHardcore-4.0.0.jar IranianHardcore-3.5.0.jar IranianHardcore-ResourcePack.zip resourcepack/IranianHardcore-ResourcePack.zip
         git commit -m "Update Jar v4.0.0 Finglish+Climate+Thirst+Mobs+ResourcePack ${{ github.run_id }} - ready for direct download" || echo "No changes"
+        git pull --rebase origin ${{ github.ref_name }} || echo "Pull failed"
         git push origin ${{ github.ref_name }} || echo "Push failed"
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
