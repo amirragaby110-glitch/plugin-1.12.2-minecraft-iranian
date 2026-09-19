@@ -1,0 +1,95 @@
+name: IranianHardcore
+version: 4.0.0
+main: ir.iranian.hardcore.IranianHardcorePlugin
+api-version: 1.12
+author: IranianTeam
+authors: [Amir, IranianHardcoreDev, TeamMelli, TarikhIran, AghvamIran]
+description: Plugin Hardcore Irani v4.0 Finglish - 14 ghom Irani + 16 dungeon tarikhi + 8 saze Irani + Bazar Irani + Ab o hava (sard/garm) + Teshnegi (bayad ab bokhori) + 7 mob jadid Irani (Div, Simurgh, Zahhak) + Resource Pack makhsus - Bedune niaz be compile - Faghat bezar too plugins - Khalij hameshe Fars - Zende bad Iran
+website: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian
+prefix: IranianHardcore
+
+# Dastorat - v4.0 Finglish - Har biome yek ghom Irani + Climate + Thirst + Mobs
+commands:
+  race:
+    description: Modiriat aghvame Irani - Har biome yek ghom - 14 ghom Irani ba ghabeliat makhsus - Entekhab aval vorood - Finglish
+    usage: /race <choose|info|change|list|help|admin> - Dastor ghome Irani
+    aliases: [nezhad, نژاد, reghad, qowm, قوم, aghvam, اقوام, tribe, ghom]
+  hardcore:
+    description: Dastorat admin hardcore Irani - Sakhtarin halat
+    usage: /hardcore <reload|info|setrace|reset> - Dastorat admin
+    aliases: [hc, sakht, سخت]
+  dungeon:
+    description: Modiriat 16 dungeon tarikhi Iran - Har biome yek dungeon - Takht Jamshid, Alamut, Arge Bam, Pasargad, Bisotun, Naghsh Rostam, Takht Soleyman
+    usage: /dungeon <list|generate|teleport|clear|bazaar|caravanserai|chaikhaneh|abanbar> - Dungeon Irani
+    aliases: [dangeon, دانجن, irandungeon, iran, تختجمشید, dungeons]
+  bazaar:
+    description: Bazar Irani - Kharid va forosh item haye Irani ba sekke Derik Hakhamaneshi - Mesle bazar Tehran
+    usage: /bazaar [open|build|help] - Bazar Irani
+    aliases: [bazar, بازار, shop, فروشگاه, store, مغازه, bazarirani]
+  iranian:
+    description: Dastor asli Iranian Hardcore v4.0 - Teshnegi, Dama, Mob haye Irani, Resource Pack - Finglish
+    usage: /iranian <thirst|temperature|drink|mashk|resourcepack|spawnmob|help> - Dastor Irani
+    aliases: [iran, irani, ایران, ایرانی, persian]
+
+# Permission ha - v4.0
+permissions:
+  iranianhardcore.*:
+    description: Dastresi be tamam ghabeliat haye Irani - Admin kol
+    default: op
+    children:
+      iranianhardcore.race.*: true
+      iranianhardcore.hardcore.*: true
+      iranianhardcore.dungeon.*: true
+      iranianhardcore.bazaar.*: true
+      iranianhardcore.iranian.*: true
+      iranianhardcore.admin: true
+      iranianhardcore.bypass.*: true
+  iranianhardcore.race.*:
+    description: Tamam permission haye aghvame Irani
+    default: true
+    children:
+      iranianhardcore.race.choose: true
+      iranianhardcore.race.info: true
+      iranianhardcore.race.change: true
+  iranianhardcore.race.choose:
+    description: Entekhab ghome Irani - Aval vorood
+    default: true
+  iranianhardcore.race.info:
+    description: Didan etelaat ghome Irani
+    default: true
+  iranianhardcore.race.change:
+    description: Taghir ghome Irani (har 7 rooz bazi)
+    default: true
+  iranianhardcore.race.admin:
+    description: Modiriat ghome digaran - Admin
+    default: op
+  iranianhardcore.hardcore.*:
+    description: Permission haye hardcore Irani
+    default: op
+  iranianhardcore.iranian.*:
+    description: Permission haye Iranian v4.0 - Teshnegi, Dama, Mob, ResourcePack
+    default: true
+    children:
+      iranianhardcore.iranian.thirst: true
+      iranianhardcore.iranian.temperature: true
+      iranianhardcore.iranian.drink: true
+      iranianhardcore.iranian.resourcepack: true
+      iranianhardcore.iranian.spawnmob: true
+  iranianhardcore.iranian.thirst:
+    description: Didan mizan teshnegi
+    default: true
+  iranianhardcore.iranian.temperature:
+    description: Didan dama badan
+    default: true
+  iranianhardcore.iranian.drink:
+    description: Noshidan ab
+    default: true
+  iranianhardcore.iranian.resourcepack:
+    description: Daryaft resource pack Irani
+    default: true
+  iranianhardcore.iranian.spawnmob:
+    description: Sakht mob Irani - Admin
+    default: op
+  iranianhardcore.admin:
+    description: Admin kamel Irani
+    default: op

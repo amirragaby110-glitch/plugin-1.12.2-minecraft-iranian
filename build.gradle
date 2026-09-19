@@ -1,0 +1,20 @@
+plugins {
+    id 'java'
+}
+group = 'ir.iranian'
+version = '3.5.0'
+sourceCompatibility = '1.8'
+targetCompatibility = '1.8'
+repositories {
+    mavenCentral()
+}
+dependencies {
+    compileOnly files('lib/spigot-api-1.12.2-R0.1-SNAPSHOT.jar')
+}
+processResources {
+    filteringCharset = 'UTF-8'
+}
+jar {
+    archiveBaseName = 'IranianHardcore'
+    archiveVersion = '3.5.0'
+}

@@ -1,0 +1,284 @@
+# ================================
+# Iranian Hardcore - Config v4.0 Finglish + Climate + Thirst + Mobs + ResourcePack
+# هر بایوم یک قوم ایرانی - 14 قوم + 16 دانجن + 8 سازه + آب و هوا + تشنگی + ماب جدید
+# 🇮🇷 Zende bad Iran - Tarikh 7000 sale - Aghvame Irani
+# Baraye 1.12.2 - Bedune NMS - Finglish compatible
+# ================================
+
+# Tanzimat koli - v4.0 Finglish (default for compatibility)
+general:
+  prefix: "&8[&6Iran&8] &r"
+  prefix-finglish: "&8[&6Iran&8] &r"
+  prefix-fa: "&8[&6ایران&8] &r"
+  language: "finglish" # Options: finglish (default, Persian with English letters), fa (Persian), en (English)
+  debug: false
+  version: "4.0.0-finglish-climate-thirst-mobs-resourcepack"
+  slogan: "🇮🇷 Har biome yek ghome Irani - 14 ghome asil - Zende bad Iran - Khalij hameshe Fars"
+  slogan-fa: "🇮🇷 هر بایوم یک قوم ایرانی - 14 قوم اصیل - زنده باد ایران - خلیج همیشه فارس"
+
+# Language settings
+language:
+  current: "finglish"
+  available: ["finglish", "fa"]
+  # Finglish = Persian written with English letters for servers where Persian doesn't display
+  # Example: "Salam" instead of "سلام"
+
+# Tanzimat hardcore - Sakhtarin halat
+hardcore:
+  enabled: true
+  health:
+    enabled: true
+    max-health: 10.0
+    disable-natural-regen: true
+    faster-hunger: true
+    hunger-drain-multiplier: 2.0
+    raw-food-poison: true
+    raw-food-effects:
+      - "POISON:100:1"
+      - "CONFUSION:200:0"
+      - "HUNGER:300:1"
+  resources:
+    tool-durability-multiplier: 2.0
+    require-correct-tool-for-stone: true
+    leaves-need-shears: true
+  mobs:
+    enabled: true
+    double-health: true
+    damage-multiplier: 1.5
+    double-night-spawn: true
+    zombies-break-doors: false # Not in 1.12.2 API
+    creeper-stronger-explosion: true
+    creeper-explosion-multiplier: 1.8
+    spiders-poison: true
+    spider-poison-chance: 0.4
+    skeletons-more-accurate: true
+    skeleton-velocity-multiplier: 1.5
+  survival:
+    bed:
+      enabled: true
+      only-at-night: true
+      heal-amount: 4.0
+      cooldown-days: 3
+      cooldown-message: "Shoma akharan khabideid! Bayad %days% rooz digar sabr konid."
+      cooldown-message-fa: "شما اخیراً خوابیده‌اید! باید %days% روز دیگر صبر کنید."
+    nether:
+      more-dangerous: true
+      chance: 0.05
+      damage-multiplier: 1.5
+    end:
+      more-dangerous: true
+      chance: 0.03
+      void-damage-multiplier: 2.0
+    water-lava:
+      harder-water: true
+      harder-lava: true
+      lava-damage-multiplier: 1.5
+  death:
+    destroy-inventory: true
+    clear-exp: true
+    respawn-debuffs:
+      - "WEAKNESS:1200:1"
+      - "SLOW:1200:0"
+      - "HUNGER:600:1"
+
+# ================================
+# Climate & Temperature System - v4.0 NEW
+# Ab o hava sard/garm bar bazi تاثير mizare
+# ================================
+climate:
+  enabled: true
+  # Cold biomes cause freezing, need fire and warm clothes
+  cold:
+    enabled: true
+    damage-at: -90 # Temperature -90 to -100 causes damage
+    slow-at: -30
+    message-interval: 15 # seconds
+  # Hot biomes cause heatstroke, need water and shade
+  hot:
+    enabled: true
+    damage-at: 90
+    slow-at: 30
+    thirst-drain-multiplier: 1.5
+    message-interval: 15
+  # Check interval
+  check-interval-ticks: 60 # 3 seconds
+
+# ================================
+# Thirst System - v4.0 NEW
+# Bazikon bayad ab bokhore, vagarna mimire
+# ================================
+thirst:
+  enabled: true
+  max-thirst: 100
+  start-thirst: 100
+  drain-rate: 0.3 # Base drain per 4 seconds
+  sprint-drain: 0.4
+  hot-biome-drain: 1.0
+  hardcore-multiplier: 1.5
+  # Effects
+  slow-at: 40
+  critical-at: 20
+  damage-at: 0
+  message-interval: 20 # seconds
+  # Drink amounts
+  water-bottle: 25
+  mashk-ab: 30
+  # Items
+  enable-mashk: true # Iranian water skin
+
+# ================================
+# Custom Iranian Mobs - v4.0 NEW
+# Mob haye afsaneie Irani - Div, Simurgh, Zahhak
+# ================================
+mobs:
+  custom:
+    enabled: true
+    spawn-chance: 0.05 # 5% every 2 minutes per world
+    replace-natural: false # Replace 8% of natural spawns with Iranian mobs
+    broadcast-rare: true
+    list:
+      - "DIV_SEPID - Div Sepid - White Demon - 40 HP - Mountain, Night"
+      - "DIV_SIAH - Div Siah - Black Demon - 25 HP - Desert"
+      - "SIMURGH - Simurgh - Legendary bird - 30 HP - Alborz, Sky"
+      - "ZAHHAK - Zahhak - Evil king with snakes - 50 HP - Castle, Dungeon"
+      - "ROSTAM_GHOST - Rooh Rostam - Hero ghost - 60 HP - Zabolestan"
+      - "AL - Al - Female demon - 20 HP - Swamp, Jungle"
+      - "KAVEH - Kaveh Ahangar - Friendly blacksmith - 80 HP - Plains, Village"
+
+# ================================
+# Resource Pack - v4.0 NEW
+# Texture haye makhsus baraye mob haye Irani
+# ================================
+resourcepack:
+  enabled: true
+  auto-send-on-join: false # Set true to auto send on join
+  url: "" # Will use default GitHub raw link if empty
+  hash: ""
+  # Default: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/main/resourcepack/IranianHardcore-ResourcePack.zip
+  prompt: true
+
+# Tanzimat nezhad Irani - 14 ghom - Finglish
+race:
+  enabled: true
+  force-choose-on-first-join: true
+  open-gui-on-first-join: true
+  change-cooldown-days: 7
+  change-cooldown-message: "Har 7 rooz yek bar! %days% rooz mande."
+  change-cooldown-message-fa: "هر 7 روز یک بار! %days% روز مانده."
+  biome-effects:
+    enabled: true
+    check-interval-ticks: 40
+  messages:
+    choose-first: "Lotfan ghome Irani khod ra entekhab konid! /race choose - 14 ghom"
+    choose-first-fa: "لطفاً قوم ایرانی خود را انتخاب کنید! /race choose - 14 قوم"
+    already-have-race: "Shoma nezhade %race% ra darid! Irani asil!"
+    already-have-race-fa: "شما نژاد %race% را دارید! ایرانی اصیل!"
+    race-selected: "Nezhade shoma be %race% taghir yaft! Zende bad Iran!"
+    race-selected-fa: "نژاد شما به %race% تغییر یافت! زنده باد ایران!"
+
+# Dungeons - 16 dungeon tarikhi
+dungeons:
+  enabled: true
+  spawn-chance: 0.006
+  min-distance: 400
+  broadcast-discovery: true
+  all-biomes-covered: true
+  list:
+    - "ALAMUT_CASTLE - Ghale Alamoat - Kohestan"
+    - "ANAHITA_TEMPLE - Maabade Anahita - Jangal"
+    - "ARGE_BAM - Arge Bam - Biaban"
+    - "BANDAR_SIRAF - Bandar Siraf - Oghyanos - Khalij Fars"
+    - "GHALEH_BABAK - Ghale Babak - Barfi"
+    - "CHOGHA_ZANBIL - Chogha Zanbil - Mordab"
+    - "DAKHMEH_ZARTOSHTI - Dakhme Zartoshti - Nether"
+    - "TAKHT_JAMSHID_SKY - Takht Jamshid - End"
+    - "PASARGAD_TOMB - Aramgah Kourosh - Dasht"
+    - "BISOTUN_INSCRIPTION - Katibe Bisotun - Koh"
+    - "NAQSH_ROSTAM - Naghsh Rostam - Mesa"
+    - "TAKHT_SOLEYMAN - Takht Soleyman - Yakh"
+    - "HEGMATANEH - Hegmataneh - Taiga"
+    - "SUSA_PALACE - Kakh Shush - Jangal Toos"
+    - "YAZD_JAMEH_MOSQUE - Masjed Jame Yazd - Biaban Tape"
+    - "AZADI_TOWER - Borj Azadi - Savana - Namad Iran"
+
+# Structures - 8 saze Irani
+structures:
+  enabled: true
+  spawn-chance: 0.012
+  bazaar:
+    enabled: true
+    persian-name: "Bazar Irani - Hojre haye sonati"
+    finglish-name: "Bazar Irani - Traditional shops"
+  caravanserai:
+    enabled: true
+    persian-name: "Karvansaray Shah Abbasi"
+    finglish-name: "Karvansaraye Shah Abbasi - Silk Road"
+  chaikhaneh:
+    enabled: true
+    persian-name: "Chaykhane sonati"
+    finglish-name: "Chaykhane sonati - Samavar"
+  ab_anbar:
+    enabled: true
+    persian-name: "Ab Anbar Yazdi"
+    finglish-name: "Ab Anbar Yazdi - Badgir"
+  mosque:
+    enabled: true
+    persian-name: "Masjed kochak roostayi"
+    finglish-name: "Masjed Roostayi"
+  village:
+    enabled: true
+    persian-name: "Roostaye Irani - Kandovan, Meymand"
+    finglish-name: "Roostaye Irani - Kandovan"
+
+# Bazar Irani
+bazaar:
+  enabled: true
+  currency: "GOLD_NUGGET"
+  currency-name: "Sekke Derik Hakhamaneshi"
+  currency-name-fa: "سکه دریک هخامنشی"
+  start-coins: 5
+  categories:
+    weapons:
+      name: "⚔ Rasteye Shamshir - Bazar Salah"
+      name-fa: "⚔ راسته شمشیرگرها"
+    jewels:
+      name: "💎 Rasteye Zargar"
+      name-fa: "💎 راسته زرگرها"
+    carpets:
+      name: "🧶 Rasteye Farsh"
+      name-fa: "🧶 راسته فرش‌فروشان"
+    food:
+      name: "☕ Rasteye Attar"
+      name-fa: "☕ راسته عطاران"
+
+# Villages Irani
+villages:
+  enabled: true
+  transform-vanilla: true
+  persian-names:
+    - "Kandovan - Azarbayjan"
+    - "Meymand - Kerman - 3000 sale"
+    - "Abyaneh - Esfahan - Sorkh"
+    - "Masooleh - Gilan - Pelekani"
+  villager-names:
+    - "Haj Karim - Kadkhoda"
+    - "Mashhadi Hassan - Keshavarz"
+
+# Payam haye Finglish - baraye server hayi ke Farsi namayesh dade nemishe
+messages:
+  no-permission: "Dastresi nadarid! Makhsus Iranian asil!"
+  no-permission-fa: "دسترسی ندارید! مخصوص ایرانیان اصیل!"
+  player-only: "Faghat bazikonan Irani!"
+  player-only-fa: "فقط بازیکنان ایرانی!"
+  player-not-found: "Bazikon yaft nashod!"
+  player-not-found-fa: "بازیکن یافت نشد!"
+  reloaded: "Config Irani reload shod! Zende bad Iran!"
+  reloaded-fa: "کانفیگ ایرانی ریلود شد! زنده باد ایران!"
+  race-gui-title: "&8&l🇮🇷 Entekhab Nezhade Irani - 14 Nezhade"
+  race-gui-title-fa: "&8&l🇮🇷 انتخاب نژاد ایرانی - 14 نژاد"
+  dungeon-discovered: "&6&l🏛 Dungeon Irani kashf shod: &e%name% &7tavasot &a%player%"
+  dungeon-discovered-fa: "&6&l🏛 دانجن ایرانی کشف شد: &e%name% &7توسط &a%player%"
+  persian-welcome: "&6&l🇮🇷 Be Hardcore Irani v4.0 khosh amadid! Finglish + Climate + Thirst + Mobs!"
+  persian-welcome-fa: "&6&l🇮🇷 به هاردکور ایرانی خوش آمدید!"
+  persian-slogan: "&6&lZende bad Iran - Payande bad tarikh 7000 sale - Khalij hameshe Fars"
+  persian-slogan-fa: "&6&lزنده باد ایران - پاینده باد تاریخ 7000 ساله - خلیج همیشه فارس"

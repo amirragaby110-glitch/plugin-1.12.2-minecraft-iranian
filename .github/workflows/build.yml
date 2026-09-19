@@ -1,0 +1,60 @@
+name: Build Iranian Hardcore
+
+on:
+  push:
+    branches: [ main, arena/* ]
+  release:
+    types: [created]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+    - name: Setup Java 8
+      uses: actions/setup-java@v4
+      with:
+        java-version: '8'
+        distribution: 'temurin'
+        cache: maven
+    - name: Build with Maven
+      run: mvn -B clean package -DskipTests
+    - name: List target
+      run: ls -lh target/
+    - name: Upload Jar Artifact v4.0.0
+      uses: actions/upload-artifact@v4
+      with:
+        name: IranianHardcore-4.0.0
+        path: target/*.jar
+    - name: Push Jar and ResourcePack to repo for direct download
+      if: success()
+      run: |
+        JAR=$(ls target/*.jar | head -n1)
+        echo "Jar: $JAR"
+        cp $JAR ./IranianHardcore-4.0.0.jar
+        cp $JAR ./IranianHardcore-3.5.0.jar
+        # Also keep resource pack zip if exists
+        if [ -f resourcepack/IranianHardcore-ResourcePack.zip ]; then
+          cp resourcepack/IranianHardcore-ResourcePack.zip ./IranianHardcore-ResourcePack.zip
+        fi
+        git config user.name "github-actions"
+        git config user.email "actions@github.com"
+        git add -f IranianHardcore-4.0.0.jar IranianHardcore-3.5.0.jar IranianHardcore-ResourcePack.zip resourcepack/IranianHardcore-ResourcePack.zip
+        git commit -m "Update Jar v4.0.0 Finglish+Climate+Thirst+Mobs+ResourcePack ${{ github.run_id }} - ready for direct download" || echo "No changes"
+        git push origin ${{ github.ref_name }} || echo "Push failed"
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Upload to Release
+      if: github.event_name == 'release' && success()
+      uses: softprops/action-gh-release@v1
+      with:
+        files: |
+          target/*.jar
+          resourcepack/IranianHardcore-ResourcePack.zip
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
