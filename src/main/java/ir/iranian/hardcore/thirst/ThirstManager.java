@@ -71,8 +71,7 @@ public class ThirstManager implements Listener {
             Bukkit.addRecipe(canteenRecipe);
 
             // Furnace smelting: Dirty Water -> Clean Water
-            NamespacedKey smeltKey = new NamespacedKey(plugin, "furnace_clean_water");
-            FurnaceRecipe smeltRecipe = new FurnaceRecipe(smeltKey, createCleanWater(), Material.POTION, 0.35f, 160);
+            FurnaceRecipe smeltRecipe = new FurnaceRecipe(createCleanWater(), Material.POTION);
             Bukkit.addRecipe(smeltRecipe);
         } catch (Exception e) {
             plugin.getLogger().warning("Could not register all thirst recipes: " + e.getMessage());

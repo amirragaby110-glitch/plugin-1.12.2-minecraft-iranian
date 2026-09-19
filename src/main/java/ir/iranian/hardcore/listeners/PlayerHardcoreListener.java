@@ -58,7 +58,7 @@ public class PlayerHardcoreListener implements Listener {
             Material.OBSIDIAN,
             Material.NETHERRACK,
             Material.QUARTZ_ORE,
-            Material.END_STONE
+            Material.ENDER_STONE
     );
 
     public PlayerHardcoreListener(IranianHardcorePlugin plugin) {

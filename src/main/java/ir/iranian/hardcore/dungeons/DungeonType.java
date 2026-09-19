@@ -345,4 +345,32 @@ public enum DungeonType {
         if (name.contains("FOREST")) return ANAHITA_TEMPLE;
         return PASARGAD_TOMB;
     }
+
+    public String getBiomeName() {
+        if (biomes != null && !biomes.isEmpty() && biomes.get(0) != null) {
+            return biomes.get(0).name();
+        }
+        return "GENERAL";
+    }
+
+    public static DungeonType fromId(String id) {
+        if (id == null) return null;
+        for (DungeonType type : values()) {
+            if (type.getId().equalsIgnoreCase(id) || type.name().equalsIgnoreCase(id)) {
+                return type;
+            }
+        }
+        return null;
+    }
+
+    public static DungeonType fromName(String name) {
+        if (name == null) return null;
+        for (DungeonType type : values()) {
+            if (type.name().equalsIgnoreCase(name) || type.getId().equalsIgnoreCase(name) ||
+                    type.getFinglishName().equalsIgnoreCase(name) || type.getEnglishName().equalsIgnoreCase(name)) {
+                return type;
+            }
+        }
+        return null;
+    }
 }

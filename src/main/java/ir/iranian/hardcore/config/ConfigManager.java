@@ -176,6 +176,10 @@ public class ConfigManager {
         }
     }
 
+    public void saveDungeonsConfig() {
+        saveDungeons();
+    }
+
     public void saveStructures() {
         try {
             structuresConfig.save(structuresFile);

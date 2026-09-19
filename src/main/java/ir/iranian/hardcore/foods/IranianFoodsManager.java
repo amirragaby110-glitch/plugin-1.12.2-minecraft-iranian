@@ -160,4 +160,9 @@ public class IranianFoodsManager implements Listener {
     public IranianFoodType.FoodData getFood(String id) {
         return IranianFoodType.getById(id);
     }
+
+    public ItemStack getRandomFood() {
+        IranianFoodType.FoodData food = IranianFoodType.getRandomFood();
+        return food != null ? food.createItemStack() : new ItemStack(Material.BREAD);
+    }
 }

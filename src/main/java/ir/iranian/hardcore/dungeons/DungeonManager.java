@@ -142,6 +142,14 @@ public class DungeonManager {
         plugin.getConfigManager().saveDungeonsConfig();
     }
 
+    public void forceGenerateDungeon(Player player, DungeonType type) {
+        generateNearPlayer(player, type);
+    }
+
+    public void clearGeneratedDungeons() {
+        clearAll();
+    }
+
     private String repeatStar(int count) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < count; i++) {
