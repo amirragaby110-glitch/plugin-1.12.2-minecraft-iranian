@@ -4,6 +4,7 @@ out/
 *.jar
 !IranianHardcore-*.jar
 !gradle-wrapper.jar
+build.log
 .gradle/
 .idea/
 *.iml
