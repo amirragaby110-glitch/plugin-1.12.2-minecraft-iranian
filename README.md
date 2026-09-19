@@ -13,7 +13,8 @@
 ### ✅ Ravesh 1: Download Jar Amade (Sadatarin - Faghat bezar too plugins)
 
 **Link mostaghim Jar:**
-- **File Jar dar repo:** [IranianHardcore-4.0.0.jar](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/main/IranianHardcore-4.0.0.jar)
+- **File Jar dar repo:** [IranianHardcore-4.0.0.jar](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/main/IranianHardcore-4.0.0.jar
+- **Az Release v4.0.0:** [iranian-hardcore-4.0.0.jar](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases/download/v4.0.0/iranian-hardcore-4.0.0.jar) (173KB - BUILD SUCCESS))
 - **Ya az tarigh GitHub:** Boro be tab [Actions](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/actions) -> Akharin build movafagh -> Download Artifact `IranianHardcore-4.0.0`
 - **Ya download az repo:** File `IranianHardcore-4.0.0.jar` dar root repo hast, mostaghim download kon
 
@@ -26,7 +27,8 @@
 ### 📦 Ravesh 2: Download Resource Pack
 
 **Link mostaghim Resource Pack:**
-- **File Zip dar repo:** [IranianHardcore-ResourcePack.zip](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/main/resourcepack/IranianHardcore-ResourcePack.zip)
+- **File Zip dar repo:** [IranianHardcore-ResourcePack.zip](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/main/resourcepack/IranianHardcore-ResourcePack.zip
+- **Az Release v4.0.0:** [IranianHardcore-ResourcePack.zip](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases/download/v4.0.0/IranianHardcore-ResourcePack.zip) (2.9KB))
 - **Ya local:** `resourcepack/IranianHardcore-ResourcePack.zip` dar repo
 
 **Nasb Resource Pack:**
@@ -36,7 +38,8 @@
 resourcepack:
   enabled: true
   auto-send-on-join: true
-  url: "https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/main/resourcepack/IranianHardcore-ResourcePack.zip"
+  url: "https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/main/resourcepack/IranianHardcore-ResourcePack.zip
+- **Az Release v4.0.0:** [IranianHardcore-ResourcePack.zip](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases/download/v4.0.0/IranianHardcore-ResourcePack.zip) (2.9KB)"
 ```
 3. Bazikonan vaghti join mikonan accept konan
 
@@ -237,7 +240,8 @@ mobs:
 resourcepack:
   enabled: true
   auto-send-on-join: false  # Agar true, vaghti join mikone auto send mishe
-  url: "https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/main/resourcepack/IranianHardcore-ResourcePack.zip"
+  url: "https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/main/resourcepack/IranianHardcore-ResourcePack.zip
+- **Az Release v4.0.0:** [IranianHardcore-ResourcePack.zip](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases/download/v4.0.0/IranianHardcore-ResourcePack.zip) (2.9KB)"
 ```
 
 **Dastorat:**
@@ -332,5 +336,7 @@ mvn clean package
 ## Download Links Mostaghim
 
 - **Jar v4.0:** https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/main/IranianHardcore-4.0.0.jar
+- **Az Release v4.0.0:** [iranian-hardcore-4.0.0.jar](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases/download/v4.0.0/iranian-hardcore-4.0.0.jar) (173KB - BUILD SUCCESS)
 - **ResourcePack:** https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/main/resourcepack/IranianHardcore-ResourcePack.zip
+- **Az Release v4.0.0:** [IranianHardcore-ResourcePack.zip](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases/download/v4.0.0/IranianHardcore-ResourcePack.zip) (2.9KB)
 - **Source:** https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/archive/refs/heads/main.zip
