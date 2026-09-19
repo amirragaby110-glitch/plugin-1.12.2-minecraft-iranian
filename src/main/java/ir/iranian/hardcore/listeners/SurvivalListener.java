@@ -80,6 +80,10 @@ public class SurvivalListener implements Listener {
 
     @EventHandler
     public void onPlayerMoveInWater(PlayerMoveEvent event) {
+        if (event.getFrom().getBlockX() == event.getTo().getBlockX() &&
+            event.getFrom().getBlockY() == event.getTo().getBlockY() &&
+            event.getFrom().getBlockZ() == event.getTo().getBlockZ()) return;
+
         if (!plugin.getConfigManager().getBoolean("hardcore.enabled", true)) return;
         if (!plugin.getConfigManager().getBoolean("hardcore.survival.water-lava.harder-water", true)) return;
 

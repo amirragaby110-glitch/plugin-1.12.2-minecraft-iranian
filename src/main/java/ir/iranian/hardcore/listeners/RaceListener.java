@@ -321,6 +321,10 @@ public class RaceListener implements Listener {
 
     @EventHandler
     public void onPlayerMoveForRace(PlayerMoveEvent event) {
+        if (event.getFrom().getBlockX() == event.getTo().getBlockX() &&
+            event.getFrom().getBlockY() == event.getTo().getBlockY() &&
+            event.getFrom().getBlockZ() == event.getTo().getBlockZ()) return;
+
         Player player = event.getPlayer();
         RaceType race = plugin.getRaceManager().getRace(player);
         if (race == null) return;

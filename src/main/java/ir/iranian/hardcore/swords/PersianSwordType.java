@@ -122,6 +122,15 @@ public class PersianSwordType {
                     meta.addEnchant(Enchantment.DURABILITY, 3, true);
                 }
                 meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+
+                // Resource pack model override predicate (1.12.2)
+                if (material == Material.DIAMOND_SWORD) {
+                    short modelId = (short) ((number % 4) + 1);
+                    item.setDurability(modelId);
+                    meta.setUnbreakable(true);
+                    meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+                }
+
                 item.setItemMeta(meta);
             }
             return item;

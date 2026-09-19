@@ -5,10 +5,10 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>ir.iranian</groupId>
     <artifactId>iranian-hardcore</artifactId>
-    <version>5.0.0</version>
+    <version>5.1.0</version>
     <packaging>jar</packaging>
     <name>IranianHardcore</name>
-    <description>Plugin Hardcore Irani v5.0 Finglish - 14 ghom + 30 dungeon + 900 shamshir + 500 ghaza + 20000 item + Climate + Thirst + 30 mobs Irani + Resource Pack - Spigot 1.12.2 Aternos</description>
+    <description>Plugin Hardcore Irani v5.1 Finglish - 14 ghom + 30 dungeon + 900 shamshir + 500 ghaza + 20000 item + Climate + Thirst + 30 mobs Irani + Vocal Speech + Resource Pack - Spigot 1.12.2 Aternos</description>
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>

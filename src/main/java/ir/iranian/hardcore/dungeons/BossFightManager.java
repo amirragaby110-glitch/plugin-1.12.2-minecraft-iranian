@@ -76,13 +76,11 @@ public class BossFightManager implements Listener {
 
         // Spawn announcement & music
         world.playSound(loc, Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.8f);
-        String announce = MessageUtils.color("&4&l[BOSS FIGHT] &6" + type.getBossName() + " &cdar &e" + type.getFinglishName() + " &cbedar shod!");
+        ir.iranian.hardcore.utils.SpeechUtils.speak(boss, type.getBossName(), "Man " + type.getBossName() + " hastam! Hichkas zendeh az inja biroon nemiravad!", Sound.ENTITY_ENDERDRAGON_GROWL, 0.7f);
 
         for (Player p : world.getPlayers()) {
             if (p.getLocation().distance(loc) < 80) {
-                p.sendMessage(announce);
                 p.sendTitle(MessageUtils.color("&4&l[BOSS FIGHT]"), MessageUtils.color("&6" + type.getBossName() + " (Phase 1)"), 10, 50, 20);
-                p.sendMessage(MessageUtils.color("&8[&6" + type.getBossName() + "&8] &f\"Man " + type.getBossName() + " hastam! Hichkas zendeh az inja biroon nemiravad!\""));
             }
         }
 
@@ -129,10 +127,10 @@ public class BossFightManager implements Listener {
                 }
             }
 
+            ir.iranian.hardcore.utils.SpeechUtils.speak(boss, bossName, "Lashkar-e man be yari biyayid! Hame-ye doshmanan ro khord konid!", Sound.ENTITY_ENDERDRAGON_GROWL, 0.8f);
+
             for (Player p : world.getPlayers()) {
                 if (p.getLocation().distance(boss.getLocation()) < 60) {
-                    p.sendMessage(MessageUtils.color("&c&l[BOSS] &6" + bossName + " &casabani shod! (Phase 2 - Enraged)!"));
-                    p.sendMessage(MessageUtils.color("&8[&6" + bossName + "&8] &c\"Lashkar-e man be yari biyayid! Hame-ye doshmanan ro khord konid!\""));
                     p.sendTitle(MessageUtils.color("&c&lPHASE 2: ENRAGED"), MessageUtils.color("&e" + bossName + " lashkar farakhond!"), 10, 40, 10);
                 }
             }
@@ -150,10 +148,10 @@ public class BossFightManager implements Listener {
             world.playSound(boss.getLocation(), Sound.ENTITY_WITHER_AMBIENT, 1.0f, 0.5f);
             world.spawnParticle(Particle.EXPLOSION_LARGE, boss.getLocation(), 5, 0.5, 0.5, 0.5, 0.1);
 
+            ir.iranian.hardcore.utils.SpeechUtils.speak(boss, bossName, "Marg bar shoma! Ta akharin ghatreh-ye khun migangam!", Sound.ENTITY_WITHER_SPAWN, 0.6f);
+
             for (Player p : world.getPlayers()) {
                 if (p.getLocation().distance(boss.getLocation()) < 60) {
-                    p.sendMessage(MessageUtils.color("&4&l[BOSS] &6" + bossName + " &4Ghodrat-e nahaei-ye khod ra be kar gereft! (Phase 3 - Ultimate)!"));
-                    p.sendMessage(MessageUtils.color("&8[&6" + bossName + "&8] &4\"Marg bar shoma! Ta akharin ghatreh-ye khun baraye sarzaminam migangam!\""));
                     p.sendTitle(MessageUtils.color("&4&lPHASE 3: ULTIMATE"), MessageUtils.color("&c" + bossName + " dar akharin lahazat!"), 10, 40, 10);
                     // Push players back slightly
                     p.setVelocity(p.getLocation().toVector().subtract(boss.getLocation().toVector()).normalize().multiply(1.2).setY(0.4));

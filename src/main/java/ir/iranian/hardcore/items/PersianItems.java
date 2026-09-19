@@ -3,6 +3,7 @@ package ir.iranian.hardcore.items;
 import ir.iranian.hardcore.utils.MessageUtils;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -18,6 +19,7 @@ public class PersianItems {
 
     public static ItemStack createShamshirAlamut() {
         ItemStack item = new ItemStack(Material.DIAMOND_SWORD);
+        item.setDurability((short) 2);
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
             meta.setDisplayName(MessageUtils.color("&8&lShamshir Alamut - Tighe Hassan Sabbah"));
@@ -35,6 +37,8 @@ public class PersianItems {
             meta.addEnchant(Enchantment.DAMAGE_ALL, 5, true);
             meta.addEnchant(Enchantment.FIRE_ASPECT, 2, true);
             meta.addEnchant(Enchantment.DURABILITY, 3, true);
+            meta.setUnbreakable(true);
+            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
             item.setItemMeta(meta);
         }
         return item;
@@ -42,6 +46,7 @@ public class PersianItems {
 
     public static ItemStack createShamshirBabak() {
         ItemStack item = new ItemStack(Material.IRON_SWORD);
+        item.setDurability((short) 1);
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
             meta.setDisplayName(MessageUtils.color("&c&lShamshir Babak Khorramdin - Shir Azarbayjan"));
@@ -57,6 +62,8 @@ public class PersianItems {
             )));
             meta.addEnchant(Enchantment.DAMAGE_ALL, 4, true);
             meta.addEnchant(Enchantment.KNOCKBACK, 2, true);
+            meta.setUnbreakable(true);
+            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
             item.setItemMeta(meta);
         }
         return item;

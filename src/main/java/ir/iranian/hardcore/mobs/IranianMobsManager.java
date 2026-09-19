@@ -3,6 +3,7 @@ package ir.iranian.hardcore.mobs;
 import ir.iranian.hardcore.IranianHardcorePlugin;
 import ir.iranian.hardcore.swords.PersianSwordType;
 import ir.iranian.hardcore.utils.MessageUtils;
+import ir.iranian.hardcore.utils.SpeechUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -26,9 +27,9 @@ import java.util.Random;
 import java.util.UUID;
 
 /**
- * Iranian Mobs & Speaking Mobs Manager (v5.0 Finglish)
+ * Iranian Mobs & Vocal Speech Manager (v5.0 Finglish)
  * - 30 Custom Mythical & Historical Iranian Mobs & Bosses
- * - ALL mobs in the game speak Finglish on attack, spawn, and death!
+ * - Mobs speak vocally (vocal audio + floating speech bubble + actionbar) instead of chat spam!
  * - Complete Finglish, zero Persian Unicode characters.
  */
 public class IranianMobsManager implements Listener {
@@ -37,7 +38,6 @@ public class IranianMobsManager implements Listener {
     private final Random random = new Random();
     private final Map<UUID, Long> mobSpeechCooldown = new HashMap<>();
 
-    // Dialogue pools for vanilla monsters speaking Finglish
     private final String[] zombieLines = {
             "Ghoosht-e tazeh! Migiramet!",
             "Maghz... Maghz-e shoma ro mikhoram!",
@@ -77,7 +77,7 @@ public class IranianMobsManager implements Listener {
         this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         startMobSpawnTask();
-        plugin.getLogger().info("IranianMobsManager: 30 Iranian mobs & speaking mobs system initialized!");
+        plugin.getLogger().info("IranianMobsManager: 30 Iranian mobs vocal speech system initialized!");
     }
 
     private void startMobSpawnTask() {
@@ -92,7 +92,7 @@ public class IranianMobsManager implements Listener {
                     }
                 }
             }
-        }.runTaskTimer(plugin, 1200L, 1200L); // Every 60 seconds
+        }.runTaskTimer(plugin, 1200L, 1200L);
     }
 
     private void trySpawnCustomMob(World world) {
@@ -128,7 +128,6 @@ public class IranianMobsManager implements Listener {
         } else if (biomeName.contains("HELL")) {
             return CustomMobType.APAOSHA;
         } else {
-            // Plains & Forests
             CustomMobType[] plainsMobs = {CustomMobType.KAVEH, CustomMobType.FEREYDOUN, CustomMobType.SOHRAB, CustomMobType.SARBAZ_JAVIDAN, CustomMobType.SHIR_IRANI};
             return plainsMobs[random.nextInt(plainsMobs.length)];
         }
@@ -158,18 +157,15 @@ public class IranianMobsManager implements Listener {
                 entity.getAttribute(Attribute.GENERIC_ATTACK_DAMAGE).setBaseValue(type.getDamage());
             }
 
-            // Kaveh is friendly to players
             if (type == CustomMobType.KAVEH && entity instanceof Creature) {
                 ((Creature) entity).setTarget(null);
             }
 
-            // Broadcast spawn for legendary mobs & bosses
+            // Cinematic spawn for bosses (Title + Subtitle + Roar)
             if (type.getHealth() >= 65.0) {
-                String spawnMsg = MessageUtils.color("&4&l[Khatar] &6" + type.getFinglishName() + " &cdar mokhtasat-e &e" 
-                        + loc.getBlockX() + ", " + loc.getBlockZ() + " &czaher shod!");
                 for (Player p : loc.getWorld().getPlayers()) {
-                    p.sendMessage(spawnMsg);
-                    p.playSound(p.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 0.7f, 0.8f);
+                    SpeechUtils.sendTitle(p, "&4&l" + type.getFinglishName(), "&cDar sarzamin-e Iran padidar shod!", 10, 50, 10);
+                    p.playSound(p.getLocation(), Sound.ENTITY_ENDERDRAGON_GROWL, 0.8f, 0.6f);
                 }
             }
 
@@ -205,57 +201,102 @@ public class IranianMobsManager implements Listener {
         long now = System.currentTimeMillis();
         long last = mobSpeechCooldown.getOrDefault(damager.getUniqueId(), 0L);
 
-        // 1. Check if Damager is an Iranian Custom Mob
+        // 1. Iranian Custom Mob Vocal Speech
         if (damager.hasMetadata("iranian_mob")) {
             String mobId = damager.getMetadata("iranian_mob").get(0).asString();
             try {
                 CustomMobType type = CustomMobType.valueOf(mobId);
-                // Apply effects
                 for (CustomMobType.MobEffect effect : type.getEffects()) {
                     if (random.nextDouble() < effect.getChance()) {
                         player.addPotionEffect(new PotionEffect(effect.getType(), effect.getDuration(), effect.getAmplifier()));
                     }
                 }
 
-                // Dialogue shouting
-                if (now - last > 5000) {
+                // Vocal speech cooldown 4s
+                if (now - last > 4000) {
                     mobSpeechCooldown.put(damager.getUniqueId(), now);
                     String shout = getCustomMobShout(type);
-                    player.sendMessage(MessageUtils.color("&8[&c" + type.getFinglishName() + "&8] &f\"" + shout + "\""));
+                    Sound vocalSound = getCustomMobSound(type);
+                    float pitch = getCustomMobPitch(type);
+                    // Mob speaks vocally (Speech bubble + action bar + vocal sound)
+                    SpeechUtils.speak(damager, type.getFinglishName(), shout, vocalSound, pitch);
                 }
             } catch (Exception ignored) {}
             return;
         }
 
-        // 2. Vanilla mobs speaking Finglish
-        if (now - last > 6000 && random.nextDouble() < 0.40) {
+        // 2. Vanilla mobs speaking Finglish vocally
+        if (now - last > 5000 && random.nextDouble() < 0.45) {
             mobSpeechCooldown.put(damager.getUniqueId(), now);
             String line = null;
             String mobTitle = "Doshman";
+            Sound vocalSound = Sound.ENTITY_ZOMBIE_GROWL;
+            float pitch = 1.0f;
 
             if (damager instanceof Zombie) {
                 line = zombieLines[random.nextInt(zombieLines.length)];
                 mobTitle = "Zombie";
+                vocalSound = Sound.ENTITY_ZOMBIE_GROWL;
+                pitch = 0.8f;
             } else if (damager instanceof Skeleton) {
                 line = skeletonLines[random.nextInt(skeletonLines.length)];
                 mobTitle = "Oskelat";
+                vocalSound = Sound.ENTITY_SKELETON_AMBIENT;
+                pitch = 1.1f;
             } else if (damager instanceof Creeper) {
                 line = creeperLines[random.nextInt(creeperLines.length)];
                 mobTitle = "Creeper";
+                vocalSound = Sound.ENTITY_CREEPER_HURT;
+                pitch = 0.7f;
             } else if (damager instanceof Spider) {
                 line = spiderLines[random.nextInt(spiderLines.length)];
                 mobTitle = "Ankaboot";
+                vocalSound = Sound.ENTITY_SPIDER_AMBIENT;
+                pitch = 0.85f;
             } else if (damager instanceof Enderman) {
                 line = endermanLines[random.nextInt(endermanLines.length)];
                 mobTitle = "Enderman";
+                vocalSound = Sound.ENTITY_ENDERMEN_SCREAM;
+                pitch = 0.9f;
             } else if (damager instanceof Witch) {
                 line = witchLines[random.nextInt(witchLines.length)];
                 mobTitle = "Jadoogar";
+                vocalSound = Sound.ENTITY_WITCH_AMBIENT;
+                pitch = 1.1f;
             }
 
             if (line != null) {
-                player.sendMessage(MessageUtils.color("&8[&c" + mobTitle + "&8] &7\"" + line + "\""));
+                SpeechUtils.speak(damager, mobTitle, line, vocalSound, pitch);
             }
+        }
+    }
+
+    private Sound getCustomMobSound(CustomMobType type) {
+        switch (type) {
+            case DIV_SEPID: return Sound.ENTITY_POLAR_BEAR_WARNING;
+            case DIV_SIAH: return Sound.ENTITY_WITHER_SPAWN;
+            case ZAHHAK: return Sound.ENTITY_ENDERDRAGON_GROWL;
+            case AFRASIAB: return Sound.ENTITY_VINDICATOR_CELEBRATE;
+            case ROSTAM_GHOST: return Sound.BLOCK_ENCHANTMENT_TABLE_USE;
+            case DARIUS_GHOST:
+            case CYRUS_GHOST: return Sound.ENTITY_EVOCATION_ILLAGER_PREPARE_SUMMON;
+            case KAVEH: return Sound.ENTITY_VILLAGER_YES;
+            case SIMURGH: return Sound.ENTITY_PARROT_IMITATE_ENDER_DRAGON;
+            case AL: return Sound.ENTITY_WITCH_AMBIENT;
+            case HASHASHIN_ALAMOAT: return Sound.ENTITY_VINDICATOR_AMBIENT;
+            default: return Sound.ENTITY_BLAZE_AMBIENT;
+        }
+    }
+
+    private float getCustomMobPitch(CustomMobType type) {
+        switch (type) {
+            case DIV_SEPID:
+            case DIV_SIAH: return 0.6f;
+            case ZAHHAK: return 0.65f;
+            case SIMURGH: return 1.4f;
+            case KAVEH: return 0.95f;
+            case ROSTAM_GHOST: return 0.85f;
+            default: return 1.0f;
         }
     }
 
@@ -300,7 +341,7 @@ public class IranianMobsManager implements Listener {
                 }
                 event.getDrops().add(new ItemStack(Material.GOLD_NUGGET, random.nextInt(6) + 3));
 
-                // Boss rewards: drop a legendary sword from 900 swords!
+                // Boss rewards
                 if (type.getHealth() >= 65.0) {
                     PersianSwordType.SwordData sword = PersianSwordType.getRandomSword();
                     if (sword != null) {
@@ -312,26 +353,26 @@ public class IranianMobsManager implements Listener {
 
                 if (entity.getKiller() != null) {
                     Player killer = entity.getKiller();
-                    killer.sendMessage(MessageUtils.color("&8[&6Iran&8] &aMob-e &e" + type.getFinglishName() + " &ara koshtid! &6Zendeh bad Iran!"));
+                    SpeechUtils.sendActionBar(killer, "&aMob-e &e" + type.getFinglishName() + " &arakoshtid! &6Zendeh bad Iran!");
                     killer.playSound(killer.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
                 }
             } catch (Exception ignored) {}
             return;
         }
 
-        // 2. Vanilla mob death message
-        if (entity.getKiller() != null && random.nextDouble() < 0.20) {
+        // 2. Vanilla mob death
+        if (entity.getKiller() != null && random.nextDouble() < 0.25) {
             String dyingLine = null;
             if (entity instanceof Zombie) {
-                dyingLine = "Aaaagh... Shekast khordam... Vali baz khaham gasht...";
+                dyingLine = "Aaaagh... Shekast khordam...";
             } else if (entity instanceof Skeleton) {
-                dyingLine = "Kaman-e man shekast... Vali tariki payan nadare...";
+                dyingLine = "Kaman-e man shekast...";
             } else if (entity instanceof Creeper) {
                 dyingLine = "Kha... boooom...";
             }
 
             if (dyingLine != null) {
-                entity.getKiller().sendMessage(MessageUtils.color("&8[&c" + entity.getType().name() + "&8] &7\"" + dyingLine + "\""));
+                SpeechUtils.speak(entity, entity.getType().name(), dyingLine, Sound.ENTITY_ZOMBIE_DEATH, 0.9f);
             }
         }
     }
@@ -342,7 +383,7 @@ public class IranianMobsManager implements Listener {
             Location loc = player.getLocation().clone().add(player.getLocation().getDirection().multiply(3));
             LivingEntity entity = spawnCustomMob(loc, type);
             if (entity != null) {
-                player.sendMessage(MessageUtils.color("&8[&6Iran&8] &aMob-e &e" + type.getFinglishName() + " &aspawn shod!"));
+                SpeechUtils.sendActionBar(player, "&aMob-e &e" + type.getFinglishName() + " &aspawn shod!");
                 player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
             }
         } catch (IllegalArgumentException e) {

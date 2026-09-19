@@ -1,0 +1,20 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "items/bread"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "custom_model_data": 1
+      },
+      "model": "item/iranian/ghormeh_sabzi"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 2
+      },
+      "model": "item/iranian/dizi_sangak"
+    }
+  ]
+}

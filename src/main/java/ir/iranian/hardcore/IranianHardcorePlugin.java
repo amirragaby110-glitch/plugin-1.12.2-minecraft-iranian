@@ -64,7 +64,7 @@ public class IranianHardcorePlugin extends JavaPlugin {
 
         // Startup banner - v5.0 Finglish
         Bukkit.getConsoleSender().sendMessage("§8§l§m----------------------------------------");
-        Bukkit.getConsoleSender().sendMessage("§6§l Iranian Hardcore §7- §cVersion 5.0 - Finglish Edition");
+        Bukkit.getConsoleSender().sendMessage("§6§l Iranian Hardcore §7- §cVersion 5.1 - Finglish Edition");
         Bukkit.getConsoleSender().sendMessage("§7 7000 years of Iranian history in Minecraft 1.12.2");
         Bukkit.getConsoleSender().sendMessage("§7 Swords: §6900 Craftable Iranian Swords");
         Bukkit.getConsoleSender().sendMessage("§7 Foods: §e500 Functional Iranian Foods");
@@ -110,7 +110,7 @@ public class IranianHardcorePlugin extends JavaPlugin {
         registerCommands();
         hardcoreManager.startTasks();
 
-        Bukkit.getConsoleSender().sendMessage(MessageUtils.color("&8[&6Iran&8] &a✅ Iranian Hardcore v5.0 activated successfully!"));
+        Bukkit.getConsoleSender().sendMessage(MessageUtils.color("&8[&6Iran&8] &a Iranian Hardcore v5.1 activated successfully!"));
         Bukkit.getConsoleSender().sendMessage(MessageUtils.color("&8[&6Iran&8] &aZendeh bad Iran! Khalij-e Hameshe Fars!"));
         Bukkit.getConsoleSender().sendMessage("§8§l§m----------------------------------------");
     }

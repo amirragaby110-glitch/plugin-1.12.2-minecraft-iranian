@@ -103,8 +103,8 @@ public class IranianVillageManager implements Listener {
         String villagerName = villager.getCustomName();
         String line = villagerDialogues[random.nextInt(villagerDialogues.length)];
 
-        player.sendMessage(MessageUtils.color("&8[&6" + villagerName + "&8] &f\"" + line + "\""));
-        villager.getWorld().playSound(villager.getLocation(), Sound.ENTITY_VILLAGER_YES, 1.0f, 1.0f);
+        float pitch = 0.9f + (random.nextFloat() * 0.3f);
+        ir.iranian.hardcore.utils.SpeechUtils.speak(villager, villagerName, line, Sound.ENTITY_VILLAGER_YES, pitch);
     }
 
     @EventHandler
