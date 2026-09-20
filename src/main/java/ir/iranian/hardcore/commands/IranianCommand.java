@@ -3,7 +3,10 @@ package ir.iranian.hardcore.commands;
 import ir.iranian.hardcore.IranianHardcorePlugin;
 import ir.iranian.hardcore.dungeons.DungeonType;
 import ir.iranian.hardcore.foods.IranianFoodType;
+import ir.iranian.hardcore.health.PlayerHealthManager;
+import ir.iranian.hardcore.items.PersianBossItems;
 import ir.iranian.hardcore.mobs.CustomMobType;
+import ir.iranian.hardcore.structures.PersianStructures;
 import ir.iranian.hardcore.swords.PersianSwordType;
 import ir.iranian.hardcore.utils.MessageUtils;
 import org.bukkit.command.Command;
@@ -133,6 +136,56 @@ public class IranianCommand implements CommandExecutor, TabCompleter {
                 }
                 return true;
 
+            case "heart":
+            case "ghalb":
+                if (args.length > 1 && args[1].equalsIgnoreCase("blue")) {
+                    player.getInventory().addItem(PlayerHealthManager.createTurquoiseHeartCanister());
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &bGhalb-e Firoozeh (+1 Ghalb) dadeh shod!"));
+                } else if (args.length > 1 && (args[1].equalsIgnoreCase("elixir") || args[1].equalsIgnoreCase("hayat"))) {
+                    player.getInventory().addItem(PlayerHealthManager.createElixirOfLife());
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &6Eksir-e Javidan (+2 Ghalb) dadeh shod!"));
+                } else {
+                    player.getInventory().addItem(PlayerHealthManager.createRedHeartCanister());
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &cGhalb-e Boloorin-e Sorkh (+1 Ghalb) dadeh shod!"));
+                }
+                return true;
+
+            case "bossitem":
+            case "bossweapon":
+                if (args.length > 1 && args[1].equalsIgnoreCase("bow")) {
+                    player.getInventory().addItem(PersianBossItems.createBossPiercerBow());
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &aKaman-e Shekar-e Div dadeh shod!"));
+                } else if (args.length > 1 && args[1].equalsIgnoreCase("bomb")) {
+                    player.getInventory().addItem(PersianBossItems.createNaphthaBomb(5));
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &65x Bomb-e Naft-e Siah dadeh shod!"));
+                } else if (args.length > 1 && args[1].equalsIgnoreCase("shield")) {
+                    player.getInventory().addItem(PersianBossItems.createDerafshShield());
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &eSepar-e Derafsh-e Kaviani dadeh shod!"));
+                } else if (args.length > 1 && args[1].equalsIgnoreCase("talisman")) {
+                    player.getInventory().addItem(PersianBossItems.createJamshidTalisman());
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &bTelesm-e Jam-e Jam dadeh shod!"));
+                } else {
+                    player.getInventory().addItem(PersianBossItems.createDivKoshSword());
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &cTigh-e Div-Kosh (Demon Slayer) dadeh shod!"));
+                }
+                return true;
+
+            case "structure":
+            case "sazeh":
+                if (!player.hasPermission("iranian.admin")) {
+                    player.sendMessage(MessageUtils.color("&cShoma dastresi admin nadarid!"));
+                    return true;
+                }
+                PersianStructures.StructureType st = PersianStructures.StructureType.CARAVANSERAI;
+                if (args.length > 1) {
+                    try {
+                        st = PersianStructures.StructureType.valueOf(args[1].toUpperCase());
+                    } catch (Exception ignored) {}
+                }
+                plugin.getPersianStructures().forceBuildStructure(player.getLocation(), st);
+                player.sendMessage(MessageUtils.color("&8[&6Iran&8] &aSazeh-ye &6" + st.getPersianName() + " &asakhteh shod!"));
+                return true;
+
             case "villager":
             case "roosta":
                 player.sendMessage(MessageUtils.color("&8[&6Haj Karim - Kadkhoda&8] &f\"Salam baradar! Be sarzamin-e Iran khosh amadid! Zendeh bad Iran!\""));
@@ -218,6 +271,9 @@ public class IranianCommand implements CommandExecutor, TabCompleter {
         player.sendMessage(MessageUtils.color("&8&m----------------------------------------"));
         player.sendMessage(MessageUtils.color("&6&l🇮🇷 Iranian Hardcore v5.0 - Finglish Edition"));
         player.sendMessage(MessageUtils.color("&8&m----------------------------------------"));
+        player.sendMessage(MessageUtils.color("&e/iranian heart <red|blue|elixir> &7- Afzayesh-e daemi-ye jan (ta 30 Ghalb!)"));
+        player.sendMessage(MessageUtils.color("&e/iranian bossitem <divkosh|bow|bomb|shield|talisman> &7- Aslehe-haye makhsoos-e zadan-e boss"));
+        player.sendMessage(MessageUtils.color("&e/iranian structure <type> &7- Sakht-e sazeh-haye tarikhi baraye loot"));
         player.sendMessage(MessageUtils.color("&e/iranian thirst &7- Didan mizan-e ab va dama (RLCraft style)"));
         player.sendMessage(MessageUtils.color("&e/iranian drink [dirty|clean] &7- Nooshidan-e ab"));
         player.sendMessage(MessageUtils.color("&e/iranian mashk &7- Daryaft Mashk-e Ab (10 nooshesh)"));
@@ -240,9 +296,17 @@ public class IranianCommand implements CommandExecutor, TabCompleter {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             completions.addAll(Arrays.asList("thirst", "drink", "mashk", "canteen", "dirtywater", "cleanwater",
-                    "sword", "food", "item", "dungeon", "spawnmob", "boss", "temperature", "weather", "hud", "villager", "resourcepack", "help"));
+                    "heart", "bossitem", "structure", "sword", "food", "item", "dungeon", "spawnmob", "boss", "temperature", "weather", "hud", "villager", "resourcepack", "help"));
         } else if (args.length == 2) {
-            if (args[0].equalsIgnoreCase("dungeon") || args[0].equalsIgnoreCase("boss")) {
+            if (args[0].equalsIgnoreCase("heart")) {
+                completions.addAll(Arrays.asList("red", "blue", "elixir"));
+            } else if (args[0].equalsIgnoreCase("bossitem")) {
+                completions.addAll(Arrays.asList("divkosh", "bow", "bomb", "shield", "talisman"));
+            } else if (args[0].equalsIgnoreCase("structure")) {
+                for (PersianStructures.StructureType t : PersianStructures.StructureType.values()) {
+                    completions.add(t.name());
+                }
+            } else if (args[0].equalsIgnoreCase("dungeon") || args[0].equalsIgnoreCase("boss")) {
                 for (DungeonType dt : DungeonType.values()) {
                     if (dt.name().toLowerCase().startsWith(args[1].toLowerCase())) {
                         completions.add(dt.name());

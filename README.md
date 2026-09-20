@@ -1,75 +1,77 @@
-# Iranian Hardcore v5.2 - Weather HUD, Mob Textures & Combat Edition 🇮🇷
+# Iranian Hardcore v5.3 - Health Upgrades, Boss Weapons & Grand Structures 🇮🇷
 
-**Version 5.2.0** - Bozorgtarin update ba **Hotbar ActionBar HUD-e Hamishegi baraye Ab-o-Hava va Teshnegi**, **Texture-haye Herfehei-ye Weather va Mobs dar Resource Pack**, **Raf'-e Kamel-e Bug-e Ab Khordan va Mashk**, **Dastoorat va Recipe-haye Sakht (Crafting) baraye Hameye Shamshirha, Ghaza-ha va Itemha**, va **Doshmanan va Boss-haye Por-Ghodrat ba Damage-e Sangin**!
+**Version 5.3.0** - Bozorgtarin update ba **System-e Afzayesh-e Daemi-ye Jan (Heart Containers ta 30 Ghalb!)**, **Asleheh-ha va Tajhizat-e Makhsoos-e Shekar-e Boss**, **Sazeh-haye Shokoohmand-e Bastani baraye Gasht-o-Gozar va Loot (Karvansara, Ab-Anbar, Chaikhaneh, Atashkadeh)**, va **Memari-ye Bi-Nazir va Raf'-e Kamel-e Bug-haye Biwld dar 30 Dungeon**!
 
 ### 📥 Download Direct Link:
+- **Plugin Jar (v5.3.0)**: [IranianHardcore-5.3.0.jar](./IranianHardcore-5.3.0.jar)
 - **Plugin Jar (v5.2.0)**: [IranianHardcore-5.2.0.jar](./IranianHardcore-5.2.0.jar)
-- **Plugin Jar (v5.1.0)**: [IranianHardcore-5.1.0.jar](./IranianHardcore-5.1.0.jar)
-- **Enhanced Resource Pack (v5.2.0)**: [IranianHardcore-ResourcePack.zip](./IranianHardcore-ResourcePack.zip)
-- **GitHub Release v5.2.0**: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases/tag/v5.2.0
+- **Enhanced Resource Pack (v5.3.0)**: [IranianHardcore-ResourcePack.zip](./IranianHardcore-ResourcePack.zip)
+- **GitHub Release v5.3.0**: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases/tag/v5.3.0
 
 ---
 
-## 🌟 Vizhegi-haye Jadid dar v5.2:
+## 🌟 Vizhegi-haye Jadid dar v5.3:
 
-### 💧 1. Hotbar ActionBar HUD (Ab-o-Hava, Dama va Teshnegi)
-- **Namayesh-e Peyvasteh balaye Hotbar:** Bedune cheshmak zadan, har 1 saniye (20 ticks) vaz'iat-e koli-ye player rooye ActionBar namayesh dadeh mishavad:
-  `💧 85% [||||||||  ] | 🌡 +24°C (Motadel) | ☀ Aftabi (Bahar)`
-- **Vaz'iat-e Teshnegi:** Darsad-e daqiq-e teshnegi be hamrah-e neshangar-e tasviri `[||||||||||]`.
-- **Dama va Eghlim:** Dama-ye daqiq be darajeh-ye Celsius (°C) be hamrah-e halat: *Motadel*, *Garm*, *Garmazadegi*, *Sard*, *Yakh-zadan*.
-- **Fasl va Hava:** Fasl-ha (*Bahar*, *Tabestan*, *Paeez*, *Zemestan*) va ab-o-hava (*Aftabi*, *Mahtabi*, *Barani*, *Toofani*, *Toofane Shen*, *Koolak*).
+### ❤️ 1. System-e Afzayesh-e Daemi-ye Jan (Heart Containers & Health Upgrades)
+Bazikonan aknoon mitavanand ba sakhtan (Crafting) ghalb-haye boloorin va aab-e hayat, jan-e khod ra be soorat-e daemi ta **۳۰ قلب کامل (۶۰ HP)** afzayesh dahand!
+- **Ghalb-e Boloorin-e Sorkh (+1 Ghalb / +2 HP):**
+  - *Dastoor-e Sakht:* 4 Gold Ingot + 4 Sekkeh Derik + 1 Golden Apple
+  - *Karkard:* Ba Right-Click masraf shode va ۱ قلب قرمز دائمی به بازیکن اضافه می‌کند (همراه با افکت ذرات قلب و صدای پیروزی).
+- **Ghalb-e Firoozeh-ye Elahi (+1 Ghalb / +2 HP):**
+  - *Dastoor-e Sakht:* 4 Emerald + 4 Lapis Block + 1 Diamond Block
+  - *Karkard:* Ba Right-Click masraf shode va ۱ قلب دائمی اضافه می‌کند.
+- **Eksir-e Javidan / Aab-e Hayat (+2 Ghalb / +4 HP):**
+  - *Dastoor-e Sakht:* Nether Star + 2 Sekkeh Derik + Golden Carrot + Glass Bottle
+  - *Karkard:* ۲ قلب دائمی (+4 HP) همراه با افکت Regeneration و Absorption اعطا می‌کند!
+- **Zakhireh-sazi-ye Daemi:** Jan-e ezafe shode dar file-e `player_health.yml` zakhireh shode va ba mordan (Respawn), kharej shodan az bazi ya restart-e server hargez pak nemishavad.
 
-### 🌊 2. System-e Ab Khordan va Mashk (RLCraft Style - 100% Fixed)
-- **Nooshidan ba Dast-e Khali:** Kafi ast Sneak (Shift) konid va rooye ab ya dig-e ab (Cauldron) Right-Click konid ta sarian ab benooshid!
-- **Mashk-e Ab-e Sonnati (10 nooshesh):**
-  - Right-Click dar dast baraye nooshidan (+30% Ab).
-  - Right-Click rooye har mancheba-ye ab baraye por kardan (10/10).
-- **Ghomghame-ye Fooladi (5 nooshesh):**
-  - Right-Click dar dast baraye nooshidan (+25% Ab).
-  - Right-Click rooye ab baraye por kardan (5/5).
-- **Tasfieh va Jooshandan:** Ab-e Kasif ro dar kooreh (Furnace) bejooshanid ya ba zoghal dar Crafting Table be Ab-e Paak tabdil konid.
+---
 
-### 🎨 3. Resource Pack-e Herfehei (Weather & Mob Textures)
-- **Ab-o-Hava (Environment Textures):**
-  - `rain.png`: Ghaterat-e baran ba noor-e firouzehi va noqreh-ei.
-  - `snow.png`: Daneh-haye barf-e bolouri-ye 6-zeleh ba jelveh-ye ziba.
-  - `sun.png`: Khorshid-e derakhshan-e Mehr (Mithra) ba 16 partow-e talaei.
-  - `moon_phases.png`: 8 halat-e mah ba joz'iyate dahaaneh-ha va noor-e mahtab.
-  - `clouds.png`: Abr-haye tabieei va latif.
-- **Mob-haye Irani (Vanilla + OptiFine / McPatcher 64x64):**
-  - **Div-e Sepid (Mazandaran):** Poost-e sefid-e barfi, cheshman-e ghermez-e khunin, shaakh-haye siah va dandanhaye nish!
-  - **Zahhak Mar-Doosh:** Taj-e zarrin-e kheng, zereh-ye tirah, va do mar-e siyah ba cheshman-e sabz rooye shooneh-ha!
-  - **Div-e Siah (Kavir):** Poost-e zoghali ba cheshman-e sholeh-var-e narenji.
-  - **Sarbaz-e Javidan:** Lebas-e arghavani-ye hakhamaneshi ba zereh-ye poolaki-ye tala.
-  - **Rostam Dastan:** Poost-e palang-e Babr-e Bayan va kolahkhod-e ahanin.
-  - **Kaveh-ye Ahangar:** Pishband-e charmi ba ranghaye Derafsh-e Kaviani.
-  - **Hassan Sabbah (Alamut):** Shenel-e siyaho ghermez-e fadaian ba khanjar-e Damashqi.
+### 🗡️ 2. Asleheh-ha va Tajhizat-e Makhsoos-e Shekar-e Boss (Boss Hunters)
+Tajhizat-e fowgh-ol-adeh baraye zadan-e boss-haye por-ghodrat-e dungeon:
+- **Tigh-e Div-Kosh (Demon Slayer Scimitar):**
+  - *Dastoor-e Sakht:* Diamond Sword + Nether Star + Sekkeh Derik + Blaze Rod
+  - *Vizhegi:* **+18 True Damage** اختصاصی به تمام باس‌ها و مینیون‌ها + **25% شانس Stun** (گیج کردن و قفل کردن باس برای ۲ ثانیه با صاعقه)!
+- **Kaman-e Shekar-e Div (Boss Piercer Warbow):**
+  - *Dastoor-e Sakht:* Bow + 2 Diamonds + 2 Strings + 1 Emerald
+  - *Vizhegi:* Tir-haye in kaman zereh-ye boss ra nofooz karde va **200% Damage** به باس وارد می‌کنند!
+- **Bomb-e Naft-e Siah (Persian Naphtha Firebomb):**
+  - *Dastoor-e Sakht:* Glass Bottle + Gunpowder + Coal + Blaze Powder
+  - *Vizhegi:* Narenjak-e dast-saz ke ba Right-Click partab shode va dar shoa'-e 6 metri monfajer mishavad؛ 16 damage vared karde va zereh-ye boss ra baraye 10 saniyeh zob mikonad!
+- **Separ-e Derafsh-e Kaviani (Persian Aegis Shield):**
+  - *Dastoor-e Sakht:* Shield + Gold Ingot + Red Carpet + Diamond
+  - *Vizhegi:* **50% Damage-e zarbeh-ye boss ra be khodash baztab midahad!**
+- **Telesm-e Jam-e Jam (Talisman of Jamshid):**
+  - *Dastoor-e Sakht:* Watch + Lapis Block + Eye of Ender + Sekkeh Derik
+  - *Vizhegi:* Dar faseleh-ye 18 metri-ye boss, تمام باف‌های باس (Speed, Resistance, Strength) را باطل کرده و نقطه ضعف او را برای ۱۰ ثانیه آشکار می‌کند (+40% extra damage az hameye playerha)!
 
-### ⚔️ 4. Sakht-e Item-ha va Ghaza-ha (Crafting Recipes)
-- **Shamshirha:**
-  - *Shamshir-e Kourosh:* Gold + Diamond + Stick (Morabbayi/Ghotri)
-  - *Tigh-e Hassan Sabbah:* Obsidian + Iron Ingot + Stick
-  - *Shamshir-e Babak:* Redstone + Iron Ingot + Stick
-  - *Zolfaghar:* 2 Diamonds + Gold Ingot + Stick
-  - *Gorz-e Rostam:* Iron Block + Iron Ingot + Stick
-  - *Crafting-e Onsori:* 1 Shamshir + 1 Onsor (Blaze, Ice, Spider Eye, Emerald, ...) = Shamshir-e Asil-e Irani!
-  - *Ghodrat-e Right-Click:* Har 12 saniye, Right-Click ba shamshir ghodrat-e vizheh-ye atash, yakh ya barq fa'al mikone!
-- **Ghaza-haye Irani:**
-  - *Ghormeh Sabzi:* Bowl + Cooked Beef + Wheat
-  - *Dizi Sangak:* Bowl + Bread + Cooked Mutton
-  - *Chai Lahijan:* Glass Bottle + Wheat + Sugar
-  - *Fesenjan:* Bowl + Cooked Chicken + Apple
-  - *Kabab Koobideh:* Bread + Cooked Beef
-  - *Ghabeliat-e Khordan dar Hunger-e Kamel:* Hata agar gooshengi 20 bashe, Right-Click ba ghaza an ra masraf karde va teshnegi va buff midehad!
-- **Asar-e Bastani:**
-  - *Sekkeh Derik:* 1 Gold Ingot = 9 Sekkeh Derik! (Va 9 Sekkeh Derik = 1 Gold Ingot)
-  - *Taj-e Kourosh:* Gold Helmet + 2 Diamonds + 2 Emeralds!
-  - *Manshur-e Kourosh:* Book + Clay Brick + Gold Nugget!
-  - *Kaman-e Arash:* Bow + Feather + Emerald!
+---
 
-### 👹 5. Boss-ha va Dungeons (Damage & Safe Teleport)
-- **Boss-haye Hajeemi va Por-Ghodrat:** Boss-ha ba Melee AI-ye dorost (Wither Skeleton / Husk / Pig Zombie) be samt-e bazikon hamleh karde va damage-e sangin (10 ta 20 damage) vared mikonand.
-- **Dungeon Teleport-e Amn:** Halgheh-ye teleport be voroodi-ye amn va roo-be-roo ba bana motasel shode va dar divar ya saqf gir nemioftid.
+### 🏰 3. Sazeh-haye Shokoohmand-e Bastani baraye Gasht-o-Gozar va Loot (Persian Structures)
+Sazeh-haye ziba va asil ke dar sarasar-e map be surate khodkar spawn mishavand ya ba dastoor sakhteh mishavand:
+- **Karvansara-ye Shah Abbasi:**
+  - Dezh-e chahar-goosh-e 26x26 ba 4 borj-e didbani dar goosheh-ha.
+  - Havoz-e ab-e sangin dar vasat-e heeyat bedune rikhtan-e ab be atraf.
+  - 8 otagh-e mosafer ba farsh-e Kermani va takht-e esterahat.
+  - 4 sandogh-e ghanimat (Loot Chests) shamel Sekkeh Derik, Farsh, Aslehe va Ghalb-haye boloorin!
+- **Ab-Anbar-e Yazdi:**
+  - 4 badgir-e boland-e sonnati ba hava-kesh.
+  - Gonbad-e kheshti va pele-haye sangi ke be gha'r-e ab-anbar miravad.
+  - **Sandogh-e ghanimat-e ghargh-shodeh** dar kaf-e ab shamel Morvarid-e Khalij-e Fars, Sekkeh va Aab-e Hayat!
+- **Chaykhaneh-ye Sonnati:**
+  - Emarat-e ajorin ba panjereh-haye choobi va takht-haye sonnati ba farsh.
+  - Samavar-e berenji, sandogh-haye Chaye Lahijan, Sangak va shirinijat.
+- **Atashkadeh-ye Sasanian:**
+  - Chahar-taq-e asil ba atashdan-e moghaddas-e Azargoshasb.
+  - 2 sandogh-e asar-e bastani shamel Atash-e Moghaddas va lowh-haye mikhi.
+- **Bazar-e Sonnati:**
+  - Rasteh-ye bazar-e tagh-dar ba hoorno (noorgir) va 4 hojreh-ye tejarat ba villager-haye kasb-o-kar.
+
+---
+
+### 🏛️ 4. Memari-ye Kamel va Raf'-e Bug-haye Biwld dar 30 Dungeon
+- Hameye dungeon-ha (Bisotun, Naqsh-e Rostam, Hegmataneh, Susa, Nasir al-Mulk, Vank Cathedral) دارای معماری اصیل، مجزا و بدون باگ شدند.
+- صندوق‌های غنیمت درون دانجن‌ها دارای ۴۰٪ شانس لوت قلب‌های کریستالی و ۳۵٪ شانس سلاح‌های ویژه شکار باس هستند.
 - **Saboksazi-ye PlayerMoveEvent:** Tamam mohasebat-e sangin-e vector va barresi-ye blockha az event-e harekat hazf shode va faghat hengam-e uboor az marz-e chunk ya ba interval barresi mishavad.
 - **100% Finglish:** Hameye matnha bedune character-e farsi neveshte shodeand ta hich moshkele encoding va alameye soal rooye Aternos pish nayayad.
 

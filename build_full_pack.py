@@ -650,7 +650,155 @@ def main():
 
     print('[+] Custom Iranian Mob skins generated (Div Sepid, Zahhak, Div Siah, Javidan, Rostam, Kaveh, Alamut).')
 
-    # 5. Item Textures
+    # 8. Ghalb-e Sorkh (Crystal Red Heart)
+    def gen_ghalb_sorkh():
+        w, h = 16, 16
+        g = [[(0, 0, 0, 0) for _ in range(w)] for _ in range(h)]
+        RED1 = (255, 60, 80, 255)
+        RED2 = (220, 20, 40, 255)
+        RED3 = (140, 10, 25, 255)
+        GOLD = (255, 220, 50, 255)
+        WHITE = (255, 255, 255, 255)
+
+        # Heart shape
+        for dy in range(10):
+            y = 4 + dy
+            half_w = 6 - (dy * 6 // 10)
+            for x in range(8 - half_w, 8 + half_w):
+                g[y][x] = RED2
+        # Top rounded lobes
+        for x in range(3, 7): g[3][x] = RED2
+        for x in range(9, 13): g[3][x] = RED2
+        for x in range(4, 6): g[2][x] = RED1
+        for x in range(10, 12): g[2][x] = RED1
+        # Specular glint
+        g[4][4] = WHITE; g[4][5] = WHITE; g[5][4] = WHITE
+        # Gold filigree rim
+        g[2][3] = GOLD; g[2][6] = GOLD; g[3][7] = GOLD; g[3][8] = GOLD
+        g[2][9] = GOLD; g[2][12] = GOLD; g[13][7] = GOLD; g[14][7] = GOLD
+        return g
+
+    # 9. Ghalb-e Firoozeh (Turquoise Heart)
+    def gen_ghalb_firoozeh():
+        w, h = 16, 16
+        g = [[(0, 0, 0, 0) for _ in range(w)] for _ in range(h)]
+        CYAN1 = (80, 245, 240, 255)
+        CYAN2 = (20, 195, 205, 255)
+        CYAN3 = (10, 120, 145, 255)
+        GOLD  = (255, 225, 60, 255)
+        WHITE = (255, 255, 255, 255)
+
+        for dy in range(10):
+            y = 4 + dy
+            half_w = 6 - (dy * 6 // 10)
+            for x in range(8 - half_w, 8 + half_w):
+                g[y][x] = CYAN2
+        for x in range(3, 7): g[3][x] = CYAN2
+        for x in range(9, 13): g[3][x] = CYAN2
+        for x in range(4, 6): g[2][x] = CYAN1
+        for x in range(10, 12): g[2][x] = CYAN1
+        g[4][4] = WHITE; g[5][4] = WHITE
+        g[2][3] = GOLD; g[3][7] = GOLD; g[3][8] = GOLD; g[2][12] = GOLD
+        return g
+
+    # 10. Eksir-e Javidan (Elixir of Immortality)
+    def gen_eksir_javidan():
+        w, h = 16, 16
+        g = [[(0, 0, 0, 0) for _ in range(w)] for _ in range(h)]
+        GLASS = (220, 245, 255, 180)
+        ELIXIR = (255, 230, 90, 255) # Glowing celestial gold
+        LIGHT  = (255, 255, 210, 255)
+        CORK   = (160, 110, 50, 255)
+
+        g[1][7] = CORK; g[1][8] = CORK; g[2][7] = CORK; g[2][8] = CORK
+        g[3][6] = GLASS; g[3][9] = GLASS
+        for y in range(4, 13):
+            g[y][4] = GLASS; g[y][11] = GLASS
+            for x in range(5, 11):
+                g[y][x] = ELIXIR if (x + y) % 2 == 0 else LIGHT
+        g[6][6] = (255, 255, 255, 255); g[7][6] = (255, 255, 255, 255) # glint
+        for x in range(5, 11): g[13][x] = GLASS
+        return g
+
+    # 11. Tigh-e Div-Kosh (Demon Slayer Scimitar)
+    def gen_tigh_div_kosh():
+        w, h = 16, 16
+        g = [[(0, 0, 0, 0) for _ in range(w)] for _ in range(h)]
+        B1 = (255, 70, 70, 255)
+        B2 = (220, 190, 240, 255)
+        B3 = (90, 40, 120, 255)
+        GOLD = (255, 215, 30, 255)
+
+        for i in range(10):
+            x = 14 - i
+            y = 1 + i
+            g[y][x] = B1 if i % 2 == 0 else B2
+            if x > 1: g[y][x-1] = B3
+        g[11][4] = GOLD; g[10][5] = GOLD; g[12][3] = (40, 30, 45, 255); g[13][2] = GOLD
+        return g
+
+    # 12. Bomb-e Naft-e Siah (Naphtha Firebomb)
+    def gen_bomb_naft():
+        w, h = 16, 16
+        g = [[(0, 0, 0, 0) for _ in range(w)] for _ in range(h)]
+        CLAY = (145, 75, 40, 255)
+        PITCH = (30, 28, 35, 255)
+        FUSE = (200, 160, 100, 255)
+        SPARK = (255, 180, 20, 255)
+
+        g[1][9] = SPARK; g[2][8] = FUSE; g[3][7] = FUSE
+        g[4][7] = CLAY; g[4][8] = CLAY
+        for y in range(5, 13):
+            for x in range(4, 12):
+                g[y][x] = PITCH if (x + y) % 3 == 0 else CLAY
+        return g
+
+    # 13. Separ-e Derafsh-e Kaviani (Persian Aegis Shield)
+    def gen_separ_kaviani():
+        w, h = 16, 16
+        g = [[(0, 0, 0, 0) for _ in range(w)] for _ in range(h)]
+        GOLD = (255, 215, 40, 255)
+        RED  = (220, 25, 35, 255)
+        PURPLE = (120, 25, 110, 255)
+        CYAN = (30, 215, 210, 255)
+        YELLOW = (255, 240, 60, 255)
+
+        for y in range(2, 14):
+            half = 5 - (max(0, y - 9) * 4 // 5)
+            for x in range(8 - half, 8 + half):
+                g[y][x] = GOLD
+        # 4 Quadrants of Derafsh Kaviani
+        for y in range(4, 8):
+            for x in range(5, 8): g[y][x] = RED
+            for x in range(8, 11): g[y][x] = YELLOW
+        for y in range(8, 11):
+            for x in range(5, 8): g[y][x] = PURPLE
+            for x in range(8, 11): g[y][x] = CYAN
+        # Center Star Gem
+        g[7][7] = (255, 255, 255, 255); g[8][8] = (255, 255, 255, 255)
+        return g
+
+    # 14. Telesm-e Jam-e Jam (Talisman of Jamshid)
+    def gen_jam_e_jam():
+        w, h = 16, 16
+        g = [[(0, 0, 0, 0) for _ in range(w)] for _ in range(h)]
+        GOLD = (255, 215, 30, 255)
+        COSMIC1 = (40, 20, 95, 255)
+        COSMIC2 = (20, 160, 220, 255)
+        STAR = (255, 255, 255, 255)
+
+        for y in range(2, 14):
+            for x in range(2, 14):
+                dx = x - 7.5; dy = y - 7.5
+                dist = math.hypot(dx, dy)
+                if dist <= 5.5:
+                    g[y][x] = COSMIC1 if (dx + dy) % 2 == 0 else COSMIC2
+                if 4.8 <= dist <= 5.5:
+                    g[y][x] = GOLD
+        g[6][6] = STAR; g[9][8] = STAR; g[7][9] = STAR
+        return g
+
+    # 5. Item Textures Dictionary
     items = {
         'mashk_ab': (gen_mashk_ab(), 'potion', '.*Mashk.*'),
         'canteen': (gen_canteen(), 'potion', '.*Ghomghame.*|.*Canteen.*'),
@@ -661,7 +809,14 @@ def main():
         'ghormeh_sabzi': (gen_ghormeh_sabzi(), 'bread', '.*Ghormeh.*'),
         'dizi_sangak': (gen_dizi_sangak(), 'bread', '.*Dizi.*'),
         'chai_lahijan': (gen_chai_lahijan(), 'potion', '.*Chai.*'),
-        'derik_tala': (gen_derik_tala(), 'gold_nugget', '.*Derik.*|.*Sekke.*')
+        'derik_tala': (gen_derik_tala(), 'gold_nugget', '.*Derik.*|.*Sekke.*'),
+        'ghalb_sorkh': (gen_ghalb_sorkh(), 'golden_apple', '.*Ghalb.*Sorkh.*'),
+        'ghalb_firoozeh': (gen_ghalb_firoozeh(), 'prismarine_crystals', '.*Ghalb.*Firoozeh.*'),
+        'eksir_javidan': (gen_eksir_javidan(), 'potion', '.*Eksir.*|.*Hayat.*'),
+        'tigh_div_kosh': (gen_tigh_div_kosh(), 'diamond_sword', '.*Div-Kosh.*'),
+        'bomb_naft': (gen_bomb_naft(), 'magma_cream', '.*Bomb.*Naft.*'),
+        'separ_kaviani': (gen_separ_kaviani(), 'shield', '.*Kaviani.*'),
+        'jam_e_jam': (gen_jam_e_jam(), 'clock', '.*Jam-e Jam.*|.*Telesm.*')
     }
 
     # Save to both texture paths & OptiFine/McPatcher CIT

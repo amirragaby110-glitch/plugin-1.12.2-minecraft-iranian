@@ -8,7 +8,9 @@ import ir.iranian.hardcore.dungeons.DungeonManager;
 import ir.iranian.hardcore.foods.IranianFoodsManager;
 import ir.iranian.hardcore.gui.RaceGUI;
 import ir.iranian.hardcore.hardcore.HardcoreManager;
+import ir.iranian.hardcore.health.PlayerHealthManager;
 import ir.iranian.hardcore.items.CustomItemRegistry;
+import ir.iranian.hardcore.items.PersianBossItems;
 import ir.iranian.hardcore.language.LanguageManager;
 import ir.iranian.hardcore.listeners.*;
 import ir.iranian.hardcore.mobs.IranianMobsManager;
@@ -57,23 +59,27 @@ public class IranianHardcorePlugin extends JavaPlugin {
     private PersianSwordsManager swordsManager;
     private IranianFoodsManager foodsManager;
     private CustomItemRegistry customItemRegistry;
+    private PlayerHealthManager healthManager;
+    private PersianBossItems bossItems;
 
     @Override
     public void onEnable() {
         instance = this;
 
-        // Startup banner - v5.0 Finglish
+        // Startup banner - v5.3 Finglish
         Bukkit.getConsoleSender().sendMessage("§8§l§m----------------------------------------");
-        Bukkit.getConsoleSender().sendMessage("§6§l Iranian Hardcore §7- §cVersion 5.1 - Finglish Edition");
+        Bukkit.getConsoleSender().sendMessage("§6§l Iranian Hardcore §7- §cVersion 5.3 - Health & Boss Weapons Edition");
         Bukkit.getConsoleSender().sendMessage("§7 7000 years of Iranian history in Minecraft 1.12.2");
+        Bukkit.getConsoleSender().sendMessage("§7 Health: §cCraftable Heart Canisters (Up to 30 Hearts)");
+        Bukkit.getConsoleSender().sendMessage("§7 Boss Weapons: §eDiv-Kosh Blade, Boss Piercer Bow, Naphtha Bombs");
+        Bukkit.getConsoleSender().sendMessage("§7 Structures: §6Shah Abbasi Caravanserai, Ab-Anbar, Chaikhaneh, Atashkadeh");
         Bukkit.getConsoleSender().sendMessage("§7 Swords: §6900 Craftable Iranian Swords");
         Bukkit.getConsoleSender().sendMessage("§7 Foods: §e500 Functional Iranian Foods");
         Bukkit.getConsoleSender().sendMessage("§7 Items: §b20,000 Procedural Iranian Items");
         Bukkit.getConsoleSender().sendMessage("§7 Dungeons: §a30 Historical Dungeons + 3-Phase Boss Fights");
         Bukkit.getConsoleSender().sendMessage("§7 Thirst: §bRLCraft Style Hydration + Mashk Ab");
         Bukkit.getConsoleSender().sendMessage("§7 Climate: §bTemperature, Weather & Persian Seasons");
-        Bukkit.getConsoleSender().sendMessage("§7 Mobs: §c30 Iranian Mobs + All Mobs Speaking Finglish");
-        Bukkit.getConsoleSender().sendMessage("§7 Villagers: §aIranian Villagers Speaking Finglish");
+        Bukkit.getConsoleSender().sendMessage("§7 Mobs: §c30 Iranian Mobs + Zero Text Vocal Sound Speech");
         Bukkit.getConsoleSender().sendMessage("§7 Encoding: §a100% Finglish (Safe for Aternos)");
         Bukkit.getConsoleSender().sendMessage("§8§l§m----------------------------------------");
 
@@ -103,6 +109,8 @@ public class IranianHardcorePlugin extends JavaPlugin {
         swordsManager = new PersianSwordsManager(this);
         foodsManager = new IranianFoodsManager(this);
         customItemRegistry = new CustomItemRegistry(this);
+        healthManager = new PlayerHealthManager(this);
+        bossItems = new PersianBossItems(this);
 
         // Apply world settings & start tasks
         hardcoreManager.applyWorldSettings();
@@ -117,6 +125,9 @@ public class IranianHardcorePlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        if (healthManager != null) {
+            healthManager.saveHealthData();
+        }
         Bukkit.getConsoleSender().sendMessage(MessageUtils.color("&8[&6Iran&8] &cIranian plugin disabled! Khoda negahdar! Zendeh bad Iran!"));
         instance = null;
     }
@@ -179,4 +190,6 @@ public class IranianHardcorePlugin extends JavaPlugin {
     public PersianSwordsManager getSwordsManager() { return swordsManager; }
     public IranianFoodsManager getFoodsManager() { return foodsManager; }
     public CustomItemRegistry getCustomItemRegistry() { return customItemRegistry; }
+    public PlayerHealthManager getHealthManager() { return healthManager; }
+    public PersianBossItems getBossItems() { return bossItems; }
 }
