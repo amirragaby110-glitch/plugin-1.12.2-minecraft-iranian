@@ -97,6 +97,7 @@ jobs:
           exit 0
         fi
         echo "Jar: $JAR"
+        cp $JAR ./IranianHardcore-5.4.0.jar || true
         cp $JAR ./IranianHardcore-5.3.0.jar || true
         cp $JAR ./IranianHardcore-5.2.0.jar || true
         cp $JAR ./IranianHardcore-5.1.0.jar || true
@@ -107,7 +108,7 @@ jobs:
         fi
         git config user.name "github-actions"
         git config user.email "actions@github.com"
-        git add -f IranianHardcore-5.3.0.jar IranianHardcore-5.2.0.jar IranianHardcore-5.1.0.jar IranianHardcore-5.0.0.jar IranianHardcore-4.0.0.jar IranianHardcore-ResourcePack.zip resourcepack/IranianHardcore-ResourcePack.zip || true
+        git add -f IranianHardcore-5.4.0.jar IranianHardcore-5.3.0.jar IranianHardcore-5.2.0.jar IranianHardcore-5.1.0.jar IranianHardcore-5.0.0.jar IranianHardcore-4.0.0.jar IranianHardcore-ResourcePack.zip resourcepack/IranianHardcore-ResourcePack.zip || true
         git commit -m "Update Jar v5.3.0 HeartCanisters+BossWeapons+GrandStructures ${{ github.run_id }}" || echo "No changes"
         git pull --rebase origin ${{ github.ref_name }} || echo "Pull failed"
         git push origin ${{ github.ref_name }} || git push origin ${{ github.ref_name }} --force || echo "Push failed"

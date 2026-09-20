@@ -193,6 +193,11 @@ public class TemperatureManager {
     }
 
     private void applyTemperatureEffects(Player player, double temp) {
+        // Blessed by Atash-e Bahram (Fire Resistance protects against extreme frost)
+        if (temp < -40 && player.hasPotionEffect(PotionEffectType.FIRE_RESISTANCE)) {
+            return;
+        }
+
         // Freezing
         if (temp < -40) {
             if (temp < -85) {

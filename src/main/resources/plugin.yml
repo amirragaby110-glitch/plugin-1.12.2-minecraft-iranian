@@ -1,10 +1,10 @@
 name: IranianHardcore
-version: 5.3.0
+version: 5.4.0
 main: ir.iranian.hardcore.IranianHardcorePlugin
 api-version: 1.12
 author: IranianTeam
 authors: [Amir, IranianHardcoreDev, TeamMelli, TarikhIran, AghvamIran]
-description: Plugin Hardcore Irani v5.0 Finglish - 14 ghom Irani, 30 dungeon tarikhi, 900 shamshir Irani, 500 ghaza Irani, 20,000 item Irani, 30 mob va boss Irani, Ab o hava va faslha, Teshnegi va Mashk Ab, Rustaye Irani ba villager gooyaye Finglish, Resource pack v5.0 - Safe for Aternos - Zende bad Iran
+description: Plugin Hardcore Irani v5.4 Finglish - Zoorkhaneh Bastani, Pahlavani, Akvan Div, Qanat Kavir, Atashkadeh, Silk Road, 14 ghom Irani, 30 dungeon, 900 shamshir, 500 ghaza - Safe for Aternos
 website: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian
 prefix: IranianHardcore
 

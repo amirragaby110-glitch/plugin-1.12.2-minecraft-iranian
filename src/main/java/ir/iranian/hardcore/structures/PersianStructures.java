@@ -48,6 +48,9 @@ public class PersianStructures {
         CHAIKHANEH("Chaykhaneh-ye Sonnati", "Traditional Persian Teahouse", Material.WOOD, "Chaykhaneh ba samavar va farsh-e Kermani"),
         AB_ANBAR("Ab-Anbar-e Yazdi", "Yazd Water Cistern", Material.SMOOTH_BRICK, "Ab-anbar-e khonak-e kaviri ba 4 badgir"),
         ATASHKADEH("Atashkadeh-ye Sasanian", "Sassanid Fire Temple", Material.NETHERRACK, "Chahar-taq-e atash-e moghaddas"),
+        ZOORKHANEH("Zoorkhaneh-ye Bastani", "Ancient Persian Zoorkhaneh", Material.LOG, "Goud-e moghaddas-e pahlavani va meel va kabbadeh"),
+        QANAT("Qanat-e Kavir", "Subterranean Persian Aqueduct", Material.SANDSTONE, "Chah-e amigh-e kaviri ba aab-e khonak va govara"),
+        SIMURGH_PEAK("Ashiyaneh-ye Simurgh", "Simurgh Mountain Peak", Material.GOLD_BLOCK, "Ashiyaneh-ye morgh-e afsaneh-i ba par-e jadooyi"),
         VILLAGE("Roostaye Irani", "Iranian Mountain Village", Material.COBBLESTONE, "Roostaye pelekani-ye Masooleh");
 
         private final String persianName;
@@ -78,6 +81,9 @@ public class PersianStructures {
             case CHAIKHANEH: return buildChaikhaneh(origin);
             case AB_ANBAR: return buildAbAnbar(origin);
             case ATASHKADEH: return buildFireTemple(origin);
+            case ZOORKHANEH: return buildZoorkhaneh(origin);
+            case QANAT: return buildQanat(origin);
+            case SIMURGH_PEAK: return buildSimurghPeak(origin);
             case VILLAGE:
                 if (plugin.getVillageManager() != null) {
                     plugin.getVillageManager().generateVillage(origin);
@@ -455,6 +461,195 @@ public class PersianStructures {
         villager.setProfession(prof);
     }
 
+    // ==========================================
+    // 6. ZOORKHANEH-YE BASTANI (Persian Martial Arena)
+    // ==========================================
+    public boolean buildZoorkhaneh(Location o) {
+        World w = o.getWorld();
+        if (w == null) return false;
+        int ox = o.getBlockX(), oy = o.getBlockY(), oz = o.getBlockZ();
+
+        // 14x14 wooden hall with central Goud
+        for (int x = -7; x <= 7; x++) {
+            for (int z = -7; z <= 7; z++) {
+                for (int y = -3; y <= 0; y++) {
+                    w.getBlockAt(ox + x, oy + y, oz + z).setType(Material.WOOD);
+                }
+                for (int y = 1; y <= 6; y++) {
+                    w.getBlockAt(ox + x, oy + y, oz + z).setType(Material.AIR);
+                }
+            }
+        }
+
+        // Outer walls & Pillars
+        for (int y = 1; y <= 5; y++) {
+            for (int x = -7; x <= 7; x++) {
+                w.getBlockAt(ox + x, oy + y, oz - 7).setType(Material.LOG);
+                w.getBlockAt(ox + x, oy + y, oz + 7).setType(Material.LOG);
+            }
+            for (int z = -7; z <= 7; z++) {
+                w.getBlockAt(ox - 7, oy + y, oz + z).setType(Material.LOG);
+                w.getBlockAt(ox + 7, oy + y, oz + z).setType(Material.LOG);
+            }
+        }
+
+        // Central Goud-e Zoorkhaneh (8x8 recessed pit, 2 blocks deep)
+        for (int x = -4; x <= 4; x++) {
+            for (int z = -4; z <= 4; z++) {
+                w.getBlockAt(ox + x, oy - 1, oz + z).setType(Material.AIR);
+                w.getBlockAt(ox + x, oy - 2, oz + z).setType(Material.AIR);
+                w.getBlockAt(ox + x, oy - 3, oz + z).setType(Material.SMOOTH_BRICK);
+                if ((x + z) % 2 == 0) {
+                    w.getBlockAt(ox + x, oy - 2, oz + z).setType(Material.CARPET);
+                    try { w.getBlockAt(ox + x, oy - 2, oz + z).setData((byte) 14); } catch (Exception ignored) {}
+                }
+            }
+        }
+
+        // Roof
+        for (int x = -7; x <= 7; x++) {
+            for (int z = -7; z <= 7; z++) {
+                w.getBlockAt(ox + x, oy + 6, oz + z).setType(Material.WOOD);
+            }
+        }
+
+        // Hanging Zang-e Morshed over center
+        w.getBlockAt(ox, oy + 5, oz).setType(Material.FENCE);
+        w.getBlockAt(ox, oy + 4, oz).setType(Material.GOLD_BLOCK);
+        w.getBlockAt(ox, oy + 3, oz).setType(Material.NOTE_BLOCK);
+
+        // Entrance
+        w.getBlockAt(ox, oy + 1, oz + 7).setType(Material.AIR);
+        w.getBlockAt(ox, oy + 2, oz + 7).setType(Material.AIR);
+
+        // Zoorkhaneh Chest
+        Block chestBlock = w.getBlockAt(ox + 5, oy + 1, oz - 5);
+        chestBlock.setType(Material.CHEST);
+        if (chestBlock.getState() instanceof Chest) {
+            Chest c = (Chest) chestBlock.getState();
+            c.getInventory().addItem(ir.iranian.hardcore.items.PersianAuthenticItems.createMeelBastani());
+            c.getInventory().addItem(ir.iranian.hardcore.items.PersianAuthenticItems.createKabbadehPouladin());
+            c.getInventory().addItem(ir.iranian.hardcore.items.PersianAuthenticItems.createZangZoorkhaneh());
+            ItemStack derik = ir.iranian.hardcore.items.PersianItems.getDerik();
+            derik.setAmount(8);
+            c.getInventory().addItem(derik);
+            c.update();
+        }
+
+        IronGolem golem = (IronGolem) w.spawnEntity(new Location(w, ox, oy - 2, oz), EntityType.IRON_GOLEM);
+        golem.setCustomName(MessageUtils.color("&6&lPahlavan-e Zoorkhaneh"));
+        golem.setCustomNameVisible(true);
+
+        return true;
+    }
+
+    // ==========================================
+    // 7. QANAT-E KAVIR (Subterranean Aqueduct)
+    // ==========================================
+    public boolean buildQanat(Location o) {
+        World w = o.getWorld();
+        if (w == null) return false;
+        int ox = o.getBlockX(), oy = o.getBlockY(), oz = o.getBlockZ();
+
+        // 1. Surface Well Structure
+        for (int x = -2; x <= 2; x++) {
+            for (int z = -2; z <= 2; z++) {
+                w.getBlockAt(ox + x, oy, oz + z).setType(Material.SMOOTH_BRICK);
+            }
+        }
+        w.getBlockAt(ox, oy, oz).setType(Material.AIR);
+        w.getBlockAt(ox - 1, oy + 1, oz).setType(Material.COBBLE_WALL);
+        w.getBlockAt(ox + 1, oy + 1, oz).setType(Material.COBBLE_WALL);
+        w.getBlockAt(ox, oy + 1, oz - 1).setType(Material.COBBLE_WALL);
+        w.getBlockAt(ox, oy + 1, oz + 1).setType(Material.COBBLE_WALL);
+
+        // 2. Vertical Shaft (14 blocks down)
+        int depth = 14;
+        for (int y = -depth; y <= 0; y++) {
+            for (int x = -1; x <= 1; x++) {
+                for (int z = -1; z <= 1; z++) {
+                    if (x == 0 && z == 0) {
+                        w.getBlockAt(ox, oy + y, oz).setType(Material.AIR);
+                        w.getBlockAt(ox, oy + y, oz + 1).setType(Material.LADDER);
+                    } else if (z != 1) {
+                        w.getBlockAt(ox + x, oy + y, oz + z).setType(Material.SMOOTH_BRICK);
+                    }
+                }
+            }
+        }
+
+        // 3. Subterranean Aqueduct Channel (20 blocks long)
+        int by = oy - depth;
+        for (int z = -10; z <= 10; z++) {
+            for (int x = -2; x <= 2; x++) {
+                w.getBlockAt(ox + x, by - 1, oz + z).setType(Material.SMOOTH_BRICK);
+                for (int h = 0; h <= 3; h++) {
+                    w.getBlockAt(ox + x, by + h, oz + z).setType(Material.AIR);
+                }
+                w.getBlockAt(ox + x, by + 4, oz + z).setType(Material.SMOOTH_BRICK);
+            }
+            w.getBlockAt(ox - 3, by, oz + z).setType(Material.SMOOTH_BRICK);
+            w.getBlockAt(ox + 3, by, oz + z).setType(Material.SMOOTH_BRICK);
+            w.getBlockAt(ox, by, oz + z).setType(Material.WATER);
+        }
+
+        // Subterranean Loot Chest
+        Block chestBlock = w.getBlockAt(ox + 2, by + 1, oz - 9);
+        chestBlock.setType(Material.CHEST);
+        if (chestBlock.getState() instanceof Chest) {
+            Chest c = (Chest) chestBlock.getState();
+            c.getInventory().addItem(ir.iranian.hardcore.items.PersianAuthenticItems.createGolabGhamsar());
+            c.getInventory().addItem(ir.iranian.hardcore.items.PersianAuthenticItems.createZaferanQaen());
+            c.getInventory().addItem(ir.iranian.hardcore.items.PersianItems.createMashkAb(3));
+            c.getInventory().addItem(new ItemStack(Material.GOLD_INGOT, 5));
+            c.update();
+        }
+
+        return true;
+    }
+
+    // ==========================================
+    // 8. SIMURGH PEAK (Mountaintop Sanctuary)
+    // ==========================================
+    public boolean buildSimurghPeak(Location o) {
+        World w = o.getWorld();
+        if (w == null) return false;
+        int ox = o.getBlockX(), oy = o.getBlockY(), oz = o.getBlockZ();
+
+        for (int x = -4; x <= 4; x++) {
+            for (int z = -4; z <= 4; z++) {
+                double dist = Math.hypot(x, z);
+                if (dist <= 4.2) {
+                    w.getBlockAt(ox + x, oy, oz + z).setType(Material.QUARTZ_BLOCK);
+                    if (dist >= 3.2) {
+                        w.getBlockAt(ox + x, oy + 1, oz + z).setType(Material.GOLD_BLOCK);
+                    } else {
+                        w.getBlockAt(ox + x, oy + 1, oz + z).setType(Material.HAY_BLOCK);
+                    }
+                    for (int y = 2; y <= 6; y++) {
+                        w.getBlockAt(ox + x, oy + y, oz + z).setType(Material.AIR);
+                    }
+                }
+            }
+        }
+
+        w.getBlockAt(ox, oy + 1, oz).setType(Material.LAPIS_BLOCK);
+        w.getBlockAt(ox, oy + 2, oz).setType(Material.FIRE);
+
+        Block chestBlock = w.getBlockAt(ox + 1, oy + 2, oz);
+        chestBlock.setType(Material.CHEST);
+        if (chestBlock.getState() instanceof Chest) {
+            Chest c = (Chest) chestBlock.getState();
+            c.getInventory().addItem(ir.iranian.hardcore.items.PersianAuthenticItems.createParSimurgh());
+            c.getInventory().addItem(ir.iranian.hardcore.items.PersianBossItems.createJamEJampTalisman());
+            c.getInventory().addItem(new ItemStack(Material.EMERALD, 8));
+            c.getInventory().addItem(new ItemStack(Material.DIAMOND, 4));
+            c.update();
+        }
+
+        return true;
+    }
+
     /**
      * Fills exploration chests with rich Persian loot, Sekkeh Derik, Heart Canisters, and Boss-hunting gear!
      */
@@ -547,11 +742,13 @@ public class PersianStructures {
         StructureType toBuild;
 
         if (biome.name().contains("DESERT") || biome.name().contains("MESA")) {
-            toBuild = regRand.nextBoolean() ? StructureType.CARAVANSERAI : StructureType.AB_ANBAR;
+            int roll = regRand.nextInt(3);
+            toBuild = roll == 0 ? StructureType.CARAVANSERAI : (roll == 1 ? StructureType.AB_ANBAR : StructureType.QANAT);
         } else if (biome.name().contains("FOREST") || biome.name().contains("PLAINS")) {
-            toBuild = regRand.nextBoolean() ? StructureType.BAZAAR : StructureType.CHAIKHANEH;
+            int roll = regRand.nextInt(3);
+            toBuild = roll == 0 ? StructureType.BAZAAR : (roll == 1 ? StructureType.CHAIKHANEH : StructureType.ZOORKHANEH);
         } else if (biome.name().contains("MOUNTAIN") || biome.name().contains("EXTREME_HILLS")) {
-            toBuild = StructureType.ATASHKADEH;
+            toBuild = center.getBlockY() >= 105 ? StructureType.SIMURGH_PEAK : StructureType.ATASHKADEH;
         } else {
             toBuild = StructureType.CARAVANSERAI;
         }

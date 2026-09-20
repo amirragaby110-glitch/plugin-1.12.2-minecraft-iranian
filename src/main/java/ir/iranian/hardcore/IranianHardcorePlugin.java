@@ -63,6 +63,10 @@ public class IranianHardcorePlugin extends JavaPlugin {
     private CustomItemRegistry customItemRegistry;
     private PlayerHealthManager healthManager;
     private PersianBossItems bossItems;
+    private ir.iranian.hardcore.items.PersianAuthenticItems authenticItems;
+    private ir.iranian.hardcore.pahlavani.ZoorkhanehManager zoorkhanehManager;
+    private ir.iranian.hardcore.structures.AtashkadehBahram atashkadehBahram;
+    private ir.iranian.hardcore.mobs.AkvanDivBoss akvanDivBoss;
 
     @Override
     public void onEnable() {
@@ -113,6 +117,10 @@ public class IranianHardcorePlugin extends JavaPlugin {
         customItemRegistry = new CustomItemRegistry(this);
         healthManager = new PlayerHealthManager(this);
         bossItems = new PersianBossItems(this);
+        authenticItems = new ir.iranian.hardcore.items.PersianAuthenticItems(this);
+        zoorkhanehManager = new ir.iranian.hardcore.pahlavani.ZoorkhanehManager(this);
+        atashkadehBahram = new ir.iranian.hardcore.structures.AtashkadehBahram(this);
+        akvanDivBoss = new ir.iranian.hardcore.mobs.AkvanDivBoss(this);
 
         // Apply world settings & start tasks
         hardcoreManager.applyWorldSettings();
