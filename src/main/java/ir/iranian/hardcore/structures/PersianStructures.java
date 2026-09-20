@@ -18,7 +18,7 @@ import org.bukkit.entity.Villager;
 import org.bukkit.entity.Zombie;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.Random;
+import java.util.*;
 
 /**
  * Procedural Exploration & Loot Structures Across the Map (v5.2 Finglish)
