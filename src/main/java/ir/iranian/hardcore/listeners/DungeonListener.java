@@ -29,12 +29,10 @@ public class DungeonListener implements Listener {
         this.plugin = plugin;
     }
 
-    @EventHandler
+    @EventHandler(priority = org.bukkit.event.EventPriority.MONITOR)
     public void onChunkLoad(ChunkLoadEvent event) {
-        if (event.isNewChunk()) {
-            plugin.getDungeonManager().tryGenerateInChunk(event.getChunk());
-            plugin.getPersianStructures().tryGenerateInChunk(event.getChunk());
-        }
+        plugin.getDungeonManager().tryGenerateInChunk(event.getChunk());
+        plugin.getPersianStructures().tryGenerateInChunk(event.getChunk());
     }
 
     @EventHandler

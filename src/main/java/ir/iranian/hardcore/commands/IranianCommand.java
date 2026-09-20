@@ -102,6 +102,11 @@ public class IranianCommand implements CommandExecutor, TabCompleter {
 
             case "sword":
             case "shamshir":
+                if (!player.hasPermission("iranian.admin")) {
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &6Hameye shamshir-haye Irani dar &eDungeon-ha &6va &esandogh-haye ghanimat (Chests) &6gharab darand ya ghabele sakht hastand!"));
+                    player.sendMessage(MessageUtils.color("&7Niaz be zadan-e hich kodi nist! Naqsheh ra baraye kashf-e lootha begardid."));
+                    return true;
+                }
                 if (args.length < 2 || args[1].equalsIgnoreCase("random")) {
                     plugin.getSwordsManager().giveRandomSword(player);
                 } else if (args[1].equalsIgnoreCase("list")) {
@@ -115,6 +120,10 @@ public class IranianCommand implements CommandExecutor, TabCompleter {
 
             case "food":
             case "ghaza":
+                if (!player.hasPermission("iranian.admin")) {
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &6Hameye ghaza-haye sonnati-ye Irani dar &eChaykhaneh-ha, Karvansara-ha &6va &esandogh-ha &6gharab darand ya ghabele pokht (Crafting) hastand!"));
+                    return true;
+                }
                 if (args.length < 2 || args[1].equalsIgnoreCase("random")) {
                     plugin.getFoodsManager().giveRandomFood(player);
                 } else if (args[1].equalsIgnoreCase("list")) {
@@ -127,6 +136,10 @@ public class IranianCommand implements CommandExecutor, TabCompleter {
                 return true;
 
             case "item":
+                if (!player.hasPermission("iranian.admin")) {
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &6Item-haye bastani dar sarasar-e donya dar sandogh-haye ghanimat (Chests) va dungeon-ha ghabele kashf hastand!"));
+                    return true;
+                }
                 if (args.length < 2 || args[1].equalsIgnoreCase("random")) {
                     plugin.getCustomItemRegistry().giveRandomItem(player);
                 } else {
@@ -138,6 +151,11 @@ public class IranianCommand implements CommandExecutor, TabCompleter {
 
             case "heart":
             case "ghalb":
+                if (!player.hasPermission("iranian.admin")) {
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &6Ghalb-haye boloorin va aab-e hayat ra mitavanid ba &eCrafting Table &6besazid ya dar &eDungeon-ha va sandogh-ha &6peyda konid!"));
+                    player.sendMessage(MessageUtils.color("&7Dastoor-e sakht: 1 Golden Apple + 4 Shamesh-e Tala + 4 Sekkeh Derik"));
+                    return true;
+                }
                 if (args.length > 1 && args[1].equalsIgnoreCase("blue")) {
                     player.getInventory().addItem(PlayerHealthManager.createTurquoiseHeartCanister());
                     player.sendMessage(MessageUtils.color("&8[&6Iran&8] &bGhalb-e Firoozeh (+1 Ghalb) dadeh shod!"));
@@ -152,6 +170,11 @@ public class IranianCommand implements CommandExecutor, TabCompleter {
 
             case "bossitem":
             case "bossweapon":
+                if (!player.hasPermission("iranian.admin")) {
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &6Aslaheh-haye makhsoos-e shekar-e boss dar &esandogh-haye ghanimat &6va &edungeon-ha &6gharab darand ya ghabele sakht hastand!"));
+                    player.sendMessage(MessageUtils.color("&7Niaz be zadan-e hich kodi nist, donya ra baraye kashf-e lootha begardid!"));
+                    return true;
+                }
                 if (args.length > 1 && args[1].equalsIgnoreCase("bow")) {
                     player.getInventory().addItem(PersianBossItems.createBossPiercerBow());
                     player.sendMessage(MessageUtils.color("&8[&6Iran&8] &aKaman-e Shekar-e Div dadeh shod!"));
@@ -269,26 +292,22 @@ public class IranianCommand implements CommandExecutor, TabCompleter {
 
     private void sendHelp(Player player) {
         player.sendMessage(MessageUtils.color("&8&m----------------------------------------"));
-        player.sendMessage(MessageUtils.color("&6&l🇮🇷 Iranian Hardcore v5.0 - Finglish Edition"));
+        player.sendMessage(MessageUtils.color("&6&l Iranian Hardcore v5.3 - Natural Exploration Edition"));
         player.sendMessage(MessageUtils.color("&8&m----------------------------------------"));
-        player.sendMessage(MessageUtils.color("&e/iranian heart <red|blue|elixir> &7- Afzayesh-e daemi-ye jan (ta 30 Ghalb!)"));
-        player.sendMessage(MessageUtils.color("&e/iranian bossitem <divkosh|bow|bomb|shield|talisman> &7- Aslehe-haye makhsoos-e zadan-e boss"));
-        player.sendMessage(MessageUtils.color("&e/iranian structure <type> &7- Sakht-e sazeh-haye tarikhi baraye loot"));
+        player.sendMessage(MessageUtils.color("&a★ KAVOSH VA GASHT-O-GOZAR (Exploration):"));
+        player.sendMessage(MessageUtils.color("&7Hameye 30 Dungeon, Karvansara-ha, Ab-Anbarha va Chaykhaneh-ha"));
+        player.sendMessage(MessageUtils.color("&7ba gashtan dar map kashf mishavand va niaz be hich kodi nist!"));
+        player.sendMessage(MessageUtils.color("&7Hameye Shamshirha, Ghaza-ha, Ghalb-ha va Aslaheh-haye Boss dar"));
+        player.sendMessage(MessageUtils.color("&7sandogh-haye ghanimat (Chests) va dungeon-ha peyda mishavand."));
         player.sendMessage(MessageUtils.color("&e/iranian thirst &7- Didan mizan-e ab va dama (RLCraft style)"));
-        player.sendMessage(MessageUtils.color("&e/iranian drink [dirty|clean] &7- Nooshidan-e ab"));
-        player.sendMessage(MessageUtils.color("&e/iranian mashk &7- Daryaft Mashk-e Ab (10 nooshesh)"));
-        player.sendMessage(MessageUtils.color("&e/iranian sword <random|id> &7- 900 Shamshir-e asil-e Irani"));
-        player.sendMessage(MessageUtils.color("&e/iranian food <random|id> &7- 500 Ghaza-ye sonnati-ye Irani"));
-        player.sendMessage(MessageUtils.color("&e/iranian item <random|id> &7- 20,000 Item-e tarikhi-ye Irani"));
-        player.sendMessage(MessageUtils.color("&e/iranian spawnmob <type> &7- 30 Mob-e afsanehi-ye Irani (admin)"));
-        player.sendMessage(MessageUtils.color("&e/iranian boss <dungeon> &7- Boss fight 3-marhalehi (admin)"));
+        player.sendMessage(MessageUtils.color("&e/iranian hud &7- Fa'al sazi-ye ActionBar HUD-e hamishegi"));
         player.sendMessage(MessageUtils.color("&e/iranian weather &7- Fasl-ha va ab va hava"));
-        player.sendMessage(MessageUtils.color("&e/iranian resourcepack &7- Daryaft Resource Pack"));
+        player.sendMessage(MessageUtils.color("&e/iranian resourcepack &7- Daryaft Resource Pack-e textures"));
         player.sendMessage(MessageUtils.color("&e/race choose &7- Entekhab-e 14 Ghome Irani"));
         player.sendMessage(MessageUtils.color("&e/bazaar &7- Bazaar-e Bozorg-e Irani"));
         player.sendMessage(MessageUtils.color("&e/dungeon list &7- 30 Dungeon-e tarikhi-ye Iran"));
         player.sendMessage(MessageUtils.color("&8&m----------------------------------------"));
-        player.sendMessage(MessageUtils.color("&6Zendeh bad Iran! Khalij-e Hameshe Fars! 🇮🇷"));
+        player.sendMessage(MessageUtils.color("&6Zendeh bad Iran! Khalij-e Hameshe Fars!"));
     }
 
     @Override

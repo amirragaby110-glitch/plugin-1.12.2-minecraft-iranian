@@ -43,6 +43,12 @@ public class HardcoreManager {
     public void setHardcoreHealth(Player player) {
         if (!isHardcoreEnabled()) return;
 
+        // If HealthManager is active, preserve player's upgraded extra hearts!
+        if (plugin.getHealthManager() != null) {
+            plugin.getHealthManager().applyMaxHealth(player);
+            return;
+        }
+
         double maxHealth = plugin.getConfigManager().getDouble("hardcore.health.max-health", 20.0);
         try {
             AttributeInstance attr = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);

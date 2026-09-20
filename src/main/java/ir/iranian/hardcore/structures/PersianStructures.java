@@ -36,6 +36,7 @@ public class PersianStructures {
 
     private final IranianHardcorePlugin plugin;
     private final Random random = new Random();
+    private final Set<String> generatedRegions = new HashSet<>();
 
     public PersianStructures(IranianHardcorePlugin plugin) {
         this.plugin = plugin;
@@ -515,11 +516,30 @@ public class PersianStructures {
 
     public void tryGenerateInChunk(Chunk chunk) {
         if (!plugin.getConfigManager().getBoolean("structures.enabled", true)) return;
+        if (chunk == null || chunk.getWorld() == null) return;
 
-        double chance = plugin.getConfigManager().getDouble("structures.spawn-chance", 0.02);
-        if (random.nextDouble() > chance) return;
+        int cx = chunk.getX();
+        int cz = chunk.getZ();
 
-        Location center = new Location(chunk.getWorld(), chunk.getX() * 16 + 8, 0, chunk.getZ() * 16 + 8);
+        // 18x18 chunk exploration grid (~288x288 blocks)
+        int rx = Math.floorDiv(cx, 18);
+        int rz = Math.floorDiv(cz, 18);
+
+        // Different deterministic offset for Persian exploration structures
+        long seed = ((long) rx * 987654321987L + (long) rz * 456789123456L) ^ chunk.getWorld().getSeed();
+        Random regRand = new Random(seed);
+        int targetOffsetX = (regRand.nextInt(14) + 2 + 9) % 18;
+        int targetOffsetZ = (regRand.nextInt(14) + 2 + 9) % 18;
+
+        if (cx != (rx * 18 + targetOffsetX) || cz != (rz * 18 + targetOffsetZ)) {
+            return;
+        }
+
+        String regionKey = chunk.getWorld().getName() + "_struct_r_" + rx + "_" + rz;
+        if (generatedRegions.contains(regionKey)) return;
+        generatedRegions.add(regionKey);
+
+        Location center = new Location(chunk.getWorld(), cx * 16 + 8, 0, cz * 16 + 8);
         center = findGround(center);
         if (center == null) return;
 
@@ -527,9 +547,9 @@ public class PersianStructures {
         StructureType toBuild;
 
         if (biome.name().contains("DESERT") || biome.name().contains("MESA")) {
-            toBuild = random.nextBoolean() ? StructureType.CARAVANSERAI : StructureType.AB_ANBAR;
+            toBuild = regRand.nextBoolean() ? StructureType.CARAVANSERAI : StructureType.AB_ANBAR;
         } else if (biome.name().contains("FOREST") || biome.name().contains("PLAINS")) {
-            toBuild = random.nextBoolean() ? StructureType.BAZAAR : StructureType.CHAIKHANEH;
+            toBuild = regRand.nextBoolean() ? StructureType.BAZAAR : StructureType.CHAIKHANEH;
         } else if (biome.name().contains("MOUNTAIN") || biome.name().contains("EXTREME_HILLS")) {
             toBuild = StructureType.ATASHKADEH;
         } else {

@@ -226,11 +226,11 @@ public class PlayerHardcoreListener implements Listener {
             if (player.isOnline()) {
                 plugin.getHardcoreManager().setHardcoreHealth(player);
 
-                player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 1200, 1));
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 1200, 0));
-                player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 600, 1));
+                // Zero attack-blocking weakness debuff so players can always fight mobs cleanly
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 400, 0));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.HUNGER, 400, 0));
 
-                player.sendMessage(MessageUtils.withPrefix("&7Shoma ba zaaf pas az marg spawn shodid..."));
+                player.sendMessage(MessageUtils.withPrefix("&7Shoma dobareh zendeh shodid..."));
 
                 if (plugin.getConfigManager().getBoolean("race.enabled", true)) {
                     plugin.getRaceManager().applyRaceInitialStats(player, plugin.getRaceManager().getPlayerRace(player));

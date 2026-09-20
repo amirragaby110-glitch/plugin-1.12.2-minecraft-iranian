@@ -276,6 +276,11 @@ public class ThirstManager implements Listener {
         Player player = event.getPlayer();
         if (!player.isSneaking()) return;
 
+        long now = System.currentTimeMillis();
+        if (now - lastDrinkTime.getOrDefault(player.getUniqueId(), 0L) < 600) {
+            return;
+        }
+
         ItemStack inHand = player.getInventory().getItemInMainHand();
         boolean hasBottle = (inHand != null && inHand.getType() == Material.GLASS_BOTTLE);
         boolean hasEmptyHand = (inHand == null || inHand.getType() == Material.AIR);

@@ -310,22 +310,48 @@ public class StructureBuilder {
     }
 
     // ==========================================
-    // 6. BANDAR SIRAF (Persian Gulf Port)
+    // 6. BANDAR SIRAF (Persian Gulf Historic Port)
     // ==========================================
     private boolean buildBandarSiraf(Location origin) {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        buildFoundation(world, ox - 12, oz - 6, ox + 12, oz + 6, oy, Material.SMOOTH_BRICK);
-        clearArea(world, ox - 12, oy + 1, oz - 6, ox + 12, oy + 10, oz + 6);
+        buildFoundation(world, ox - 14, oz - 10, ox + 14, oz + 10, oy, Material.SMOOTH_BRICK);
+        clearArea(world, ox - 14, oy + 1, oz - 10, ox + 14, oy + 18, oz + 10);
 
-        // Pier & Port Watchtower
-        buildTower(world, ox - 8, oy + 1, oz, 3, 10, Material.SMOOTH_BRICK);
-        // Open entrance into tower
-        fillArea(world, ox - 8, oy + 1, oz + 3, ox - 8, oy + 3, oz + 3, Material.AIR);
+        // Stone Harbor Quay & Promenade
+        fillArea(world, ox - 13, oy + 1, oz - 9, ox + 13, oy + 1, oz + 9, Material.SMOOTH_BRICK);
 
-        placeChestWithLoot(world, ox - 8, oy + 1, oz, DungeonType.BANDAR_SIRAF);
-        plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 1, oz), DungeonType.BANDAR_SIRAF);
+        // High Cylindrical Lighthouse Tower (South-West)
+        buildTower(world, ox - 9, oy + 1, oz - 5, 3, 14, Material.SMOOTH_BRICK);
+        // Lighthouse top observation deck with Beacon Fire
+        fillArea(world, ox - 10, oy + 15, oz - 6, ox - 8, oy + 15, oz - 4, Material.IRON_FENCE);
+        setBlock(world, ox - 9, oy + 15, oz - 5, Material.NETHERRACK, false);
+        setBlock(world, ox - 9, oy + 16, oz - 5, Material.FIRE, false);
+        // Tower entrance
+        fillArea(world, ox - 9, oy + 1, oz - 2, ox - 9, oy + 3, oz - 2, Material.AIR);
+
+        // Grand Customs & Maritime Merchant Hall (12x10)
+        fillArea(world, ox - 2, oy + 1, oz - 5, ox + 10, oy + 7, oz + 5, Material.SANDSTONE);
+        fillArea(world, ox - 1, oy + 1, oz - 4, ox + 9, oy + 6, oz + 4, Material.AIR);
+        // Vaulted roof with terracotta slabs
+        fillArea(world, ox - 2, oy + 8, oz - 5, ox + 10, oy + 8, oz + 5, Material.STEP);
+
+        // Hall Entrance
+        fillArea(world, ox - 2, oy + 1, oz - 1, ox - 2, oy + 4, oz + 1, Material.AIR);
+
+        // Torches & lanterns
+        setBlock(world, ox - 1, oy + 3, oz - 3, Material.TORCH, false);
+        setBlock(world, ox + 8, oy + 3, oz - 3, Material.TORCH, false);
+
+        // Dual Maritime Treasure Chests
+        placeChestWithLoot(world, ox + 4, oy + 1, oz + 3, DungeonType.BANDAR_SIRAF);
+        placeChestWithLoot(world, ox + 6, oy + 1, oz + 3, DungeonType.BANDAR_SIRAF);
+
+        spawnGuard(world, ox + 3, oy + 1, oz, "&6Negahban-e Siraf", EntityType.ZOMBIE, Material.IRON_SWORD, Material.CHAINMAIL_HELMET);
+        spawnGuard(world, ox - 5, oy + 1, oz, "&6Negahban-e Siraf", EntityType.ZOMBIE, Material.IRON_SWORD, Material.CHAINMAIL_HELMET);
+
+        plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox + 4, oy + 1, oz), DungeonType.BANDAR_SIRAF);
         return true;
     }
 
@@ -336,15 +362,40 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        buildFoundation(world, ox - 12, oz - 12, ox + 12, oz + 12, oy, Material.COBBLESTONE);
-        clearArea(world, ox - 12, oy + 1, oz - 12, ox + 12, oy + 12, oz + 12);
+        buildFoundation(world, ox - 14, oz - 14, ox + 14, oz + 14, oy, Material.COBBLESTONE);
+        clearArea(world, ox - 14, oy + 1, oz - 14, ox + 14, oy + 18, oz + 14);
 
-        buildWalls(world, ox, oy, oz, 10, 7, Material.COBBLESTONE);
-        buildCrenellations(world, ox, oy + 7, oz, 10, Material.COBBLESTONE);
-        // Open gate
-        fillArea(world, ox - 2, oy + 1, oz - 10, ox + 2, oy + 4, oz - 10, Material.AIR);
+        // High Fortress Defense Walls (22x22)
+        buildWalls(world, ox, oy, oz, 11, 8, Material.COBBLESTONE);
+        buildCrenellations(world, ox, oy + 8, oz, 11, Material.SMOOTH_BRICK);
 
-        placeChestWithLoot(world, ox, oy + 1, oz, DungeonType.GHALEH_BABAK);
+        // 4 Round Defense Bastions on Corners
+        buildTower(world, ox - 11, oy, oz - 11, 3, 12, Material.SMOOTH_BRICK);
+        buildTower(world, ox + 11, oy, oz - 11, 3, 12, Material.SMOOTH_BRICK);
+        buildTower(world, ox - 11, oy, oz + 11, 3, 12, Material.SMOOTH_BRICK);
+        buildTower(world, ox + 11, oy, oz + 11, 3, 12, Material.SMOOTH_BRICK);
+
+        // Arched Gate with Iron Portcullis
+        fillArea(world, ox - 2, oy + 1, oz - 11, ox + 2, oy + 5, oz - 11, Material.AIR);
+        fillArea(world, ox - 1, oy + 4, oz - 11, ox + 1, oy + 4, oz - 11, Material.IRON_FENCE);
+
+        // Babak's Central Red War Room
+        fillArea(world, ox - 5, oy + 1, oz - 5, ox + 5, oy + 6, oz + 5, Material.SMOOTH_BRICK);
+        fillArea(world, ox - 4, oy + 1, oz - 4, ox + 4, oy + 5, oz + 4, Material.AIR);
+        fillArea(world, ox - 1, oy + 1, oz - 5, ox + 1, oy + 3, oz - 5, Material.AIR); // door
+
+        // Red carpets & Khorramdinan banners
+        fillArea(world, ox - 3, oy + 1, oz - 3, ox + 3, oy + 1, oz + 3, Material.CARPET, (byte) 14);
+
+        buildFireBrazier(world, ox - 3, oy + 1, oz + 3);
+        buildFireBrazier(world, ox + 3, oy + 1, oz + 3);
+
+        placeChestWithLoot(world, ox - 2, oy + 1, oz + 3, DungeonType.GHALEH_BABAK);
+        placeChestWithLoot(world, ox + 2, oy + 1, oz + 3, DungeonType.GHALEH_BABAK);
+
+        spawnGuard(world, ox - 3, oy + 1, oz - 1, "&cDelavar-e Babak", EntityType.ZOMBIE, Material.IRON_SWORD, Material.IRON_HELMET);
+        spawnGuard(world, ox + 3, oy + 1, oz - 1, "&cDelavar-e Babak", EntityType.ZOMBIE, Material.IRON_SWORD, Material.IRON_HELMET);
+
         plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 1, oz), DungeonType.GHALEH_BABAK);
         return true;
     }
@@ -356,22 +407,59 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        buildFoundation(world, ox - 12, oz - 12, ox + 12, oz + 12, oy, Material.QUARTZ_BLOCK);
-        clearArea(world, ox - 12, oy + 1, oz - 12, ox + 12, oy + 16, oz + 12);
+        buildFoundation(world, ox - 14, oz - 14, ox + 14, oz + 14, oy, Material.QUARTZ_BLOCK);
+        clearArea(world, ox - 14, oy + 1, oz - 14, ox + 14, oy + 18, oz + 14);
 
-        // 6 Stepped Plinths
+        // 6 Monumental Stepped Limestone Plinths (Decreasing dimensions)
         for (int i = 0; i < 6; i++) {
-            int r = 9 - i;
+            int r = 11 - i;
             fillArea(world, ox - r, oy + i + 1, oz - r, ox + r, oy + i + 1, oz + r, Material.QUARTZ_BLOCK);
         }
 
-        // Tomb Chamber
-        fillArea(world, ox - 4, oy + 7, oz - 4, ox + 4, oy + 11, oz + 4, Material.QUARTZ_BLOCK);
-        fillArea(world, ox - 3, oy + 7, oz - 3, ox + 3, oy + 10, oz + 3, Material.AIR);
-        // Tomb entrance
+        // Stepped stone plinth border detail with stone slabs
+        fillArea(world, ox - 12, oy + 1, oz - 12, ox + 12, oy + 1, oz + 12, Material.STEP);
+
+        // Limestone Burial Chamber on Top (8x8)
+        fillArea(world, ox - 4, oy + 7, oz - 4, ox + 4, oy + 12, oz + 4, Material.QUARTZ_BLOCK);
+        fillArea(world, ox - 3, oy + 7, oz - 3, ox + 3, oy + 11, oz + 3, Material.AIR);
+
+        // Gabled Pitched Roof with Quartz Stairs
+        for (int z = -4; z <= 4; z++) {
+            setBlock(world, ox - 4, oy + 12, oz + z, Material.QUARTZ_STAIRS, (byte) 0); // ascending east
+            setBlock(world, ox - 3, oy + 13, oz + z, Material.QUARTZ_STAIRS, (byte) 0);
+            setBlock(world, ox - 2, oy + 14, oz + z, Material.QUARTZ_BLOCK, false); // ridge
+            setBlock(world, ox - 1, oy + 14, oz + z, Material.QUARTZ_BLOCK, false);
+            setBlock(world, ox, oy + 14, oz + z, Material.QUARTZ_BLOCK, false);
+            setBlock(world, ox + 1, oy + 14, oz + z, Material.QUARTZ_BLOCK, false);
+            setBlock(world, ox + 2, oy + 14, oz + z, Material.QUARTZ_BLOCK, false);
+            setBlock(world, ox + 3, oy + 13, oz + z, Material.QUARTZ_STAIRS, (byte) 1);
+            setBlock(world, ox + 4, oy + 12, oz + z, Material.QUARTZ_STAIRS, (byte) 1);
+        }
+
+        // Tomb Entrance Portal
         fillArea(world, ox - 1, oy + 7, oz - 4, ox + 1, oy + 9, oz - 4, Material.AIR);
 
-        placeChestWithLoot(world, ox, oy + 7, oz, DungeonType.PASARGAD_TOMB);
+        // Golden Sarcophagus of Cyrus the Great
+        fillArea(world, ox - 1, oy + 7, oz + 1, ox + 1, oy + 7, oz + 2, Material.GOLD_BLOCK);
+        setBlock(world, ox, oy + 8, oz + 1, Material.GOLD_BLOCK, false);
+
+        // Flanking Eternal Braziers
+        buildFireBrazier(world, ox - 2, oy + 7, oz);
+        buildFireBrazier(world, ox + 2, oy + 7, oz);
+
+        // 4 Ancient Ruined Columns in the royal precinct
+        buildPersianColumn(world, ox - 12, oy + 1, oz - 12, 6, Material.QUARTZ_BLOCK);
+        buildPersianColumn(world, ox + 12, oy + 1, oz - 12, 6, Material.QUARTZ_BLOCK);
+        buildPersianColumn(world, ox - 12, oy + 1, oz + 12, 6, Material.QUARTZ_BLOCK);
+        buildPersianColumn(world, ox + 12, oy + 1, oz + 12, 6, Material.QUARTZ_BLOCK);
+
+        // Dual Royal Burial Loot Chests
+        placeChestWithLoot(world, ox - 2, oy + 7, oz + 2, DungeonType.PASARGAD_TOMB);
+        placeChestWithLoot(world, ox + 2, oy + 7, oz + 2, DungeonType.PASARGAD_TOMB);
+
+        spawnGuard(world, ox - 2, oy + 7, oz - 2, "&6Garde Pasargad", EntityType.ZOMBIE, Material.GOLD_SWORD, Material.GOLD_HELMET);
+        spawnGuard(world, ox + 2, oy + 7, oz - 2, "&6Garde Pasargad", EntityType.ZOMBIE, Material.GOLD_SWORD, Material.GOLD_HELMET);
+
         plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 7, oz), DungeonType.PASARGAD_TOMB);
         return true;
     }
@@ -616,15 +704,32 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        buildFoundation(world, ox - 10, oz - 4, ox + 10, oz + 4, oy, Material.SMOOTH_BRICK);
-        clearArea(world, ox - 10, oy + 1, oz - 4, ox + 10, oy + 8, oz + 4);
+        buildFoundation(world, ox - 12, oz - 6, ox + 12, oz + 6, oy, Material.SMOOTH_BRICK);
+        clearArea(world, ox - 12, oy + 1, oz - 6, ox + 12, oy + 10, oz + 6);
 
-        fillArea(world, ox - 10, oy + 1, oz - 4, ox + 10, oy + 3, oz + 4, Material.SMOOTH_BRICK);
-        fillArea(world, ox - 8, oy + 1, oz - 2, ox + 8, oy + 1, oz + 2, Material.WATER);
-        fillArea(world, ox, oy + 1, oz - 3, ox, oy + 4, oz - 3, Material.WOOD);
+        // Stone Canal Retaining Walls
+        fillArea(world, ox - 12, oy + 1, oz - 5, ox + 12, oy + 3, oz + 5, Material.SMOOTH_BRICK);
 
-        placeChestWithLoot(world, ox, oy + 2, oz + 3, DungeonType.SHUSHTAR_WATER);
-        plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 2, oz), DungeonType.SHUSHTAR_WATER);
+        // Sunken Water Canal with curb
+        fillArea(world, ox - 10, oy, oz - 2, ox + 10, oy, oz + 2, Material.WATER);
+
+        // Sassanid Waterwheel (Wood & Fences)
+        fillArea(world, ox - 1, oy + 1, oz - 2, ox + 1, oy + 5, oz - 2, Material.WOOD);
+        setBlock(world, ox - 1, oy + 2, oz - 1, Material.FENCE, false);
+        setBlock(world, ox + 1, oy + 2, oz - 1, Material.FENCE, false);
+        setBlock(world, ox, oy + 4, oz - 1, Material.FENCE, false);
+
+        // Stone Millhouse Chamber
+        fillArea(world, ox + 4, oy + 1, oz - 4, ox + 10, oy + 5, oz + 4, Material.SMOOTH_BRICK);
+        fillArea(world, ox + 5, oy + 1, oz - 3, ox + 9, oy + 4, oz + 3, Material.AIR);
+        fillArea(world, ox + 4, oy + 1, oz, ox + 4, oy + 3, oz, Material.AIR); // door
+
+        placeChestWithLoot(world, ox + 7, oy + 1, oz + 2, DungeonType.SHUSHTAR_WATER);
+        placeChestWithLoot(world, ox + 7, oy + 1, oz - 2, DungeonType.SHUSHTAR_WATER);
+
+        spawnGuard(world, ox - 4, oy + 1, oz, "&6Negahban-e Asyab", EntityType.ZOMBIE, Material.IRON_SWORD, Material.IRON_HELMET);
+
+        plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 1, oz), DungeonType.SHUSHTAR_WATER);
         return true;
     }
 
@@ -674,18 +779,43 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        buildFoundation(world, ox - 12, oz - 12, ox + 12, oz + 12, oy, Material.GRASS);
-        clearArea(world, ox - 12, oy + 1, oz - 12, ox + 12, oy + 10, oz + 12);
+        buildFoundation(world, ox - 14, oz - 14, ox + 14, oz + 14, oy, Material.GRASS);
+        clearArea(world, ox - 14, oy + 1, oz - 14, ox + 14, oy + 12, oz + 14);
 
-        fillArea(world, ox - 12, oy + 1, oz - 12, ox + 12, oy + 1, oz + 12, Material.GRASS);
-        fillArea(world, ox - 12, oy + 1, oz, ox + 12, oy + 1, oz, Material.WATER);
-        fillArea(world, ox, oy + 1, oz - 12, ox, oy + 1, oz + 12, Material.WATER);
+        // Grass garden terrace
+        fillArea(world, ox - 13, oy + 1, oz - 13, ox + 13, oy + 1, oz + 13, Material.GRASS);
 
-        fillArea(world, ox - 3, oy + 1, oz - 3, ox + 3, oy + 5, oz + 3, Material.QUARTZ_BLOCK);
-        fillArea(world, ox - 2, oy + 1, oz - 2, ox + 2, oy + 4, oz + 2, Material.AIR);
-        fillArea(world, ox - 1, oy + 1, oz - 3, ox + 1, oy + 3, oz - 3, Material.AIR); // door
+        // Sunken Blue Stone Water Canals (Cruciform Chahar Bagh)
+        fillArea(world, ox - 12, oy, oz - 1, ox + 12, oy, oz + 1, Material.WATER);
+        fillArea(world, ox - 1, oy, oz - 12, ox + 1, oy, oz + 12, Material.WATER);
 
-        placeChestWithLoot(world, ox, oy + 1, oz, DungeonType.BAGH_FIN);
+        // Canal stone border slabs at oy+1
+        for (int i = -12; i <= 12; i++) {
+            setBlock(world, ox + i, oy + 1, oz - 2, Material.SMOOTH_BRICK, false);
+            setBlock(world, ox + i, oy + 1, oz + 2, Material.SMOOTH_BRICK, false);
+            setBlock(world, ox - 2, oy + 1, oz + i, Material.SMOOTH_BRICK, false);
+            setBlock(world, ox + 2, oy + 1, oz + i, Material.SMOOTH_BRICK, false);
+        }
+
+        // Central Turquoise Pavilion (Koushk-e Safavi)
+        fillArea(world, ox - 4, oy + 1, oz - 4, ox + 4, oy + 7, oz + 4, Material.QUARTZ_BLOCK);
+        fillArea(world, ox - 3, oy + 1, oz - 3, ox + 3, oy + 6, oz + 3, Material.AIR);
+        // 4 Open Arched Iwans
+        fillArea(world, ox - 1, oy + 1, oz - 4, ox + 1, oy + 4, oz - 4, Material.AIR);
+        fillArea(world, ox - 1, oy + 1, oz + 4, ox + 1, oy + 4, oz + 4, Material.AIR);
+        fillArea(world, ox - 4, oy + 1, oz - 1, ox - 4, oy + 4, oz + 1, Material.AIR);
+        fillArea(world, ox + 4, oy + 1, oz - 1, ox + 4, oy + 4, oz + 1, Material.AIR);
+
+        // Central Turquoise Fountain Pool
+        setBlock(world, ox, oy + 1, oz, Material.LAPIS_BLOCK, false);
+        setBlock(world, ox, oy + 2, oz, Material.WATER, false);
+
+        placeChestWithLoot(world, ox - 2, oy + 1, oz + 2, DungeonType.BAGH_FIN);
+        placeChestWithLoot(world, ox + 2, oy + 1, oz + 2, DungeonType.BAGH_FIN);
+
+        spawnGuard(world, ox - 2, oy + 1, oz - 2, "&6Garde Bagh-e Fin", EntityType.ZOMBIE, Material.IRON_SWORD, Material.IRON_HELMET);
+        spawnGuard(world, ox + 2, oy + 1, oz - 2, "&6Garde Bagh-e Fin", EntityType.ZOMBIE, Material.IRON_SWORD, Material.IRON_HELMET);
+
         plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 1, oz), DungeonType.BAGH_FIN);
         return true;
     }
@@ -797,20 +927,45 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        buildFoundation(world, ox - 8, oz - 18, ox + 8, oz + 6, oy, Material.SMOOTH_BRICK);
-        clearArea(world, ox - 8, oy + 1, oz - 18, ox + 8, oy + 10, oz + 6);
+        buildFoundation(world, ox - 10, oz - 20, ox + 10, oz + 8, oy, Material.SMOOTH_BRICK);
+        clearArea(world, ox - 10, oy + 1, oz - 20, ox + 10, oy + 12, oz + 8);
+
+        // Stone Terrace
+        fillArea(world, ox - 9, oy + 1, oz - 19, ox + 9, oy + 1, oz + 7, Material.SMOOTH_BRICK);
+
+        // Reflecting Pool with stone curb (16x10) - sunken so water never leaks
+        fillArea(world, ox - 6, oy, oz - 18, ox + 6, oy, oz - 6, Material.WATER);
+        for (int x = -7; x <= 7; x++) {
+            setBlock(world, ox + x, oy + 1, oz - 19, Material.SMOOTH_BRICK, false);
+            setBlock(world, ox + x, oy + 1, oz - 5, Material.SMOOTH_BRICK, false);
+        }
+        for (int z = -19; z <= -5; z++) {
+            setBlock(world, ox - 7, oy + 1, oz + z, Material.SMOOTH_BRICK, false);
+            setBlock(world, ox + 7, oy + 1, oz + z, Material.SMOOTH_BRICK, false);
+        }
 
         // 20 Slender Wooden Columns facing the reflecting pool
-        for (int x = -8; x <= 8; x += 4) {
-            for (int z = -6; z <= 0; z += 3) {
+        for (int x = -6; x <= 6; x += 4) {
+            for (int z = -4; z <= 2; z += 2) {
                 buildPersianColumn(world, ox + x, oy + 1, oz + z, 6, Material.WOOD);
             }
         }
-        // Reflecting Pool
-        fillArea(world, ox - 8, oy + 1, oz - 18, ox + 8, oy + 1, oz - 8, Material.WATER);
 
-        placeChestWithLoot(world, ox, oy + 1, oz + 4, DungeonType.CHEHEL_SOTUN);
-        plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 1, oz + 4), DungeonType.CHEHEL_SOTUN);
+        // Palace Hall (Behind columns)
+        fillArea(world, ox - 7, oy + 1, oz + 3, ox + 7, oy + 7, oz + 7, Material.CLAY_BRICK);
+        fillArea(world, ox - 5, oy + 1, oz + 4, ox + 5, oy + 6, oz + 6, Material.AIR);
+        fillArea(world, ox - 2, oy + 1, oz + 3, ox + 2, oy + 5, oz + 3, Material.AIR); // grand open iwan
+
+        // Persian carpets in the hall
+        fillArea(world, ox - 4, oy + 1, oz + 4, ox + 4, oy + 1, oz + 6, Material.CARPET, (byte) 14);
+
+        placeChestWithLoot(world, ox - 3, oy + 1, oz + 5, DungeonType.CHEHEL_SOTUN);
+        placeChestWithLoot(world, ox + 3, oy + 1, oz + 5, DungeonType.CHEHEL_SOTUN);
+
+        spawnGuard(world, ox - 3, oy + 1, oz - 1, "&6Garde Chehel Sotun", EntityType.ZOMBIE, Material.GOLD_SWORD, Material.GOLD_HELMET);
+        spawnGuard(world, ox + 3, oy + 1, oz - 1, "&6Garde Chehel Sotun", EntityType.ZOMBIE, Material.GOLD_SWORD, Material.GOLD_HELMET);
+
+        plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 1, oz + 5), DungeonType.CHEHEL_SOTUN);
         return true;
     }
 
@@ -818,16 +973,44 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        buildFoundation(world, ox - 3, oz - 15, ox + 3, oz + 15, oy, Material.CLAY_BRICK);
-        clearArea(world, ox - 3, oy + 1, oz - 15, ox + 3, oy + 8, oz + 15);
+        buildFoundation(world, ox - 4, oz - 18, ox + 4, oz + 18, oy, Material.CLAY_BRICK);
+        clearArea(world, ox - 4, oy + 1, oz - 18, ox + 4, oy + 10, oz + 18);
 
-        for (int z = -15; z <= 15; z += 5) {
-            fillArea(world, ox - 3, oy + 2, oz + z, ox + 3, oy + 5, oz + z + 4, Material.CLAY_BRICK);
-            fillArea(world, ox - 2, oy + 1, oz + z, ox + 2, oy + 3, oz + z + 4, Material.AIR);
+        // Lower Arched Piers and Spans
+        for (int z = -16; z <= 16; z += 4) {
+            // Brick piers
+            fillArea(world, ox - 3, oy + 1, oz + z, ox + 3, oy + 4, oz + z + 1, Material.CLAY_BRICK);
+            // Open arch between piers
+            fillArea(world, ox - 2, oy + 1, oz + z + 2, ox + 2, oy + 3, oz + z + 3, Material.AIR);
         }
 
-        placeChestWithLoot(world, ox, oy + 3, oz, DungeonType.SI_O_SE_POL);
-        plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 3, oz), DungeonType.SI_O_SE_POL);
+        // Upper Promenade Deck (Roadway)
+        fillArea(world, ox - 3, oy + 5, oz - 18, ox + 3, oy + 5, oz + 18, Material.SMOOTH_BRICK);
+
+        // Stone Balustrades with Torches along the bridge
+        for (int z = -18; z <= 18; z += 2) {
+            setBlock(world, ox - 4, oy + 6, oz + z, Material.COBBLE_WALL, false);
+            setBlock(world, ox + 4, oy + 6, oz + z, Material.COBBLE_WALL, false);
+            if (z % 6 == 0) {
+                setBlock(world, ox - 4, oy + 7, oz + z, Material.TORCH, false);
+                setBlock(world, ox + 4, oy + 7, oz + z, Material.TORCH, false);
+            }
+        }
+
+        // Bridgehead Gate Pavilions with Loot
+        fillArea(world, ox - 3, oy + 6, oz - 18, ox + 3, oy + 9, oz - 16, Material.CLAY_BRICK);
+        fillArea(world, ox - 1, oy + 6, oz - 18, ox + 1, oy + 8, oz - 16, Material.AIR); // arch
+
+        fillArea(world, ox - 3, oy + 6, oz + 16, ox + 3, oy + 9, oz + 18, Material.CLAY_BRICK);
+        fillArea(world, ox - 1, oy + 6, oz + 16, ox + 1, oy + 8, oz + 18, Material.AIR); // arch
+
+        placeChestWithLoot(world, ox - 2, oy + 6, oz - 17, DungeonType.SI_O_SE_POL);
+        placeChestWithLoot(world, ox + 2, oy + 6, oz + 17, DungeonType.SI_O_SE_POL);
+
+        spawnGuard(world, ox, oy + 6, oz - 10, "&6Garde Pol", EntityType.ZOMBIE, Material.IRON_SWORD, Material.IRON_HELMET);
+        spawnGuard(world, ox, oy + 6, oz + 10, "&6Garde Pol", EntityType.ZOMBIE, Material.IRON_SWORD, Material.IRON_HELMET);
+
+        plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 6, oz), DungeonType.SI_O_SE_POL);
         return true;
     }
 
@@ -839,7 +1022,7 @@ public class StructureBuilder {
         int minZ = Math.min(z1, z2), maxZ = Math.max(z1, z2);
         for (int x = minX; x <= maxX; x++) {
             for (int z = minZ; z <= maxZ; z++) {
-                for (int y = groundY; y >= groundY - 8; y--) {
+                for (int y = groundY; y >= groundY - 12; y--) {
                     Block b = world.getBlockAt(x, y, z);
                     Material m = b.getType();
                     if (m == Material.AIR || m == Material.WATER || m == Material.STATIONARY_WATER ||
@@ -926,21 +1109,48 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        buildFoundation(world, ox - 9, oz - 9, ox + 9, oz + 9, oy, Material.NETHER_BRICK);
-        clearArea(world, ox - 9, oy + 1, oz - 9, ox + 9, oy + 8, oz + 9);
+        buildFoundation(world, ox - 11, oz - 11, ox + 11, oz + 11, oy, Material.NETHER_BRICK);
+        clearArea(world, ox - 11, oy + 1, oz - 11, ox + 11, oy + 12, oz + 11);
 
-        for (int x = -8; x <= 8; x++) {
-            for (int z = -8; z <= 8; z++) {
-                if (x*x + z*z <= 64 && x*x + z*z >= 36) {
+        // Outer Circular Stone Rampart (Radius 10)
+        for (int x = -10; x <= 10; x++) {
+            for (int z = -10; z <= 10; z++) {
+                int distSq = x*x + z*z;
+                if (distSq <= 100 && distSq >= 64) {
                     for (int y = 1; y <= 6; y++) {
                         setBlock(world, ox + x, oy + y, oz + z, Material.NETHER_BRICK, false);
                     }
+                    if ((x + z) % 2 == 0) {
+                        setBlock(world, ox + x, oy + 7, oz + z, Material.NETHER_BRICK, false); // crenellations
+                    }
+                } else if (distSq < 64) {
+                    setBlock(world, ox + x, oy + 1, oz + z, Material.SMOOTH_BRICK, false); // stone paved floor
                 }
             }
         }
-        fillArea(world, ox - 2, oy + 1, oz - 8, ox + 2, oy + 4, oz - 8, Material.AIR); // door
 
-        placeChestWithLoot(world, ox, oy + 1, oz, DungeonType.DAKHMEH_ZARTOSHTI);
+        // Arched Gate Entrance (South)
+        fillArea(world, ox - 2, oy + 1, oz - 10, ox + 2, oy + 4, oz - 8, Material.AIR);
+        fillArea(world, ox - 1, oy + 3, oz - 10, ox + 1, oy + 3, oz - 10, Material.IRON_FENCE);
+
+        // Central Ossuary Pit (Astodan)
+        for (int x = -3; x <= 3; x++) {
+            for (int z = -3; z <= 3; z++) {
+                if (x*x + z*z <= 9) {
+                    setBlock(world, ox + x, oy + 1, oz + z, Material.BONE_BLOCK, false);
+                }
+            }
+        }
+        buildFireBrazier(world, ox - 3, oy + 1, oz);
+        buildFireBrazier(world, ox + 3, oy + 1, oz);
+
+        // Dual Ancient Relic Chests
+        placeChestWithLoot(world, ox - 2, oy + 1, oz + 4, DungeonType.DAKHMEH_ZARTOSHTI);
+        placeChestWithLoot(world, ox + 2, oy + 1, oz + 4, DungeonType.DAKHMEH_ZARTOSHTI);
+
+        spawnGuard(world, ox - 3, oy + 1, oz - 2, "&8Moqan-e Dakhmeh", EntityType.ZOMBIE, Material.IRON_SWORD, Material.CHAINMAIL_HELMET);
+        spawnGuard(world, ox + 3, oy + 1, oz - 2, "&8Moqan-e Dakhmeh", EntityType.ZOMBIE, Material.IRON_SWORD, Material.CHAINMAIL_HELMET);
+
         plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 1, oz), DungeonType.DAKHMEH_ZARTOSHTI);
         return true;
     }
@@ -949,17 +1159,40 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        buildFoundation(world, ox - 10, oz - 10, ox + 10, oz + 10, oy, Material.SMOOTH_BRICK);
-        clearArea(world, ox - 10, oy + 1, oz - 10, ox + 10, oy + 10, oz + 10);
+        buildFoundation(world, ox - 12, oz - 12, ox + 12, oz + 12, oy, Material.SMOOTH_BRICK);
+        clearArea(world, ox - 12, oy + 1, oz - 12, ox + 12, oy + 14, oz + 12);
 
-        fillArea(world, ox - 6, oy + 1, oz - 6, ox + 6, oy + 1, oz + 6, Material.WATER);
-        for (int x = -8; x <= 8; x += 8) {
-            for (int z = -8; z <= 8; z += 8) {
-                buildPersianColumn(world, ox + x, oy + 1, oz + z, 6, Material.QUARTZ_BLOCK);
-            }
+        // Stone Temple Platform
+        fillArea(world, ox - 11, oy + 1, oz - 11, ox + 11, oy + 1, oz + 11, Material.SMOOTH_BRICK);
+
+        // Sunken Sacred Water Reservoir with perimeter stone curb to prevent water leakage
+        fillArea(world, ox - 6, oy, oz - 6, ox + 6, oy, oz + 6, Material.WATER);
+        // Stone curb border at oy+1
+        for (int x = -7; x <= 7; x++) {
+            setBlock(world, ox + x, oy + 1, oz - 7, Material.SMOOTH_BRICK, false);
+            setBlock(world, ox + x, oy + 1, oz + 7, Material.SMOOTH_BRICK, false);
+            setBlock(world, ox - 7, oy + 1, oz + x, Material.SMOOTH_BRICK, false);
+            setBlock(world, ox + 7, oy + 1, oz + x, Material.SMOOTH_BRICK, false);
         }
-        placeChestWithLoot(world, ox, oy + 1, oz + 8, DungeonType.ANAHITA_TEMPLE);
-        plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 1, oz), DungeonType.ANAHITA_TEMPLE);
+
+        // 8 Monumental Colonnade Columns (Kangavar Style)
+        for (int x = -9; x <= 9; x += 6) {
+            buildPersianColumn(world, ox + x, oy + 1, oz - 9, 8, Material.QUARTZ_BLOCK);
+            buildPersianColumn(world, ox + x, oy + 1, oz + 9, 8, Material.QUARTZ_BLOCK);
+        }
+
+        // Central Altar of Water & Purity
+        setBlock(world, ox, oy + 1, oz, Material.LAPIS_BLOCK, false);
+        setBlock(world, ox, oy + 2, oz, Material.SEA_LANTERN, false);
+
+        // Dual Ancient Relic Chests
+        placeChestWithLoot(world, ox - 2, oy + 1, oz + 8, DungeonType.ANAHITA_TEMPLE);
+        placeChestWithLoot(world, ox + 2, oy + 1, oz + 8, DungeonType.ANAHITA_TEMPLE);
+
+        spawnGuard(world, ox - 3, oy + 1, oz, "&bNegahban-e Ab-haye Anahita", EntityType.ZOMBIE, Material.IRON_SWORD, Material.IRON_HELMET);
+        spawnGuard(world, ox + 3, oy + 1, oz, "&bNegahban-e Ab-haye Anahita", EntityType.ZOMBIE, Material.IRON_SWORD, Material.IRON_HELMET);
+
+        plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 1, oz - 3), DungeonType.ANAHITA_TEMPLE);
         return true;
     }
 

@@ -28,6 +28,7 @@ public class DungeonManager {
     private final Random random = new Random();
 
     private final Map<String, Location> generatedDungeons = new HashMap<>();
+    private final Set<String> generatedRegions = new HashSet<>();
 
     public DungeonManager(IranianHardcorePlugin plugin) {
         this.plugin = plugin;
@@ -94,11 +95,30 @@ public class DungeonManager {
 
     public void tryGenerateInChunk(Chunk chunk) {
         if (!plugin.getConfigManager().getBoolean("dungeons.enabled", true)) return;
+        if (chunk == null || chunk.getWorld() == null) return;
 
-        double chance = plugin.getConfigManager().getDouble("dungeons.spawn-chance", 0.005);
-        if (random.nextDouble() > chance) return;
+        int cx = chunk.getX();
+        int cz = chunk.getZ();
 
-        Location center = new Location(chunk.getWorld(), chunk.getX() * 16 + 8, 0, chunk.getZ() * 16 + 8);
+        // 18x18 chunk regional exploration grid (~288x288 blocks)
+        int rx = Math.floorDiv(cx, 18);
+        int rz = Math.floorDiv(cz, 18);
+
+        // Deterministic offset per region
+        long seed = ((long) rx * 341873128712L + (long) rz * 132897987541L) ^ chunk.getWorld().getSeed();
+        Random regRand = new Random(seed);
+        int targetOffsetX = regRand.nextInt(14) + 2;
+        int targetOffsetZ = regRand.nextInt(14) + 2;
+
+        if (cx != (rx * 18 + targetOffsetX) || cz != (rz * 18 + targetOffsetZ)) {
+            return;
+        }
+
+        String regionKey = chunk.getWorld().getName() + "_dungeon_r_" + rx + "_" + rz;
+        if (generatedRegions.contains(regionKey)) return;
+        generatedRegions.add(regionKey);
+
+        Location center = new Location(chunk.getWorld(), cx * 16 + 8, 0, cz * 16 + 8);
         center.setY(chunk.getWorld().getHighestBlockYAt(center));
 
         Biome biome = center.getBlock().getBiome();

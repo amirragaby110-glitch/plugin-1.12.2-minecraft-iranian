@@ -138,6 +138,7 @@ public class IranianHardcorePlugin extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new SurvivalListener(this), this);
         Bukkit.getPluginManager().registerEvents(new RaceListener(this), this);
         Bukkit.getPluginManager().registerEvents(new DungeonListener(this), this);
+        Bukkit.getPluginManager().registerEvents(new RandomChestLootListener(this), this);
         Bukkit.getPluginManager().registerEvents(villageManager, this);
         getLogger().info("All listeners registered successfully!");
     }
