@@ -104,29 +104,6 @@ public class SurvivalListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerDrinkMashk(PlayerInteractEvent event) {
-        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
-
-        Player player = event.getPlayer();
-        ItemStack item = player.getInventory().getItemInMainHand();
-        if (item == null || item.getType() != Material.POTION) return;
-
-        if (!item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) return;
-
-        String displayName = item.getItemMeta().getDisplayName();
-        if (displayName.contains("Mashk") || displayName.contains("Canteen")) {
-            if (plugin.getThirstManager() != null) {
-                if (plugin.getThirstManager().getThirst(player) >= 100.0) {
-                    player.sendMessage(MessageUtils.color("&aTeshne nistid!"));
-                    return;
-                }
-                plugin.getThirstManager().addThirst(player, 35.0);
-                player.sendMessage(MessageUtils.color("&bMashk ab ra nooshidid! Teshnegi bartaraf shod."));
-            }
-        }
-    }
-
-    @EventHandler
     public void onLiquidFlow(BlockFromToEvent event) {
         if (!plugin.getConfigManager().getBoolean("hardcore.enabled", true)) return;
         if (!plugin.getConfigManager().getBoolean("hardcore.survival.water-lava.harder-water", true)) return;

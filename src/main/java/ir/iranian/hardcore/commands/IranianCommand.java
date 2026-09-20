@@ -196,6 +196,12 @@ public class IranianCommand implements CommandExecutor, TabCompleter {
                 player.sendMessage(MessageUtils.color("&8&m----------------------------------------"));
                 return true;
 
+            case "hud":
+            case "hotbar":
+                plugin.getThirstManager().sendHotbarHUD(player);
+                player.sendMessage(MessageUtils.color("&aHotbar HUD ba movafaghiat be-rooz-resani shod!"));
+                return true;
+
             case "resourcepack":
             case "pack":
                 plugin.getResourcePackManager().sendResourcePack(player);
@@ -234,7 +240,7 @@ public class IranianCommand implements CommandExecutor, TabCompleter {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
             completions.addAll(Arrays.asList("thirst", "drink", "mashk", "canteen", "dirtywater", "cleanwater",
-                    "sword", "food", "item", "dungeon", "spawnmob", "boss", "temperature", "weather", "villager", "resourcepack", "help"));
+                    "sword", "food", "item", "dungeon", "spawnmob", "boss", "temperature", "weather", "hud", "villager", "resourcepack", "help"));
         } else if (args.length == 2) {
             if (args[0].equalsIgnoreCase("dungeon") || args[0].equalsIgnoreCase("boss")) {
                 for (DungeonType dt : DungeonType.values()) {

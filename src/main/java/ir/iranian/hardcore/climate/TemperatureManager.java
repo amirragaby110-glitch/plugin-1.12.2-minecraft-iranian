@@ -271,6 +271,14 @@ public class TemperatureManager {
         return playerTemperature.getOrDefault(player.getUniqueId(), 0.0);
     }
 
+    public boolean isColdBiome(Biome biome) {
+        return coldBiomes.contains(biome);
+    }
+
+    public boolean isHotBiome(Biome biome) {
+        return hotBiomes.contains(biome);
+    }
+
     public void setTemperature(Player player, double temp) {
         playerTemperature.put(player.getUniqueId(), Math.max(-100, Math.min(100, temp)));
     }

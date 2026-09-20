@@ -114,13 +114,23 @@ public class DungeonManager {
 
     public void generateNearPlayer(Player player, DungeonType type) {
         Location loc = player.getLocation();
-        Location target = loc.clone().add(loc.getDirection().multiply(40));
+        Location target = loc.clone().add(loc.getDirection().multiply(35));
         target.setY(player.getWorld().getHighestBlockYAt(target));
 
         if (generateDungeon(target, type, true)) {
             player.sendMessage(MessageUtils.color("&8[&6Iran&8] &aDungeon-e Irani &6" + type.getFinglishName() + " &adar nazdiki-ye shoma sakhteh shod!"));
             player.sendMessage(MessageUtils.color("&7Mokhtasat: &f" + target.getBlockX() + ", " + target.getBlockY() + ", " + target.getBlockZ()));
-            player.teleport(target.clone().add(0, 5, 0));
+
+            // Safe entrance teleport facing the grand monument
+            Location safeEntrance = target.clone().add(0, 2, -13);
+            safeEntrance.setYaw(0f);
+            safeEntrance.setPitch(0f);
+
+            safeEntrance.getBlock().setType(Material.AIR);
+            safeEntrance.clone().add(0, 1, 0).getBlock().setType(Material.AIR);
+            safeEntrance.clone().add(0, -1, 0).getBlock().setType(Material.SMOOTH_BRICK);
+
+            player.teleport(safeEntrance);
         } else {
             player.sendMessage(MessageUtils.color("&8[&6Iran&8] &cSakht-e dungeon namovafagh bood! Shayad be dungeon-e digari kheyli nazdik ast."));
         }

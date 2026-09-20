@@ -63,8 +63,71 @@ public class CustomItemRegistry implements Listener {
 
     public CustomItemRegistry(IranianHardcorePlugin plugin) {
         this.plugin = plugin;
+        registerPersianRecipes();
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
         plugin.getLogger().info("CustomItemRegistry: 20,000 Iranian items registry initialized!");
+    }
+
+    private void registerPersianRecipes() {
+        try {
+            // 1. Sekkeh Derik: 1 Gold Ingot in Crafting Table -> 9 Sekkeh Derik
+            NamespacedKey derikKey = new NamespacedKey(plugin, "recipe_derik_tala");
+            ItemStack derikStack = PersianItems.createSekkeHakhamaneshi();
+            derikStack.setAmount(9);
+            org.bukkit.inventory.ShapelessRecipe derikRecipe = new org.bukkit.inventory.ShapelessRecipe(derikKey, derikStack);
+            derikRecipe.addIngredient(Material.GOLD_INGOT);
+            Bukkit.addRecipe(derikRecipe);
+
+            // 2. 9 Sekkeh Derik -> 1 Gold Ingot
+            NamespacedKey goldKey = new NamespacedKey(plugin, "recipe_derik_to_gold");
+            ShapedRecipe goldRecipe = new ShapedRecipe(goldKey, new ItemStack(Material.GOLD_INGOT));
+            goldRecipe.shape("SSS", "SSS", "SSS");
+            goldRecipe.setIngredient('S', Material.GOLD_NUGGET);
+            Bukkit.addRecipe(goldRecipe);
+
+            // 3. Taj Kourosh Bozorg: Gold Helmet + 2 Diamonds + 2 Emeralds
+            NamespacedKey tajKey = new NamespacedKey(plugin, "recipe_taj_kourosh");
+            ShapedRecipe tajRecipe = new ShapedRecipe(tajKey, PersianItems.createTajKourosh());
+            tajRecipe.shape("DED", " H ", "   ");
+            tajRecipe.setIngredient('D', Material.DIAMOND);
+            tajRecipe.setIngredient('E', Material.EMERALD);
+            tajRecipe.setIngredient('H', Material.GOLD_HELMET);
+            Bukkit.addRecipe(tajRecipe);
+
+            // 4. Manshur Kourosh: Book + Clay Brick + Gold Nugget
+            NamespacedKey manshurKey = new NamespacedKey(plugin, "recipe_manshur_kourosh");
+            org.bukkit.inventory.ShapelessRecipe manshurRecipe = new org.bukkit.inventory.ShapelessRecipe(manshurKey, PersianItems.createManshurKourosh());
+            manshurRecipe.addIngredient(Material.BOOK);
+            manshurRecipe.addIngredient(Material.CLAY_BRICK);
+            manshurRecipe.addIngredient(Material.GOLD_NUGGET);
+            Bukkit.addRecipe(manshurRecipe);
+
+            // 5. Kaman Arash Kamangir: Bow + Feather + Emerald
+            NamespacedKey arashKey = new NamespacedKey(plugin, "recipe_kaman_arash");
+            org.bukkit.inventory.ShapelessRecipe arashRecipe = new org.bukkit.inventory.ShapelessRecipe(arashKey, PersianItems.createKamanArash());
+            arashRecipe.addIngredient(Material.BOW);
+            arashRecipe.addIngredient(Material.FEATHER);
+            arashRecipe.addIngredient(Material.EMERALD);
+            Bukkit.addRecipe(arashRecipe);
+
+            // 6. Farsh Kermani: Red Carpet + Gold Nugget + String
+            NamespacedKey farshKey = new NamespacedKey(plugin, "recipe_farsh_kermani");
+            org.bukkit.inventory.ShapelessRecipe farshRecipe = new org.bukkit.inventory.ShapelessRecipe(farshKey, PersianItems.createFarshKermani());
+            farshRecipe.addIngredient(Material.CARPET);
+            farshRecipe.addIngredient(Material.GOLD_NUGGET);
+            farshRecipe.addIngredient(Material.STRING);
+            Bukkit.addRecipe(farshRecipe);
+
+            // 7. Atash Moghadas: Blaze Powder + Fireball + Gold Nugget
+            NamespacedKey atashKey = new NamespacedKey(plugin, "recipe_atash_moghadas");
+            org.bukkit.inventory.ShapelessRecipe atashRecipe = new org.bukkit.inventory.ShapelessRecipe(atashKey, PersianItems.createAtashMoghadas());
+            atashRecipe.addIngredient(Material.BLAZE_POWDER);
+            atashRecipe.addIngredient(Material.FIREBALL);
+            atashRecipe.addIngredient(Material.GOLD_NUGGET);
+            Bukkit.addRecipe(atashRecipe);
+        } catch (Exception e) {
+            plugin.getLogger().warning("Could not register all Persian relic recipes: " + e.getMessage());
+        }
     }
 
     public ItemStack getItemByNumber(int number) {
@@ -329,7 +392,7 @@ public class CustomItemRegistry implements Listener {
     public void onPrepareCraft(PrepareItemCraftEvent event) {
         CraftingInventory inv = event.getInventory();
         ItemStack[] matrix = inv.getMatrix();
-        if (matrix == null || matrix.length < 9) return;
+        if (matrix == null || matrix.length < 4) return;
 
         boolean hasClay = false;
         boolean hasPaperOrBook = false;

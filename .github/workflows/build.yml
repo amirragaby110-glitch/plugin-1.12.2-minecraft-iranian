@@ -79,11 +79,11 @@ jobs:
             body: body,
             labels: ['build-failed']
           });
-    - name: Upload Jar Artifact v5.1.0
+    - name: Upload Jar Artifact v5.2.0
       if: always()
       uses: actions/upload-artifact@v4
       with:
-        name: IranianHardcore-5.1.0
+        name: IranianHardcore-5.2.0
         path: target/*.jar
         if-no-files-found: warn
     - name: Push Jar and ResourcePack to repo for direct download
@@ -97,6 +97,7 @@ jobs:
           exit 0
         fi
         echo "Jar: $JAR"
+        cp $JAR ./IranianHardcore-5.2.0.jar || true
         cp $JAR ./IranianHardcore-5.1.0.jar || true
         cp $JAR ./IranianHardcore-5.0.0.jar || true
         cp $JAR ./IranianHardcore-4.0.0.jar || true
@@ -105,8 +106,8 @@ jobs:
         fi
         git config user.name "github-actions"
         git config user.email "actions@github.com"
-        git add -f IranianHardcore-5.1.0.jar IranianHardcore-5.0.0.jar IranianHardcore-4.0.0.jar IranianHardcore-ResourcePack.zip resourcepack/IranianHardcore-ResourcePack.zip || true
-        git commit -m "Update Jar v5.1.0 VocalSpeech+Architecture+Textures+Models+AternosOptimization ${{ github.run_id }}" || echo "No changes"
+        git add -f IranianHardcore-5.2.0.jar IranianHardcore-5.1.0.jar IranianHardcore-5.0.0.jar IranianHardcore-4.0.0.jar IranianHardcore-ResourcePack.zip resourcepack/IranianHardcore-ResourcePack.zip || true
+        git commit -m "Update Jar v5.2.0 WeatherHUD+MobTextures+RLCraftThirstFix+BossCombat+Recipes ${{ github.run_id }}" || echo "No changes"
         git pull --rebase origin ${{ github.ref_name }} || echo "Pull failed"
         git push origin ${{ github.ref_name }} || git push origin ${{ github.ref_name }} --force || echo "Push failed"
       env:
