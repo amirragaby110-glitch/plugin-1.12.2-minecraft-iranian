@@ -72,12 +72,11 @@ hardcore:
       harder-lava: true
       lava-damage-multiplier: 1.5
   death:
-    destroy-inventory: true
+    destroy-inventory: false
     clear-exp: true
     respawn-debuffs:
-      - "WEAKNESS:1200:1"
-      - "SLOW:1200:0"
-      - "HUNGER:600:1"
+      - "SLOW:400:0"
+      - "HUNGER:400:0"
 
 # ================================
 # Climate & Temperature System - v5.0

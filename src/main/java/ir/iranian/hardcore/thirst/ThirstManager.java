@@ -13,6 +13,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
+import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.CraftingInventory;
 import org.bukkit.inventory.FurnaceRecipe;
 import org.bukkit.inventory.ItemStack;
@@ -368,7 +369,27 @@ public class ThirstManager implements Listener {
     public void onMashkInteract(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK && event.getAction() != Action.RIGHT_CLICK_AIR) return;
         Player player = event.getPlayer();
+
+        // Do not intercept if player is trying to open a chest, furnace, door, workbench, etc.
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && !player.isSneaking()) {
+            Material m = event.getClickedBlock().getType();
+            if (m == Material.CHEST || m == Material.TRAPPED_CHEST || m == Material.ENDER_CHEST ||
+                m == Material.FURNACE || m == Material.BURNING_FURNACE || m == Material.WORKBENCH ||
+                m == Material.ANVIL || m == Material.ENCHANTMENT_TABLE || m == Material.BREWING_STAND ||
+                m == Material.LEVER || m == Material.STONE_BUTTON || m == Material.WOOD_BUTTON ||
+                m == Material.WOODEN_DOOR || m == Material.IRON_DOOR_BLOCK || m == Material.TRAP_DOOR ||
+                m == Material.FENCE_GATE || m == Material.BED || m == Material.BED_BLOCK ||
+                m == Material.DROPPER || m == Material.DISPENSER || m == Material.HOPPER) {
+                return;
+            }
+        }
+
+        boolean isOffHand = false;
         ItemStack item = player.getInventory().getItemInMainHand();
+        if (item == null || item.getType() == Material.AIR || !item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) {
+            item = player.getInventory().getItemInOffHand();
+            isOffHand = true;
+        }
         if (item == null || !item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) return;
 
         String name = item.getItemMeta().getDisplayName();
@@ -401,11 +422,15 @@ public class ThirstManager implements Listener {
         }
 
         if (refillTarget) {
+            ItemStack refilled = isMashk ? createMashkAb(10) : createCanteen(5);
+            if (isOffHand) {
+                player.getInventory().setItemInOffHand(refilled);
+            } else {
+                player.getInventory().setItemInMainHand(refilled);
+            }
             if (isMashk) {
-                player.getInventory().setItemInMainHand(createMashkAb(10));
                 player.sendMessage(MessageUtils.color("&8[&6Mashk Ab&8] &aMashk-e shoma az ab por shod! (10/10 nooshesh)"));
             } else {
-                player.getInventory().setItemInMainHand(createCanteen(5));
                 player.sendMessage(MessageUtils.color("&8[&6Ghomghame&8] &aGhomghame-ye shoma por shod! (5/5 nooshesh)"));
             }
             player.playSound(player.getLocation(), Sound.ITEM_BOTTLE_FILL, 1.0f, 1.0f);
@@ -429,10 +454,11 @@ public class ThirstManager implements Listener {
         drinkWater(player, thirstGain);
         remaining--;
 
-        if (isMashk) {
-            player.getInventory().setItemInMainHand(createMashkAb(remaining));
+        ItemStack updated = isMashk ? createMashkAb(remaining) : createCanteen(remaining);
+        if (isOffHand) {
+            player.getInventory().setItemInOffHand(updated);
         } else {
-            player.getInventory().setItemInMainHand(createCanteen(remaining));
+            player.getInventory().setItemInMainHand(updated);
         }
 
         player.sendMessage(MessageUtils.color("&8[&6Nooshidan&8] &aYek gholop ab nooshidid (+ " + (int)thirstGain + "%). Baghymandeh: &e" + remaining + " nooshesh"));
@@ -495,6 +521,11 @@ public class ThirstManager implements Listener {
         if (count == 2 && hasDirtyWater && hasCharcoal) {
             inv.setResult(createCleanWater());
         }
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onPlayerRespawn(PlayerRespawnEvent event) {
+        playerThirst.put(event.getPlayer().getUniqueId(), 100.0);
     }
 
     public boolean drinkWater(Player player, double amount) {

@@ -88,7 +88,7 @@ public class RandomChestLootListener implements Listener {
         if (populatedChests.contains(key) || playerPlacedChests.contains(key)) return;
 
         Block block = chestLoc.getBlock();
-        if (block.hasMetadata("player_placed") || block.hasMetadata("iranian_loot_injected")) {
+        if (block.hasMetadata("player_placed") || block.hasMetadata("iranian_loot_injected") || containsPersianItem(inv)) {
             populatedChests.add(key);
             return;
         }
@@ -157,5 +157,20 @@ public class RandomChestLootListener implements Listener {
             p.playSound(chestLoc, Sound.ENTITY_EXPERIENCE_ORB_PICKUP, 0.9f, 1.4f);
             MessageUtils.sendActionBar(p, "&6&l[Kashf-e Ghanimat] &eLoot-e Bastani-ye Irani dar in sandogh peyda shod!");
         }
+    }
+
+    private boolean containsPersianItem(Inventory inv) {
+        if (inv == null || inv.getContents() == null) return false;
+        for (ItemStack it : inv.getContents()) {
+            if (it == null || !it.hasItemMeta() || !it.getItemMeta().hasDisplayName()) continue;
+            String name = it.getItemMeta().getDisplayName();
+            if (name.contains("Iran") || name.contains("Kourosh") || name.contains("Derik") ||
+                name.contains("Ghalb") || name.contains("Eksir") || name.contains("Div-Kosh") ||
+                name.contains("Ghormeh") || name.contains("Dizi") || name.contains("Chai") ||
+                name.contains("Alamut") || name.contains("Zolfaghar") || name.contains("Babak")) {
+                return true;
+            }
+        }
+        return false;
     }
 }

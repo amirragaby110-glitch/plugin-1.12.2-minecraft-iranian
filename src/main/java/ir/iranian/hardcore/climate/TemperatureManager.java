@@ -198,7 +198,7 @@ public class TemperatureManager {
             if (temp < -85) {
                 player.damage(1.5);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 2));
-                player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 120, 1));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 120, 1));
                 sendTemperatureMessage(player, "freezing");
             } else if (temp < -60) {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 1));

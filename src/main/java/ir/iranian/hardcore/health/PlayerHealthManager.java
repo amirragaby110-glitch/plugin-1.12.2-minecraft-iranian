@@ -16,6 +16,7 @@ import org.bukkit.event.player.PlayerChangedWorldEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerRespawnEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.ShapedRecipe;
@@ -52,6 +53,9 @@ public class PlayerHealthManager implements Listener {
         loadHealthData();
         registerHeartRecipes();
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        for (Player p : Bukkit.getOnlinePlayers()) {
+            applyMaxHealth(p);
+        }
         plugin.getLogger().info("PlayerHealthManager: Extra Hearts & Health Upgrades initialized!");
     }
 
@@ -141,6 +145,11 @@ public class PlayerHealthManager implements Listener {
         applyMaxHealth(p);
     }
 
+    @EventHandler
+    public void onPlayerQuit(PlayerQuitEvent event) {
+        saveHealthData();
+    }
+
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerRespawn(PlayerRespawnEvent event) {
         Player p = event.getPlayer();
@@ -162,7 +171,27 @@ public class PlayerHealthManager implements Listener {
     public void onConsumeHeart(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         Player player = event.getPlayer();
+
+        // Guard against intercepting block interactions
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && !player.isSneaking()) {
+            Material m = event.getClickedBlock().getType();
+            if (m == Material.CHEST || m == Material.TRAPPED_CHEST || m == Material.ENDER_CHEST ||
+                m == Material.FURNACE || m == Material.BURNING_FURNACE || m == Material.WORKBENCH ||
+                m == Material.ANVIL || m == Material.ENCHANTMENT_TABLE || m == Material.BREWING_STAND ||
+                m == Material.LEVER || m == Material.STONE_BUTTON || m == Material.WOOD_BUTTON ||
+                m == Material.WOODEN_DOOR || m == Material.IRON_DOOR_BLOCK || m == Material.TRAP_DOOR ||
+                m == Material.FENCE_GATE || m == Material.BED || m == Material.BED_BLOCK ||
+                m == Material.DROPPER || m == Material.DISPENSER || m == Material.HOPPER) {
+                return;
+            }
+        }
+
+        boolean isOffHand = false;
         ItemStack item = player.getInventory().getItemInMainHand();
+        if (item == null || item.getType() == Material.AIR || !item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) {
+            item = player.getInventory().getItemInOffHand();
+            isOffHand = true;
+        }
         if (item == null || !item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) return;
 
         String name = item.getItemMeta().getDisplayName();
@@ -194,7 +223,11 @@ public class PlayerHealthManager implements Listener {
             if (item.getAmount() > 1) {
                 item.setAmount(item.getAmount() - 1);
             } else {
-                player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+                if (isOffHand) {
+                    player.getInventory().setItemInOffHand(new ItemStack(Material.AIR));
+                } else {
+                    player.getInventory().setItemInMainHand(new ItemStack(Material.AIR));
+                }
             }
 
             double newMax = Math.min(MAX_HEALTH_CAP, currentMax + hpGain);

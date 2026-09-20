@@ -184,6 +184,21 @@ public class PersianBossItems implements Listener {
     public void onThrowNaphtha(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         Player player = event.getPlayer();
+
+        // Do not intercept if player is trying to open a chest, furnace, door, workbench, etc.
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && !player.isSneaking()) {
+            Material m = event.getClickedBlock().getType();
+            if (m == Material.CHEST || m == Material.TRAPPED_CHEST || m == Material.ENDER_CHEST ||
+                m == Material.FURNACE || m == Material.BURNING_FURNACE || m == Material.WORKBENCH ||
+                m == Material.ANVIL || m == Material.ENCHANTMENT_TABLE || m == Material.BREWING_STAND ||
+                m == Material.LEVER || m == Material.STONE_BUTTON || m == Material.WOOD_BUTTON ||
+                m == Material.WOODEN_DOOR || m == Material.IRON_DOOR_BLOCK || m == Material.TRAP_DOOR ||
+                m == Material.FENCE_GATE || m == Material.BED || m == Material.BED_BLOCK ||
+                m == Material.DROPPER || m == Material.DISPENSER || m == Material.HOPPER) {
+                return;
+            }
+        }
+
         ItemStack item = player.getInventory().getItemInMainHand();
         if (item == null || !item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) return;
 
@@ -221,13 +236,44 @@ public class PersianBossItems implements Listener {
         world.spawnParticle(Particle.FLAME, loc, 60, 2.0, 1.0, 2.0, 0.15);
         world.playSound(loc, Sound.ENTITY_GENERIC_EXPLODE, 1.5f, 0.8f);
 
+        String throwerId = bomb.getMetadata("naphtha_bomb").isEmpty() ? null : bomb.getMetadata("naphtha_bomb").get(0).asString();
+
         // AOE damage and armor melt
         for (LivingEntity nearby : world.getEntitiesByClass(LivingEntity.class)) {
             if (nearby.getLocation().distance(loc) <= 6.0) {
+                if (throwerId != null && nearby.getUniqueId().toString().equals(throwerId)) continue;
+                if (nearby instanceof Player) continue; // No friendly fire on players
                 nearby.setFireTicks(200); // 10 seconds of fire
                 nearby.damage(16.0);
                 nearby.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 160, 1));
                 nearby.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 160, 1));
+            }
+        }
+    }
+
+    /**
+     * Combat Perk: Separ-e Derafsh-e Kaviani damage reflection.
+     */
+    @EventHandler(priority = EventPriority.HIGH)
+    public void onShieldReflect(EntityDamageByEntityEvent event) {
+        if (!(event.getEntity() instanceof Player)) return;
+        Player player = (Player) event.getEntity();
+        if (!player.isBlocking()) return;
+
+        ItemStack shield = player.getInventory().getItemInMainHand();
+        if (shield == null || shield.getType() != Material.SHIELD) {
+            shield = player.getInventory().getItemInOffHand();
+        }
+        if (shield == null || !shield.hasItemMeta() || !shield.getItemMeta().hasDisplayName()) return;
+
+        if (shield.getItemMeta().getDisplayName().contains("Derafsh-e Kaviani")) {
+            if (event.getDamager() instanceof LivingEntity) {
+                LivingEntity attacker = (LivingEntity) event.getDamager();
+                double reflected = event.getDamage() * 0.5;
+                attacker.damage(Math.max(4.0, reflected));
+                attacker.getWorld().spawnParticle(Particle.CRIT_MAGIC, attacker.getLocation().add(0, 1, 0), 15, 0.3, 0.3, 0.3, 0.1);
+                attacker.getWorld().playSound(attacker.getLocation(), Sound.ITEM_SHIELD_BLOCK, 1.2f, 1.5f);
+                player.sendMessage(MessageUtils.color("&6&l[Derafsh-e Kaviani] &eZarbeh-ye doshman ba " + (int)reflected + " damage be khodash baztab shod!"));
             }
         }
     }

@@ -139,6 +139,21 @@ public class IranianFoodsManager implements Listener {
     public void onRightClickFood(PlayerInteractEvent event) {
         if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) return;
         Player player = event.getPlayer();
+
+        // Do not intercept if player is trying to open a chest, furnace, door, workbench, etc.
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK && event.getClickedBlock() != null && !player.isSneaking()) {
+            Material m = event.getClickedBlock().getType();
+            if (m == Material.CHEST || m == Material.TRAPPED_CHEST || m == Material.ENDER_CHEST ||
+                m == Material.FURNACE || m == Material.BURNING_FURNACE || m == Material.WORKBENCH ||
+                m == Material.ANVIL || m == Material.ENCHANTMENT_TABLE || m == Material.BREWING_STAND ||
+                m == Material.LEVER || m == Material.STONE_BUTTON || m == Material.WOOD_BUTTON ||
+                m == Material.WOODEN_DOOR || m == Material.IRON_DOOR_BLOCK || m == Material.TRAP_DOOR ||
+                m == Material.FENCE_GATE || m == Material.BED || m == Material.BED_BLOCK ||
+                m == Material.DROPPER || m == Material.DISPENSER || m == Material.HOPPER) {
+                return;
+            }
+        }
+
         ItemStack item = player.getInventory().getItemInMainHand();
         if (item == null || !item.hasItemMeta() || !item.getItemMeta().hasDisplayName()) return;
 

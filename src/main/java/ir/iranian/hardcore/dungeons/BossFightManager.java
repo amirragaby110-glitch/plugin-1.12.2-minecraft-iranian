@@ -260,6 +260,13 @@ public class BossFightManager implements Listener {
         event.getDrops().add(new ItemStack(Material.DIAMOND, random.nextInt(4) + 2));
         event.getDrops().add(new ItemStack(Material.EMERALD, random.nextInt(5) + 3));
 
+        // Guaranteed Heart Canister reward for conquering the boss!
+        if (random.nextDouble() < 0.60) {
+            event.getDrops().add(ir.iranian.hardcore.health.PlayerHealthManager.createElixirOfLife());
+        } else {
+            event.getDrops().add(ir.iranian.hardcore.health.PlayerHealthManager.createRedHeartCanister());
+        }
+
         World world = boss.getWorld();
         world.playSound(boss.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
 
