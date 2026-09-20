@@ -1,15 +1,68 @@
-# Iranian Hardcore v5.3 - Health Upgrades, Boss Weapons & Grand Structures 🇮🇷
+# Iranian Hardcore v5.4 - Pahlavani Zoorkhaneh, Akvan Div & Silk Road Edition 🇮🇷
 
-**Version 5.3.0** - Bozorgtarin update ba **System-e Afzayesh-e Daemi-ye Jan (Heart Containers ta 30 Ghalb!)**, **Asleheh-ha va Tajhizat-e Makhsoos-e Shekar-e Boss**, **Sazeh-haye Shokoohmand-e Bastani baraye Gasht-o-Gozar va Loot (Karvansara, Ab-Anbar, Chaikhaneh, Atashkadeh)**, va **Memari-ye Bi-Nazir va Raf'-e Kamel-e Bug-haye Biwld dar 30 Dungeon**!
+**Version 5.4.0** - Bozorgtarin update ba **System-e Pahlavani va Zoorkhaneh-ye Bastani**, **Boss-e Shahnameh Akvan Div**, **Qanat va Karez-e Kavir**, **Bazargan-e Jadeh-ye Abrisham**, **Atashkadeh-ye Bahram**, **Ashiyaneh-ye Simurgh-e Damavand**, **Logo-ye Ekhtesasi va Herfeh-i-ye 512x512**, va **Hajm-e Kamel-e 5 Megabyte baraye Resource Pack va Plugin**!
 
 ### 📥 Download Direct Links:
-- **Plugin Jar (v5.3.0)**:
-  - Repository link: [IranianHardcore-5.3.0.jar](./IranianHardcore-5.3.0.jar)
-  - Direct Raw Download: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/arena/01a0b98c-plugin-1-12-2-minecraft-irania/IranianHardcore-5.3.0.jar
-- **100% Persian Resource Pack (v5.3.0)**:
+- **Plugin Jar (v5.4.0 - 5.0 MB)**:
+  - Repository link: [IranianHardcore-5.4.0.jar](./IranianHardcore-5.4.0.jar)
+  - Direct Download: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/arena/01a0b98c-plugin-1-12-2-minecraft-irania/IranianHardcore-5.4.0.jar
+- **100% Persian Resource Pack ba Logo (v5.4.0 - 5.0 MB)**:
   - Repository link: [IranianHardcore-ResourcePack.zip](./IranianHardcore-ResourcePack.zip)
-  - Direct Raw Download: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/arena/01a0b98c-plugin-1-12-2-minecraft-irania/IranianHardcore-ResourcePack.zip
-- **GitHub Release v5.3.0**: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases/tag/v5.3.0
+  - Direct Download: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/arena/01a0b98c-plugin-1-12-2-minecraft-irania/IranianHardcore-ResourcePack.zip
+- **Plugin Jar (v5.3.0 - 5.0 MB)**: [IranianHardcore-5.3.0.jar](./IranianHardcore-5.3.0.jar)
+
+---
+
+## 🌟 Vizhegi-haye Jadid va Asil-e Irani dar v5.4:
+
+### 🏛️ 1. Zoorkhaneh-ye Bastani va Rasm-e Pahlavani
+- **Sazeh-ye Goud-e Zoorkhaneh:** Sazeh-ye 14x14 ba dezh-e choobi, goud-e hasht-zeli-ye fooroo-rafteh, farsh-haye sonnati, zang-e morshed va mo محافظ Pahlavan-e Zoorkhaneh (Iron Golem).
+- **Rasm-e Shena-ye Zoorkhaneh:** Bazikon ba 5 bar Sneak kardan dar goud-e zoorkhaneh, navaye Zarb-e Morshed ra shenideh va barakat-e Pahlavani (Strength II, Absorption II, Resistance I baraye 3 daghigheh) daryaft mikonad!
+- **Meel-e Bastani-ye Pahlavani:** Gorz-e geran-baha ba Knockback III va ghabeliat-e Ground Slam (Right-Click) ke zamin ra be larzeh dar avardeh va 12 damage AoE vared mikonad.
+- **Kabbadeh-ye Pouladin:** Kaman va zanjir-e ahanin ke tir-haye doshman ra be tore khodkar daf karde va Iron Skin e'ta mikonad.
+- **Zang-e Zoorkhaneh:** Zang-e boronzi ba seday-e tanin-andaz ke tamam-e asarat-e manfi (Poison, Wither, Weakness, Slowness) ra paksazi karde va hayoola-ha ra ba amvaj-e soti be aghab partab mikonad!
+
+---
+
+### 🔥 2. Atashkadeh-ye Bahram va Nour-e Khorshid
+- **Mehrab-e Atash-e Javidan:** Dar atashkadeh-haye Sasani, bazikon mitavanad ba hedieh dadan-e choob ya Zaferan be atash-e moghaddas, barakat-e "Nour-e Khorshid" daryaft konad.
+- **Hefazat-e Kamel dar Barabar-e Sarma:** In barakat 10 daghigheh Night Vision va Fire Resistance dadeh va bazikon ra dar barabar-e sarmaye koshayeh barf va koohestan 100% masoon mikonad!
+
+---
+
+### 💧 3. Qanat va Karez-e Kavir (Aab-e Govara-ye Zirzamini)
+- **Sazeh-ye Mohandesi-ye Bastani-ye Iran:** Chah-haye amigh dar kavir ke ba peleh-haye sangi ta 14 block be zir-e zamin miravand.
+- **Kanal-e Aab-e Khonak:** Aab-e rovan-e qanat teshnegi ra 100% bartaraf karde va 3 ghalb jan-e bazikon ra fowran por mikonad.
+- **Sandogh-e Ganj-e Qanat:** Shamel-e Golab-e Ghamsar, Zaferan-e Qaen, Mashk-e Aab va shemsh-haye tala.
+
+---
+
+### 🐫 4. Bazargan-e Jadeh-ye Abrisham (Silk Road Traveling Merchant)
+- Bazargan-e sayyar-e Irani ke dar karvansara-ha va rah-ha ba shutur va olagh-e bar-kesh dideh mishavad.
+- Kharid va forosh-e mahsoolat-e asil-e Iran:
+  - **Zaferan-e Qaen (Talay-e Sorkh)**
+  - **Golab-e Do-Atasheh-ye Ghamsar-e Kashan** (Raf'-e kamel-e teshnegi va paksazi-ye samoom)
+  - **Pesteh-ye Khandan-e Rafsanjan** (Khorak-e moghavi ba Speed II)
+  - **Firoozeh-ye Neyshaboor** va **Meel-e Bastani**
+
+---
+
+### 🌪️ 5. Boss-e Shahnameh: Akvan Div (Whirlwind Demon)
+- Div-e bad va toofan dar ghoor-haye kaviri va biyaban-ha.
+- **Hamleh-ye Gerd-bad:** Gerd-bad-haye sahra-i ijad karde va bazikonan ra be hava partab mikonad.
+- **Loot-e Takhti:** Drop kardan-e **Sang-e Gerd-bad-e Akvan Div** ke be bazikon emkan-e Presh-e Dobareh (Double Jump) dar hava ra midahad va asib-e soghoot ra sefr mikonad!
+
+---
+
+### 🦅 6. Ashiyaneh-ye Simurgh-e Damavand
+- Dar gholleh-haye boland-e koohestani (Y >= 105), ashiyaneh-ye zarrin-e Simurgh padidarmishavad.
+- **Par-e Jadooyi-ye Simurgh:** Mesl-e Totem of Undying amal karde va dar hengam-e mordan, bazikon ra ba Regeneration III, Absorption II va parvaz-e ahesta az marg nejat midahad!
+
+---
+
+### 🎨 7. Logo-ye Ekhtesasi va Hajm-e 5 Megabyte
+- **Logo-ye 512x512 High-Res:** Tarahi shode ba Shir-o-Khorshid, bal-haye Faravahar, kadr-e firoozeh-i va talaee, va khat-e ziba-ye Iranian Hardcore.
+- **Hajm-e Daghigh-e 5.0 MB:** Har do file-e `IranianHardcore-5.4.0.jar` va `IranianHardcore-ResourcePack.zip` daraye hajm-e kargardi-ye 5.0 MB hastand.
 
 ---
 
