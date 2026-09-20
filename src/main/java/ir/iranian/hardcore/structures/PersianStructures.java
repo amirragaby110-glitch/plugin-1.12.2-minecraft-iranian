@@ -530,7 +530,7 @@ public class PersianStructures {
             c.getInventory().addItem(ir.iranian.hardcore.items.PersianAuthenticItems.createMeelBastani());
             c.getInventory().addItem(ir.iranian.hardcore.items.PersianAuthenticItems.createKabbadehPouladin());
             c.getInventory().addItem(ir.iranian.hardcore.items.PersianAuthenticItems.createZangZoorkhaneh());
-            ItemStack derik = ir.iranian.hardcore.items.PersianItems.getDerik();
+            ItemStack derik = ir.iranian.hardcore.items.PersianItems.createSekkeHakhamaneshi();
             derik.setAmount(8);
             c.getInventory().addItem(derik);
             c.update();
@@ -600,7 +600,11 @@ public class PersianStructures {
             Chest c = (Chest) chestBlock.getState();
             c.getInventory().addItem(ir.iranian.hardcore.items.PersianAuthenticItems.createGolabGhamsar());
             c.getInventory().addItem(ir.iranian.hardcore.items.PersianAuthenticItems.createZaferanQaen());
-            c.getInventory().addItem(ir.iranian.hardcore.items.PersianItems.createMashkAb(3));
+            if (plugin.getThirstManager() != null) {
+                c.getInventory().addItem(plugin.getThirstManager().createMashkAb(10));
+            } else {
+                c.getInventory().addItem(new ItemStack(Material.POTION));
+            }
             c.getInventory().addItem(new ItemStack(Material.GOLD_INGOT, 5));
             c.update();
         }
@@ -641,7 +645,7 @@ public class PersianStructures {
         if (chestBlock.getState() instanceof Chest) {
             Chest c = (Chest) chestBlock.getState();
             c.getInventory().addItem(ir.iranian.hardcore.items.PersianAuthenticItems.createParSimurgh());
-            c.getInventory().addItem(ir.iranian.hardcore.items.PersianBossItems.createJamEJampTalisman());
+            c.getInventory().addItem(ir.iranian.hardcore.items.PersianBossItems.createJamshidTalisman());
             c.getInventory().addItem(new ItemStack(Material.EMERALD, 8));
             c.getInventory().addItem(new ItemStack(Material.DIAMOND, 4));
             c.update();

@@ -134,7 +134,7 @@ public class PersianAuthenticItems implements Listener {
     }
 
     public static ItemStack createZangZoorkhaneh() {
-        ItemStack item = new ItemStack(Material.BELL != null ? Material.BELL : Material.GOLD_INGOT);
+        ItemStack item = new ItemStack(Material.GOLD_INGOT);
         ItemMeta meta = item.getItemMeta();
         if (meta != null) {
             meta.setDisplayName(MessageUtils.color("&e&lZang-e Zoorkhaneh va Navay-e Morshed"));

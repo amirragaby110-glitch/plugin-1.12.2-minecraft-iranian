@@ -90,7 +90,7 @@ public class AkvanDivBoss implements Listener {
         // Guaranteed drops
         event.getDrops().clear();
         event.getDrops().add(PersianAuthenticItems.createSangAkvan());
-        ItemStack derik = PersianItems.getDerik();
+        ItemStack derik = PersianItems.createSekkeHakhamaneshi();
         derik.setAmount(10);
         event.getDrops().add(derik);
 
@@ -100,7 +100,7 @@ public class AkvanDivBoss implements Listener {
 
         for (Player p : loc.getWorld().getPlayers()) {
             if (p.getLocation().distance(loc) <= 50) {
-                MessageUtils.sendTitle(p, "&6&lSHAHNAMEH", "&aAkvan Div be dast-e Pahlavan-e Irani shekast khord!", 10, 60, 20);
+                p.sendTitle(MessageUtils.color("&6&lSHAHNAMEH"), MessageUtils.color("&aAkvan Div be dast-e Pahlavan-e Irani shekast khord!"), 10, 60, 20);
             }
         }
     }

@@ -26,7 +26,6 @@ public class SilkRoadMerchant {
         merchant.setCustomName(MessageUtils.color("&6&lBazargan-e Jadeh-ye Abrisham"));
         merchant.setCustomNameVisible(true);
         merchant.setProfession(Villager.Profession.LIBRARIAN);
-        merchant.setCareer(1);
 
         List<MerchantRecipe> recipes = new ArrayList<>();
 
