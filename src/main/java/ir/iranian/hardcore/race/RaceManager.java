@@ -92,9 +92,9 @@ public class RaceManager {
         try {
             AttributeInstance maxHealth = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
             if (maxHealth != null) {
-                double baseHealth = plugin.getConfigManager().getDouble("hardcore.health.max-health", 10.0);
+                double baseHealth = plugin.getConfigManager().getDouble("hardcore.health.max-health", 20.0);
                 if (race == RaceType.SISTANI || race == RaceType.LOR) {
-                    baseHealth += 2.0;
+                    baseHealth += 4.0;
                 }
                 maxHealth.setBaseValue(baseHealth);
             }
@@ -195,6 +195,7 @@ public class RaceManager {
     }
 
     public boolean canChangeRace(Player player) {
+        if (player.isOp() || player.hasPermission("iranianhardcore.admin") || player.hasPermission("iranianhardcore.bypass.race")) return true;
         long lastChanged = plugin.getConfigManager().getRaceChangeLastUsed(player.getUniqueId().toString());
         if (lastChanged == 0L) return true;
         int cooldownDays = plugin.getConfigManager().getInt("race.change-cooldown-days", 7);

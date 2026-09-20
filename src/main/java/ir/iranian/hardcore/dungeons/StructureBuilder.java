@@ -15,10 +15,12 @@ import org.bukkit.inventory.ItemStack;
 import java.util.Random;
 
 /**
- * Procedural Iranian Dungeon & Architecture Builder (v5.0 Finglish)
- * Builds grand, authentic Persian historical monuments, palaces, and fortresses
- * using authentic architectural elements (Apadana hypostyle columns, Chahar-Taq fire arches,
- * Iwan gateways, Badgir windcatchers, stepped ziggurats, and vaulted bazaars).
+ * Procedural Iranian Dungeon & Architecture Builder (v5.1 Solid Architecture Edition)
+ * - Deep foundations to prevent any floating structures on uneven terrain
+ * - Interior clearing to prevent tree/dirt clipping
+ * - Grand open Persian Iwans (gateways) for easy entrance access
+ * - Proper lighting (torches & fire braziers)
+ * - Zero unicode corruption, 100% Finglish compliant
  */
 public class StructureBuilder {
 
@@ -76,9 +78,19 @@ public class StructureBuilder {
         int x = loc.getBlockX();
         int z = loc.getBlockZ();
         int y = world.getHighestBlockYAt(x, z);
+
+        // Scan down past leaves, logs, snow, plants to find real solid ground
+        while (y > 5) {
+            Block b = world.getBlockAt(x, y, z);
+            Material m = b.getType();
+            if (m != Material.AIR && m != Material.LEAVES && m != Material.LEAVES_2 
+                    && m != Material.LOG && m != Material.LOG_2 && m != Material.SNOW
+                    && m != Material.LONG_GRASS && m != Material.YELLOW_FLOWER && m != Material.RED_ROSE) {
+                break;
+            }
+            y--;
+        }
         if (y < 5) return null;
-        if (world.getEnvironment() == World.Environment.NETHER) y = 60;
-        else if (world.getEnvironment() == World.Environment.THE_END) y = 70;
         return new Location(world, x, y, z);
     }
 
@@ -89,38 +101,54 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        // 1. Grand Stone Terrace (36x36)
-        fillArea(world, ox - 18, oy - 3, oz - 18, ox + 18, oy, oz + 18, Material.SMOOTH_BRICK);
+        // 1. Deep solid stone foundation (down 8 blocks)
+        buildFoundation(world, ox - 18, oz - 18, ox + 18, oz + 18, oy, Material.SMOOTH_BRICK);
 
-        // 2. Apadana Hypostyle Hall: 16 Fluted Columns (Quartz Pillars with decorative capitals)
+        // 2. Clear interior from oy+1 up to oy+15
+        clearArea(world, ox - 18, oy + 1, oz - 18, ox + 18, oy + 15, oz + 18);
+
+        // 3. Grand Apadana Hypostyle Hall: 16 Fluted Quartz Columns
         for (int x = -12; x <= 12; x += 8) {
             for (int z = -12; z <= 12; z += 8) {
                 buildPersianColumn(world, ox + x, oy + 1, oz + z, 8, Material.QUARTZ_BLOCK);
             }
         }
 
-        // 3. Palace Roof (Stairs and stone slabs)
+        // 4. Grand Palace Roof with Stone Slabs
         fillArea(world, ox - 16, oy + 9, oz - 16, ox + 16, oy + 9, oz + 16, Material.STEP);
 
-        // 4. Elevated Royal Throne Platform in center
-        fillArea(world, ox - 4, oy + 1, oz - 4, ox + 4, oy + 2, oz + 4, Material.QUARTZ_BLOCK);
-        fillArea(world, ox - 3, oy + 2, oz - 3, ox + 3, oy + 2, oz + 3, Material.CARPET, (byte) 14); // Persian Red Carpet
-        setBlock(world, ox, oy + 3, oz, Material.GOLD_BLOCK, false); // Throne seat
-        setBlock(world, ox, oy + 4, oz, Material.RED_SANDSTONE_STAIRS, false);
+        // 5. Open Grand Entrance Gateway on the South side (Stairs + Gateway)
+        for (int step = 0; step < 4; step++) {
+            fillArea(world, ox - 3, oy - step, oz - 19 - step, ox + 3, oy - step, oz - 19 - step, Material.SMOOTH_BRICK);
+        }
+        // Gateway entrance torches
+        setBlock(world, ox - 4, oy + 2, oz - 16, Material.TORCH, false);
+        setBlock(world, ox + 4, oy + 2, oz - 16, Material.TORCH, false);
 
-        // 5. Fire Braziers flanking the throne
-        buildFireBrazier(world, ox - 5, oy + 1, oz - 2);
-        buildFireBrazier(world, ox + 5, oy + 1, oz - 2);
+        // 6. Elevated Royal Throne Platform in center
+        fillArea(world, ox - 4, oy + 1, oz - 4, ox + 4, oy + 1, oz + 4, Material.QUARTZ_BLOCK);
+        setBlock(world, ox, oy + 2, oz, Material.GOLD_BLOCK, false);
+        setBlock(world, ox, oy + 3, oz, Material.RED_SANDSTONE_STAIRS, false);
 
-        // 6. Royal Treasure Vault
+        // 7. Fire Braziers flanking the throne
+        buildFireBrazier(world, ox - 5, oy + 1, oz);
+        buildFireBrazier(world, ox + 5, oy + 1, oz);
+
+        // 8. Royal Treasure Vault
         fillArea(world, ox - 2, oy - 2, oz - 2, ox + 2, oy, oz + 2, Material.IRON_FENCE);
-        placeChestWithLoot(world, ox - 1, oy - 1, oz, DungeonType.TAKHT_JAMSHID_SKY);
-        placeChestWithLoot(world, ox + 1, oy - 1, oz, DungeonType.TAKHT_JAMSHID_SKY);
+        placeChestWithLoot(world, ox - 1, oy + 1, oz, DungeonType.TAKHT_JAMSHID_SKY);
+        placeChestWithLoot(world, ox + 1, oy + 1, oz, DungeonType.TAKHT_JAMSHID_SKY);
 
-        // 7. Immortal Guards & Boss
-        spawnGuard(world, ox - 4, oy + 3, oz - 2, "&6Garde Javidan Hakhamaneshi", EntityType.SKELETON, Material.GOLD_SWORD, Material.GOLD_HELMET);
-        spawnGuard(world, ox + 4, oy + 3, oz - 2, "&6Garde Javidan Hakhamaneshi", EntityType.SKELETON, Material.GOLD_SWORD, Material.GOLD_HELMET);
-        plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 3, oz + 3), DungeonType.TAKHT_JAMSHID_SKY);
+        // 9. Torches for illumination
+        setBlock(world, ox - 12, oy + 4, oz - 12, Material.TORCH, false);
+        setBlock(world, ox + 12, oy + 4, oz - 12, Material.TORCH, false);
+        setBlock(world, ox - 12, oy + 4, oz + 12, Material.TORCH, false);
+        setBlock(world, ox + 12, oy + 4, oz + 12, Material.TORCH, false);
+
+        // 10. Boss & Guards
+        spawnGuard(world, ox - 3, oy + 1, oz - 2, "&6Garde Javidan", EntityType.SKELETON, Material.GOLD_SWORD, Material.GOLD_HELMET);
+        spawnGuard(world, ox + 3, oy + 1, oz - 2, "&6Garde Javidan", EntityType.SKELETON, Material.GOLD_SWORD, Material.GOLD_HELMET);
+        plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 2, oz + 3), DungeonType.TAKHT_JAMSHID_SKY);
 
         return true;
     }
@@ -132,38 +160,49 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        // 1. Mountain Foundation
-        fillArea(world, ox - 14, oy - 4, oz - 14, ox + 14, oy, oz + 14, Material.COBBLESTONE);
+        // 1. Deep foundation & clearing
+        buildFoundation(world, ox - 14, oz - 14, ox + 14, oz + 14, oy, Material.COBBLESTONE);
+        clearArea(world, ox - 14, oy + 1, oz - 14, ox + 14, oy + 16, oz + 14);
 
         // 2. Concentric Defense Walls (24x24)
         buildWalls(world, ox, oy, oz, 12, 8, Material.SMOOTH_BRICK);
         buildCrenellations(world, ox, oy + 8, oz, 12, Material.SMOOTH_BRICK);
 
-        // 3. 4 Corner Defensive Watchtowers
+        // 3. Wide Open Grand Gatehouse (South Wall: oz = oz - 12)
+        fillArea(world, ox - 2, oy + 1, oz - 12, ox + 2, oy + 5, oz - 12, Material.AIR);
+        setBlock(world, ox - 3, oy + 3, oz - 13, Material.TORCH, false);
+        setBlock(world, ox + 3, oy + 3, oz - 13, Material.TORCH, false);
+
+        // 4. 4 Corner Defensive Watchtowers with battlements
         buildTower(world, ox - 12, oy, oz - 12, 3, 14, Material.SMOOTH_BRICK);
         buildTower(world, ox + 12, oy, oz - 12, 3, 14, Material.SMOOTH_BRICK);
         buildTower(world, ox - 12, oy, oz + 12, 3, 14, Material.SMOOTH_BRICK);
         buildTower(world, ox + 12, oy, oz + 12, 3, 14, Material.SMOOTH_BRICK);
 
-        // 4. Central Library & Citadel of Hassan Sabbah
+        // 5. Central Citadel & Library of Hassan Sabbah
         fillArea(world, ox - 5, oy + 1, oz - 5, ox + 5, oy + 6, oz + 5, Material.WOOD);
-        fillArea(world, ox - 4, oy + 1, oz - 4, ox + 4, oy + 5, oz + 4, Material.AIR); // interior
-        fillArea(world, ox - 4, oy + 1, oz - 4, ox + 4, oy + 1, oz + 4, Material.CARPET, (byte) 14);
+        fillArea(world, ox - 4, oy + 1, oz - 4, ox + 4, oy + 5, oz + 4, Material.AIR);
+        // Citadel entrance door
+        fillArea(world, ox - 1, oy + 1, oz - 5, ox + 1, oy + 3, oz - 5, Material.AIR);
 
         // Bookshelves & Alchemy Lab
         for (int x = -3; x <= 3; x += 2) {
+            setBlock(world, ox + x, oy + 1, oz - 4, Material.BOOKSHELF, false);
             setBlock(world, ox + x, oy + 2, oz - 4, Material.BOOKSHELF, false);
-            setBlock(world, ox + x, oy + 3, oz - 4, Material.BOOKSHELF, false);
         }
-        setBlock(world, ox, oy + 2, oz - 2, Material.ENCHANTMENT_TABLE, false);
-        setBlock(world, ox - 3, oy + 2, oz + 3, Material.BREWING_STAND, false);
-        setBlock(world, ox + 3, oy + 2, oz + 3, Material.CAULDRON, false);
+        setBlock(world, ox, oy + 1, oz - 2, Material.ENCHANTMENT_TABLE, false);
+        setBlock(world, ox - 3, oy + 1, oz + 3, Material.BREWING_STAND, false);
+        setBlock(world, ox + 3, oy + 1, oz + 3, Material.CAULDRON, false);
 
-        // 5. Boss & Secret Loot
-        placeChestWithLoot(world, ox, oy + 2, oz + 4, DungeonType.ALAMUT_CASTLE);
+        // Torches inside citadel
+        setBlock(world, ox - 3, oy + 3, oz, Material.TORCH, false);
+        setBlock(world, ox + 3, oy + 3, oz, Material.TORCH, false);
+
+        // 6. Boss & Secret Loot
+        placeChestWithLoot(world, ox, oy + 1, oz + 4, DungeonType.ALAMUT_CASTLE);
         spawnGuard(world, ox - 3, oy + 1, oz, "&8Fadaie Alamut", EntityType.ZOMBIE, Material.IRON_SWORD, Material.CHAINMAIL_HELMET);
         spawnGuard(world, ox + 3, oy + 1, oz, "&8Fadaie Alamut", EntityType.ZOMBIE, Material.IRON_SWORD, Material.CHAINMAIL_HELMET);
-        plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 2, oz), DungeonType.ALAMUT_CASTLE);
+        plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 1, oz), DungeonType.ALAMUT_CASTLE);
 
         return true;
     }
@@ -175,25 +214,25 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        // Massive Sandstone Citadel
-        buildWalls(world, ox, oy, oz, 15, 7, Material.SANDSTONE);
-        buildCrenellations(world, ox, oy + 7, oz, 15, Material.SANDSTONE);
+        buildFoundation(world, ox - 15, oz - 15, ox + 15, oz + 15, oy, Material.SANDSTONE);
+        clearArea(world, ox - 15, oy + 1, oz - 15, ox + 15, oy + 16, oz + 15);
 
-        // Stepped Ramparts
-        buildWalls(world, ox, oy + 3, oz, 10, 6, Material.HARD_CLAY);
+        // Massive Sandstone Citadel Walls
+        buildWalls(world, ox, oy, oz, 14, 7, Material.SANDSTONE);
+        buildCrenellations(world, ox, oy + 7, oz, 14, Material.SANDSTONE);
 
-        // Covered Bazaar corridor inside
-        for (int z = -8; z <= 8; z += 4) {
-            setBlock(world, ox - 4, oy + 1, oz + z, Material.WOOL, (byte) 14);
-            setBlock(world, ox + 4, oy + 1, oz + z, Material.WOOL, (byte) 4);
-        }
+        // Grand Arched Entrance Gateway (South)
+        fillArea(world, ox - 2, oy + 1, oz - 14, ox + 2, oy + 4, oz - 14, Material.AIR);
+        setBlock(world, ox - 3, oy + 3, oz - 15, Material.TORCH, false);
+        setBlock(world, ox + 3, oy + 3, oz - 15, Material.TORCH, false);
 
-        // Governor's Palace on top
-        fillArea(world, ox - 4, oy + 9, oz - 4, ox + 4, oy + 14, oz + 4, Material.SMOOTH_BRICK);
-        fillArea(world, ox - 3, oy + 9, oz - 3, ox + 3, oy + 13, oz + 3, Material.AIR);
-        placeChestWithLoot(world, ox, oy + 10, oz, DungeonType.ARGE_BAM);
+        // Governor's Palace on elevated floor
+        fillArea(world, ox - 5, oy + 1, oz - 5, ox + 5, oy + 7, oz + 5, Material.HARD_CLAY);
+        fillArea(world, ox - 4, oy + 1, oz - 4, ox + 4, oy + 6, oz + 4, Material.AIR);
+        fillArea(world, ox - 1, oy + 1, oz - 5, ox + 1, oy + 3, oz - 5, Material.AIR);
 
-        plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 10, oz), DungeonType.ARGE_BAM);
+        placeChestWithLoot(world, ox, oy + 1, oz + 3, DungeonType.ARGE_BAM);
+        plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 1, oz), DungeonType.ARGE_BAM);
         return true;
     }
 
@@ -204,23 +243,27 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
+        buildFoundation(world, ox - 16, oz - 16, ox + 16, oz + 16, oy, Material.CLAY_BRICK);
+        clearArea(world, ox - 16, oy + 1, oz - 16, ox + 16, oy + 16, oz + 16);
+
         // 3-Tiered Terraced Pyramid
-        fillArea(world, ox - 16, oy, oz - 16, ox + 16, oy + 3, oz + 16, Material.CLAY_BRICK);
-        fillArea(world, ox - 11, oy + 3, oz - 11, ox + 11, oy + 6, oz + 11, Material.HARD_CLAY);
-        fillArea(world, ox - 6, oy + 6, oz - 6, ox + 6, oy + 9, oz + 6, Material.SMOOTH_BRICK);
+        fillArea(world, ox - 15, oy + 1, oz - 15, ox + 15, oy + 3, oz + 15, Material.CLAY_BRICK);
+        fillArea(world, ox - 10, oy + 4, oz - 10, ox + 10, oy + 6, oz + 10, Material.HARD_CLAY);
+        fillArea(world, ox - 6, oy + 7, oz - 6, ox + 6, oy + 9, oz + 6, Material.SMOOTH_BRICK);
 
         // Monumental Stairs ascending the south face
         for (int y = 0; y < 9; y++) {
-            setBlock(world, ox - 1, oy + y + 1, oz - 16 + y, Material.BRICK_STAIRS, false);
-            setBlock(world, ox, oy + y + 1, oz - 16 + y, Material.BRICK_STAIRS, false);
-            setBlock(world, ox + 1, oy + y + 1, oz - 16 + y, Material.BRICK_STAIRS, false);
+            setBlock(world, ox - 1, oy + y + 1, oz - 15 + y, Material.BRICK_STAIRS, false);
+            setBlock(world, ox, oy + y + 1, oz - 15 + y, Material.BRICK_STAIRS, false);
+            setBlock(world, ox + 1, oy + y + 1, oz - 15 + y, Material.BRICK_STAIRS, false);
         }
 
         // Temple of Inshushinak on Top
-        fillArea(world, ox - 3, oy + 9, oz - 3, ox + 3, oy + 13, oz + 3, Material.CLAY_BRICK);
-        fillArea(world, ox - 2, oy + 9, oz - 2, ox + 2, oy + 12, oz + 2, Material.AIR);
+        fillArea(world, ox - 3, oy + 10, oz - 3, ox + 3, oy + 14, oz + 3, Material.CLAY_BRICK);
+        fillArea(world, ox - 2, oy + 10, oz - 2, ox + 2, oy + 13, oz + 2, Material.AIR);
+        fillArea(world, ox - 1, oy + 10, oz - 3, ox + 1, oy + 12, oz - 3, Material.AIR); // doorway
 
-        // Sacrificial Altar with Soul Fire
+        // Altar with Holy Fire
         setBlock(world, ox, oy + 10, oz, Material.NETHERRACK, false);
         setBlock(world, ox, oy + 11, oz, Material.FIRE, false);
         placeChestWithLoot(world, ox, oy + 10, oz + 2, DungeonType.CHOGHA_ZANBIL);
@@ -236,24 +279,23 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        // Sacred Volcanic Lake (Circular basin with water)
-        for (int x = -10; x <= 10; x++) {
-            for (int z = -10; z <= 10; z++) {
-                if (x*x + z*z <= 80) {
-                    setBlock(world, ox + x, oy - 2, oz + z, Material.WATER, false);
-                    setBlock(world, ox + x, oy - 3, oz + z, Material.STATIONARY_WATER, false);
-                } else if (x*x + z*z <= 110) {
-                    setBlock(world, ox + x, oy, oz + z, Material.COBBLESTONE, false);
+        buildFoundation(world, ox - 14, oz - 14, ox + 14, oz + 14, oy, Material.SMOOTH_BRICK);
+        clearArea(world, ox - 14, oy + 1, oz - 14, ox + 14, oy + 12, oz + 14);
+
+        // Sacred Spring Pool
+        for (int x = -6; x <= 6; x++) {
+            for (int z = -6; z <= 6; z++) {
+                if (x*x + z*z <= 32) {
+                    setBlock(world, ox + x, oy, oz + z, Material.WATER, false);
                 }
             }
         }
 
-        // Chahar-Taq Fire Sanctuary on North shore
-        int tx = ox, ty = oy, tz = oz + 12;
-        fillArea(world, tx - 5, ty, tz - 5, tx + 5, ty + 6, tz + 5, Material.SMOOTH_BRICK);
-        // 4 Arches
-        fillArea(world, tx - 3, ty + 1, tz - 5, tx + 3, ty + 4, tz + 5, Material.AIR);
-        fillArea(world, tx - 5, ty + 1, tz - 3, tx + 5, ty + 4, tz + 3, Material.AIR);
+        // Chahar-Taq Fire Sanctuary (4 Arches)
+        int tx = ox, ty = oy, tz = oz + 8;
+        fillArea(world, tx - 4, ty + 1, tz - 4, tx + 4, ty + 6, tz + 4, Material.SMOOTH_BRICK);
+        fillArea(world, tx - 3, ty + 1, tz - 4, tx + 3, ty + 5, tz + 4, Material.AIR);
+        fillArea(world, tx - 4, ty + 1, tz - 3, tx + 4, ty + 5, tz + 3, Material.AIR);
 
         // Eternal Holy Fire of Azargoshasb
         setBlock(world, tx, ty + 1, tz, Material.GOLD_BLOCK, false);
@@ -272,16 +314,15 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        // Stone Pier & Quays into water
-        fillArea(world, ox - 12, oy, oz - 4, ox + 12, oy, oz + 4, Material.SMOOTH_BRICK);
+        buildFoundation(world, ox - 12, oz - 6, ox + 12, oz + 6, oy, Material.SMOOTH_BRICK);
+        clearArea(world, ox - 12, oy + 1, oz - 6, ox + 12, oy + 10, oz + 6);
 
-        // Persian Merchant Ship at the pier
-        buildPersianShip(world, ox + 5, oy, oz + 10);
+        // Pier & Port Watchtower
+        buildTower(world, ox - 8, oy + 1, oz, 3, 10, Material.SMOOTH_BRICK);
+        // Open entrance into tower
+        fillArea(world, ox - 8, oy + 1, oz + 3, ox - 8, oy + 3, oz + 3, Material.AIR);
 
-        // Port Watchtower
-        buildTower(world, ox - 10, oy, oz, 4, 12, Material.SMOOTH_BRICK);
-        placeChestWithLoot(world, ox - 10, oy + 1, oz, DungeonType.BANDAR_SIRAF);
-
+        placeChestWithLoot(world, ox - 8, oy + 1, oz, DungeonType.BANDAR_SIRAF);
         plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 1, oz), DungeonType.BANDAR_SIRAF);
         return true;
     }
@@ -293,18 +334,13 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        fillArea(world, ox - 12, oy - 2, oz - 12, ox + 12, oy, oz + 12, Material.STONE);
-        buildWalls(world, ox, oy, oz, 10, 8, Material.COBBLESTONE);
-        buildCrenellations(world, ox, oy + 8, oz, 10, Material.COBBLESTONE);
+        buildFoundation(world, ox - 12, oz - 12, ox + 12, oz + 12, oy, Material.COBBLESTONE);
+        clearArea(world, ox - 12, oy + 1, oz - 12, ox + 12, oy + 12, oz + 12);
 
-        // Snow layer on top
-        for (int x = -10; x <= 10; x++) {
-            for (int z = -10; z <= 10; z++) {
-                if (Math.abs(x) == 10 || Math.abs(z) == 10) {
-                    setBlock(world, ox + x, oy + 9, oz + z, Material.SNOW, false);
-                }
-            }
-        }
+        buildWalls(world, ox, oy, oz, 10, 7, Material.COBBLESTONE);
+        buildCrenellations(world, ox, oy + 7, oz, 10, Material.COBBLESTONE);
+        // Open gate
+        fillArea(world, ox - 2, oy + 1, oz - 10, ox + 2, oy + 4, oz - 10, Material.AIR);
 
         placeChestWithLoot(world, ox, oy + 1, oz, DungeonType.GHALEH_BABAK);
         plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 1, oz), DungeonType.GHALEH_BABAK);
@@ -318,20 +354,20 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
+        buildFoundation(world, ox - 12, oz - 12, ox + 12, oz + 12, oy, Material.QUARTZ_BLOCK);
+        clearArea(world, ox - 12, oy + 1, oz - 12, ox + 12, oy + 16, oz + 12);
+
         // 6 Stepped Plinths
         for (int i = 0; i < 6; i++) {
-            int r = 10 - i;
-            fillArea(world, ox - r, oy + i, oz - r, ox + r, oy + i, oz + r, Material.WHITE_GLAZED_TERRACOTTA);
+            int r = 9 - i;
+            fillArea(world, ox - r, oy + i + 1, oz - r, ox + r, oy + i + 1, oz + r, Material.QUARTZ_BLOCK);
         }
 
         // Tomb Chamber
-        fillArea(world, ox - 4, oy + 6, oz - 4, ox + 4, oy + 10, oz + 4, Material.QUARTZ_BLOCK);
-        fillArea(world, ox - 3, oy + 6, oz - 3, ox + 3, oy + 9, oz + 3, Material.AIR);
-
-        // Gabled Stone Roof
-        for (int i = 0; i < 4; i++) {
-            fillArea(world, ox - 4 + i, oy + 10 + i, oz - 4, ox + 4 - i, oy + 10 + i, oz + 4, Material.QUARTZ_BLOCK);
-        }
+        fillArea(world, ox - 4, oy + 7, oz - 4, ox + 4, oy + 11, oz + 4, Material.QUARTZ_BLOCK);
+        fillArea(world, ox - 3, oy + 7, oz - 3, ox + 3, oy + 10, oz + 3, Material.AIR);
+        // Tomb entrance
+        fillArea(world, ox - 1, oy + 7, oz - 4, ox + 1, oy + 9, oz - 4, Material.AIR);
 
         placeChestWithLoot(world, ox, oy + 7, oz, DungeonType.PASARGAD_TOMB);
         plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 7, oz), DungeonType.PASARGAD_TOMB);
@@ -339,19 +375,20 @@ public class StructureBuilder {
     }
 
     // ==========================================
-    // 9. BISOTUN & NAQSH ROSTAM (Rock Inscription & Cliff Tombs)
+    // 9. BISOTUN & NAQSH ROSTAM
     // ==========================================
     private boolean buildBisotun(Location origin) {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        // Massive cliff wall
-        fillArea(world, ox - 10, oy, oz - 2, ox + 10, oy + 12, oz + 2, Material.STONE);
-        // Carved Inscription Relief in center
-        fillArea(world, ox - 6, oy + 3, oz - 2, ox + 6, oy + 9, oz - 2, Material.SMOOTH_BRICK);
+        buildFoundation(world, ox - 10, oz - 4, ox + 10, oz + 4, oy, Material.STONE);
+        clearArea(world, ox - 10, oy + 1, oz - 4, ox + 10, oy + 14, oz + 4);
 
-        placeChestWithLoot(world, ox, oy + 1, oz - 4, DungeonType.BISOTUN_INSCRIPTION);
-        plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 1, oz - 5), DungeonType.BISOTUN_INSCRIPTION);
+        fillArea(world, ox - 10, oy + 1, oz - 2, ox + 10, oy + 12, oz + 2, Material.STONE);
+        fillArea(world, ox - 6, oy + 4, oz - 2, ox + 6, oy + 9, oz - 2, Material.SMOOTH_BRICK);
+
+        placeChestWithLoot(world, ox, oy + 1, oz - 3, DungeonType.BISOTUN_INSCRIPTION);
+        plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 1, oz - 4), DungeonType.BISOTUN_INSCRIPTION);
         return true;
     }
 
@@ -359,23 +396,23 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        // Monumental Rock-Cut Cross Tomb (Cruciform facade)
-        fillArea(world, ox - 8, oy, oz - 2, ox + 8, oy + 16, oz + 2, Material.HARD_CLAY);
-        // Cross cutout
+        buildFoundation(world, ox - 8, oz - 4, ox + 8, oz + 4, oy, Material.HARD_CLAY);
+        clearArea(world, ox - 8, oy + 1, oz - 4, ox + 8, oy + 16, oz + 4);
+
+        fillArea(world, ox - 8, oy + 1, oz - 2, ox + 8, oy + 16, oz + 2, Material.HARD_CLAY);
+        // Cruciform rock-cut tomb facade
         fillArea(world, ox - 6, oy + 6, oz - 2, ox + 6, oy + 10, oz - 2, Material.RED_SANDSTONE);
         fillArea(world, ox - 2, oy + 2, oz - 2, ox + 2, oy + 14, oz - 2, Material.RED_SANDSTONE);
 
-        // Burial Chamber inside the rock
+        // Burial Chamber
         fillArea(world, ox - 3, oy + 2, oz + 2, ox + 3, oy + 5, oz + 7, Material.AIR);
-        placeChestWithLoot(world, ox, oy + 2, oz + 5, DungeonType.NAQSH_ROSTAM);
+        fillArea(world, ox - 1, oy + 2, oz - 2, ox + 1, oy + 4, oz + 2, Material.AIR); // entrance
 
+        placeChestWithLoot(world, ox, oy + 2, oz + 5, DungeonType.NAQSH_ROSTAM);
         plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 1, oz - 4), DungeonType.NAQSH_ROSTAM);
         return true;
     }
 
-    // ==========================================
-    // 10. HEGMATANEH & SUSA PALACE
-    // ==========================================
     private boolean buildHegmataneh(Location origin) {
         return buildArgeBam(origin);
     }
@@ -384,20 +421,20 @@ public class StructureBuilder {
         return buildTakhtJamshid(origin);
     }
 
-    // ==========================================
-    // 11. YAZD MOSQUE & AZADI TOWER
-    // ==========================================
     private boolean buildYazdMosque(Location origin) {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        // Grand Iwan Portal with 2 Twin Turquoise Minarets
-        fillArea(world, ox - 6, oy, oz - 4, ox + 6, oy + 10, oz + 4, Material.CLAY_BRICK);
-        fillArea(world, ox - 3, oy + 1, oz - 4, ox + 3, oy + 8, oz + 4, Material.AIR); // arched iwan
+        buildFoundation(world, ox - 8, oz - 8, ox + 8, oz + 8, oy, Material.CLAY_BRICK);
+        clearArea(world, ox - 8, oy + 1, oz - 8, ox + 8, oy + 22, oz + 8);
 
-        // Twin Minarets
-        buildTower(world, ox - 6, oy, oz - 4, 2, 22, Material.LAPIS_BLOCK);
-        buildTower(world, ox + 6, oy, oz - 4, 2, 22, Material.LAPIS_BLOCK);
+        // Grand Arched Portal
+        fillArea(world, ox - 6, oy + 1, oz - 4, ox + 6, oy + 10, oz + 4, Material.CLAY_BRICK);
+        fillArea(world, ox - 3, oy + 1, oz - 4, ox + 3, oy + 8, oz + 4, Material.AIR);
+
+        // Twin Turquoise Minarets
+        buildTower(world, ox - 6, oy + 1, oz - 4, 2, 20, Material.LAPIS_BLOCK);
+        buildTower(world, ox + 6, oy + 1, oz - 4, 2, 20, Material.LAPIS_BLOCK);
 
         placeChestWithLoot(world, ox, oy + 1, oz + 2, DungeonType.YAZD_JAMEH_MOSQUE);
         plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 1, oz), DungeonType.YAZD_JAMEH_MOSQUE);
@@ -408,10 +445,12 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        // Iconic Y-shaped arch of Azadi Tower
-        fillArea(world, ox - 8, oy, oz - 4, ox - 4, oy + 16, oz + 4, Material.QUARTZ_BLOCK);
-        fillArea(world, ox + 4, oy, oz - 4, ox + 8, oy + 16, oz + 4, Material.QUARTZ_BLOCK);
-        // Connecting top arch
+        buildFoundation(world, ox - 8, oz - 4, ox + 8, oz + 4, oy, Material.QUARTZ_BLOCK);
+        clearArea(world, ox - 8, oy + 1, oz - 4, ox + 8, oy + 22, oz + 4);
+
+        // Iconic Arch
+        fillArea(world, ox - 8, oy + 1, oz - 4, ox - 4, oy + 16, oz + 4, Material.QUARTZ_BLOCK);
+        fillArea(world, ox + 4, oy + 1, oz - 4, ox + 8, oy + 16, oz + 4, Material.QUARTZ_BLOCK);
         fillArea(world, ox - 8, oy + 16, oz - 4, ox + 8, oy + 22, oz + 4, Material.QUARTZ_BLOCK);
 
         placeChestWithLoot(world, ox, oy + 1, oz, DungeonType.AZADI_TOWER);
@@ -419,20 +458,17 @@ public class StructureBuilder {
         return true;
     }
 
-    // ==========================================
-    // 12. NEW ARCHITECTURAL TYPES (v5.0)
-    // ==========================================
     private boolean buildVaultedBazaar(Location origin, DungeonType type) {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        // 32-block long vaulted brick arcade
+        buildFoundation(world, ox - 6, oz - 14, ox + 6, oz + 14, oy, Material.SMOOTH_BRICK);
+        clearArea(world, ox - 6, oy + 1, oz - 14, ox + 6, oy + 8, oz + 14);
+
         for (int z = -14; z <= 14; z += 4) {
-            fillArea(world, ox - 5, oy, oz + z, ox + 5, oy + 5, oz + z + 3, Material.SMOOTH_BRICK);
+            fillArea(world, ox - 5, oy + 1, oz + z, ox + 5, oy + 5, oz + z + 3, Material.SMOOTH_BRICK);
             fillArea(world, ox - 3, oy + 1, oz + z, ox + 3, oy + 4, oz + z + 3, Material.AIR);
-            // Skylight dome
             setBlock(world, ox, oy + 5, oz + z + 1, Material.GLASS, false);
-            // Carpet stalls
             setBlock(world, ox - 3, oy + 1, oz + z + 1, Material.CARPET, (byte) 14);
             setBlock(world, ox + 3, oy + 1, oz + z + 1, Material.CARPET, (byte) 4);
         }
@@ -446,14 +482,17 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        // 3 Terraced levels where roof of lower house is yard of upper house
+        buildFoundation(world, ox - 7, oz - 4, ox + 7, oz + 14, oy, Material.HARD_CLAY);
+        clearArea(world, ox - 7, oy + 1, oz - 4, ox + 7, oy + 16, oz + 14);
+
         for (int level = 0; level < 3; level++) {
-            int ly = oy + (level * 4);
+            int ly = oy + 1 + (level * 4);
             int lz = oz + (level * 6);
             fillArea(world, ox - 6, ly, lz - 3, ox + 6, ly + 3, lz + 3, Material.HARD_CLAY);
             fillArea(world, ox - 5, ly + 1, lz - 2, ox + 5, ly + 3, lz + 2, Material.AIR);
-            // Wooden balcony
             fillArea(world, ox - 5, ly + 1, lz - 3, ox + 5, ly + 1, lz - 3, Material.FENCE);
+            // Door
+            fillArea(world, ox - 1, ly + 1, lz - 3, ox + 1, ly + 2, lz - 3, Material.AIR);
         }
 
         placeChestWithLoot(world, ox, oy + 1, oz, DungeonType.MASOOLEH);
@@ -465,10 +504,12 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        // 3 Conical volcanic cones carved out
-        buildVolcanicCone(world, ox - 7, oy, oz);
-        buildVolcanicCone(world, ox + 7, oy, oz);
-        buildVolcanicCone(world, ox, oy, oz + 8);
+        buildFoundation(world, ox - 10, oz - 6, ox + 10, oz + 12, oy, Material.HARD_CLAY);
+        clearArea(world, ox - 10, oy + 1, oz - 6, ox + 10, oy + 12, oz + 12);
+
+        buildVolcanicCone(world, ox - 6, oy, oz);
+        buildVolcanicCone(world, ox + 6, oy, oz);
+        buildVolcanicCone(world, ox, oy, oz + 7);
 
         placeChestWithLoot(world, ox, oy + 1, oz, DungeonType.KANDOVAN);
         plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 1, oz), DungeonType.KANDOVAN);
@@ -479,10 +520,11 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        // Water channels and mill race
-        fillArea(world, ox - 10, oy, oz - 4, ox + 10, oy + 3, oz + 4, Material.SMOOTH_BRICK);
+        buildFoundation(world, ox - 10, oz - 4, ox + 10, oz + 4, oy, Material.SMOOTH_BRICK);
+        clearArea(world, ox - 10, oy + 1, oz - 4, ox + 10, oy + 8, oz + 4);
+
+        fillArea(world, ox - 10, oy + 1, oz - 4, ox + 10, oy + 3, oz + 4, Material.SMOOTH_BRICK);
         fillArea(world, ox - 8, oy + 1, oz - 2, ox + 8, oy + 1, oz + 2, Material.WATER);
-        // Waterwheel
         fillArea(world, ox, oy + 1, oz - 3, ox, oy + 4, oz - 3, Material.WOOD);
 
         placeChestWithLoot(world, ox, oy + 2, oz + 3, DungeonType.SHUSHTAR_WATER);
@@ -494,12 +536,15 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        // Tall decagonal brick tower (28 blocks high) with conical roof
-        buildTower(world, ox, oy, oz, 4, 24, Material.BRICK);
-        // Conical roof
+        buildFoundation(world, ox - 5, oz - 5, ox + 5, oz + 5, oy, Material.BRICK);
+        clearArea(world, ox - 5, oy + 1, oz - 5, ox + 5, oy + 28, oz + 5);
+
+        buildTower(world, ox, oy + 1, oz, 4, 20, Material.BRICK);
+        fillArea(world, ox - 1, oy + 1, oz - 4, ox + 1, oy + 3, oz - 4, Material.AIR); // door
+
         for (int i = 0; i < 6; i++) {
             int r = 4 - (i * 4 / 6);
-            fillArea(world, ox - r, oy + 24 + i, oz - r, ox + r, oy + 24 + i, oz + r, Material.BRICK);
+            fillArea(world, ox - r, oy + 21 + i, oz - r, ox + r, oy + 21 + i, oz + r, Material.BRICK);
         }
 
         placeChestWithLoot(world, ox, oy + 1, oz, DungeonType.GONBAD_KAVOUS);
@@ -511,14 +556,17 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        // Octagonal Mausoleum with Turquoise Dome
-        fillArea(world, ox - 8, oy, oz - 8, ox + 8, oy + 10, oz + 8, Material.BRICK);
-        fillArea(world, ox - 6, oy + 1, oz - 6, ox + 6, oy + 9, oz + 6, Material.AIR);
+        buildFoundation(world, ox - 8, oz - 8, ox + 8, oz + 8, oy, Material.BRICK);
+        clearArea(world, ox - 8, oy + 1, oz - 8, ox + 8, oy + 18, oz + 8);
 
-        // Turquoise Dome on top
+        fillArea(world, ox - 8, oy + 1, oz - 8, ox + 8, oy + 10, oz + 8, Material.BRICK);
+        fillArea(world, ox - 6, oy + 1, oz - 6, ox + 6, oy + 9, oz + 6, Material.AIR);
+        fillArea(world, ox - 2, oy + 1, oz - 8, ox + 2, oy + 4, oz - 8, Material.AIR); // entrance
+
+        // Turquoise Dome
         for (int y = 0; y < 6; y++) {
             int r = 6 - y;
-            fillArea(world, ox - r, oy + 10 + y, oz - r, ox + r, oy + 10 + y, oz + r, Material.LAPIS_BLOCK);
+            fillArea(world, ox - r, oy + 11 + y, oz - r, ox + r, oy + 11 + y, oz + r, Material.LAPIS_BLOCK);
         }
 
         placeChestWithLoot(world, ox, oy + 1, oz, DungeonType.SOLTANIYEH);
@@ -530,13 +578,16 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        // Chahar-Bagh 4 water channels with turquoise fountains
-        fillArea(world, ox - 12, oy, oz - 12, ox + 12, oy, oz + 12, Material.GRASS);
-        fillArea(world, ox - 12, oy, oz, ox + 12, oy, oz, Material.WATER);
-        fillArea(world, ox, oy, oz - 12, ox, oy, oz + 12, Material.WATER);
-        // Central pavilion
+        buildFoundation(world, ox - 12, oz - 12, ox + 12, oz + 12, oy, Material.GRASS);
+        clearArea(world, ox - 12, oy + 1, oz - 12, ox + 12, oy + 10, oz + 12);
+
+        fillArea(world, ox - 12, oy + 1, oz - 12, ox + 12, oy + 1, oz + 12, Material.GRASS);
+        fillArea(world, ox - 12, oy + 1, oz, ox + 12, oy + 1, oz, Material.WATER);
+        fillArea(world, ox, oy + 1, oz - 12, ox, oy + 1, oz + 12, Material.WATER);
+
         fillArea(world, ox - 3, oy + 1, oz - 3, ox + 3, oy + 5, oz + 3, Material.QUARTZ_BLOCK);
         fillArea(world, ox - 2, oy + 1, oz - 2, ox + 2, oy + 4, oz + 2, Material.AIR);
+        fillArea(world, ox - 1, oy + 1, oz - 3, ox + 1, oy + 3, oz - 3, Material.AIR); // door
 
         placeChestWithLoot(world, ox, oy + 1, oz, DungeonType.BAGH_FIN);
         plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 1, oz), DungeonType.BAGH_FIN);
@@ -555,14 +606,17 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        // 3-story royal palace with elevated columned terrace
-        fillArea(world, ox - 8, oy, oz - 8, ox + 8, oy + 12, oz + 8, Material.SMOOTH_BRICK);
-        fillArea(world, ox - 6, oy + 1, oz - 6, ox + 6, oy + 11, oz + 6, Material.AIR);
+        buildFoundation(world, ox - 8, oz - 8, ox + 8, oz + 8, oy, Material.SMOOTH_BRICK);
+        clearArea(world, ox - 8, oy + 1, oz - 8, ox + 8, oy + 18, oz + 8);
 
-        // Music Hall on top floor with acoustics niches
-        fillArea(world, ox - 7, oy + 12, oz - 7, ox + 7, oy + 16, oz + 7, Material.WOOD);
+        fillArea(world, ox - 8, oy + 1, oz - 8, ox + 8, oy + 12, oz + 8, Material.SMOOTH_BRICK);
+        fillArea(world, ox - 6, oy + 1, oz - 6, ox + 6, oy + 11, oz + 6, Material.AIR);
+        fillArea(world, ox - 2, oy + 1, oz - 8, ox + 2, oy + 4, oz - 8, Material.AIR); // gate
+
+        // Terrace with columns on top
+        fillArea(world, ox - 7, oy + 12, oz - 7, ox + 7, oy + 12, oz + 7, Material.WOOD);
         for (int x = -5; x <= 5; x += 5) {
-            buildPersianColumn(world, ox + x, oy + 13, oz - 6, 3, Material.WOOD);
+            buildPersianColumn(world, ox + x, oy + 13, oz - 6, 4, Material.WOOD);
         }
 
         placeChestWithLoot(world, ox, oy + 13, oz, DungeonType.ALI_QAPU);
@@ -574,14 +628,17 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        // 20 Slender Wooden Columns facing a reflecting pool (reflection makes 40!)
+        buildFoundation(world, ox - 8, oz - 18, ox + 8, oz + 6, oy, Material.SMOOTH_BRICK);
+        clearArea(world, ox - 8, oy + 1, oz - 18, ox + 8, oy + 10, oz + 6);
+
+        // 20 Slender Wooden Columns facing the reflecting pool
         for (int x = -8; x <= 8; x += 4) {
             for (int z = -6; z <= 0; z += 3) {
                 buildPersianColumn(world, ox + x, oy + 1, oz + z, 6, Material.WOOD);
             }
         }
         // Reflecting Pool
-        fillArea(world, ox - 8, oy, oz - 18, ox + 8, oy, oz - 8, Material.WATER);
+        fillArea(world, ox - 8, oy + 1, oz - 18, ox + 8, oy + 1, oz - 8, Material.WATER);
 
         placeChestWithLoot(world, ox, oy + 1, oz + 4, DungeonType.CHEHEL_SOTUN);
         plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 1, oz + 4), DungeonType.CHEHEL_SOTUN);
@@ -592,10 +649,12 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        // Long stone bridge with arches
+        buildFoundation(world, ox - 3, oz - 15, ox + 3, oz + 15, oy, Material.CLAY_BRICK);
+        clearArea(world, ox - 3, oy + 1, oz - 15, ox + 3, oy + 8, oz + 15);
+
         for (int z = -15; z <= 15; z += 5) {
             fillArea(world, ox - 3, oy + 2, oz + z, ox + 3, oy + 5, oz + z + 4, Material.CLAY_BRICK);
-            fillArea(world, ox - 2, oy + 1, oz + z, ox + 2, oy + 3, oz + z + 4, Material.AIR); // arch
+            fillArea(world, ox - 2, oy + 1, oz + z, ox + 2, oy + 3, oz + z + 4, Material.AIR);
         }
 
         placeChestWithLoot(world, ox, oy + 3, oz, DungeonType.SI_O_SE_POL);
@@ -606,15 +665,41 @@ public class StructureBuilder {
     // ==========================================
     // ARCHITECTURAL HELPER METHODS
     // ==========================================
+    private void buildFoundation(World world, int x1, int z1, int x2, int z2, int groundY, Material mat) {
+        int minX = Math.min(x1, x2), maxX = Math.max(x1, x2);
+        int minZ = Math.min(z1, z2), maxZ = Math.max(z1, z2);
+        for (int x = minX; x <= maxX; x++) {
+            for (int z = minZ; z <= maxZ; z++) {
+                for (int y = groundY; y >= groundY - 8; y--) {
+                    Block b = world.getBlockAt(x, y, z);
+                    Material m = b.getType();
+                    if (m == Material.AIR || m == Material.WATER || m == Material.STATIONARY_WATER ||
+                        m == Material.LEAVES || m == Material.LEAVES_2 || m == Material.LOG ||
+                        m == Material.LOG_2 || m == Material.SNOW || m == Material.LONG_GRASS) {
+                        b.setType(mat);
+                    }
+                }
+            }
+        }
+    }
+
+    private void clearArea(World world, int x1, int y1, int z1, int x2, int y2, int z2) {
+        int minX = Math.min(x1, x2), maxX = Math.max(x1, x2);
+        int minY = Math.min(y1, y2), maxY = Math.max(y1, y2);
+        int minZ = Math.min(z1, z2), maxZ = Math.max(z1, z2);
+        for (int x = minX; x <= maxX; x++) {
+            for (int y = minY; y <= maxY; y++) {
+                for (int z = minZ; z <= maxZ; z++) {
+                    world.getBlockAt(x, y, z).setType(Material.AIR);
+                }
+            }
+        }
+    }
+
     private void buildPersianColumn(World world, int x, int y, int z, int height, Material mat) {
-        // Base
-        setBlock(world, x, y, z, mat, false);
-        // Shaft
-        for (int i = 1; i < height - 1; i++) {
+        for (int i = 0; i < height; i++) {
             setBlock(world, x, y + i, z, mat, false);
         }
-        // Capital
-        setBlock(world, x, y + height - 1, z, mat, false);
     }
 
     private void buildFireBrazier(World world, int x, int y, int z) {
@@ -626,20 +711,10 @@ public class StructureBuilder {
     private void buildVolcanicCone(World world, int x, int y, int z) {
         for (int i = 0; i < 8; i++) {
             int r = 5 - (i * 5 / 8);
-            fillArea(world, x - r, y + i, z - r, x + r, y + i, z + r, Material.HARD_CLAY);
+            fillArea(world, x - r, y + i + 1, z - r, x + r, y + i + 1, z + r, Material.HARD_CLAY);
         }
-        // Hollow interior
         fillArea(world, x - 2, y + 1, z - 2, x + 2, y + 5, z + 2, Material.AIR);
-    }
-
-    private void buildPersianShip(World world, int ox, int oy, int oz) {
-        fillArea(world, ox - 2, oy, oz - 6, ox + 2, oy + 2, oz + 6, Material.WOOD);
-        // Mast
-        for (int i = 0; i < 8; i++) {
-            setBlock(world, ox, oy + 2 + i, oz, Material.FENCE, false);
-        }
-        // White Sail
-        fillArea(world, ox - 3, oy + 5, oz, ox + 3, oy + 8, oz, Material.WOOL);
+        fillArea(world, x - 1, y + 1, z - 5, x + 1, y + 3, z - 2, Material.AIR); // door
     }
 
     private void buildTower(World world, int ox, int oy, int oz, int radius, int height, Material mat) {
@@ -681,16 +756,21 @@ public class StructureBuilder {
     private boolean buildDakhmeh(Location origin) {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
-        // Circular Tower of Silence
+
+        buildFoundation(world, ox - 9, oz - 9, ox + 9, oz + 9, oy, Material.NETHER_BRICK);
+        clearArea(world, ox - 9, oy + 1, oz - 9, ox + 9, oy + 8, oz + 9);
+
         for (int x = -8; x <= 8; x++) {
             for (int z = -8; z <= 8; z++) {
                 if (x*x + z*z <= 64 && x*x + z*z >= 36) {
-                    for (int y = 0; y < 6; y++) {
+                    for (int y = 1; y <= 6; y++) {
                         setBlock(world, ox + x, oy + y, oz + z, Material.NETHER_BRICK, false);
                     }
                 }
             }
         }
+        fillArea(world, ox - 2, oy + 1, oz - 8, ox + 2, oy + 4, oz - 8, Material.AIR); // door
+
         placeChestWithLoot(world, ox, oy + 1, oz, DungeonType.DAKHMEH_ZARTOSHTI);
         plugin.getBossFightManager().spawnDungeonBoss(new Location(world, ox, oy + 1, oz), DungeonType.DAKHMEH_ZARTOSHTI);
         return true;
@@ -700,9 +780,10 @@ public class StructureBuilder {
         World world = origin.getWorld();
         int ox = origin.getBlockX(), oy = origin.getBlockY(), oz = origin.getBlockZ();
 
-        fillArea(world, ox - 10, oy, oz - 10, ox + 10, oy, oz + 10, Material.SMOOTH_BRICK);
-        // Water basins dedicated to Anahita (goddess of waters)
-        fillArea(world, ox - 6, oy, oz - 6, ox + 6, oy, oz + 6, Material.WATER);
+        buildFoundation(world, ox - 10, oz - 10, ox + 10, oz + 10, oy, Material.SMOOTH_BRICK);
+        clearArea(world, ox - 10, oy + 1, oz - 10, ox + 10, oy + 10, oz + 10);
+
+        fillArea(world, ox - 6, oy + 1, oz - 6, ox + 6, oy + 1, oz + 6, Material.WATER);
         for (int x = -8; x <= 8; x += 8) {
             for (int z = -8; z <= 8; z += 8) {
                 buildPersianColumn(world, ox + x, oy + 1, oz + z, 6, Material.QUARTZ_BLOCK);
@@ -753,15 +834,12 @@ public class StructureBuilder {
             Chest chest = (Chest) block.getState();
             chest.getInventory().clear();
 
-            // 1. Guaranteed legendary Persian sword
             if (plugin.getSwordsManager() != null) {
                 chest.getInventory().addItem(plugin.getSwordsManager().getRandomSword());
             }
-            // 2. Persian traditional food
             if (plugin.getFoodsManager() != null) {
                 chest.getInventory().addItem(plugin.getFoodsManager().getRandomFood());
             }
-            // 3. Persian historical relic / Derik coin
             chest.getInventory().addItem(PersianItems.getRandomPersianLoot());
             chest.getInventory().addItem(new ItemStack(Material.GOLD_NUGGET, random.nextInt(8) + 4));
             chest.update();

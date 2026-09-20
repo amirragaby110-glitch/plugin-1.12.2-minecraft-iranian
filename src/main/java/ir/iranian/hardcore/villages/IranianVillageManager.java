@@ -104,7 +104,7 @@ public class IranianVillageManager implements Listener {
         String line = villagerDialogues[random.nextInt(villagerDialogues.length)];
 
         float pitch = 0.9f + (random.nextFloat() * 0.3f);
-        ir.iranian.hardcore.utils.SpeechUtils.speak(villager, villagerName, line, Sound.ENTITY_VILLAGER_YES, pitch);
+        ir.iranian.hardcore.utils.SpeechUtils.playVoice(villager, Sound.ENTITY_VILLAGER_YES, pitch);
     }
 
     @EventHandler

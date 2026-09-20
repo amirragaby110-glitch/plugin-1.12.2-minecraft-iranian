@@ -43,7 +43,7 @@ public class HardcoreManager {
     public void setHardcoreHealth(Player player) {
         if (!isHardcoreEnabled()) return;
 
-        double maxHealth = plugin.getConfigManager().getDouble("hardcore.health.max-health", 10.0);
+        double maxHealth = plugin.getConfigManager().getDouble("hardcore.health.max-health", 20.0);
         try {
             AttributeInstance attr = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
             if (attr != null) {

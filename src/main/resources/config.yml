@@ -26,7 +26,7 @@ hardcore:
   enabled: true
   health:
     enabled: true
-    max-health: 10.0
+    max-health: 20.0
     disable-natural-regen: true
     faster-hunger: true
     hunger-drain-multiplier: 2.0
@@ -135,7 +135,7 @@ mobs:
 resourcepack:
   enabled: true
   auto-send-on-join: false
-  url: "https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases/download/v5.0.0/IranianHardcore-ResourcePack.zip"
+  url: "https://raw.githubusercontent.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/arena/01a0b98c-plugin-1-12-2-minecraft-irania/IranianHardcore-ResourcePack.zip"
   hash: ""
   prompt: true
 

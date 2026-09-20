@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "item/iranian/derik_tala"
+    "layer0": "items/iranian/derik_tala"
   }
 }

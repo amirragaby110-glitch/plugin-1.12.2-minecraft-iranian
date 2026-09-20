@@ -88,7 +88,7 @@ public class PersianStructures {
 
         // Floor 15x15
         fill(world, ox - 7, oy, oz - 7, ox + 7, oy, oz + 7, Material.WOOD);
-        fill(world, ox - 7, oy, oz - 7, ox + 7, oy, oz + 7, Material.CARPET, (byte) 14);
+        fill(world, ox - 4, oy + 1, oz - 4, ox + 4, oy + 1, oz + 4, Material.CARPET, (byte) 14);
 
         // Hojreha
         buildHojreh(world, ox - 6, oy, oz - 6);

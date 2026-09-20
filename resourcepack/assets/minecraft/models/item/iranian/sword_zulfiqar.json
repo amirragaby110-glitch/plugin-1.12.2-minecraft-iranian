@@ -1,6 +1,6 @@
 {
   "parent": "item/handheld",
   "textures": {
-    "layer0": "item/iranian/sword_zulfiqar"
+    "layer0": "items/iranian/sword_zulfiqar"
   }
 }

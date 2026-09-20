@@ -1,6 +1,6 @@
 {
   "parent": "item/generated",
   "textures": {
-    "layer0": "item/iranian/chai_lahijan"
+    "layer0": "items/iranian/chai_lahijan"
   }
 }

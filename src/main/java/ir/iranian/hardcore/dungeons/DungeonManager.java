@@ -53,13 +53,19 @@ public class DungeonManager {
     }
 
     public boolean generateDungeon(Location loc, DungeonType type) {
+        return generateDungeon(loc, type, false);
+    }
+
+    public boolean generateDungeon(Location loc, DungeonType type, boolean force) {
         if (loc == null || type == null) return false;
 
-        // Check distance from existing dungeons (min 400 blocks)
-        for (Location existing : generatedDungeons.values()) {
-            if (existing.getWorld().equals(loc.getWorld())) {
-                if (existing.distance(loc) < 400) {
-                    return false;
+        // Check distance from existing dungeons unless forced
+        if (!force) {
+            for (Location existing : generatedDungeons.values()) {
+                if (existing.getWorld() != null && existing.getWorld().equals(loc.getWorld())) {
+                    if (existing.distanceSquared(loc) < 160000) { // 400 blocks squared
+                        return false;
+                    }
                 }
             }
         }
@@ -111,7 +117,7 @@ public class DungeonManager {
         Location target = loc.clone().add(loc.getDirection().multiply(40));
         target.setY(player.getWorld().getHighestBlockYAt(target));
 
-        if (generateDungeon(target, type)) {
+        if (generateDungeon(target, type, true)) {
             player.sendMessage(MessageUtils.color("&8[&6Iran&8] &aDungeon-e Irani &6" + type.getFinglishName() + " &adar nazdiki-ye shoma sakhteh shod!"));
             player.sendMessage(MessageUtils.color("&7Mokhtasat: &f" + target.getBlockX() + ", " + target.getBlockY() + ", " + target.getBlockZ()));
             player.teleport(target.clone().add(0, 5, 0));

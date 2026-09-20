@@ -3,7 +3,6 @@ package ir.iranian.hardcore.listeners;
 import ir.iranian.hardcore.IranianHardcorePlugin;
 import ir.iranian.hardcore.dungeons.DungeonType;
 import ir.iranian.hardcore.utils.MessageUtils;
-import ir.iranian.hardcore.utils.SpeechUtils;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -100,8 +99,7 @@ public class DungeonListener implements Listener {
                     type = DungeonType.fromName(entry.getKey());
                 }
                 if (type != null) {
-                    SpeechUtils.sendTitle(p, "&6" + type.getFinglishName(), "&eBoss: " + type.getBossName(), 15, 60, 15);
-                    SpeechUtils.sendActionBar(p, "&6Nazdik shodid: &e" + type.getFinglishName() + " &7- &c" + type.getBossName());
+                    p.sendTitle(MessageUtils.color("&6" + type.getFinglishName()), MessageUtils.color("&eBoss: " + type.getBossName()), 15, 60, 15);
                     p.playSound(playerLoc, Sound.BLOCK_PORTAL_AMBIENT, 1.0f, 0.6f);
                 }
                 break;

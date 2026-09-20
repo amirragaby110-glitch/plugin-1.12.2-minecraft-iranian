@@ -74,15 +74,9 @@ public class BossFightManager implements Listener {
             boss.getEquipment().setChestplate(new ItemStack(Material.DIAMOND_CHESTPLATE));
         }
 
-        // Spawn announcement & music
+        // Spawn audio
         world.playSound(loc, Sound.ENTITY_WITHER_SPAWN, 1.0f, 0.8f);
-        ir.iranian.hardcore.utils.SpeechUtils.speak(boss, type.getBossName(), "Man " + type.getBossName() + " hastam! Hichkas zendeh az inja biroon nemiravad!", Sound.ENTITY_ENDERDRAGON_GROWL, 0.7f);
-
-        for (Player p : world.getPlayers()) {
-            if (p.getLocation().distance(loc) < 80) {
-                p.sendTitle(MessageUtils.color("&4&l[BOSS FIGHT]"), MessageUtils.color("&6" + type.getBossName() + " (Phase 1)"), 10, 50, 20);
-            }
-        }
+        ir.iranian.hardcore.utils.SpeechUtils.playVoice(boss, Sound.ENTITY_ENDERDRAGON_GROWL, 0.7f);
 
         return boss;
     }
@@ -127,36 +121,22 @@ public class BossFightManager implements Listener {
                 }
             }
 
-            ir.iranian.hardcore.utils.SpeechUtils.speak(boss, bossName, "Lashkar-e man be yari biyayid! Hame-ye doshmanan ro khord konid!", Sound.ENTITY_ENDERDRAGON_GROWL, 0.8f);
-
-            for (Player p : world.getPlayers()) {
-                if (p.getLocation().distance(boss.getLocation()) < 60) {
-                    p.sendTitle(MessageUtils.color("&c&lPHASE 2: ENRAGED"), MessageUtils.color("&e" + bossName + " lashkar farakhond!"), 10, 40, 10);
-                }
-            }
+            ir.iranian.hardcore.utils.SpeechUtils.playVoice(boss, Sound.ENTITY_ENDERDRAGON_GROWL, 0.8f);
         }
         // Transition to Phase 3 (20% HP)
         else if (healthRatio <= 0.20 && currentPhase == 2) {
             bossPhase.put(boss.getUniqueId(), 3);
             boss.setCustomName(MessageUtils.color("&4&l[BOSS - Phase 3] &6" + bossName + " &4&l(ULTIMATE)"));
 
-            boss.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 10000, 2));
-            boss.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 10000, 2));
+            boss.addPotionEffect(new PotionEffect(PotionEffectType.DAMAGE_RESISTANCE, 10000, 1));
+            boss.addPotionEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 10000, 1));
             boss.addPotionEffect(new PotionEffect(PotionEffectType.REGENERATION, 200, 1));
 
             World world = boss.getWorld();
             world.playSound(boss.getLocation(), Sound.ENTITY_WITHER_AMBIENT, 1.0f, 0.5f);
             world.spawnParticle(Particle.EXPLOSION_LARGE, boss.getLocation(), 5, 0.5, 0.5, 0.5, 0.1);
 
-            ir.iranian.hardcore.utils.SpeechUtils.speak(boss, bossName, "Marg bar shoma! Ta akharin ghatreh-ye khun migangam!", Sound.ENTITY_WITHER_SPAWN, 0.6f);
-
-            for (Player p : world.getPlayers()) {
-                if (p.getLocation().distance(boss.getLocation()) < 60) {
-                    p.sendTitle(MessageUtils.color("&4&lPHASE 3: ULTIMATE"), MessageUtils.color("&c" + bossName + " dar akharin lahazat!"), 10, 40, 10);
-                    // Push players back slightly
-                    p.setVelocity(p.getLocation().toVector().subtract(boss.getLocation().toVector()).normalize().multiply(1.2).setY(0.4));
-                }
-            }
+            ir.iranian.hardcore.utils.SpeechUtils.playVoice(boss, Sound.ENTITY_WITHER_SPAWN, 0.6f);
         }
     }
 
