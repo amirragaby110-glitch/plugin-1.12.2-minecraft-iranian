@@ -23,53 +23,30 @@
 [INFO] Compiling 40 source files to /home/runner/work/plugin-1.12.2-minecraft-iranian/plugin-1.12.2-minecraft-iranian/target/classes
 [INFO] /home/runner/work/plugin-1.12.2-minecraft-iranian/plugin-1.12.2-minecraft-iranian/src/main/java/ir/iranian/hardcore/structures/PersianStructures.java: Some input files use or override a deprecated API.
 [INFO] /home/runner/work/plugin-1.12.2-minecraft-iranian/plugin-1.12.2-minecraft-iranian/src/main/java/ir/iranian/hardcore/structures/PersianStructures.java: Recompile with -Xlint:deprecation for details.
-[INFO] -------------------------------------------------------------
-[ERROR] COMPILATION ERROR : 
-[INFO] -------------------------------------------------------------
-[ERROR] /home/runner/work/plugin-1.12.2-minecraft-iranian/plugin-1.12.2-minecraft-iranian/src/main/java/ir/iranian/hardcore/structures/PersianStructures.java:[39,19] cannot find symbol
-  symbol:   class Set
-  location: class ir.iranian.hardcore.structures.PersianStructures
-[ERROR] /home/runner/work/plugin-1.12.2-minecraft-iranian/plugin-1.12.2-minecraft-iranian/src/main/java/ir/iranian/hardcore/dungeons/DungeonManager.java:[31,19] cannot find symbol
-  symbol:   class Set
-  location: class ir.iranian.hardcore.dungeons.DungeonManager
-[ERROR] /home/runner/work/plugin-1.12.2-minecraft-iranian/plugin-1.12.2-minecraft-iranian/src/main/java/ir/iranian/hardcore/structures/PersianStructures.java:[39,54] cannot find symbol
-  symbol:   class HashSet
-  location: class ir.iranian.hardcore.structures.PersianStructures
-[ERROR] /home/runner/work/plugin-1.12.2-minecraft-iranian/plugin-1.12.2-minecraft-iranian/src/main/java/ir/iranian/hardcore/dungeons/DungeonManager.java:[31,54] cannot find symbol
-  symbol:   class HashSet
-  location: class ir.iranian.hardcore.dungeons.DungeonManager
-[INFO] 4 errors 
-[INFO] -------------------------------------------------------------
+[INFO] 
+[INFO] --- resources:3.4.0:testResources (default-testResources) @ iranian-hardcore ---
+[INFO] skip non existing resourceDirectory /home/runner/work/plugin-1.12.2-minecraft-iranian/plugin-1.12.2-minecraft-iranian/src/test/resources
+[INFO] 
+[INFO] --- compiler:3.8.1:testCompile (default-testCompile) @ iranian-hardcore ---
+[INFO] No sources to compile
+[INFO] 
+[INFO] --- surefire:3.5.4:test (default-test) @ iranian-hardcore ---
+[INFO] Tests are skipped.
+[INFO] 
+[INFO] --- jar:3.5.0:jar (default-jar) @ iranian-hardcore ---
+[INFO] Building jar: /home/runner/work/plugin-1.12.2-minecraft-iranian/plugin-1.12.2-minecraft-iranian/target/iranian-hardcore-5.3.0.jar
 [INFO] ------------------------------------------------------------------------
-[INFO] BUILD FAILURE
+[INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  4.923 s
-[INFO] Finished at: 2026-09-20T08:11:49Z
+[INFO] Total time:  5.952 s
+[INFO] Finished at: 2026-09-20T08:13:07Z
 [INFO] ------------------------------------------------------------------------
-[ERROR] Failed to execute goal org.apache.maven.plugins:maven-compiler-plugin:3.8.1:compile (default-compile) on project iranian-hardcore: Compilation failure: Compilation failure: 
-[ERROR] /home/runner/work/plugin-1.12.2-minecraft-iranian/plugin-1.12.2-minecraft-iranian/src/main/java/ir/iranian/hardcore/structures/PersianStructures.java:[39,19] cannot find symbol
-[ERROR]   symbol:   class Set
-[ERROR]   location: class ir.iranian.hardcore.structures.PersianStructures
-[ERROR] /home/runner/work/plugin-1.12.2-minecraft-iranian/plugin-1.12.2-minecraft-iranian/src/main/java/ir/iranian/hardcore/dungeons/DungeonManager.java:[31,19] cannot find symbol
-[ERROR]   symbol:   class Set
-[ERROR]   location: class ir.iranian.hardcore.dungeons.DungeonManager
-[ERROR] /home/runner/work/plugin-1.12.2-minecraft-iranian/plugin-1.12.2-minecraft-iranian/src/main/java/ir/iranian/hardcore/structures/PersianStructures.java:[39,54] cannot find symbol
-[ERROR]   symbol:   class HashSet
-[ERROR]   location: class ir.iranian.hardcore.structures.PersianStructures
-[ERROR] /home/runner/work/plugin-1.12.2-minecraft-iranian/plugin-1.12.2-minecraft-iranian/src/main/java/ir/iranian/hardcore/dungeons/DungeonManager.java:[31,54] cannot find symbol
-[ERROR]   symbol:   class HashSet
-[ERROR]   location: class ir.iranian.hardcore.dungeons.DungeonManager
-[ERROR] -> [Help 1]
-[ERROR] 
-[ERROR] To see the full stack trace of the errors, re-run Maven with the -e switch.
-[ERROR] Re-run Maven using the -X switch to enable full debug logging.
-[ERROR] 
-[ERROR] For more information about the errors and possible solutions, please read the following articles:
-[ERROR] [Help 1] http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
-Exit code: 1
-total 12K
-drwxr-xr-x 2 runner runner 4.0K Sep 20 08:11 classes
-drwxr-xr-x 3 runner runner 4.0K Sep 20 08:11 generated-sources
-drwxr-xr-x 3 runner runner 4.0K Sep 20 08:11 maven-status
+Exit code: 0
+total 272K
+drwxr-xr-x 3 runner runner 4.0K Sep 20 08:13 classes
+drwxr-xr-x 3 runner runner 4.0K Sep 20 08:13 generated-sources
+-rw-r--r-- 1 runner runner 255K Sep 20 08:13 iranian-hardcore-5.3.0.jar
+drwxr-xr-x 2 runner runner 4.0K Sep 20 08:13 maven-archiver
+drwxr-xr-x 3 runner runner 4.0K Sep 20 08:13 maven-status
 === JAR LIST ===
-ls: cannot access 'target/*.jar': No such file or directory
+-rw-r--r-- 1 runner runner 255K Sep 20 08:13 target/iranian-hardcore-5.3.0.jar
