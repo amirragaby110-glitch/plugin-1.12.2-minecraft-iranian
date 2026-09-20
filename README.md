@@ -2,11 +2,51 @@
 
 **Version 5.3.0** - Bozorgtarin update ba **System-e Afzayesh-e Daemi-ye Jan (Heart Containers ta 30 Ghalb!)**, **Asleheh-ha va Tajhizat-e Makhsoos-e Shekar-e Boss**, **Sazeh-haye Shokoohmand-e Bastani baraye Gasht-o-Gozar va Loot (Karvansara, Ab-Anbar, Chaikhaneh, Atashkadeh)**, va **Memari-ye Bi-Nazir va Raf'-e Kamel-e Bug-haye Biwld dar 30 Dungeon**!
 
-### 📥 Download Direct Link:
-- **Plugin Jar (v5.3.0)**: [IranianHardcore-5.3.0.jar](./IranianHardcore-5.3.0.jar)
-- **Plugin Jar (v5.2.0)**: [IranianHardcore-5.2.0.jar](./IranianHardcore-5.2.0.jar)
-- **Enhanced Resource Pack (v5.3.0)**: [IranianHardcore-ResourcePack.zip](./IranianHardcore-ResourcePack.zip)
+### 📥 Download Direct Links:
+- **Plugin Jar (v5.3.0)**:
+  - Repository link: [IranianHardcore-5.3.0.jar](./IranianHardcore-5.3.0.jar)
+  - Direct Raw Download: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/arena/01a0b98c-plugin-1-12-2-minecraft-irania/IranianHardcore-5.3.0.jar
+- **100% Persian Resource Pack (v5.3.0)**:
+  - Repository link: [IranianHardcore-ResourcePack.zip](./IranianHardcore-ResourcePack.zip)
+  - Direct Raw Download: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/arena/01a0b98c-plugin-1-12-2-minecraft-irania/IranianHardcore-ResourcePack.zip
 - **GitHub Release v5.3.0**: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases/tag/v5.3.0
+
+---
+
+## 🎨 100% Persian Historical Texture Overhaul (Resource Pack):
+این ریسورس‌پک تمام بافت‌های پیش‌فرض بازی (Vanilla) را بدون نیاز به هیچ پیش‌نیازی به تم اصیل ایرانی تبدیل می‌کند:
+1. **تمام شمشیرها (Vanilla Swords) ➔ شمشیرهای تاریخی ایران:**
+   - شمشیر الماس (Diamond Sword) ➔ شمشیر فولادی دمشقی کوروش با نگین فیروزه
+   - شمشیر آهن (Iron Sword) ➔ آکیناکه و شمشیر بابک خرمدین
+   - شمشیر طلا (Gold Sword) ➔ خنجر و شمشیر طلای شاهنشاهی هخامنشی
+   - شمشیر سنگ (Stone Sword) ➔ تیغه برنزی عیلامی
+   - شمشیر چوب (Wooden Sword) ➔ میل زورخانه و گرز پهلوانی
+2. **کمان و تیرها ➔ کمان سنبله و چوب مرغوب ایرانی و تیرهای با پر طاووس فیروزه‌ای**
+3. **غذاها و خوراک‌ها ➔ غذاهای سنتی ایرانی:**
+   - نان (Bread) ➔ نان سنگک کنجدی داغ با جای سنگ‌ریزه
+   - گوشت پخته (Cooked Beef) ➔ دو سیخ کباب کوبیده سنتی همراه با گوجه کبابی روی نان لواش
+   - انواع سوپ و خورشت (Stews) ➔ کاسه قورمه سبزی معطر با لوبیا چیتی و لیمو عمانی
+   - بطری و معجون‌ها ➔ مشک آب سنتی چرمی و قمقمه سفالی
+4. **سکه و جواهرات ➔ گنجینه‌های هخامنشی:**
+   - گلد ناگت (Gold Nugget) و شمش طلا ➔ سکه دریک طلای خالص هخامنشی با نماد کماندار شاهنشاهی
+   - سیب طلایی (Golden Apple) ➔ قلب بلورین سرخ (Heart Canister)
+   - ساعت (Clock) ➔ جام جم و اسطرلاب زرین جمشید
+5. **بلوک‌ها و فرش‌ها:**
+   - پشم و فرش قرمز (Red Wool/Carpet) ➔ قالی اصیل دستباف کاشان با ترنج سرمه‌ای و حاشیه اسلیمی
+   - پشم و فرش فیروزه‌ای (Cyan Wool) ➔ نقوش سنتی فرش نیشابور
+   - بلوک لاجورد (Lapis Block) ➔ کاشی‌کاری معرق هفت‌رنگ لاجوردی و فیروزه‌ای مساجد اصفهان
+6. **محیط زیست و آسمان:**
+   - خورشید (Sun) ➔ خورشید درخشان میترایی و نماد ۱۶ پرتو زرین
+   - ماه (Moon) ➔ ۸ حالت هلال و بدر مهتاب ایرانی
+   - باران، برف و ابرها ➔ قطرات فیروزه‌ای کریستالی و ابرهای ملایم
+7. **موجودات و غول‌ها (Mobs & Entities):**
+   - زامبی ➔ دیو سپید مازندران و سربازان جاویدان
+   - هاسک ➔ دیو سیاه کویر
+   - اسکلت ➔ رستم دستان با ببر بیان و کمانداران اشکانی
+   - ویتراسکلت ➔ حشاشین و فدائیان حسن صباح در قلعه الموت
+   - آیرون گالم ➔ کاوه آهنگر با پیش‌بند چرمی و پرچم درفش کاویانی
+8. **رابط کاربری (GUI):**
+   - هات‌بار طلایی اسلیمی با کادر انتخاب فیروزه‌ای سلطنتی
 
 ---
 
