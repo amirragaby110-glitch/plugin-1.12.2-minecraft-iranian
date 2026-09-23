@@ -1,6 +1,6 @@
-# Iranian Hardcore v5.4 - Pahlavani Zoorkhaneh, Akvan Div & Silk Road Edition 🇮🇷
+# Iranian Hardcore v5.4 - Achaemenid Empire & Military System 🇮🇷
 
-**Version 5.4.0** - Bozorgtarin update ba **System-e Pahlavani va Zoorkhaneh-ye Bastani**, **Boss-e Shahnameh Akvan Div**, **Qanat va Karez-e Kavir**, **Bazargan-e Jadeh-ye Abrisham**, **Atashkadeh-ye Bahram**, **Ashiyaneh-ye Simurgh-e Damavand**, **Logo-ye Ekhtesasi va Herfeh-i-ye 512x512**, va **Hajm-e Kamel-e 5 Megabyte baraye Resource Pack va Plugin**!
+**Version 5.4.0** - Bozorgtarin update ba **System-e Artesh va Sepah-e Hakhamaneshi**, **Tabdil-e Villager be Sarbaz**, **Sekkeh-haye Bastani (Danake, Siglos, Derik)**, **Taghvim-e Daghigh-e Khorshidi va Jashn-ha**, **Pishraft-e Tamaddon (Az Mohajer ta Shahanshahi)**, **Sandogh-haye Zirzamini**, **Logo-ye Ekhtesasi-ye 512x512**, va **Hajm-e 5 Megabyte baraye Resource Pack va Plugin**!
 
 ### 📥 Download Direct Links:
 - **Plugin Jar (v5.4.0 - 5.0 MB)**:
@@ -13,41 +13,82 @@
 
 ---
 
-## 🌟 Vizhegi-haye Jadid va Asil-e Irani dar v5.4:
+## 🌟 Vizhegi-haye Shahkar-e Achaemenid Empire dar v5.4:
 
-### 🏛️ 1. Zoorkhaneh-ye Bastani va Rasm-e Pahlavani
-- **Sazeh-ye Goud-e Zoorkhaneh:** Sazeh-ye 14x14 ba dezh-e choobi, goud-e hasht-zeli-ye fooroo-rafteh, farsh-haye sonnati, zang-e morshed va mo محافظ Pahlavan-e Zoorkhaneh (Iron Golem).
-- **Rasm-e Shena-ye Zoorkhaneh:** Bazikon ba 5 bar Sneak kardan dar goud-e zoorkhaneh, navaye Zarb-e Morshed ra shenideh va barakat-e Pahlavani (Strength II, Absorption II, Resistance I baraye 3 daghigheh) daryaft mikonad!
-- **Meel-e Bastani-ye Pahlavani:** Gorz-e geran-baha ba Knockback III va ghabeliat-e Ground Slam (Right-Click) ke zamin ra be larzeh dar avardeh va 12 damage AoE vared mikonad.
-- **Kabbadeh-ye Pouladin:** Kaman va zanjir-e ahanin ke tir-haye doshman ra be tore khodkar daf karde va Iron Skin e'ta mikonad.
-- **Zang-e Zoorkhaneh:** Zang-e boronzi ba seday-e tanin-andaz ke tamam-e asarat-e manfi (Poison, Wither, Weakness, Slowness) ra paksazi karde va hayoola-ha ra ba amvaj-e soti be aghab partab mikonad!
-
----
-
-### 🔥 2. Atashkadeh-ye Bahram va Nour-e Khorshid
-- **Mehrab-e Atash-e Javidan:** Dar atashkadeh-haye Sasani, bazikon mitavanad ba hedieh dadan-e choob ya Zaferan be atash-e moghaddas, barakat-e "Nour-e Khorshid" daryaft konad.
-- **Hefazat-e Kamel dar Barabar-e Sarma:** In barakat 10 daghigheh Night Vision va Fire Resistance dadeh va bazikon ra dar barabar-e sarmaye koshayeh barf va koohestan 100% masoon mikonad!
-
----
-
-### 💧 3. Qanat va Karez-e Kavir (Aab-e Govara-ye Zirzamini)
-- **Sazeh-ye Mohandesi-ye Bastani-ye Iran:** Chah-haye amigh dar kavir ke ba peleh-haye sangi ta 14 block be zir-e zamin miravand.
-- **Kanal-e Aab-e Khonak:** Aab-e rovan-e qanat teshnegi ra 100% bartaraf karde va 3 ghalb jan-e bazikon ra fowran por mikonad.
-- **Sandogh-e Ganj-e Qanat:** Shamel-e Golab-e Ghamsar, Zaferan-e Qaen, Mashk-e Aab va shemsh-haye tala.
-
----
-
-### 🐫 4. Bazargan-e Jadeh-ye Abrisham (Silk Road Traveling Merchant)
-- Bazargan-e sayyar-e Irani ke dar karvansara-ha va rah-ha ba shutur va olagh-e bar-kesh dideh mishavad.
-- Kharid va forosh-e mahsoolat-e asil-e Iran:
-  - **Zaferan-e Qaen (Talay-e Sorkh)**
-  - **Golab-e Do-Atasheh-ye Ghamsar-e Kashan** (Raf'-e kamel-e teshnegi va paksazi-ye samoom)
-  - **Pesteh-ye Khandan-e Rafsanjan** (Khorak-e moghavi ba Speed II)
-  - **Firoozeh-ye Neyshaboor** va **Meel-e Bastani**
+### ⚔️ ۱. سیستم ارتش، تبدیل Villager به سرباز و آرایش‌های نظامی (Soldier & Army)
+- **تبدیل هوشمند Villager به سرباز:**
+  - با در دست داشتن **سکه هخامنشی (دریک، سیگلوس یا داناکه)** و راست‌کلیک روی روستایی (Villager)، او با تشریفات نظامی و افکت‌های صوتی اصیل به یک سرباز وفادار تبدیل می‌شود!
+  - سیستم کاملاً محافظت‌شده و ضد Exploit: بررسی سلامت، سن (عدم تبدیل کودک)، ظرفیت ارتش، و کسر امن سکه.
+- **۷ کلاس نظامی تاریخی ایران:**
+  1. **Javidan (Immortal Guard):** سرباز جاویدان شاهنشاهی با زره زرین، شمشیر الماس و سپر.
+  2. **Neyzehdar-e Mad (Spearman):** پیاده‌نظام نیزه‌دار ماد با برد ضربه بالا علیه سواره‌نظام.
+  3. **Kamandar-e Pars (Archer):** کماندار چابک با کمان کامپوزیت هخامنشی و دقت تیراندازی بالا.
+  4. **Separdar-e Sangin (Shield Bearer):** دژ متحرک خط مقدم با سپر سنگین و ۶۰ HP برای جذب ضربات.
+  5. **Savaran-e Asil (Cavalry):** سواره‌نظام اصیل پارس با سرعت فوق‌العاده و یورش غافلگیرکننده.
+  6. **Gord-e Shahanshahi (Royal Guard):** محافظان نخبه دربار با زره الماسی و ۸۰ HP.
+  7. **Sepahbod-e Artesh (Commander):** فرمانده میدان جنگ با ۱۰۰ HP و توانایی تقویت سربازان مجاور.
+- **سیستم ارتقای سطح سربازان (Level 1 تا 10):**
+  - با ارتقای سطح، جان، قدرت ضربه (Damage) و زره سرباز به شکل چشمگیری افزایش می‌یابد.
+- **آرایش‌های تاکتیکی نظامی (Tactical Formations):**
+  - **Line (صف خطی):** استقرار در دو جناح فرمانده.
+  - **Wall (دیواره سپری):** صف متراکم دفاعی در جلوی فرمانده.
+  - **Wedge (پیکان نفوذی):** آرایش V شکل برای شکافتن خطوط دشمن.
+  - **Circle (حلقه محاصره):** پوشش ۳۶۰ درجه‌ای اطراف بازیکن.
+  - **Defensive Box (مربع جنگی):** استقرار دفاعی فشرده.
+- **فرمان‌های رزمی:**
+  - `Follow` (پیروی)، `Stay` (ایستادن)، `Guard` (نگهبانی منطقه‌ای)، `Attack` (حمله همه‌جانبه)، `Defend` (دفاع خودکار از بازیکن هنگام آسیب).
+- **منوی گرافیکی پیشرفته ارتش:** با دستور `/army` یا `/army gui`.
 
 ---
 
-### 🌪️ 5. Boss-e Shahnameh: Akvan Div (Whirlwind Demon)
+### 🪙 ۲. سیستم اختصاصی مسکوکات هخامنشی (Achaemenid Coinage)
+واحد پول واقعی و تاریخی با بافت و مدل اختصاصی و امنیت ضد تکثیر (Anti-Duplication Security Hash):
+1. **Danake-ye Boronzi (داناکه برنزی):** ارزش ۱ واحد - سکه خرد برای نان و مبادلات روزمره.
+2. **Siglos-e Noghre-i (سیگلوس نقره):** ارزش ۱۰ واحد - سکه استاندارد شاهی هخامنشی.
+3. **Sekkeh Derik-e Hakhamaneshi (دریک طلا):** ارزش ۱۰۰ واحد - طلای خالص داریوش بزرگ با نقش کماندار پارسی.
+4. **Derik-e Shahanshahi (دریک رویال شاهنشاهی):** ارزش ۱۰۰۰ واحد - شمش و مسکوک زرین سلطنتی.
+- دستور بررسی موجودی: `/iranian coin` یا `/bazaar`.
+
+---
+
+### 📅 ۳. تقویم خورشیدی و جشن‌های باستانی ایران (Persian Calendar)
+- **الگوریتم دقیق ریاضی خیام-بیرشک:** تبدیل دوطرفه تاریخ میلادی ↔ خورشیدی بدون ۱ روز خطا!
+- محاسبه دقیق سال‌های کبیسه ۳۶۶ روزه (مانند ۱۳۹۹، ۱۴۰۳، ۱۴۰۸) و طول دقیق ماه‌ها (فروردین تا شهریور ۳۱ روز، مهر تا بهمن ۳۰ روز، اسفند ۲۹ یا ۳۰ روز).
+- **رویدادهای فصلی و جشن‌های باستانی در بازی:**
+  - **نوروز (۱ فروردین):** عید باستانی با افکت‌های سرعت و بازسازی سلامت سرتاسری.
+  - **تیرگان (۱۰ تیر):** جشن آب و کمانداری آرش کمانگیر با تقویت آسیب تیر و کمان.
+  - **مهرگان (۱۶ مهر):** جشن پیروزی کاوه بر ضحاک با تقویت قدرت ضربه.
+  - **شب یلدا (۳۰ آذر):** زایش خورشید با افکت دید در شب و اشباع غذا.
+  - **جشن سده (۱۰ بهمن):** پیدایش آتش با مصونیت کامل در برابر آتش.
+  - **سپندارمذگان (۵ اسفند):** روز زمین و پاکی با بازسازی سریع جان.
+- مشاهده تقویم و منوی جشن‌ها: `/calendar` یا `/calendar gui`.
+
+---
+
+### 👑 ۴. سیستم پیشرفت تمدن ایران (Civilization Progression)
+بازیکن از یک ماجراجوی چادرنشین به امپراتور ایران ارتقا می‌یابد:
+1. **Mohajer (Nomad):** رتبه آغازین | سقف ارتش: ۳ سرباز
+2. **Abadi-ye Pars (Settlement):** ۵۰ دریک | سقف ارتش: ۶ سرباز
+3. **Dehkadeh (Village):** ۲۰۰ دریک + ۳ سرباز | سقف ارتش: ۱۲ سرباز | آنلاک کماندار و نیزه‌دار
+4. **Shahr-e Mostahkam (Fortified Town):** ۶۰۰ دریک + ۸ سرباز + ۱ باس | سقف ارتش: ۲۰ سرباز | آنلاک سواره‌نظام
+5. **Satrap-neshin (Imperial Satrapy):** ۱۵۰۰ دریک + ۱۵ سرباز + ۲ باس | سقف ارتش: ۳۵ سرباز | آنلاک گارد جاویدان
+6. **Shahanshahi-ye Hakhamaneshi (Empire):** ۴۰۰۰ دریک + ۲۵ سرباز | سقف ارتش: ۵۰ سرباز | آنلاک سپهبد ارتش
+- مشاهده منوی تمدن: `/civilization` یا `/civ gui`.
+
+---
+
+### 💎 ۵. کاوش‌های زیرزمینی و صندوق‌های مخفی پارسی (Underground Vaults)
+- بدون شلوغ کردن سطح زمین و تخریب اسپاون؛ اتاقک‌های سنگی کهن در اعماق زمین (Y < 45) به طور طبیعی ایجاد می‌شوند.
+- لوت صندوقچه‌ها بر اساس عمق زمین تفکیک شده است:
+  - **عمق ۳۵ تا ۴۵:** داناکه برنزی، ابزارهای اولیه، پسته و مشک آب.
+  - **عمق ۲۰ تا ۳۴:** سیگلوس نقره، زعفران قائنات، شمشیر بابک و زمرد.
+  - **عمق ۵ تا ۱۹ (سرداب شاهنشاهی):** دریک طلای شاهی، سنگ اکوان دیو، تیغ دیوکش و الماس.
+
+---
+
+### 🎨 ۶. لوگوی اختصاصی و تنظیم دقیق حجم به ۵ مگابایت
+- **لوگوی باکیفیت ۵۱۲×۵۱۲:** نشان شیر و خورشید، بال‌های فروهر، قاب طلایی و کتیبه زیبای IRANIAN HARDCORE.
+- **حجم دقیق فایل‌ها:** هر دو فایل `IranianHardcore-5.4.0.jar` و `IranianHardcore-ResourcePack.zip` دارای حجم استاندارد **۵.۰ مگابایت** هستند.
 - Div-e bad va toofan dar ghoor-haye kaviri va biyaban-ha.
 - **Hamleh-ye Gerd-bad:** Gerd-bad-haye sahra-i ijad karde va bazikonan ra be hava partab mikonad.
 - **Loot-e Takhti:** Drop kardan-e **Sang-e Gerd-bad-e Akvan Div** ke be bazikon emkan-e Presh-e Dobareh (Double Jump) dar hava ra midahad va asib-e soghoot ra sefr mikonad!
