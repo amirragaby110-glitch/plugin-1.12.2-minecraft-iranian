@@ -16,7 +16,7 @@
 [INFO] --- clean:3.2.0:clean (default-clean) @ iranian-hardcore ---
 [INFO] 
 [INFO] --- resources:3.4.0:resources (default-resources) @ iranian-hardcore ---
-[INFO] Copying 3 resources from src/main/resources to target/classes
+[INFO] Copying 114 resources from src/main/resources to target/classes
 [INFO] 
 [INFO] --- compiler:3.8.1:compile (default-compile) @ iranian-hardcore ---
 [INFO] Changes detected - recompiling the module!
@@ -38,15 +38,15 @@
 [INFO] ------------------------------------------------------------------------
 [INFO] BUILD SUCCESS
 [INFO] ------------------------------------------------------------------------
-[INFO] Total time:  9.895 s
-[INFO] Finished at: 2026-09-23T17:59:25Z
+[INFO] Total time:  4.356 s
+[INFO] Finished at: 2026-09-23T18:50:42Z
 [INFO] ------------------------------------------------------------------------
 Exit code: 0
-total 5.2M
-drwxr-xr-x 4 runner runner 4.0K Sep 23 17:59 classes
-drwxr-xr-x 3 runner runner 4.0K Sep 23 17:59 generated-sources
--rw-r--r-- 1 runner runner 5.1M Sep 23 17:59 iranian-hardcore-5.4.0.jar
-drwxr-xr-x 2 runner runner 4.0K Sep 23 17:59 maven-archiver
-drwxr-xr-x 3 runner runner 4.0K Sep 23 17:59 maven-status
+total 6.7M
+drwxr-xr-x 5 runner runner 4.0K Sep 23 18:50 classes
+drwxr-xr-x 3 runner runner 4.0K Sep 23 18:50 generated-sources
+-rw-r--r-- 1 runner runner 6.7M Sep 23 18:50 iranian-hardcore-5.4.0.jar
+drwxr-xr-x 2 runner runner 4.0K Sep 23 18:50 maven-archiver
+drwxr-xr-x 3 runner runner 4.0K Sep 23 18:50 maven-status
 === JAR LIST ===
--rw-r--r-- 1 runner runner 5.1M Sep 23 17:59 target/iranian-hardcore-5.4.0.jar
+-rw-r--r-- 1 runner runner 6.7M Sep 23 18:50 target/iranian-hardcore-5.4.0.jar
