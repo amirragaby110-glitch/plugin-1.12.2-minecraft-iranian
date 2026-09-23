@@ -1,15 +1,92 @@
-# Iranian Hardcore v5.4 - Achaemenid Empire & Military System 🇮🇷
+# Iranian Hardcore v5.4.0 - Persian HD Visual Assets & Monumental Architecture 🇮🇷
 
-**Version 5.4.0** - Bozorgtarin update ba **System-e Artesh va Sepah-e Hakhamaneshi**, **Tabdil-e Villager be Sarbaz**, **Sekkeh-haye Bastani (Danake, Siglos, Derik)**, **Taghvim-e Daghigh-e Khorshidi va Jashn-ha**, **Pishraft-e Tamaddon (Az Mohajer ta Shahanshahi)**, **Sandogh-haye Zirzamini**, **Logo-ye Ekhtesasi-ye 512x512**, va **Hajm-e 5 Megabyte baraye Resource Pack va Plugin**!
+**Version 5.4.0** - Bozorgtarin bar-resani-ye grafiki va memari-ye tarikh-e plugin ba **Basteh-ye Taksture HD (Farsh-haye Asil, Kashi-haye Moarragh, Sang-haye Takht-e Jamshid, Asleheh va Ghazaha)**, **Sazeh-haye Shokoohmand-e Bastani (Apadana, Aramgah-e Kourosh, Karvansara-ye Shah Abbasi, Ab-Anbar-e Yazdi, Zoorkhaneh, Chahar-Taq va Qanat)**, **Sepah-e Hakhamaneshi**, **Taghvim-e Daghigh-e Khorshidi**, va **Sekkeh-haye Bastani**!
 
 ### 📥 Download Direct Links:
-- **Plugin Jar (v5.4.0 - 5.0 MB)**:
+- **Plugin Jar (v5.4.0)**:
   - Repository link: [IranianHardcore-5.4.0.jar](./IranianHardcore-5.4.0.jar)
   - Direct Download: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/arena/01a0b98c-plugin-1-12-2-minecraft-irania/IranianHardcore-5.4.0.jar
-- **100% Persian Resource Pack ba Logo (v5.4.0 - 5.0 MB)**:
+- **Authentic Persian HD Resource Pack (v5.4.0)**:
   - Repository link: [IranianHardcore-ResourcePack.zip](./IranianHardcore-ResourcePack.zip)
   - Direct Download: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/arena/01a0b98c-plugin-1-12-2-minecraft-irania/IranianHardcore-ResourcePack.zip
-- **Plugin Jar (v5.3.0 - 5.0 MB)**: [IranianHardcore-5.3.0.jar](./IranianHardcore-5.3.0.jar)
+
+---
+
+## 🏛️ Sazeh-haye Shokoohmand va Memari-ye Asil-e Bastani (Monumental Persian Architecture):
+Sazeh-ha be tore kamel va vaghe-gerayaneh ba ab'ad-e bozorg, paye-haye mohkam, noorpardazi va sandogh-haye ghanimat tarahi shodeand va dar jahan spawn mishavand ya ba `/iranian structure <type>` sakhte mishavand:
+1. **Takht-e Jamshid (Apadana Palace - 40x40):**
+   - Sakooye azim-e sangi ba 2 rafe pellekani-ye taqarob-dar mesle pelekan-e kakh-e Apadana.
+   - 16 Sotoon-e boland-e shiyar-dar ba sar-sotoon-haye do-sar-e gav (Double Bull Capitals) va saghf-e choobi-ye choob-e sedr.
+   - Takht-e Shahanshahi-ye Kourosh va Daryoosh ba farsh-e zarbaft, atashdan-haye mardangahi va gard-haye javidan.
+   - Sardab va khazaneh-ye makhfi dar zir-e platform ba sandogh-haye tala va aslehe-haye bastani.
+2. **Aramgah-e Kourosh-e Bozorg dar Pasargad (Cyrus Tomb):**
+   - 6 Pelleh-ye sang-e aheki-ye azim ba ab'ad-e daghigh-e tarikhi (az 24x20 ta 10x14).
+   - Otagh-e sangi-ye ajorin ba saghf-e shervani-ye shib-dar va dargah-e kootah.
+   - Daroon-e otagh: Taboot-e sangi-ye Kourosh, **Manshoor-e Kourosh-e Bozorg (Cyrus Cylinder)**, Taj-e Kourosh va Derik-haye Shahanshahi.
+3. **Karvansara-ye Shah Abbasi (36x36 4-Iwan Fortress):**
+   - Dezh-e chahar-iwan ba 4 borj-e modavvar-e didbani dar goosheh-ha va jangedan-haye rooye divar.
+   - Heyat-e markazi ba Hoz-e Firoozeh-i va favvareh.
+   - 8 Hojreh-ye aqamati ba farsh-e Kermani, takht va sandogh-haye bazarganan-e Jadeh-ye Abrisham.
+   - Villager-e Bazargan va Darogheh-ye Karvansara.
+4. **Ab-Anbar-e Yazdi (4-Badgir Cistern):**
+   - 4 Badgir-e boland-e 24-blooke ba havakesh-haye sonnati baraye khonak kardan-e ab.
+   - Gonbad-e ajorin va makhzan-e amigh-e 14x14 ba 12 meter omgh va aab-e khonak va govara.
+   - 24 Pelleh-ye sangi baraye forood be gha'r-e ab-anbar va daryafte Golab-e Ghamsar va Morvarid.
+5. **Atashkadeh-ye Sasanian (Chahar-Taq Dome):**
+   - Chahar-taq-e gonbadi ba 4 payeh-ye ghotour-e sangi va ghoos-haye sasani.
+   - Gonbad-e ajorin va atashdan-e Atash-e Bahram ba sholeh-ye javidan.
+   - Mobed-e Zartoshti va sandogh-e Zaferan va Atash-e Moghaddas.
+6. **Zoorkhaneh-ye Bastani:**
+   - Emarat-e ajorin ba gonbad-e hasht-zeli va hoorno (noorgir-e shisheh-i).
+   - Goud-e hasht-zeli-ye 2 meter amigh ba farsh-haye sonnati va meel-e bastani.
+   - Sardam-e Morshed ba Zarb va Zang-e Berenji-ye Zoorkhaneh va Pahlavan-e Negahban.
+7. **Qanat-e Kavir (Subterranean Aqueduct Network):**
+   - 3 Chah-e ab dar sateh-ye zamin motasel be kanāl-e 40-blooke-ye zirzamini dar omgh-e 14 metri ba ab-e jari va Mashk-e Ab.
+8. **Bazar-e Sonnati:** Timcheh-ye ajorin ba 4 hojreh-ye kasb-o-kar (Farsh, Javaherat, Ahangari, Attari).
+9. **Chaykhaneh-ye Sonnati:** Emarat-e ajorin ba takht-haye choobi, farsh, samavar va Chaychi.
+
+---
+
+## 🎨 Basteh-ye Taksture HD-ye Asil-e Irani (HD Resource Pack):
+Takstur-haye bi-khalal va bi-nazir ba deghat-e 64x64, 128x128 va 512x512:
+- **16 Farsh-e Dastbaf-e Asil-e Iran (baraye tamam-e 16 rang-e Wool va Carpet):**
+  - **Ghermez (Red):** Farsh-e Shah Abbasi-ye Kashan ba toranj-e talaee va hashiyeh-ye sormeh-i.
+  - **Abi (Blue):** Farsh-e Sheikh Lotfollah-e Isfahan ba shams-e firoozeh-i va eslimi.
+  - **Firoozeh-i (Cyan):** Farsh-e Nain ba zamineh-ye keremi va abrisham-e firoozeh-i.
+  - **Narenji (Orange):** Farsh-e Tabriz ba tarh-e shekargah va lachak-toranj.
+  - **Sorabi (Magenta):** Farsh-e Ravar-e Kerman ba hezar-gol.
+  - **Banafshe (Purple):** Farsh-e tamam abrisham-e Qom.
+  - **Zard (Yellow):** Farsh-e Yazdi ba tarh-e derakht-e sarv va anar.
+  - **Ghahve-i (Brown):** Gelim-e ghashghaee-ye Shiraz ba tarh-haye hendesi va morgh-e toofan.
+  - **Sabz (Green):** Farsh-e baghi-ye Bakhtiari ba kheshti-haye golestan.
+  - **Limooei (Lime):** Gelim-e Lorestan ba namad-e ghoch va khorshid.
+  - **Sefid (White):** Farsh-e abrisham-e sepid ba neshān-e Faravahar.
+  - **Tosi (Silver):** Farsh-e Torkaman Bokhara ba gol-haye hasht-goosh.
+  - **Meshki (Black):** Farsh-e Sarogh-e shab ba zamineh-ye zoghali va gol-haye sorkh.
+- **16 Kashi-ye Moarragh va Haft-Rang (Glazed Terracotta):**
+  - Kashi-haye hendesi-ye Girih ba setareh-haye 10-par, shams-e talaee, va لعاب firoozeh-i va lajevardi.
+- **Sang-haye Bastani-ye Takht-e Jamshid:**
+  - **Sandstone Carved:** Naghsh-e barjasteh-ye Gav-e Bal-dar (Lamassu) dar sang-e aheki.
+  - **Red Sandstone Carved:** Katibeh-ye khat-e mikhi-ye Daryoosh va Khashayarsha.
+  - **Quartz Column:** Sotoon-haye shiyar-dar-e Apadana ba sar-sotoon-e do-sar-e gav.
+  - **Stonebrick Carved:** Sang-e geranit ba neshān-e Faravahar.
+- **Asleheh va Tajhizat-e HD:**
+  - **Shamshir-e Almas:** Shamshir-e Div-Kosh ba tigheh-ye fowlad-e Damashqi (Wootz), dast-e tala ba negin-e firoozeh va yaqoot.
+  - **Shamshir-e Tala:** Akinakes-e Shahanshahi-ye Kourosh ba ghelaaf-e zar-negar.
+  - **Shamshir-e Ahan:** Zulfiqar-e do-dam ba khattat-e zarrin.
+  - **Gorz-e Sang:** Gorz-e Gav-sar-e Rostam ba shakh-haye berenji.
+  - **Meel-e Choob:** Meel-e Zoorkhaneh az choob-e gerdo.
+  - **Kaman va Tir:** Kaman-e morakkab-e Arash ba par-e tavoos-e Simurgh.
+  - **Separ:** Separ-e Derafsh-e Kaviani ba setareh-ye 4-rang va rish-haye abrishami.
+- **Ghazaha va Khorak-haye HD:**
+  - **Naan (Bread):** Naan-e Sangak-e bereshteh ba konjed-e siah va safeed va jaye sang-rizeh.
+  - **Goosht (Cooked Beef):** Chelo Kabab Koobideh ba gojjeh kababi va sumaq.
+  - **Morgh (Cooked Chicken):** Joojeh Kabab-e zaferani ba limoo.
+  - **Ash va Khoresh (Stews):** Khoresht-e Ghormeh Sabzi dar kaseh-ye sofali va Dizi-e Sangi ba nokhod va goosht.
+  - **Sib (Apple):** Anar-e Saveh-ye ghermez-e daneh-shodeh ba daneh-haye yaqooti va taj-e talaee.
+  - **Nooshidani (Potion):** Mashk-e Ab-e charmi ba darpoosh-e berenji.
+- **Sekkeh-haye Bastani-ye HD:** Danake-ye mesi, Siglos-e noghre ba naghsh-e kamandar, Derik-e talaee-ye Daryoosh, va Firoozeh-ye Neyshaboor.
+- **Aseman va Mohit:** Khorshid-e derakhshan-e Mitra ba 16 partov-e zarrin, 8 halat-e mahtaab, va Logo-ye 512x512-ye Faravahar dar Takht-e Jamshid.
 
 ---
 
