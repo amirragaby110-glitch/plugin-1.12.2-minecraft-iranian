@@ -88,7 +88,7 @@ public class CivilizationManager {
         saveData();
 
         player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.5f, 1.0f);
-        MessageUtils.sendTitle(player, "&6&lTAMADDON-E IRAN", "&aErtegha be: &e" + next.getDisplayName(), 10, 60, 20);
+        player.sendTitle(MessageUtils.color("&6&lTAMADDON-E IRAN"), MessageUtils.color("&aErtegha be: &e" + next.getDisplayName()), 10, 60, 20);
         player.sendMessage(MessageUtils.color("&8[Tamaddon] &aTabrik! Martabeh-ye tammadoni-ye shoma be &e" + next.getDisplayName() + " &aertegha yaft!"));
         player.sendMessage(MessageUtils.color("&8[Tamaddon] &7Zarfiat-e Artesh: &b" + next.getMaxSoldiers() + " Sarbaz"));
         return true;

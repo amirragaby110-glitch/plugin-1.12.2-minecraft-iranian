@@ -69,7 +69,7 @@ public class ArmyManager implements Listener {
         if (coin == null) return;
 
         Villager villager = (Villager) clicked;
-        if (!villager.isValid() || villager.isDead() || villager.isBaby()) return;
+        if (!villager.isValid() || villager.isDead() || !villager.isAdult()) return;
 
         // Check if already a soldier
         if (entitySoldierMap.containsKey(villager.getUniqueId())) {
