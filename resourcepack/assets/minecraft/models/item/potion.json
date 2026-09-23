@@ -1,0 +1,27 @@
+{
+  "parent": "item/generated",
+  "textures": {
+    "layer0": "items/potion_overlay",
+    "layer1": "items/potion_bottle_drinkable"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "custom_model_data": 1
+      },
+      "model": "item/iranian/mashk_ab"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 2
+      },
+      "model": "item/iranian/canteen"
+    },
+    {
+      "predicate": {
+        "custom_model_data": 3
+      },
+      "model": "item/iranian/chai_lahijan"
+    }
+  ]
+}

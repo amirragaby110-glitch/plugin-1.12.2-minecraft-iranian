@@ -33,10 +33,9 @@ public class ResourcePackManager implements Listener {
         resourcePackUrl = plugin.getConfigManager().getString("resourcepack.url", "");
         resourcePackHash = plugin.getConfigManager().getString("resourcepack.hash", "");
 
-        // If no URL set, use default GitHub raw link for resource pack
+        // If no URL set, use direct raw link for resource pack
         if (resourcePackUrl.isEmpty()) {
-            // Default resource pack will be generated and hosted via GitHub
-            resourcePackUrl = "https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/main/resourcepack/IranianHardcore-ResourcePack.zip";
+            resourcePackUrl = "https://raw.githubusercontent.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/arena/01a0b98c-plugin-1-12-2-minecraft-irania/IranianHardcore-ResourcePack.zip";
         }
 
         plugin.getLogger().info("ResourcePack URL: " + (resourcePackUrl.isEmpty() ? "Disabled" : resourcePackUrl));

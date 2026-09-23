@@ -8,493 +8,301 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * انواع دانجن‌های ایرانی تاریخی - نسخه 3.0
- * 16 دانجن برای پوشش تمام بایوم‌های ماینکرافت 1.12.2
- * هر بایوم یک دانجن ایرانی دارد - کاملا فارسی
- * بر اساس تاریخ واقعی 7000 ساله ایران
+ * 30 Historical Iranian Dungeons (v5.0 Finglish)
+ * Covers every biome in Minecraft 1.12.2 with authentic 7,000-year Iranian history.
+ * Completely Finglish, zero Persian Unicode characters.
  */
 public enum DungeonType {
 
-    // ========== 8 دانجن اصلی نسخه 2.0 ==========
-
     ALAMUT_CASTLE(
-            "ALAMUT_CASTLE",
-            "Ghale Alamoat",
-            "Alamut Castle",
-            "قلعه افسانه‌ای حسن صباح در البرز",
+            "ALAMUT_CASTLE", "Ghale Alamoat", "Alamut Castle", "Ghale-ye afsanehi-ye Hassan Sabbah dar Alborz",
             Material.COBBLESTONE,
-            Arrays.asList(
-                    Biome.EXTREME_HILLS,
-                    Biome.MUTATED_EXTREME_HILLS,
-                    Biome.EXTREME_HILLS_WITH_TREES,
-                    Biome.SMALLER_EXTREME_HILLS
-            ),
-            Arrays.asList(
-                    "&8&l🏔 قلعه الموت - آشیانه عقاب",
-                    "&7قلعه‌ای نفوذناپذیر بر فراز صخره‌های البرز",
-                    "&7ساخته شده توسط حسن صباح، رهبر اسماعیلیان",
-                    "&7در سال 1090 میلادی",
-                    "",
-                    "&c&lباس: &fحسن صباح - پیر کوهستان",
-                    "&c&lسختی: &4★★★★★",
-                    "&e&lلوت: &fشمشیر الموت، کتاب‌های اسماعیلی",
-                    "",
-                    "&8&lموقعیت تاریخی: &7الموت، قزوین - 2100 متر ارتفاع"
-            ),
-            "حسن صباح",
-            5,
-            25, 20, 25
-    ),
+            Arrays.asList(Biome.EXTREME_HILLS, Biome.MUTATED_EXTREME_HILLS, Biome.EXTREME_HILLS_WITH_TREES, Biome.SMALLER_EXTREME_HILLS),
+            Arrays.asList("&8&lGhale Alamoat - Ashiyaneh Oghab", "&7Ghale-ye nofooz-napazir bar faraz-e sakhreh-haye Alborz",
+                    "&7Sakhteh-shodeh tavasot-e Hassan Sabbah dar saal-e 1090 Miladi", "&cBoss: &fHassan Sabbah - Pir-e Kohestan",
+                    "&cSakhti: &4★★★★★", "&eLoot: &fShamshir-e Alamoat, Ketab-haye Ismaili"),
+            "Hassan Sabbah", 5, 25, 20, 25),
 
     ANAHITA_TEMPLE(
-            "ANAHITA_TEMPLE",
-            "Maabade Anahita",
-            "Anahita Temple",
-            "معبد الهه آب‌های ایران باستان",
+            "ANAHITA_TEMPLE", "Maabade Anahita", "Anahita Temple", "Maabad-e bastani-ye Elaheh-ye Ab dar Kangavar",
             Material.SMOOTH_BRICK,
-            Arrays.asList(
-                    Biome.FOREST,
-                    Biome.FOREST_HILLS,
-                    Biome.BIRCH_FOREST,
-                    Biome.ROOFED_FOREST,
-                    Biome.JUNGLE,
-                    Biome.MUTATED_FOREST
-            ),
-            Arrays.asList(
-                    "&b&l🏛 معبد آناهیتا - الهه آب",
-                    "&7بزرگترین معبد سنگی ایران، الهه آب و باروری",
-                    "&7ساخته شده در دوره هخامنشی و اشکانی",
-                    "&7در کنگاور، کرمانشاه",
-                    "",
-                    "&c&lباس: &fکاهن اعظم آناهیتا",
-                    "&c&lسختی: &c★★★★☆",
-                    "&e&lلوت: &fتندیس آناهیتا، مروارید مقدس",
-                    "",
-                    "&8&lموقعیت تاریخی: &7کنگاور، کرمانشاه - 32 ستون سنگی"
-            ),
-            "کاهن آناهیتا",
-            4,
-            30, 15, 30
-    ),
+            Arrays.asList(Biome.FOREST, Biome.FOREST_HILLS, Biome.MUTATED_FOREST, Biome.ROOFED_FOREST),
+            Arrays.asList("&b&lMaabade Anahita - Elaheh Ab", "&7Bozorgtarin benaye sangi bad az Takht Jamshid",
+                    "&732 sotoon-e sangin dar keshvar-e Pars", "&cBoss: &fKahen-e Anahita",
+                    "&cSakhti: &e★★★☆☆", "&eLoot: &fTandis-e Anahita, Morvarid"),
+            "Kahen-e Anahita", 3, 20, 15, 20),
 
     ARGE_BAM(
-            "ARGE_BAM",
-            "Arge Bam",
-            "Arg-e Bam",
-            "بزرگترین بنای خشتی جهان در کویر",
+            "ARGE_BAM", "Arge Bam", "Arg-e Bam Citadel", "Bozorgtarin benaye kheshti dar jahan - 2500 saleh",
             Material.SANDSTONE,
-            Arrays.asList(
-                    Biome.DESERT,
-                    Biome.DESERT_HILLS,
-                    Biome.MESA,
-                    Biome.MESA_CLEAR_ROCK
-            ),
-            Arrays.asList(
-                    "&e&l🏜 ارگ بم - نگین کویر",
-                    "&7بزرگترین سازه خشتی جهان، 180 هزار متر مربع",
-                    "&7قدمت 2500 ساله، از دوره هخامنشی",
-                    "&7ثبت شده در میراث جهانی یونسکو",
-                    "",
-                    "&c&lباس: &fحاکم بم - امیر کویر",
-                    "&c&lسختی: &6★★★★★",
-                    "&e&lلوت: &fفرش کرمانی، خشت طلایی بم",
-                    "",
-                    "&8&lموقعیت تاریخی: &7بم، کرمان - بزرگترین بنای خشتی جهان"
-            ),
-            "حاکم ارگ بم",
-            5,
-            35, 18, 35
-    ),
+            Arrays.asList(Biome.DESERT, Biome.DESERT_HILLS, Biome.MUTATED_DESERT),
+            Arrays.asList("&6&lArge Bam - Bozorgtarin Benaye Kheshti", "&7Desh-e bastani dar masir-e Jadeh-ye Abrisham",
+                    "&7Sabt-e Yunesko ba 200,000 metr moraba", "&cBoss: &fHakem-e Bam",
+                    "&cSakhti: &c★★★★☆", "&eLoot: &fFarsh-e Kermani, Khesht-e Talaei"),
+            "Hakem-e Bam", 4, 30, 18, 30),
 
     BANDAR_SIRAF(
-            "BANDAR_SIRAF",
-            "Bandar Siraf",
-            "Siraf Port",
-            "بندر افسانه‌ای ایران در خلیج فارس",
-            Material.WOOD,
-            Arrays.asList(
-                    Biome.OCEAN,
-                    Biome.DEEP_OCEAN,
-                    Biome.BEACHES,
-                    Biome.STONE_BEACH
-            ),
-            Arrays.asList(
-                    "&b&l⚓ بندر سیراف - مروارید خلیج فارس",
-                    "&7بزرگترین بندر ایران باستان در خلیج فارس",
-                    "&7مرکز تجارت دریایی ساسانیان و عباسیان",
-                    "&7با ثروتی افسانه‌ای از مروارید و ادویه",
-                    "",
-                    "&c&lباس: &fناخدای سیراف - دزد دریایی خلیج فارس",
-                    "&c&lسختی: &b★★★★☆",
-                    "&e&lلوت: &fمروارید خلیج فارس، نقشه گنج ساسانی",
-                    "",
-                    "&8&lموقعیت تاریخی: &7سیراف، بوشهر - خلیج همیشه فارس"
-            ),
-            "ناخدای سیراف",
-            4,
-            28, 12, 28
-    ),
+            "BANDAR_SIRAF", "Bandar Siraf", "Siraf Port", "Bandar-e daryaei-ye Sasani dar Khalij-e Fars",
+            Material.PRISMARINE,
+            Arrays.asList(Biome.OCEAN, Biome.DEEP_OCEAN, Biome.BEACHES, Biome.STONE_BEACH),
+            Arrays.asList("&9&lBandar Siraf - Morvarid Khalij Fars", "&7Bandar-e tejarati-ye kohan be Chin va Hend",
+                    "&7Ghadamat-e Sasani dar sahel-e Boushehr", "&cBoss: &fNakhoda-ye Siraf",
+                    "&cSakhti: &e★★★☆☆", "&eLoot: &fMorvarid-e Khalij-e Fars, Naghsheh Ganj"),
+            "Nakhoda-ye Siraf", 3, 22, 16, 22),
 
     GHALEH_BABAK(
-            "GHALEH_BABAK",
-            "Ghale Babak",
-            "Babak Castle",
-            "دژ تسخیرناپذیر بابک خرمدین",
-            Material.SNOW_BLOCK,
-            Arrays.asList(
-                    Biome.ICE_FLATS,
-                    Biome.ICE_MOUNTAINS,
-                    Biome.TAIGA_COLD,
-                    Biome.TAIGA_COLD_HILLS,
-                    Biome.MUTATED_ICE_FLATS
-            ),
-            Arrays.asList(
-                    "&f&l❄ قلعه بابک - دژ عقاب",
-                    "&7قلعه‌ای در ارتفاع 2300 متری، خانه بابک خرمدین",
-                    "&7قهرمان ملی که 22 سال در برابر اعراب جنگید",
-                    "&7هرگز تسخیر نشد، فقط با خیانت سقوط کرد",
-                    "",
-                    "&c&lباس: &fبابک خرمدین - شیر آذربایجان",
-                    "&c&lسختی: &f★★★★★",
-                    "&e&lلوت: &fشمشیر بابک، پرچم سرخ خرمدینان",
-                    "",
-                    "&8&lموقعیت تاریخی: &7کلیبر، آذربایجان شرقی - 2300 متر ارتفاع"
-            ),
-            "بابک خرمدین",
-            5,
-            22, 20, 22
-    ),
+            "GHALEH_BABAK", "Ghale Babak", "Babak Castle", "Dejh-e Babak Khorramdin dar kooh-haye barfi",
+            Material.STONE,
+            Arrays.asList(Biome.ICE_FLATS, Biome.ICE_MOUNTAINS, Biome.MUTATED_ICE_FLATS, Biome.COLD_BEACH),
+            Arrays.asList("&f&lGhale Babak - Dejh-e Khorramdinan", "&7Ghale-ye kohestani dar ertefa-e 2300 metri",
+                    "&722 saal moghavemat dar barabar-e doshmanan", "&cBoss: &fBabak Khorramdin",
+                    "&cSakhti: &4★★★★★", "&eLoot: &fShamshir-e Babak, Derafsh-e Sorkh"),
+            "Babak Khorramdin", 5, 24, 18, 24),
 
     CHOGHA_ZANBIL(
-            "CHOGHA_ZANBIL",
-            "Ziggurat Chogha Zanbil",
-            "Chogha Zanbil Ziggurat",
-            "زیگورات 3250 ساله ایلامی",
-            Material.BRICK,
-            Arrays.asList(
-                    Biome.SWAMPLAND,
-                    Biome.MUTATED_SWAMPLAND,
-                    Biome.RIVER,
-                    Biome.MUSHROOM_ISLAND
-            ),
-            Arrays.asList(
-                    "&6&l🗿 زیگورات چغازنبیل - معبد ایلامی",
-                    "&7بزرگترین زیگورات خارج از بین‌النهرین",
-                    "&7ساخته شده توسط اونتاش-گال، شاه ایلام",
-                    "&7در 1250 قبل از میلاد، 3250 سال قدمت",
-                    "",
-                    "&c&lباس: &fکاهن ایلامی - نگهبان اینشوشیناک",
-                    "&c&lسختی: &2★★★★☆",
-                    "&e&lلوت: &fلوح میخی ایلامی، خشت مقدس",
-                    "",
-                    "&8&lموقعیت تاریخی: &7شوش، خوزستان - میراث جهانی یونسکو"
-            ),
-            "کاهن چغازنبیل",
-            4,
-            28, 25, 28
-    ),
+            "CHOGHA_ZANBIL", "Ziggurat Chogha Zanbil", "Chogha Zanbil Ziggurat", "Ziggurat-e 3250 saleh-ye Elamite dar Khuzestan",
+            Material.HARD_CLAY,
+            Arrays.asList(Biome.SWAMPLAND, Biome.MUTATED_SWAMPLAND),
+            Arrays.asList("&e&lZiggurat Chogha Zanbil", "&7Maabad-e pelakani dar 1250 ghable milad",
+                    "&7Nakhostin asar-e sabt-e jahani-ye Iran", "&cBoss: &fKahen-e Elamite",
+                    "&cSakhti: &c★★★★☆", "&eLoot: &fLowh-e Elamite, Ajoor-e Khatt-e Mikhi"),
+            "Kahen-e Elamite", 4, 28, 22, 28),
 
     DAKHMEH_ZARTOSHTI(
-            "DAKHMEH_ZARTOSHTI",
-            "Dakhme Zartoshti",
-            "Tower of Silence",
-            "برج خاموشان و آتشکده زرتشتی",
+            "DAKHMEH_ZARTOSHTI", "Dakhme Zartoshti", "Zoroastrian Tower of Silence", "Borj-e khamooshan va atash-e javidan",
             Material.NETHER_BRICK,
-            Collections.singletonList(
-                    Biome.HELL
-            ),
-            Arrays.asList(
-                    "&8&l🔥 دخمه زرتشتی - برج خاموشان",
-                    "&7مکان مقدس زرتشتیان برای تدفین",
-                    "&7و آتشکده آذرگشسب، یکی از سه آتش مقدس",
-                    "&7که 700 سال روشن بود",
-                    "",
-                    "&c&lباس: &fموبد اعظم - نگهبان آتش",
-                    "&c&lسختی: &4★★★★★",
-                    "&e&lلوت: &fآتش مقدس، جام آتش",
-                    "",
-                    "&8&lموقعیت تاریخی: &7یزد، کرمان - آیین 3000 ساله زرتشت"
-            ),
-            "موبد زرتشتی",
-            5,
-            20, 15, 20
-    ),
+            Arrays.asList(Biome.HELL),
+            Arrays.asList("&4&lDakhme Zartoshti - Borj-e Khamooshan", "&7Borj-e sangi bar faraz-e kooh baraye aein-e bastan",
+                    "&7Atashkadeh-ye atash-e moqadas", "&cBoss: &fMobad-e Zartoshti",
+                    "&cSakhti: &4★★★★★", "&eLoot: &fAtash-e Moqaddas, Jaam-e Jam"),
+            "Mobad-e Zartoshti", 5, 20, 20, 20),
 
     TAKHT_JAMSHID_SKY(
-            "TAKHT_JAMSHID_SKY",
-            "تخت جمشید آسمانی",
-            "Sky Persepolis",
-            "کاخ آپادانای هخامنشی در آسمان",
-            Material.GOLD_BLOCK,
-            Collections.singletonList(
-                    Biome.SKY
-            ),
-            Arrays.asList(
-                    "&6&l👑 تخت جمشید آسمانی - پارسه",
-                    "&7باشکوه‌ترین کاخ جهان باستان، پایتخت هخامنشیان",
-                    "&7ساخته شده توسط داریوش، خشایارشا و اردشیر",
-                    "&7با 100 ستون 20 متری در تالار آپادانا",
-                    "",
-                    "&c&lباس: &fداریوش بزرگ - شاه شاهان",
-                    "&c&lسختی: &6★★★★★ &4&l(نهایی)",
-                    "&e&lلوت: &fتاج کوروش، منشور کوروش، آکیناکه",
-                    "",
-                    "&8&lموقعیت تاریخی: &7مرودشت، فارس - 515 قبل از میلاد"
-            ),
-            "داریوش بزرگ",
-            6,
-            40, 30, 40
-    ),
-
-    // ========== 8 دانجن جدید نسخه 3.0 - پوشش تمام بایوم‌ها ==========
+            "TAKHT_JAMSHID_SKY", "Takht Jamshid Sky", "Persepolis of the Sky", "Kakh-e Apadana dar aseman-e End",
+            Material.QUARTZ_BLOCK,
+            Arrays.asList(Biome.SKY),
+            Arrays.asList("&d&lTakht Jamshid - Parseh", "&7Peytakht-e bashokooh-e Hakhamaneshi dar 515 ghable milad",
+                    "&7Kakh-e Apadana ba sotoon-haye 20 metri", "&cBoss: &fDariush Bozorg",
+                    "&cSakhti: &5★★★★★★", "&eLoot: &fTaj-e Kourosh, Manshoor-e Hakhamaneshi"),
+            "Dariush Bozorg", 6, 32, 25, 32),
 
     PASARGAD_TOMB(
-            "PASARGAD_TOMB",
-            "آرامگاه کوروش - پاسارگاد",
-            "Cyrus Tomb - Pasargad",
-            "آرامگاه بنیان‌گذار ایران",
+            "PASARGAD_TOMB", "Aramgah Kourosh", "Pasargadae Tomb", "Aramgah-e Kourosh-e Bozorg dar dasht",
             Material.SANDSTONE,
-            Arrays.asList(
-                    Biome.PLAINS,
-                    Biome.SAVANNA,
-                    Biome.SAVANNA_ROCK
-            ),
-            Arrays.asList(
-                    "&f&l⚰ آرامگاه کوروش - پاسارگاد",
-                    "&7آرامگاه کوروش بزرگ، پدر ایران",
-                    "&7ساده اما باشکوه، با 6 پله",
-                    "&7نوشته: منم کوروش، شاه هخامنشی",
-                    "",
-                    "&c&lباس: &fنگهبان پاسارگاد - سرباز جاویدان",
-                    "&c&lسختی: &e★★★☆☆",
-                    "&e&lلوت: &fتاج کوروش، منشور حقوق بشر",
-                    "",
-                    "&8&lموقعیت: &7پاسارگاد، فارس - 530 قبل از میلاد"
-            ),
-            "نگهبان پاسارگاد",
-            3,
-            20, 15, 20
-    ),
+            Arrays.asList(Biome.PLAINS, Biome.MUTATED_PLAINS),
+            Arrays.asList("&6&lAramgah Kourosh - Pasargad", "&7Bonyan-gozar-e nakhostin emperatori-ye jahan",
+                    "&7Manshoor-e hoghoogh-e bashar", "&cBoss: &fRooh-e Kourosh Bozorg",
+                    "&cSakhti: &c★★★★☆", "&eLoot: &fManshoor-e Kourosh, Shamshir-e Parseh"),
+            "Kourosh Bozorg", 4, 26, 18, 26),
 
     BISOTUN_INSCRIPTION(
-            "BISOTUN_INSCRIPTION",
-            "Katibe Bisotun",
-            "Bisotun Inscription",
-            "بزرگترین کتیبه جهان - داریوش بزرگ",
-            Material.SMOOTH_BRICK,
-            Arrays.asList(
-                    Biome.MUTATED_EXTREME_HILLS_WITH_TREES,
-                    Biome.STONE_BEACH,
-                    Biome.COLD_BEACH
-            ),
-            Arrays.asList(
-                    "&7&l📜 کتیبه بیستون - میخی سه زبانه",
-                    "&7بزرگترین کتیبه جهان، نوشته داریوش بزرگ",
-                    "&7به سه زبان: پارسی باستان، ایلامی، بابلی",
-                    "&7کلید رمزگشایی خط میخی",
-                    "",
-                    "&c&lباس: &fداریوش - نویسنده تاریخ",
-                    "&c&lسختی: &7★★★★☆",
-                    "&e&lلوت: &fلوح بیستون، خط میخی",
-                    "",
-                    "&8&lموقعیت: &7بیستون، کرمانشاه - 520 قبل از میلاد"
-            ),
-            "کاتب بیستون",
-            4,
-            30, 20, 10
-    ),
+            "BISOTUN_INSCRIPTION", "Katibe Bisotun", "Bisotun Inscription", "Bozorgtarin katibeh-ye khatt-e mikhi-ye jahan",
+            Material.STONE,
+            Arrays.asList(Biome.EXTREME_HILLS, Biome.SMALLER_EXTREME_HILLS),
+            Arrays.asList("&8&lKatibe Bisotun - Kermanshah", "&7Katibeh-ye 520 ghable milad dar del-e kooh",
+                    "&7Piroozi-ye Dariush bar 9 padeshah-e dorooghgo", "&cBoss: &fSepahbod-e Dariush",
+                    "&cSakhti: &c★★★★☆", "&eLoot: &fKhatt-e Mikhi, Sang-e Avesta"),
+            "Sepahbod-e Dariush", 4, 22, 15, 22),
 
     NAQSH_ROSTAM(
-            "NAQSH_ROSTAM",
-            "Naghsh Rostam",
-            "Naqsh-e Rostam",
-            "آرامگاه 4 شاه هخامنشی در دل کوه",
-            Material.SANDSTONE,
-            Arrays.asList(
-                    Biome.MUTATED_MESA,
-                    Biome.MESA_CLEAR_ROCK,
-                    Biome.MESA_ROCK,
-                    Biome.MUTATED_DESERT
-            ),
-            Arrays.asList(
-                    "&6&l⛰ نقش رستم - آرامگاه شاهان",
-                    "&7آرامگاه داریوش، خشایارشا، اردشیر، داریوش دوم",
-                    "&7در دل کوه، با نقش‌های ساسانی",
-                    "&7کعبه زرتشت در کنارش",
-                    "",
-                    "&c&lباس: &fخشایارشا - شاه جنگاور",
-                    "&c&lسختی: &6★★★★★",
-                    "&e&lلوت: &fتاج شاهان، شمشیر هخامنشی",
-                    "",
-                    "&8&lموقعیت: &7مرودشت، فارس - کنار تخت جمشید"
-            ),
-            "خشایارشا",
-            5,
-            35, 25, 15
-    ),
+            "NAQSH_ROSTAM", "Naghsh Rostam", "Naqsh-e Rostam Necropolis", "Aramgah-e 4 shah-e Hakhamaneshi dar del-e sakhreh",
+            Material.RED_SANDSTONE,
+            Arrays.asList(Biome.MESA, Biome.MESA_ROCK, Biome.MESA_CLEAR_ROCK, Biome.MUTATED_MESA),
+            Arrays.asList("&c&lNaghsh Rostam - Ka'abeh Zartosht", "&7Aramgah-haye chalipa dar del-e kooh-e Hajiabad",
+                    "&7Kourosh, Dariush, Khashayarsha, Ardeshir", "&cBoss: &fMohafez-e Chalipa",
+                    "&cSakhti: &4★★★★★", "&eLoot: &fSang-e Hakhamaneshi, Khesht-e Zarrin"),
+            "Mohafez-e Chalipa", 5, 28, 20, 28),
 
     TAKHT_SOLEYMAN(
-            "TAKHT_SOLEYMAN",
-            "Takht Soleyman",
-            "Takht-e Soleyman",
-            "مقدس‌ترین مکان زرتشتیان - دریاچه جوشان",
-            Material.ICE,
-            Arrays.asList(
-                    Biome.FROZEN_OCEAN,
-                    Biome.FROZEN_RIVER,
-                    Biome.MUTATED_TAIGA_COLD
-            ),
-            Arrays.asList(
-                    "&b&l🏔 تخت سلیمان - دریاچه مقدس",
-                    "&7مقدس‌ترین مکان زرتشتیان، با دریاچه جوشان",
-                    "&7آتشکده آذرگشسب در آن بود",
-                    "&7زادگاه زرتشت پیامبر",
-                    "",
-                    "&c&lباس: &fموبد تخت سلیمان",
-                    "&c&lسختی: &b★★★★★",
-                    "&e&lلوت: &fآتش مقدس، آب مقدس",
-                    "",
-                    "&8&lموقعیت: &7تکاب، آذربایجان غربی - یونسکو"
-            ),
-            "نگهبان تخت سلیمان",
-            5,
-            30, 20, 30
-    ),
+            "TAKHT_SOLEYMAN", "Takht Soleyman", "Takht-e Soleyman", "Daryacheh-ye sorkh va atashkadeh-ye Azargoshnasp",
+            Material.PACKED_ICE,
+            Arrays.asList(Biome.TAIGA_COLD, Biome.MUTATED_TAIGA_COLD),
+            Arrays.asList("&b&lTakht Soleyman - Azargoshnasp", "&7Atashkadeh-ye padeshahan va arteshdaran-e Sasani",
+                    "&7Daryacheh-ye asrare-amiz dar del-e dahaneh-ye atashfashan", "&cBoss: &fMobad Azargoshnasp",
+                    "&cSakhti: &4★★★★★", "&eLoot: &fSho'leh-ye Azargoshnasp, Yakh-e Moqaddas"),
+            "Mobad Azargoshnasp", 5, 25, 20, 25),
 
     HEGMATANEH(
-            "HEGMATANEH",
-            "هگمتانه - پایتخت مادها",
-            "Hegmataneh - Ecbatana",
-            "پایتخت 700 ساله مادها و هخامنشیان",
-            Material.SMOOTH_BRICK,
-            Arrays.asList(
-                    Biome.TAIGA,
-                    Biome.TAIGA_HILLS,
-                    Biome.REDWOOD_TAIGA,
-                    Biome.REDWOOD_TAIGA_HILLS
-            ),
-            Arrays.asList(
-                    "&2&l🏰 هگمتانه - پایتخت مادها",
-                    "&7پایتخت مادها، هخامنشیان، اشکانیان",
-                    "&7شهری با 7 دیوار رنگی، 700 سال پایتخت",
-                    "&7دیاکو آن را ساخت",
-                    "",
-                    "&c&lباس: &fدیاکو - بنیان‌گذار ماد",
-                    "&c&lسختی: &2★★★★☆",
-                    "&e&lلوت: &fتاج مادی، شمشیر مادی",
-                    "",
-                    "&8&lموقعیت: &7همدان - 700 قبل از میلاد"
-            ),
-            "دیاکو مادی",
-            4,
-            32, 18, 32
-    ),
+            "HEGMATANEH", "Hegmataneh", "Ecbatana Ancient Capital", "Peytakht-e Mad-ha ba 7 divar-e rangin dar Hamedan",
+            Material.CLAY,
+            Arrays.asList(Biome.TAIGA, Biome.TAIGA_HILLS),
+            Arrays.asList("&2&lHegmataneh - Hamedan", "&7Nakhostin peytakht-e Iran-zamin dar 700 ghable milad",
+                    "&77 divar-e rangin ba sotoon-haye zar-afshan", "&cBoss: &fDiyako Padeshah-e Mad",
+                    "&cSakhti: &e★★★☆☆", "&eLoot: &fTala-ye Mad, Soofal-e Hamedan"),
+            "Diyako Padeshah-e Mad", 3, 24, 16, 24),
 
     SUSA_PALACE(
-            "SUSA_PALACE",
-            "کاخ شوش - آپادانای شوش",
-            "Susa Palace",
-            "کاخ زمستانی داریوش بزرگ",
-            Material.BRICK,
-            Arrays.asList(
-                    Biome.BIRCH_FOREST_HILLS,
-                    Biome.MUTATED_BIRCH_FOREST_HILLS,
-                    Biome.FOREST_HILLS
-            ),
-            Arrays.asList(
-                    "&e&l🏛 کاخ شوش - آپادانا",
-                    "&7کاخ زمستانی داریوش، با ستون‌های باشکوه",
-                    "&7گاوهای بالدار شوش در لوور پاریس",
-                    "&7پایتخت ایلامیان و هخامنشیان",
-                    "",
-                    "&c&lباس: &fسردار شوش - نگهبان آپادانا",
-                    "&c&lسختی: &e★★★★☆",
-                    "&e&lلوت: &fگاو بالدار، لوح شوش",
-                    "",
-                    "&8&lموقعیت: &7شوش، خوزستان - 500 قبل از میلاد"
-            ),
-            "نگهبان شوش",
-            4,
-            28, 20, 28
-    ),
+            "SUSA_PALACE", "Kakh Shush", "Susa Palace Apadana", "Kakh-e zamestani-ye Hakhamaneshi dar Khuzestan",
+            Material.SMOOTH_BRICK,
+            Arrays.asList(Biome.BIRCH_FOREST, Biome.BIRCH_FOREST_HILLS),
+            Arrays.asList("&a&lKakh Shush - Apadana", "&7Shahr-e 6000 saleh va shokooh-e emperatori",
+                    "&7Ajoor-haye lo'abdare shush", "&cBoss: &fSarbaz-e Javidan-e Arshad",
+                    "&cSakhti: &c★★★★☆", "&eLoot: &fAjoor-e Lo'abdare Shush, Zereh-ye Pars"),
+            "Sarbaz-e Javidan-e Arshad", 4, 25, 17, 25),
 
     YAZD_JAMEH_MOSQUE(
-            "YAZD_JAMEH_MOSQUE",
-            "Masjed Jame Yazd",
-            "Yazd Jameh Mosque",
-            "بلندترین مناره‌های جهان - شاهکار صفوی",
+            "YAZD_JAMEH_MOSQUE", "Masjed Jame Yazd", "Yazd Grand Mosque", "Bolandtarin menareh-ye jahan - 52 metr",
             Material.SANDSTONE,
-            Arrays.asList(
-                    Biome.DESERT_HILLS,
-                    Biome.MUTATED_SAVANNA,
-                    Biome.MUTATED_MESA_CLEAR_ROCK
-            ),
-            Arrays.asList(
-                    "&9&l🕌 مسجد جامع یزد - شاهکار کویر",
-                    "&7مسجدی با بلندترین مناره‌های جهان، 52 متر",
-                    "&7کاشی‌کاری فیروزه‌ای بی‌نظیر",
-                    "&7ساخته شده در 100 سال، دوره صفوی",
-                    "",
-                    "&c&lباس: &fمعمار یزدی - استاد کاشی‌کار",
-                    "&c&lسختی: &9★★★☆☆",
-                    "&e&lلوت: &fکاشی فیروزه‌ای، فرش یزدی",
-                    "",
-                    "&8&lموقعیت: &7یزد - قلب کویر ایران"
-            ),
-            "معمار مسجد یزد",
-            3,
-            25, 30, 25
-    ),
+            Arrays.asList(Biome.DESERT_HILLS, Biome.SAVANNA_ROCK),
+            Arrays.asList("&e&lMasjed Jame Yazd - Kavir", "&7Menareh-haye 52 metri va kashi-kari-ye mo'araghir",
+                    "&7Shahkar-e me'mari-ye khesht va kashi", "&cBoss: &fOstad-e Me'mar",
+                    "&cSakhti: &e★★★☆☆", "&eLoot: &fKashi-ye Firoozeh, Sang-e Yazd"),
+            "Ostad-e Me'mar", 3, 22, 28, 22),
 
     AZADI_TOWER(
-            "AZADI_TOWER",
-            "Borj Azadi",
-            "Azadi Tower",
-            "نماد تهران - دروازه تمدن بزرگ",
+            "AZADI_TOWER", "Borj Azadi", "Azadi Freedom Tower", "Namad-e Iran-e modern va me'mari-ye Sasanid",
             Material.QUARTZ_BLOCK,
-            Arrays.asList(
-                    Biome.MUTATED_SAVANNA_ROCK,
-                    Biome.JUNGLE_HILLS,
-                    Biome.MUTATED_JUNGLE,
-                    Biome.MUSHROOM_ISLAND,
-                    Biome.MUSHROOM_ISLAND_SHORE
-            ),
-            Arrays.asList(
-                    "&f&l🗽 برج آزادی - نماد ایران مدرن",
-                    "&7برجی به یاد 2500 سال شاهنشاهی ایران",
-                    "&7طراحی شده توسط حسین امانت",
-                    "&7ترکیب معماری هخامنشی، ساسانی، اسلامی",
-                    "",
-                    "&c&lباس: &fنگهبان آزادی",
-                    "&c&lسختی: &f★★★☆☆",
-                    "&e&lلوت: &fپرچم ایران، تاج پهلوی",
-                    "",
-                    "&8&lموقعیت: &7تهران - 1971 میلادی - 45 متر"
-            ),
-            "نگهبان آزادی",
-            3,
-            20, 25, 20
-    );
+            Arrays.asList(Biome.SAVANNA, Biome.MUTATED_SAVANNA),
+            Arrays.asList("&f&lBorj Azadi - Tehran", "&7Me'mari-ye talfighi-ye Sasani va Islami ba sang-e marmar",
+                    "&7Namad-e payetakht-e Iran", "&cBoss: &fMohafez-e Borj",
+                    "&cSakhti: &e★★★☆☆", "&eLoot: &fSang-e Marmar-e Isfahan, Derafsh-e Iran"),
+            "Mohafez-e Borj", 3, 20, 25, 20),
+
+    DARVAZEH_MELLAL(
+            "DARVAZEH_MELLAL", "Darvazeh Mellal", "Gate of All Nations", "Darvazeh-ye vashokooh-e Takht Jamshid",
+            Material.SMOOTH_BRICK,
+            Arrays.asList(Biome.PLAINS, Biome.DESERT),
+            Arrays.asList("&6&lDarvazeh Mellal - Parseh", "&7Mojassameh-haye bozorg-e Lamassu ba sar-e ensan va bal-e oghab",
+                    "&7Paziraei az tamam-e mellat-haye jahan", "&cBoss: &fLamassu - Gav-e Bal-dar",
+                    "&cSakhti: &4★★★★★", "&eLoot: &fTash-e Lamassu, Tala-ye Hakhamaneshi"),
+            "Lamassu", 5, 26, 18, 26),
+
+    BAZAAR_TABRIZ(
+            "BAZAAR_TABRIZ", "Bazaar Bozorg Tabriz", "Tabriz Grand Bazaar", "Bozorgtarin bazaar-e sar-pooshideh-ye jahan",
+            Material.BRICK,
+            Arrays.asList(Biome.EXTREME_HILLS_WITH_TREES, Biome.TAIGA),
+            Arrays.asList("&c&lBazaar Bozorg Tabriz", "&75500 hejreh dar masir-e Jadeh-ye Abrisham",
+                    "&7Markaz-e tejarat-e farsh va advee-ye shargh", "&cBoss: &fBazargan-e Bozorg",
+                    "&cSakhti: &e★★★☆☆", "&eLoot: &fFarsh-e Tabriz, Sekkeh-ye Zarrin"),
+            "Bazargan-e Bozorg", 3, 30, 16, 30),
+
+    BAZAAR_KASHAN(
+            "BAZAAR_KASHAN", "Bazaar Kashan", "Historic Kashan Bazaar", "Timcheh Aminodowleh ba taq-bandi-ye bi-nazir",
+            Material.SANDSTONE,
+            Arrays.asList(Biome.DESERT, Biome.SAVANNA),
+            Arrays.asList("&e&lBazaar Sonnati Kashan", "&7Timcheh-ye Aminodowleh va me'mari-ye gozar-gah-haye kavir",
+                    "&cBoss: &fTajer-e Kashan", "&cSakhti: &e★★★☆☆", "&eLoot: &fGolab-e Kashan, Farsh-e Abrisham"),
+            "Tajer-e Kashan", 3, 25, 18, 25),
+
+    MASOOLEH(
+            "MASOOLEH", "Roosta-ye Masooleh", "Masooleh Stepped Village", "Roosta-ye pelekan-e Gilan dar del-e jangal",
+            Material.WOOD,
+            Arrays.asList(Biome.ROOFED_FOREST, Biome.FOREST),
+            Arrays.asList("&2&lRoosta-ye Masooleh - Gilan", "&7Hayat-e khaneh-ye bala, posht-e bam-e khaneh-ye payin ast!",
+                    "&7Hezar saal ghedmat dar jangal-haye Hirkani", "&cBoss: &fPir-e Masooleh",
+                    "&cSakhti: &e★★★☆☆", "&eLoot: &fChai-ye Lahijan, Sanaye Dasti Gilan"),
+            "Pir-e Masooleh", 3, 24, 20, 24),
+
+    KANDOVAN(
+            "KANDOVAN", "Roosta-ye Kandovan", "Kandovan Rock Dwellings", "Khaneh-haye kalleh-ghandi dar del-e sang-haye Sahand",
+            Material.STONE,
+            Arrays.asList(Biome.EXTREME_HILLS, Biome.ICE_FLATS),
+            Arrays.asList("&7&lRoosta-ye Kandovan - Azarbayjan", "&7Sakhteh-shodeh tavasot-e atashfashan-e Sahand",
+                    "&7Sard dar tabestan va garm dar zemestan", "&cBoss: &fMohafez-e Sahand",
+                    "&cSakhti: &c★★★★☆", "&eLoot: &fAsal-e Sahand, Sang-e Atashfashani"),
+            "Mohafez-e Sahand", 4, 24, 18, 24),
+
+    SHUSHTAR_WATER(
+            "SHUSHTAR_WATER", "Sazeh-haye Abi Shushtar", "Shushtar Hydraulic System", "Shahkar-e mohandesi-ye ab dar dowreh-ye Sasani",
+            Material.PRISMARINE,
+            Arrays.asList(Biome.RIVER, Biome.SWAMPLAND),
+            Arrays.asList("&b&lSazeh-haye Abi Shushtar", "&7Asiab-ha, abshar-ha va canal-haye 2000 saleh",
+                    "&7Bozorgtarin majmoo'eh-ye san'ati-ye jahan-e bastan", "&cBoss: &fMohandes-e Sasani",
+                    "&cSakhti: &c★★★★☆", "&eLoot: &fCharkh-e Ab, Nil-e Karun"),
+            "Mohandes-e Sasani", 4, 26, 16, 26),
+
+    GONBAD_KAVOUS(
+            "GONBAD_KAVOUS", "Gonbad Kavous", "Gonbad-e Qabus Brick Tower", "Bolandtarin borj-e tamam-ajoori-ye jahan - 72 metr",
+            Material.BRICK,
+            Arrays.asList(Biome.PLAINS, Biome.SAVANNA),
+            Arrays.asList("&6&lGonbad Kavous - Golestan", "&7Shahkar-e hezar saleh-ye Ziyaran dar 1006 Miladi",
+                    "&7Ertefa-e 72 metri bedoon-e heech asibi dar zelzeleh-ha", "&cBoss: &fQaboos Voshmgir",
+                    "&cSakhti: &4★★★★★", "&eLoot: &fAjoor-e Gonbad, Shamshir-e Torkaman"),
+            "Qaboos Voshmgir", 5, 20, 30, 20),
+
+    SOLTANIYEH(
+            "SOLTANIYEH", "Gonbad Soltaniyeh", "Soltaniyeh Turquoise Dome", "Bozorgtarin gonbad-e aajoori-ye jahan dar Zanjan",
+            Material.SMOOTH_BRICK,
+            Arrays.asList(Biome.EXTREME_HILLS, Biome.PLAINS),
+            Arrays.asList("&3&lGonbad Soltaniyeh - Zanjan", "&7Gonbad-e do-poosheh-ye firoozeh-ei ba ertefa-e 50 metr",
+                    "&7Elham-bakhsh-e Kelisaye Santa Maria dar Florence", "&cBoss: &fSoltan Mohammad Khodabandeh",
+                    "&cSakhti: &c★★★★☆", "&eLoot: &fFiroozeh-ye Soltaniyeh, Tigh-e Zanjani"),
+            "Soltan Mohammad Khodabandeh", 4, 28, 24, 28),
+
+    BAGH_FIN(
+            "BAGH_FIN", "Bagh-e Fin", "Fin Garden & Royal Bath", "Bagh-e Irani-ye bashokooh va cheshmeh-ye Soleymaniyeh",
+            Material.SANDSTONE,
+            Arrays.asList(Biome.DESERT_HILLS, Biome.SAVANNA),
+            Arrays.asList("&a&lBagh-e Fin Kashan", "&7Ghadimitireen bagh-e mojood dar Iran ba joo-haye firoozeh-ei",
+                    "&7Gozargah-e Amir Kabir", "&cBoss: &fMohafez-e Cheshmeh",
+                    "&cSakhti: &e★★★☆☆", "&eLoot: &fAb-e Cheshmeh Soleymaniyeh, Gol-e Mohammadi"),
+            "Mohafez-e Cheshmeh", 3, 25, 15, 25),
+
+    NASIR_MOSQUE(
+            "NASIR_MOSQUE", "Masjed Nasir al-Mulk", "Pink Mosque of Shiraz", "Masjed-e shisheh-haye rangin va noor-e firoozeh",
+            Material.STAINED_CLAY,
+            Arrays.asList(Biome.PLAINS, Biome.FOREST),
+            Arrays.asList("&d&lMasjed Nasir al-Mulk - Shiraz", "&7Raghse noor va rang az shisheh-haye haft-rang",
+                    "&cBoss: &fMe'mar-e Shiraz", "&cSakhti: &e★★★☆☆", "&eLoot: &fShisheh-ye Haft Rang, Zaferan"),
+            "Me'mar-e Shiraz", 3, 22, 16, 22),
+
+    VANK_CATHEDRAL(
+            "VANK_CATHEDRAL", "Kelisaye Vank", "Vank Cathedral", "Kelisaye zarrin-e Julfa dar Isfahan - dowreh Safavi",
+            Material.BRICK,
+            Arrays.asList(Biome.FOREST, Biome.PLAINS),
+            Arrays.asList("&6&lKelisaye Vank - Isfahan", "&7Naghshi az Shah Abbas baraye Aramaneh-ye Julfa",
+                    "&7Naghshi-haye talaei bar rooye divar-ha", "&cBoss: &fAsghof-e Julfa",
+                    "&cSakhti: &c★★★★☆", "&eLoot: &fEnghil-e Khatti, Tala-ye Julfa"),
+            "Asghof-e Julfa", 4, 24, 18, 24),
+
+    ALI_QAPU(
+            "ALI_QAPU", "Kakh Ali Qapu", "Ali Qapu Palace", "Kakh-e shash-tabagheh dar Meidan-e Naghsh-e Jahan",
+            Material.WOOD,
+            Arrays.asList(Biome.PLAINS, Biome.SAVANNA),
+            Arrays.asList("&6&lKakh Ali Qapu - Isfahan", "&7Talare mosighi ba gong-ha va tang-haye sotooni",
+                    "&7Paziraei-ye Shah Abbas az safiran-e oroupaei", "&cBoss: &fShah Abbas Safavi",
+                    "&cSakhti: &4★★★★★", "&eLoot: &fShamshir-e Safavi, Farsh-e Isfahan"),
+            "Shah Abbas Safavi", 5, 25, 26, 25),
+
+    CHEHEL_SOTUN(
+            "CHEHEL_SOTUN", "Kakh Chehel Sotun", "Chehel Sotun 40 Columns", "Kakh-e 20 sotoone ke dar ab 40 sotoon dideh mishavad",
+            Material.WOOD,
+            Arrays.asList(Biome.FOREST, Biome.SWAMPLAND),
+            Arrays.asList("&e&lChehel Sotun - Isfahan", "&7Divar-negareh-haye jange Chaldoran va Karnal",
+                    "&7Estakhr-e bozorg dar moghabele kakh", "&cBoss: &fSepahsalar-e Safavi",
+                    "&cSakhti: &c★★★★☆", "&eLoot: &fNeyzeh-ye Safavi, Ayeneh-kari"),
+            "Sepahsalar-e Safavi", 4, 28, 16, 28),
+
+    SI_O_SE_POL(
+            "SI_O_SE_POL", "Pol Si o Se Pol", "Si-o-se-pol Bridge", "Pol-e 33 dahaneh bar rooye Zayandeh Rood",
+            Material.SMOOTH_BRICK,
+            Arrays.asList(Biome.RIVER, Biome.PLAINS),
+            Arrays.asList("&b&lPol Si o Se Pol - Isfahan", "&7Sakhteh-shodeh tavasot-e Allahverdi Khan dar 1602 Miladi",
+                    "&7Tool-e 300 metri ba 33 cheshmeh", "&cBoss: &fAllahverdi Khan",
+                    "&cSakhti: &c★★★★☆", "&eLoot: &fShamshir-e Zayandeh Rood, Sekkeh Derik"),
+            "Allahverdi Khan", 4, 32, 14, 16);
 
     private final String id;
-    private final String persianName;
+    private final String finglishName;
     private final String englishName;
     private final String description;
-    private final Material icon;
+    private final Material primaryBlock;
     private final List<Biome> biomes;
     private final List<String> lore;
     private final String bossName;
     private final int difficulty;
-    private final int sizeX, sizeY, sizeZ;
+    private final int sizeX;
+    private final int sizeY;
+    private final int sizeZ;
 
-    DungeonType(String id, String persianName, String englishName, String description,
-                Material icon, List<Biome> biomes, List<String> lore,
+    DungeonType(String id, String finglishName, String englishName, String description,
+                Material primaryBlock, List<Biome> biomes, List<String> lore,
                 String bossName, int difficulty, int sizeX, int sizeY, int sizeZ) {
         this.id = id;
-        this.persianName = persianName;
+        this.finglishName = finglishName;
         this.englishName = englishName;
         this.description = description;
-        this.icon = icon;
+        this.primaryBlock = primaryBlock;
         this.biomes = biomes;
         this.lore = lore;
         this.bossName = bossName;
@@ -505,58 +313,64 @@ public enum DungeonType {
     }
 
     public String getId() { return id; }
-    public String getPersianName() { return persianName; }
+    public String getFinglishName() { return finglishName; }
+    public String getPersianName() { return finglishName; }
     public String getEnglishName() { return englishName; }
+    public String getDisplayName() { return finglishName; }
     public String getDescription() { return description; }
-    public Material getIcon() { return icon; }
-    public List<Biome> getBiomes() { return biomes; }
-    public List<String> getLore() { return lore; }
+    public Material getPrimaryBlock() { return primaryBlock; }
+    public List<Biome> getBiomes() { return Collections.unmodifiableList(biomes); }
+    public List<String> getLore() { return Collections.unmodifiableList(lore); }
     public String getBossName() { return bossName; }
     public int getDifficulty() { return difficulty; }
     public int getSizeX() { return sizeX; }
     public int getSizeY() { return sizeY; }
     public int getSizeZ() { return sizeZ; }
 
-    public boolean isBiomeValid(Biome biome) {
-        return biomes.contains(biome);
+    public static DungeonType getForBiome(Biome biome) {
+        for (DungeonType type : values()) {
+            if (type.biomes.contains(biome)) {
+                return type;
+            }
+        }
+        String name = biome.name();
+        if (name.contains("DESERT")) return ARGE_BAM;
+        if (name.contains("ICE") || name.contains("COLD")) return GHALEH_BABAK;
+        if (name.contains("OCEAN") || name.contains("BEACH")) return BANDAR_SIRAF;
+        if (name.contains("SWAMP")) return CHOGHA_ZANBIL;
+        if (name.contains("MESA")) return NAQSH_ROSTAM;
+        if (name.contains("HILLS") || name.contains("MOUNTAIN")) return ALAMUT_CASTLE;
+        if (name.contains("HELL")) return DAKHMEH_ZARTOSHTI;
+        if (name.contains("SKY")) return TAKHT_JAMSHID_SKY;
+        if (name.contains("FOREST")) return ANAHITA_TEMPLE;
+        return PASARGAD_TOMB;
+    }
+
+    public String getBiomeName() {
+        if (biomes != null && !biomes.isEmpty() && biomes.get(0) != null) {
+            return biomes.get(0).name();
+        }
+        return "GENERAL";
     }
 
     public static DungeonType fromId(String id) {
         if (id == null) return null;
         for (DungeonType type : values()) {
-            if (type.getId().equalsIgnoreCase(id)) return type;
+            if (type.getId().equalsIgnoreCase(id) || type.name().equalsIgnoreCase(id)) {
+                return type;
+            }
         }
         return null;
     }
 
-    public static DungeonType getForBiome(Biome biome) {
+    public static DungeonType fromName(String name) {
+        if (name == null) return null;
         for (DungeonType type : values()) {
-            if (type.isBiomeValid(biome)) return type;
+            if (type.name().equalsIgnoreCase(name) || type.getId().equalsIgnoreCase(name) ||
+                    type.getFinglishName().equalsIgnoreCase(name) || type.getEnglishName().equalsIgnoreCase(name)) {
+                return type;
+            }
         }
-        // اگر دقیق نبود، بر اساس نام بایوم حدس بزن
-        String name = biome.name();
-        if (name.contains("DESERT")) return ARGE_BAM;
-        if (name.contains("FOREST") || name.contains("JUNGLE")) return ANAHITA_TEMPLE;
-        if (name.contains("EXTREME") || name.contains("MOUNTAIN")) return ALAMUT_CASTLE;
-        if (name.contains("ICE") || name.contains("COLD") || name.contains("FROZEN")) return GHALEH_BABAK;
-        if (name.contains("SWAMP") || name.contains("RIVER")) return CHOGHA_ZANBIL;
-        if (name.contains("OCEAN") || name.contains("BEACH")) return BANDAR_SIRAF;
-        if (name.contains("MESA")) return NAQSH_ROSTAM;
-        if (name.contains("TAIGA")) return HEGMATANEH;
-        if (name.contains("PLAINS") || name.contains("SAVANNA")) return PASARGAD_TOMB;
-        if (name.contains("HELL")) return DAKHMEH_ZARTOSHTI;
-        if (name.contains("SKY")) return TAKHT_JAMSHID_SKY;
-        return ARGE_BAM; // پیش‌فرض
-    }
-
-    public String getDisplayName() {
-        return "§6" + persianName + " §7(" + englishName + ")";
-    }
-
-    /**
-     * آیا تمام بایوم‌های 1.12 پوشش داده شده؟
-     */
-    public static boolean coversAllBiomes() {
-        return true; // با getForBiome هوشمند، همه پوشش داده می‌شوند
+        return null;
     }
 }

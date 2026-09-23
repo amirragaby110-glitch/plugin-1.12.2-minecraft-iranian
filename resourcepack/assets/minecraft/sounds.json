@@ -1,0 +1,66 @@
+{
+  "iranian.villager.salam": {
+    "category": "voice",
+    "subtitle": "subtitles.iranian.villager.salam",
+    "sounds": [
+      "mob/villager/yes1",
+      "mob/villager/yes2",
+      "mob/villager/yes3"
+    ]
+  },
+  "iranian.villager.trade": {
+    "category": "voice",
+    "subtitle": "subtitles.iranian.villager.trade",
+    "sounds": [
+      "mob/villager/haggle1",
+      "mob/villager/haggle2"
+    ]
+  },
+  "iranian.mob.div": {
+    "category": "hostile",
+    "subtitle": "subtitles.iranian.mob.div",
+    "sounds": [
+      "mob/polarbear/warning1",
+      "mob/polarbear/warning2"
+    ]
+  },
+  "iranian.mob.zahhak": {
+    "category": "hostile",
+    "subtitle": "subtitles.iranian.mob.zahhak",
+    "sounds": [
+      "mob/enderdragon/growl1",
+      "mob/enderdragon/growl2"
+    ]
+  },
+  "iranian.mob.simurgh": {
+    "category": "neutral",
+    "subtitle": "subtitles.iranian.mob.simurgh",
+    "sounds": [
+      "mob/bat/idle1",
+      "mob/bat/idle2"
+    ]
+  },
+  "iranian.boss.phase2": {
+    "category": "hostile",
+    "subtitle": "subtitles.iranian.boss.enraged",
+    "sounds": [
+      "ambient/weather/thunder1",
+      "ambient/weather/thunder2"
+    ]
+  },
+  "iranian.boss.phase3": {
+    "category": "hostile",
+    "subtitle": "subtitles.iranian.boss.ultimate",
+    "sounds": [
+      "mob/wither/spawn",
+      "mob/enderdragon/end"
+    ]
+  },
+  "iranian.drink.mashk": {
+    "category": "player",
+    "subtitle": "subtitles.iranian.drink.mashk",
+    "sounds": [
+      "random/drink"
+    ]
+  }
+}

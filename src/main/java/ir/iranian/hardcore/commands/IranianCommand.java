@@ -1,7 +1,13 @@
 package ir.iranian.hardcore.commands;
 
 import ir.iranian.hardcore.IranianHardcorePlugin;
+import ir.iranian.hardcore.dungeons.DungeonType;
+import ir.iranian.hardcore.foods.IranianFoodType;
+import ir.iranian.hardcore.health.PlayerHealthManager;
+import ir.iranian.hardcore.items.PersianBossItems;
 import ir.iranian.hardcore.mobs.CustomMobType;
+import ir.iranian.hardcore.structures.PersianStructures;
+import ir.iranian.hardcore.swords.PersianSwordType;
 import ir.iranian.hardcore.utils.MessageUtils;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -14,9 +20,15 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Iranian Command - v4.0
- * /iranian - Main command for new features
- * Finglish compatible
+ * Iranian Command Suite (v5.0 Finglish)
+ * /iranian - Main command for all Iranian Hardcore features:
+ * - RLCraft Thirst & Waterskins
+ * - 900 Swords & Crafting
+ * - 500 Iranian Foods
+ * - 20,000 Items
+ * - 30 Dungeons & Boss Fights
+ * - 30 Iranian Mobs & Speaking Villagers
+ * - Climate, Weather & Seasons
  */
 public class IranianCommand implements CommandExecutor, TabCompleter {
 
@@ -46,41 +58,254 @@ public class IranianCommand implements CommandExecutor, TabCompleter {
             case "thirst":
             case "teshnegi":
                 double thirst = plugin.getThirstManager().getThirst(player);
-                player.sendMessage(MessageUtils.withPrefix("&bTeshnegi shoma: &f" + String.format("%.0f", thirst) + "%"));
-                if (thirst < 20) {
-                    player.sendMessage(MessageUtils.withPrefix("&cKhatar! Bayad ab benoshid!"));
-                }
-                return true;
-
-            case "temperature":
-            case "dama":
                 double temp = plugin.getTemperatureManager().getTemperature(player);
-                player.sendMessage(MessageUtils.withPrefix("&bDama badan shoma: &f" + String.format("%.0f", temp)));
-                player.sendMessage(MessageUtils.withPrefix("&7Biome: &f" + player.getLocation().getBlock().getBiome().name()));
+                player.sendMessage(MessageUtils.color("&8&m----------------------------------------"));
+                player.sendMessage(MessageUtils.color("&b&l💧 Mizan-e Ab: &e" + String.format("%.0f", thirst) + "% / 100%"));
+                player.sendMessage(MessageUtils.color("&6&l🌡 Dama-ye Badan: &e" + String.format("%.0f", temp) + "C"));
+                player.sendMessage(MessageUtils.color("&7Biome: &a" + player.getLocation().getBlock().getBiome().name()));
+                player.sendMessage(MessageUtils.color("&7Fasl: &e" + plugin.getTemperatureManager().getSeasonName(player.getWorld())));
+                player.sendMessage(MessageUtils.color("&7Vaz'iat-e Hava: &b" + plugin.getTemperatureManager().getWeatherDescription(player.getWorld())));
+                player.sendMessage(MessageUtils.color("&8&m----------------------------------------"));
                 return true;
 
             case "drink":
             case "ab":
-                if (plugin.getThirstManager().drinkWater(player, 25)) {
-                    // Remove water bottle if in hand
-                    if (player.getInventory().getItemInMainHand() != null &&
-                            player.getInventory().getItemInMainHand().getType().name().contains("POTION")) {
-                        player.getInventory().getItemInMainHand().setAmount(player.getInventory().getItemInMainHand().getAmount() - 1);
+                if (args.length > 1 && args[1].equalsIgnoreCase("dirty")) {
+                    plugin.getThirstManager().drinkWater(player, 15.0);
+                    player.sendMessage(MessageUtils.color("&8[&6Ab&8] &cAb-e kasif nooshidid (+15% Ab)!"));
+                } else {
+                    plugin.getThirstManager().drinkWater(player, 35.0);
+                    player.sendMessage(MessageUtils.color("&8[&6Ab&8] &aAb-e govara va paak nooshidid (+35% Ab)!"));
+                }
+                return true;
+
+            case "mashk":
+                player.getInventory().addItem(plugin.getThirstManager().createMashkAb());
+                player.sendMessage(MessageUtils.color("&8[&6Iran&8] &aMashk-e Ab-e Sonnati (10 nooshesh) dadeh shod!"));
+                return true;
+
+            case "canteen":
+            case "ghomghame":
+                player.getInventory().addItem(plugin.getThirstManager().createCanteen(5));
+                player.sendMessage(MessageUtils.color("&8[&6Iran&8] &aGhomghame-ye Fooladi (5 nooshesh) dadeh shod!"));
+                return true;
+
+            case "dirtywater":
+                player.getInventory().addItem(plugin.getThirstManager().createDirtyWater());
+                player.sendMessage(MessageUtils.color("&8[&6Iran&8] &cShisheh-ye Ab-e Kasif dadeh shod. Dar kooreh bejooshanid!"));
+                return true;
+
+            case "cleanwater":
+                player.getInventory().addItem(plugin.getThirstManager().createCleanWater());
+                player.sendMessage(MessageUtils.color("&8[&6Iran&8] &aShisheh-ye Ab-e Paak va Jooshandeh dadeh shod!"));
+                return true;
+
+            case "sword":
+            case "shamshir":
+                if (!player.hasPermission("iranian.admin")) {
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &6Hameye shamshir-haye Irani dar &eDungeon-ha &6va &esandogh-haye ghanimat (Chests) &6gharab darand ya ghabele sakht hastand!"));
+                    player.sendMessage(MessageUtils.color("&7Niaz be zadan-e hich kodi nist! Naqsheh ra baraye kashf-e lootha begardid."));
+                    return true;
+                }
+                if (args.length < 2 || args[1].equalsIgnoreCase("random")) {
+                    plugin.getSwordsManager().giveRandomSword(player);
+                } else if (args[1].equalsIgnoreCase("list")) {
+                    player.sendMessage(MessageUtils.color("&6900 Shamshir-e Irani vojood darad! Baraye daryaft: &e/iranian sword <SWORD_001 ta SWORD_900>"));
+                } else {
+                    if (!plugin.getSwordsManager().giveSword(player, args[1])) {
+                        player.sendMessage(MessageUtils.color("&cShamshir peyda nashod! Mesal: SWORD_001 ta SWORD_900"));
                     }
                 }
+                return true;
+
+            case "food":
+            case "ghaza":
+                if (!player.hasPermission("iranian.admin")) {
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &6Hameye ghaza-haye sonnati-ye Irani dar &eChaykhaneh-ha, Karvansara-ha &6va &esandogh-ha &6gharab darand ya ghabele pokht (Crafting) hastand!"));
+                    return true;
+                }
+                if (args.length < 2 || args[1].equalsIgnoreCase("random")) {
+                    plugin.getFoodsManager().giveRandomFood(player);
+                } else if (args[1].equalsIgnoreCase("list")) {
+                    player.sendMessage(MessageUtils.color("&6500 Ghaza-ye Irani vojood darad! Baraye daryaft: &e/iranian food <FOOD_001 ta FOOD_500>"));
+                } else {
+                    if (!plugin.getFoodsManager().giveFood(player, args[1])) {
+                        player.sendMessage(MessageUtils.color("&cGhaza peyda nashod! Mesal: FOOD_001 ta FOOD_500"));
+                    }
+                }
+                return true;
+
+            case "item":
+                if (!player.hasPermission("iranian.admin")) {
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &6Item-haye bastani dar sarasar-e donya dar sandogh-haye ghanimat (Chests) va dungeon-ha ghabele kashf hastand!"));
+                    return true;
+                }
+                if (args.length < 2 || args[1].equalsIgnoreCase("random")) {
+                    plugin.getCustomItemRegistry().giveRandomItem(player);
+                } else {
+                    if (!plugin.getCustomItemRegistry().giveItem(player, args[1])) {
+                        player.sendMessage(MessageUtils.color("&cItem peyda nashod! Mesal: ITEM_00001 ta ITEM_20000"));
+                    }
+                }
+                return true;
+
+            case "heart":
+            case "ghalb":
+                if (!player.hasPermission("iranian.admin")) {
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &6Ghalb-haye boloorin va aab-e hayat ra mitavanid ba &eCrafting Table &6besazid ya dar &eDungeon-ha va sandogh-ha &6peyda konid!"));
+                    player.sendMessage(MessageUtils.color("&7Dastoor-e sakht: 1 Golden Apple + 4 Shamesh-e Tala + 4 Sekkeh Derik"));
+                    return true;
+                }
+                if (args.length > 1 && args[1].equalsIgnoreCase("blue")) {
+                    player.getInventory().addItem(PlayerHealthManager.createTurquoiseHeartCanister());
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &bGhalb-e Firoozeh (+1 Ghalb) dadeh shod!"));
+                } else if (args.length > 1 && (args[1].equalsIgnoreCase("elixir") || args[1].equalsIgnoreCase("hayat"))) {
+                    player.getInventory().addItem(PlayerHealthManager.createElixirOfLife());
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &6Eksir-e Javidan (+2 Ghalb) dadeh shod!"));
+                } else {
+                    player.getInventory().addItem(PlayerHealthManager.createRedHeartCanister());
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &cGhalb-e Boloorin-e Sorkh (+1 Ghalb) dadeh shod!"));
+                }
+                return true;
+
+            case "bossitem":
+            case "bossweapon":
+                if (!player.hasPermission("iranian.admin")) {
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &6Aslaheh-haye makhsoos-e shekar-e boss dar &esandogh-haye ghanimat &6va &edungeon-ha &6gharab darand ya ghabele sakht hastand!"));
+                    player.sendMessage(MessageUtils.color("&7Niaz be zadan-e hich kodi nist, donya ra baraye kashf-e lootha begardid!"));
+                    return true;
+                }
+                if (args.length > 1 && args[1].equalsIgnoreCase("bow")) {
+                    player.getInventory().addItem(PersianBossItems.createBossPiercerBow());
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &aKaman-e Shekar-e Div dadeh shod!"));
+                } else if (args.length > 1 && args[1].equalsIgnoreCase("bomb")) {
+                    player.getInventory().addItem(PersianBossItems.createNaphthaBomb(5));
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &65x Bomb-e Naft-e Siah dadeh shod!"));
+                } else if (args.length > 1 && args[1].equalsIgnoreCase("shield")) {
+                    player.getInventory().addItem(PersianBossItems.createDerafshShield());
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &eSepar-e Derafsh-e Kaviani dadeh shod!"));
+                } else if (args.length > 1 && args[1].equalsIgnoreCase("talisman")) {
+                    player.getInventory().addItem(PersianBossItems.createJamshidTalisman());
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &bTelesm-e Jam-e Jam dadeh shod!"));
+                } else {
+                    player.getInventory().addItem(PersianBossItems.createDivKoshSword());
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &cTigh-e Div-Kosh (Demon Slayer) dadeh shod!"));
+                }
+                return true;
+
+            case "structure":
+            case "sazeh":
+                if (!player.hasPermission("iranian.admin")) {
+                    player.sendMessage(MessageUtils.color("&cShoma dastresi admin nadarid!"));
+                    return true;
+                }
+                PersianStructures.StructureType st = PersianStructures.StructureType.CARAVANSERAI;
+                if (args.length > 1) {
+                    try {
+                        st = PersianStructures.StructureType.valueOf(args[1].toUpperCase());
+                    } catch (Exception ignored) {}
+                }
+                plugin.getPersianStructures().forceBuildStructure(player.getLocation(), st);
+                player.sendMessage(MessageUtils.color("&8[&6Iran&8] &aSazeh-ye &6" + st.getPersianName() + " &asakhteh shod!"));
+                return true;
+
+            case "villager":
+            case "roosta":
+                player.sendMessage(MessageUtils.color("&8[&6Haj Karim - Kadkhoda&8] &f\"Salam baradar! Be sarzamin-e Iran khosh amadid! Zendeh bad Iran!\""));
                 return true;
 
             case "spawnmob":
             case "mob":
                 if (!player.hasPermission("iranian.admin")) {
-                    player.sendMessage(MessageUtils.withPrefix("&cShoma dastresi admin nadarid!"));
+                    player.sendMessage(MessageUtils.color("&cShoma dastresi admin nadarid!"));
                     return true;
                 }
                 if (args.length < 2) {
-                    player.sendMessage(MessageUtils.withPrefix("&cEstefade: /iranian spawnmob <DIV_SEPID|DIV_SIAH|SIMURGH|ZAHHAK|ROSTAM_GHOST|AL|KAVEH>"));
+                    player.sendMessage(MessageUtils.color("&cEstefade: /iranian spawnmob <MOB_TYPE>"));
                     return true;
                 }
                 plugin.getMobsManager().spawnMobCommand(player, args[1]);
+                return true;
+
+            case "dungeon":
+                if (!player.hasPermission("iranian.admin")) {
+                    player.sendMessage(MessageUtils.color("&cShoma dastresi admin nadarid!"));
+                    return true;
+                }
+                if (args.length < 2) {
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &cEstefadeh: /iranian dungeon <name> (Mesal: ALAMUT_CASTLE)"));
+                    return true;
+                }
+                DungeonType dt = DungeonType.fromName(args[1]);
+                if (dt == null) {
+                    player.sendMessage(MessageUtils.color("&8[&6Iran&8] &cDungeon yaft nashod! List: /dungeon list"));
+                    return true;
+                }
+                plugin.getDungeonManager().forceGenerateDungeon(player, dt);
+                return true;
+
+            case "boss":
+                if (!player.hasPermission("iranian.admin")) {
+                    player.sendMessage(MessageUtils.color("&cShoma dastresi admin nadarid!"));
+                    return true;
+                }
+                DungeonType dType = DungeonType.ALAMUT_CASTLE;
+                if (args.length > 1) {
+                    try {
+                        dType = DungeonType.valueOf(args[1].toUpperCase());
+                    } catch (Exception ignored) {}
+                }
+                plugin.getBossFightManager().spawnDungeonBoss(player.getLocation(), dType);
+                player.sendMessage(MessageUtils.color("&4[BOSS] &6Boss fight baraye &e" + dType.getFinglishName() + " &ashoroo shod!"));
+                return true;
+
+            case "temperature":
+            case "dama":
+            case "weather":
+            case "hava":
+                double curTemp = plugin.getTemperatureManager().getTemperature(player);
+                player.sendMessage(MessageUtils.color("&8&m----------------------------------------"));
+                player.sendMessage(MessageUtils.color("&6&lAb va Hava-ye Iran"));
+                player.sendMessage(MessageUtils.color("&7Dama: &e" + String.format("%.0f", curTemp) + "C"));
+                player.sendMessage(MessageUtils.color("&7Fasl: &a" + plugin.getTemperatureManager().getSeasonName(player.getWorld())));
+                player.sendMessage(MessageUtils.color("&7Vaz'iat: &b" + plugin.getTemperatureManager().getWeatherDescription(player.getWorld())));
+                player.sendMessage(MessageUtils.color("&8&m----------------------------------------"));
+                return true;
+
+            case "hud":
+            case "hotbar":
+                plugin.getThirstManager().sendHotbarHUD(player);
+                player.sendMessage(MessageUtils.color("&aHotbar HUD ba movafaghiat be-rooz-resani shod!"));
+                return true;
+
+            case "army":
+            case "artesh":
+                if (plugin.getArmyGUI() != null) {
+                    plugin.getArmyGUI().openGUI(player);
+                }
+                return true;
+
+            case "calendar":
+            case "taghvim":
+                if (plugin.getCalendarGUI() != null) {
+                    plugin.getCalendarGUI().openGUI(player);
+                }
+                return true;
+
+            case "civ":
+            case "civilization":
+            case "tamaddon":
+                if (plugin.getCivilizationGUI() != null) {
+                    plugin.getCivilizationGUI().openGUI(player);
+                }
+                return true;
+
+            case "coin":
+            case "sekkeh":
+                if (plugin.getCoinManager() != null) {
+                    long bal = plugin.getCoinManager().getBalance(player);
+                    player.sendMessage(MessageUtils.color("&8[Sekkeh] &6Mojoodi-ye Derik-e shoma: &e" + bal + " Vahed"));
+                }
                 return true;
 
             case "resourcepack":
@@ -88,21 +313,7 @@ public class IranianCommand implements CommandExecutor, TabCompleter {
                 plugin.getResourcePackManager().sendResourcePack(player);
                 return true;
 
-            case "resourcepackinfo":
-            case "packinfo":
-                plugin.getResourcePackManager().generateResourcePackInfo(player);
-                return true;
-
-            case "mashk":
-                player.getInventory().addItem(plugin.getThirstManager().createMashkAb());
-                player.sendMessage(MessageUtils.withPrefix("&aMashk Ab gereftid!"));
-                return true;
-
             case "help":
-            case "komak":
-                sendHelp(player);
-                return true;
-
             default:
                 sendHelp(player);
                 return true;
@@ -110,30 +321,62 @@ public class IranianCommand implements CommandExecutor, TabCompleter {
     }
 
     private void sendHelp(Player player) {
-        player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        player.sendMessage(MessageUtils.color("&6&l🇮🇷 Iranian Hardcore v4.0 - Finglish"));
-        player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        player.sendMessage(MessageUtils.color("&e/iranian thirst &7- Didan mizan teshnegi"));
-        player.sendMessage(MessageUtils.color("&e/iranian temperature &7- Didan dama badan"));
-        player.sendMessage(MessageUtils.color("&e/iranian drink &7- Noshidan ab (+25% teshnegi)"));
-        player.sendMessage(MessageUtils.color("&e/iranian mashk &7- Gereftan Mashk Ab Irani"));
-        player.sendMessage(MessageUtils.color("&e/iranian resourcepack &7- Daryaft resource pack Irani"));
-        player.sendMessage(MessageUtils.color("&e/iranian spawnmob <type> &7- Sakht mob Irani (admin)"));
-        player.sendMessage(MessageUtils.color("&7Types: DIV_SEPID, DIV_SIAH, SIMURGH, ZAHHAK, ROSTAM_GHOST, AL, KAVEH"));
-        player.sendMessage(MessageUtils.color("&e/race choose &7- Entekhab ghome Irani"));
-        player.sendMessage(MessageUtils.color("&e/bazaar &7- Bazar Irani"));
-        player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        player.sendMessage(MessageUtils.color("&6Zende bad Iran! 🇮🇷"));
+        player.sendMessage(MessageUtils.color("&8&m----------------------------------------"));
+        player.sendMessage(MessageUtils.color("&6&l Iranian Hardcore v5.3 - Natural Exploration Edition"));
+        player.sendMessage(MessageUtils.color("&8&m----------------------------------------"));
+        player.sendMessage(MessageUtils.color("&a★ KAVOSH VA GASHT-O-GOZAR (Exploration):"));
+        player.sendMessage(MessageUtils.color("&7Hameye 30 Dungeon, Karvansara-ha, Ab-Anbarha va Chaykhaneh-ha"));
+        player.sendMessage(MessageUtils.color("&7ba gashtan dar map kashf mishavand va niaz be hich kodi nist!"));
+        player.sendMessage(MessageUtils.color("&7Hameye Shamshirha, Ghaza-ha, Ghalb-ha va Aslaheh-haye Boss dar"));
+        player.sendMessage(MessageUtils.color("&7sandogh-haye ghanimat (Chests) va dungeon-ha peyda mishavand."));
+        player.sendMessage(MessageUtils.color("&e/iranian thirst &7- Didan mizan-e ab va dama (RLCraft style)"));
+        player.sendMessage(MessageUtils.color("&e/iranian hud &7- Fa'al sazi-ye ActionBar HUD-e hamishegi"));
+        player.sendMessage(MessageUtils.color("&e/iranian weather &7- Fasl-ha va ab va hava"));
+        player.sendMessage(MessageUtils.color("&e/iranian resourcepack &7- Daryaft Resource Pack-e textures"));
+        player.sendMessage(MessageUtils.color("&e/race choose &7- Entekhab-e 14 Ghome Irani"));
+        player.sendMessage(MessageUtils.color("&e/bazaar &7- Bazaar-e Bozorg-e Irani"));
+        player.sendMessage(MessageUtils.color("&e/dungeon list &7- 30 Dungeon-e tarikhi-ye Iran"));
+        player.sendMessage(MessageUtils.color("&8&m----------------------------------------"));
+        player.sendMessage(MessageUtils.color("&6Zendeh bad Iran! Khalij-e Hameshe Fars!"));
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
         if (args.length == 1) {
-            completions.addAll(Arrays.asList("thirst", "temperature", "drink", "mashk", "resourcepack", "spawnmob", "help"));
-        } else if (args.length == 2 && args[0].equalsIgnoreCase("spawnmob")) {
-            for (CustomMobType type : CustomMobType.values()) {
-                completions.add(type.name());
+            completions.addAll(Arrays.asList("thirst", "drink", "mashk", "canteen", "dirtywater", "cleanwater",
+                    "heart", "bossitem", "structure", "sword", "food", "item", "dungeon", "spawnmob", "boss", "temperature", "weather", "hud", "villager", "resourcepack", "help"));
+        } else if (args.length == 2) {
+            if (args[0].equalsIgnoreCase("heart")) {
+                completions.addAll(Arrays.asList("red", "blue", "elixir"));
+            } else if (args[0].equalsIgnoreCase("bossitem")) {
+                completions.addAll(Arrays.asList("divkosh", "bow", "bomb", "shield", "talisman"));
+            } else if (args[0].equalsIgnoreCase("structure")) {
+                for (PersianStructures.StructureType t : PersianStructures.StructureType.values()) {
+                    completions.add(t.name());
+                }
+            } else if (args[0].equalsIgnoreCase("dungeon") || args[0].equalsIgnoreCase("boss")) {
+                for (DungeonType dt : DungeonType.values()) {
+                    if (dt.name().toLowerCase().startsWith(args[1].toLowerCase())) {
+                        completions.add(dt.name());
+                    }
+                }
+            } else if (args[0].equalsIgnoreCase("spawnmob")) {
+                for (CustomMobType t : CustomMobType.values()) {
+                    completions.add(t.name());
+                }
+            } else if (args[0].equalsIgnoreCase("boss")) {
+                for (DungeonType d : DungeonType.values()) {
+                    completions.add(d.name());
+                }
+            } else if (args[0].equalsIgnoreCase("sword")) {
+                completions.addAll(Arrays.asList("random", "list", "SWORD_001", "SWORD_100", "SWORD_500", "SWORD_900"));
+            } else if (args[0].equalsIgnoreCase("food")) {
+                completions.addAll(Arrays.asList("random", "list", "FOOD_001", "FOOD_100", "FOOD_250", "FOOD_500"));
+            } else if (args[0].equalsIgnoreCase("item")) {
+                completions.addAll(Arrays.asList("random", "ITEM_00001", "ITEM_05000", "ITEM_10000", "ITEM_20000"));
+            } else if (args[0].equalsIgnoreCase("drink")) {
+                completions.addAll(Arrays.asList("clean", "dirty"));
             }
         }
         return completions;

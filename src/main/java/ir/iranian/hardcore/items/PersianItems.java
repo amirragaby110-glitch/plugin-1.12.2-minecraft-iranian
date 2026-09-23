@@ -3,261 +3,294 @@ package ir.iranian.hardcore.items;
 import ir.iranian.hardcore.utils.MessageUtils;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Arrays;
 
 /**
- * آیتم‌های ایرانی تاریخی - کاملا فارسی
- * هر دانجن لوت مخصوص خودش را دارد
+ * Itemhaye Irani Tarikhi - v5.0 Finglish
+ * Har dungeon loot makhsoose khod ra darad
  */
 public class PersianItems {
 
-    // ============ شمشیرها ============
+    // ============ Shamshirha ============
 
     public static ItemStack createShamshirAlamut() {
         ItemStack item = new ItemStack(Material.DIAMOND_SWORD);
+        item.setDurability((short) 2);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(MessageUtils.color("&8&l⚔ شمشیر الموت - تیغه حسن صباح"));
-        meta.setLore(MessageUtils.color(Arrays.asList(
-                "&7شمشیر افسانه‌ای قلعه الموت",
-                "&7متعلق به حسن صباح، رهبر اسماعیلیان",
-                "",
-                "&c&lویژگی‌ها:",
-                "&7• &cقدرت: &f+10",
-                "&7• &aتیز در کوهستان",
-                "&7• &6افکت: Wither هنگام ضربه",
-                "",
-                "&8&lتاریخ: &7قرن 11 میلادی - الموت، قزوین"
-        )));
-        meta.addEnchant(Enchantment.DAMAGE_ALL, 5, true);
-        meta.addEnchant(Enchantment.FIRE_ASPECT, 2, true);
-        meta.addEnchant(Enchantment.DURABILITY, 3, true);
-        item.setItemMeta(meta);
+        if (meta != null) {
+            meta.setDisplayName(MessageUtils.color("&8&lShamshir Alamut - Tighe Hassan Sabbah"));
+            meta.setLore(MessageUtils.color(Arrays.asList(
+                    "&7Shamshire afsaneie ghale Alamut",
+                    "&7Motealegh be Hassan Sabbah, rahbar Esmaeelie",
+                    "",
+                    "&c&lVizhegiha:",
+                    "&7* &cGhodrat: &f+10",
+                    "&7* &aTiz dar koohestan",
+                    "&7* &6Effect: Wither dar zarbe",
+                    "",
+                    "&8&lTarikh: &7Gharne 11 miladi - Alamut, Qazvin"
+            )));
+            meta.addEnchant(Enchantment.DAMAGE_ALL, 5, true);
+            meta.addEnchant(Enchantment.FIRE_ASPECT, 2, true);
+            meta.addEnchant(Enchantment.DURABILITY, 3, true);
+            meta.setUnbreakable(true);
+            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+            item.setItemMeta(meta);
+        }
         return item;
     }
 
     public static ItemStack createShamshirBabak() {
         ItemStack item = new ItemStack(Material.IRON_SWORD);
+        item.setDurability((short) 1);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(MessageUtils.color("&c&l⚔ شمشیر بابک خرمدین - شیر آذربایجان"));
-        meta.setLore(MessageUtils.color(Arrays.asList(
-                "&7شمشیر قهرمان ملی ایران، بابک خرمدین",
-                "&7که 22 سال در برابر اعراب مقاومت کرد",
-                "",
-                "&c&lویژگی‌ها:",
-                "&7• &cقدرت در برف: &f+8",
-                "&7• &bمقاومت به سرما",
-                "",
-                "&8&lتاریخ: &7قرن 9 میلادی - قلعه بابک، کلیبر"
-        )));
-        meta.addEnchant(Enchantment.DAMAGE_ALL, 4, true);
-        meta.addEnchant(Enchantment.KNOCKBACK, 2, true);
-        item.setItemMeta(meta);
+        if (meta != null) {
+            meta.setDisplayName(MessageUtils.color("&c&lShamshir Babak Khorramdin - Shir Azarbayjan"));
+            meta.setLore(MessageUtils.color(Arrays.asList(
+                    "&7Shamshire ghahremane melli Iran, Babak Khorramdin",
+                    "&7Ke 22 sal dar barabare doshmanan moghavemat kard",
+                    "",
+                    "&c&lVizhegiha:",
+                    "&7* &cGhodrat dar barf: &f+8",
+                    "&7* &bMoghavemat be sarma",
+                    "",
+                    "&8&lTarikh: &7Gharne 9 miladi - Ghale Babak, Kaleybar"
+            )));
+            meta.addEnchant(Enchantment.DAMAGE_ALL, 4, true);
+            meta.addEnchant(Enchantment.KNOCKBACK, 2, true);
+            meta.setUnbreakable(true);
+            meta.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
+            item.setItemMeta(meta);
+        }
         return item;
     }
 
     public static ItemStack createShamshirHakhamaneshi() {
         ItemStack item = new ItemStack(Material.GOLD_SWORD);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(MessageUtils.color("&6&l⚔ آکیناکه هخامنشی - شمشیر جاویدان"));
-        meta.setLore(MessageUtils.color(Arrays.asList(
-                "&7شمشیر کوتاه سربازان جاویدان هخامنشی",
-                "&7ارتش 10 هزار نفری گارد شاهنشاهی",
-                "",
-                "&c&lویژگی‌ها:",
-                "&7• &6قدرت الهی: &f+12",
-                "&7• &eشانس کریتیکال بالا",
-                "",
-                "&8&lتاریخ: &7 550-330 قبل از میلاد - تخت جمشید"
-        )));
-        meta.addEnchant(Enchantment.DAMAGE_ALL, 6, true);
-        meta.addEnchant(Enchantment.SWEEPING_EDGE, 3, true);
-        meta.addEnchant(Enchantment.DURABILITY, 5, true);
-        item.setItemMeta(meta);
+        if (meta != null) {
+            meta.setDisplayName(MessageUtils.color("&6&lAkinake Hakhamaneshi - Shamshir Javidan"));
+            meta.setLore(MessageUtils.color(Arrays.asList(
+                    "&7Shamshire kootahe sarbazane Javidane Hakhamaneshi",
+                    "&7Arteshe 10 hezar nafare garde shahanshahi",
+                    "",
+                    "&c&lVizhegiha:",
+                    "&7* &6Ghodrate Elahi: &f+12",
+                    "&7* &eShanse critical bala",
+                    "",
+                    "&8&lTarikh: &7550-330 ghabl az milad - Takht Jamshid"
+            )));
+            meta.addEnchant(Enchantment.DAMAGE_ALL, 6, true);
+            meta.addEnchant(Enchantment.SWEEPING_EDGE, 3, true);
+            meta.addEnchant(Enchantment.DURABILITY, 5, true);
+            item.setItemMeta(meta);
+        }
         return item;
     }
 
-    // ============ تاج‌ها و جواهرات ============
+    // ============ Tajha va Javaherat ============
 
     public static ItemStack createTajKourosh() {
         ItemStack item = new ItemStack(Material.GOLD_HELMET);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(MessageUtils.color("&6&l👑 تاج کوروش بزرگ - شاه شاهان"));
-        meta.setLore(MessageUtils.color(Arrays.asList(
-                "&7تاج بنیان‌گذار شاهنشاهی هخامنشی",
-                "&7کوروش بزرگ، آزادکننده بابل",
-                "",
-                "&c&lویژگی‌ها:",
-                "&7• &aمقاومت کامل",
-                "&7• &bقدرت فرماندهی",
-                "&7• &6افکت: Regeneration",
-                "",
-                "&8&lتاریخ: &7 600-530 قبل از میلاد - پاسارگاد",
-                "&8&lشعار: &7من کوروش، شاه جهان..."
-        )));
-        meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 6, true);
-        meta.addEnchant(Enchantment.PROTECTION_FIRE, 4, true);
-        item.setItemMeta(meta);
+        if (meta != null) {
+            meta.setDisplayName(MessageUtils.color("&6&lTaj Kourosh Bozorg - Shah Shahan"));
+            meta.setLore(MessageUtils.color(Arrays.asList(
+                    "&7Taje bonyan gozare Shahanshahi Hakhamaneshi",
+                    "&7Kourosh Bozorg, azadkonandeye Babel",
+                    "",
+                    "&c&lVizhegiha:",
+                    "&7* &aMoghavemat kamel",
+                    "&7* &bGhodrate farmandehi",
+                    "&7* &6Effect: Regeneration",
+                    "",
+                    "&8&lTarikh: &7600-530 ghabl az milad - Pasargad",
+                    "&8&lShoar: &7Man Kourosh, Shah Jahan..."
+            )));
+            meta.addEnchant(Enchantment.PROTECTION_ENVIRONMENTAL, 6, true);
+            meta.addEnchant(Enchantment.PROTECTION_FIRE, 4, true);
+            item.setItemMeta(meta);
+        }
         return item;
     }
 
     public static ItemStack createManshurKourosh() {
         ItemStack item = new ItemStack(Material.BOOK);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(MessageUtils.color("&e&l📜 منشور کوروش - اولین اعلامیه حقوق بشر"));
-        meta.setLore(MessageUtils.color(Arrays.asList(
-                "&7منشور کوروش بزرگ، اولین اعلامیه حقوق بشر جهان",
-                "&7که در موزه بریتانیا نگهداری می‌شود",
-                "",
-                "&f\"منم کوروش، شاه جهان، شاه بزرگ...\"",
-                "&f\"آزادی ادیان را برقرار کردم...\"",
-                "",
-                "&a&lقدرت: &fباز کردن درهای بسته و صلح",
-                "&8&lتاریخ: &7 539 قبل از میلاد - بابل"
-        )));
-        meta.addEnchant(Enchantment.LUCK, 3, true);
-        item.setItemMeta(meta);
+        if (meta != null) {
+            meta.setDisplayName(MessageUtils.color("&e&lManshur Kourosh - Avalin Elamie Hoghoogh Bashar"));
+            meta.setLore(MessageUtils.color(Arrays.asList(
+                    "&7Manshoore Kourosh Bozorg, avalin elamie hoghooghe bashar jahan",
+                    "&7Ke dar mooze British negahdari mishavad",
+                    "",
+                    "&f\"Manam Kourosh, Shahe Jahan, Shahe Bozorg...\"",
+                    "&f\"Azadie adyan ra bargharar kardam...\"",
+                    "",
+                    "&a&lGhodrat: &fSolh va ashti",
+                    "&8&lTarikh: &7539 ghabl az milad - Babel"
+            )));
+            meta.addEnchant(Enchantment.LUCK, 3, true);
+            item.setItemMeta(meta);
+        }
         return item;
     }
 
-    // ============ فرش و صنایع دستی ============
+    // ============ Farsh va Sanaye Dasti ============
 
     public static ItemStack createFarshKermani() {
         ItemStack item = new ItemStack(Material.CARPET, 1, (short) 14);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(MessageUtils.color("&c&l🧶 فرش دستباف کرمانی - نقش شاه عباسی"));
-        meta.setLore(MessageUtils.color(Arrays.asList(
-                "&7فرش دستباف کرمان با نقش شاه عباسی",
-                "&7بافت شده توسط هنرمندان کرمانی",
-                "",
-                "&a&lویژگی: &fگرما در بیابان و سرما",
-                "&8&lقدمت: &7هنر 2500 ساله ایرانی"
-        )));
-        item.setItemMeta(meta);
+        if (meta != null) {
+            meta.setDisplayName(MessageUtils.color("&c&lFarsh Dastbaf Kermani - Naghsh Shah Abbasi"));
+            meta.setLore(MessageUtils.color(Arrays.asList(
+                    "&7Farshe dastbafe Kerman ba naghshe Shah Abbasi",
+                    "&7Bafte shode tavasote honarmandane Kermani",
+                    "",
+                    "&a&lVizhegi: &fGarma dar biaban va sarma",
+                    "&8&lGhedmat: &7Honare 2500 sale Irani"
+            )));
+            item.setItemMeta(meta);
+        }
         return item;
     }
 
     public static ItemStack createMorghAmin() {
         ItemStack item = new ItemStack(Material.FEATHER);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(MessageUtils.color("&b&l🪶 پر سیمرغ - پرنده افسانه‌ای شاهنامه"));
-        meta.setLore(MessageUtils.color(Arrays.asList(
-                "&7پر سیمرغ، پرنده افسانه‌ای شاهنامه فردوسی",
-                "&7که زال را در البرز بزرگ کرد",
-                "",
-                "&a&lقدرت: &fپرواز کوتاه + مقاومت سقوط",
-                "&8&lمنبع: &7شاهنامه فردوسی"
-        )));
-        meta.addEnchant(Enchantment.LUCK, 5, true);
-        item.setItemMeta(meta);
+        if (meta != null) {
+            meta.setDisplayName(MessageUtils.color("&b&lPare Simurgh - Parande Afsaneie Shahnameh"));
+            meta.setLore(MessageUtils.color(Arrays.asList(
+                    "&7Pare Simurgh, parandeye afsaneie Shahnameh Ferdowsi",
+                    "&7Ke Zal ra dar Alborz bozorg kard",
+                    "",
+                    "&a&lGhodrat: &fParvaze kootah + Moghavemat soghoot",
+                    "&8&lManba: &7Shahnameh Ferdowsi"
+            )));
+            meta.addEnchant(Enchantment.LUCK, 5, true);
+            item.setItemMeta(meta);
+        }
         return item;
     }
 
-    // ============ غذا و نوشیدنی ایرانی ============
+    // ============ Ghaza va Nooshidani ============
 
     public static ItemStack createChaiIrani() {
         ItemStack item = new ItemStack(Material.POTION);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(MessageUtils.color("&6&l☕ چای ایرانی لاهیجان - عطر بهشت"));
-        meta.setLore(MessageUtils.color(Arrays.asList(
-                "&7چای معطر لاهیجان، بهترین چای ایران",
-                "&7کشت شده در دامنه‌های البرز",
-                "",
-                "&a&lافکت: &fسرعت + مقاومت + گرما",
-                "&8&lخاستگاه: &7لاهیجان، گیلان"
-        )));
-        item.setItemMeta(meta);
+        if (meta != null) {
+            meta.setDisplayName(MessageUtils.color("&6&lChai Irani Lahijan - Atre Behesht"));
+            meta.setLore(MessageUtils.color(Arrays.asList(
+                    "&7Chaye moattare Lahijan, behtarin chaye Iran",
+                    "&7Kesht shode dar damanehaye Alborz",
+                    "",
+                    "&a&lEffect: &fSorat + Moghavemat + Garma",
+                    "&8&lMakan: &7Lahijan, Gilan"
+            )));
+            item.setItemMeta(meta);
+        }
         return item;
     }
 
     public static ItemStack createMorvaridKhalij() {
         ItemStack item = new ItemStack(Material.PRISMARINE_SHARD);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(MessageUtils.color("&b&l🔮 مروارید خلیج فارس - اشک دریا"));
-        meta.setLore(MessageUtils.color(Arrays.asList(
-                "&7مروارید ناب خلیج همیشه فارس",
-                "&7صید شده توسط غواصان بوشهری",
-                "",
-                "&a&lقدرت: &fتنفس زیر آب طولانی",
-                "&8&lمکان: &7بندر سیراف، بوشهر - خلیج فارس"
-        )));
-        meta.addEnchant(Enchantment.LUCK, 4, true);
-        item.setItemMeta(meta);
+        if (meta != null) {
+            meta.setDisplayName(MessageUtils.color("&b&lMorvarid Khalij Fars - Ashke Darya"));
+            meta.setLore(MessageUtils.color(Arrays.asList(
+                    "&7Morvaride nabe Khalije Hameshe Fars",
+                    "&7Seyd shode tavasote ghavasane Boushehri",
+                    "",
+                    "&a&lGhodrat: &fTanaffos zir ab toolani",
+                    "&8&lMakan: &7Bandar Siraf, Boushehr - Khalij Fars"
+            )));
+            meta.addEnchant(Enchantment.LUCK, 4, true);
+            item.setItemMeta(meta);
+        }
         return item;
     }
 
-    // ============ لوح‌ها و آثار باستانی ============
+    // ============ Lohha va Asare Bastani ============
 
     public static ItemStack createLohIlami() {
         ItemStack item = new ItemStack(Material.CLAY_BRICK);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(MessageUtils.color("&6&l🧱 خشت ایلامی - خط میخی"));
-        meta.setLore(MessageUtils.color(Arrays.asList(
-                "&7خشت نوشته‌دار ایلامی از زیگورات چغازنبیل",
-                "&7با خط میخی ایلامی",
-                "",
-                "&f\"این معبد را اونتاش-گال برای اینشوشیناک ساخت\"",
-                "",
-                "&8&lقدمت: &7 1250 قبل از میلاد - شوش، خوزستان"
-        )));
-        item.setItemMeta(meta);
+        if (meta != null) {
+            meta.setDisplayName(MessageUtils.color("&6&lKhesht Elami - Khatte Mikhi"));
+            meta.setLore(MessageUtils.color(Arrays.asList(
+                    "&7Kheshte neveshte-dare Elami az Ziggurat Chogha Zanbil",
+                    "&7Ba khatte mikhi Elami",
+                    "",
+                    "&f\"In maabad ra Untash-Napirisha baraye Inshushinak sakht\"",
+                    "",
+                    "&8&lGhedmat: &71250 ghabl az milad - Shush, Khuzestan"
+            )));
+            item.setItemMeta(meta);
+        }
         return item;
     }
 
     public static ItemStack createAtashMoghadas() {
         ItemStack item = new ItemStack(Material.FIREBALL);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(MessageUtils.color("&6&l🔥 آتش مقدس زرتشتی - آذرگشسب"));
-        meta.setLore(MessageUtils.color(Arrays.asList(
-                "&7آتش مقدس زرتشتیان، یکی از سه آتش بزرگ",
-                "&7که 700 سال در آذرگشسب روشن بود",
-                "",
-                "&c&lقدرت: &fمصونیت کامل به آتش و لاوا",
-                "&8&lمکان: &7آتشکده آذرگشسب، تخت سلیمان"
-        )));
-        meta.addEnchant(Enchantment.FIRE_ASPECT, 3, true);
-        item.setItemMeta(meta);
+        if (meta != null) {
+            meta.setDisplayName(MessageUtils.color("&6&lAtashe Moghadas Zartoshti - Azargoshasb"));
+            meta.setLore(MessageUtils.color(Arrays.asList(
+                    "&7Atashe moghadase Zartoshtian, yeki az 3 atashe bozorg",
+                    "&7Ke 700 sal dar Azargoshasb roshan bood",
+                    "",
+                    "&c&lGhodrat: &fMasooniat kamel be atash va lava",
+                    "&8&lMakan: &7Atashkadeye Azargoshasb, Takht Soleyman"
+            )));
+            meta.addEnchant(Enchantment.FIRE_ASPECT, 3, true);
+            item.setItemMeta(meta);
+        }
         return item;
     }
 
     public static ItemStack createSekkeHakhamaneshi() {
         ItemStack item = new ItemStack(Material.GOLD_NUGGET);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(MessageUtils.color("&e&l🪙 سکه دریک هخامنشی - اولین سکه جهان"));
-        meta.setLore(MessageUtils.color(Arrays.asList(
-                "&7سکه طلای داریوش بزرگ، اولین سکه بین‌المللی جهان",
-                "&7با نقش کماندار هخامنشی",
-                "",
-                "&a&lارزش: &fقابل معامله با روستاییان با قیمت بالا",
-                "&8&lتاریخ: &7 515 قبل از میلاد - تخت جمشید"
-        )));
-        item.setItemMeta(meta);
+        if (meta != null) {
+            meta.setDisplayName(MessageUtils.color("&e&lSekke Derik Hakhamaneshi - Avalin Sekke"));
+            meta.setLore(MessageUtils.color(Arrays.asList(
+                    "&7Sekke talaye Daryoosh Bozorg, avalin sekke beinolmelali jahan",
+                    "&7Ba naghshe kamandare Hakhamaneshi",
+                    "",
+                    "&a&lArzesh: &fGhabele moamele dar bazar ba gheymate bala",
+                    "&8&lTarikh: &7515 ghabl az milad - Takht Jamshid"
+            )));
+            item.setItemMeta(meta);
+        }
         return item;
     }
 
-    // ============ سلاح‌های ویژه ============
+    // ============ Salahhaye Vizhe ============
 
     public static ItemStack createKamanArash() {
         ItemStack item = new ItemStack(Material.BOW);
         ItemMeta meta = item.getItemMeta();
-        meta.setDisplayName(MessageUtils.color("&a&l🏹 کمان آرش کمانگیر - مرز ایران"));
-        meta.setLore(MessageUtils.color(Arrays.asList(
-                "&7کمان آرش کمانگیر که جانش را برای ایران داد",
-                "&7و تیرش را از البرز تا مروارید پرتاب کرد",
-                "",
-                "&c&lویژگی: &fبرد 10 برابر + قدرت 8",
-                "&8&lافسانه: &7آرش مرز ایران و توران را تعیین کرد"
-        )));
-        meta.addEnchant(Enchantment.ARROW_DAMAGE, 7, true);
-        meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
-        meta.addEnchant(Enchantment.ARROW_KNOCKBACK, 3, true);
-        item.setItemMeta(meta);
+        if (meta != null) {
+            meta.setDisplayName(MessageUtils.color("&a&lKamane Arash Kamangir - Marze Iran"));
+            meta.setLore(MessageUtils.color(Arrays.asList(
+                    "&7Kamane Arash Kamangir ke janesh ra baraye Iran dad",
+                    "&7Va tirash ra az Alborz partab kard",
+                    "",
+                    "&c&lVizhegi: &fBorde 10 barabar + Ghodrate 8",
+                    "&8&lAfsaneh: &7Arash marze Iran ra tayin kard"
+            )));
+            meta.addEnchant(Enchantment.ARROW_DAMAGE, 7, true);
+            meta.addEnchant(Enchantment.ARROW_INFINITE, 1, true);
+            meta.addEnchant(Enchantment.ARROW_KNOCKBACK, 3, true);
+            item.setItemMeta(meta);
+        }
         return item;
     }
 
-    // متد کمکی برای لوت تصادفی ایرانی
+    // Random Iranian loot helper
     public static ItemStack getRandomPersianLoot() {
         int r = (int) (Math.random() * 10);
         switch (r) {

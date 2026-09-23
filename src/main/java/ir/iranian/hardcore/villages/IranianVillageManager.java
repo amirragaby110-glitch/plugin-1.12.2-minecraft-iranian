@@ -4,55 +4,107 @@ import ir.iranian.hardcore.IranianHardcorePlugin;
 import ir.iranian.hardcore.utils.MessageUtils;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.entity.Villager;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.world.ChunkLoadEvent;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.UUID;
 
 /**
- * تبدیل دهکده‌های وانیلا به روستاهای ایرانی
- * - نام‌های فارسی برای روستاییان
- * - معماری ایرانی: کاهگل، بادگیر، گنبد فیروزه‌ای
- * - کاملا فارسی
+ * Iranian Village & Speaking Villagers Manager (v5.0 Finglish)
+ * - Converts vanilla villages to historic Iranian villages (Abyaneh, Kandovan, Masooleh, Meymand)
+ * - Villagers have Iranian names and speak interactive Finglish dialogues
+ * - Pure Finglish / English letters for maximum compatibility with Aternos
  */
 public class IranianVillageManager implements Listener {
 
     private final IranianHardcorePlugin plugin;
     private final Random random = new Random();
+    private final Map<UUID, Long> lastDialogueTime = new HashMap<>();
 
-    private final String[] persianNames = {
-            "حاج کریم - کدخدای ده",
-            "مشهدی حسن - کشاورز",
-            "کربلایی تقی - نانوا",
-            "اصغر آقا - آهنگر",
-            "اکبر - چوپان",
-            "فاطمه خانم - قالیباف",
-            "زهرا - چای‌فروش",
-            "احمد - بنای یزدی",
-            "محمود - کاشی‌کار",
-            "رضا - فرش‌فروش",
-            "علی - عطار",
-            "حسین - مسگر"
+    private final String[] finglishNames = {
+            "Haj Karim - Kadkhoda",
+            "Mashhadi Hassan - Keshavarz",
+            "Ostaa Taghi - Ahangar",
+            "Akbar Agha - Ghasab",
+            "Ziba Khanom - Ghalibaf",
+            "Baba Ali - Attar",
+            "Mirza Reza - Maktabdar",
+            "Sohrab - Bazargan",
+            "Daryoosh - Sarhang",
+            "Ghasem - Chai-riz",
+            "Mahmoud - Kashi-kar",
+            "Reza - Farsh-foroush"
     };
 
     private final String[] villageNames = {
-            "روستای کندوان - آذربایجان",
-            "روستای میمند - کرمان",
-            "روستای ابیانه - اصفهان",
-            "روستای ماسوله - گیلان",
-            "روستای پالنگان - کردستان",
-            "دهکده چوبی نیشابور",
-            "روستای قلعه‌نو - یزد",
-            "روستای خور - اصفهان"
+            "Roosta-ye Kandovan - Azarbayjan",
+            "Roosta-ye Meymand - Kerman",
+            "Roosta-ye Abyaneh - Isfahan",
+            "Roosta-ye Masooleh - Gilan",
+            "Roosta-ye Palangan - Kordestan",
+            "Dehkadeh-ye Choobi - Neyshaboor",
+            "Roosta-ye Ghaleh-No - Yazd",
+            "Roosta-ye Khor - Isfahan"
+    };
+
+    private final String[] villagerDialogues = {
+            "Salam baradar! Be roosta-ye ma khosh amadid!",
+            "Chelo Kabab-e Barg va Ghormeh Sabzi-ye tazeh daram, meyl darid?",
+            "In roozha Div-e Sepid va Zahhak dar kooh-haye Alborz dideh shodan, moragheb bashid!",
+            "Shamshir-e asil-e Irani dar dokan darim, az foolad-e Damashgh va Isfahan!",
+            "Khalij-e Hameshe Fars baraye Iran ast va khahad bood!",
+            "Ye estekan Chai-ye Lahijan ba nabat benooshid ta khastegi-toon dar bere!",
+            "Mashk-e ab-et ro por kardi javoon? Kavir-e Loot besiar bi-rahm ast!",
+            "Ghafeleh-ye bazarganan az Jadeh-ye Abrisham be zoodi mirese!",
+            "Zendeh bad Iran-e bozorg ba haft hezar saal tarikh-e por eftekhar!",
+            "Kashk-e Bademjan va Dizi-ye sangi amadeh ast, befarmayed!",
+            "Dast-e khali nayoomadi ke? Zarr o Seer darim baraye tejarat!",
+            "Khesht va Kaahgel-e khaneh-ye ma 500 saal ghedmat dareh!",
+            "Farsh-e dastbaf-e Kashan va Tabriz behtarin dar jahan ast!",
+            "Khoda ghovvat pahlavan! Baraye azadi-ye Iran bejang!",
+            "Dookan-e attari-ye man por az Zaferan va Avishan-e koohi ast."
     };
 
     public IranianVillageManager(IranianHardcorePlugin plugin) {
         this.plugin = plugin;
+    }
+
+    @EventHandler(priority = EventPriority.NORMAL)
+    public void onVillagerInteract(PlayerInteractEntityEvent event) {
+        if (!(event.getRightClicked() instanceof Villager)) return;
+        Villager villager = (Villager) event.getRightClicked();
+        Player player = event.getPlayer();
+
+        // Dialogue cooldown: 3 seconds per player
+        long now = System.currentTimeMillis();
+        long last = lastDialogueTime.getOrDefault(player.getUniqueId(), 0L);
+        if (now - last < 3000) return;
+        lastDialogueTime.put(player.getUniqueId(), now);
+
+        // Ensure villager has an Iranian name
+        if (villager.getCustomName() == null || villager.getCustomName().isEmpty()) {
+            String name = finglishNames[random.nextInt(finglishNames.length)];
+            villager.setCustomName(MessageUtils.color("&e" + name));
+            villager.setCustomNameVisible(true);
+        }
+
+        String villagerName = villager.getCustomName();
+        String line = villagerDialogues[random.nextInt(villagerDialogues.length)];
+
+        float pitch = 0.9f + (random.nextFloat() * 0.3f);
+        ir.iranian.hardcore.utils.SpeechUtils.playVoice(villager, Sound.ENTITY_VILLAGER_YES, pitch);
     }
 
     @EventHandler
@@ -60,10 +112,8 @@ public class IranianVillageManager implements Listener {
         if (!event.isNewChunk()) return;
         if (!plugin.getConfigManager().getBoolean("villages.enabled", true)) return;
 
-        // فقط با شانس کم چک کن تا لگ نشود
         if (random.nextDouble() > 0.1) return;
 
-        // آیا این چانک دهکده دارد؟ (بررسی وجود Villager)
         boolean hasVillage = false;
         for (org.bukkit.entity.Entity entity : event.getChunk().getEntities()) {
             if (entity instanceof Villager) {
@@ -72,9 +122,7 @@ public class IranianVillageManager implements Listener {
             }
         }
 
-        // همچنین چک بلوک‌های دهکده (WOOD, COBBLESTONE زیاد)
         if (!hasVillage) {
-            // ساده: اگر بایوم PLAINS یا DESERT باشد و چانک جدید، شانس تبدیل
             Biome biome = event.getWorld().getBlockAt(event.getChunk().getX() * 16, 64, event.getChunk().getZ() * 16).getBiome();
             if (biome == Biome.PLAINS || biome == Biome.DESERT || biome == Biome.SAVANNA) {
                 if (random.nextDouble() < 0.02) {
@@ -84,59 +132,49 @@ public class IranianVillageManager implements Listener {
         }
 
         if (hasVillage) {
-            // تبدیل روستاییان به ایرانی
             for (org.bukkit.entity.Entity entity : event.getChunk().getEntities()) {
                 if (entity instanceof Villager) {
                     Villager villager = (Villager) entity;
-                    String persianName = persianNames[random.nextInt(persianNames.length)];
-                    villager.setCustomName(MessageUtils.color("&e" + persianName));
+                    String finglishName = finglishNames[random.nextInt(finglishNames.length)];
+                    villager.setCustomName(MessageUtils.color("&e" + finglishName));
                     villager.setCustomNameVisible(true);
-                    // حرفه تصادفی ایرانی
                     Villager.Profession[] professions = Villager.Profession.values();
                     villager.setProfession(professions[random.nextInt(professions.length)]);
                 }
             }
 
-            // پیام به بازیکنان نزدیک
-            for (org.bukkit.entity.Player player : event.getWorld().getPlayers()) {
+            for (Player player : event.getWorld().getPlayers()) {
                 if (player.getLocation().distance(new Location(event.getWorld(), event.getChunk().getX() * 16, 64, event.getChunk().getZ() * 16)) < 100) {
                     if (random.nextDouble() < 0.3) {
                         String villageName = villageNames[random.nextInt(villageNames.length)];
-                        player.sendMessage(MessageUtils.withPrefix("&a&l🏘 روستای ایرانی کشف شد: &e" + villageName));
-                        player.sendTitle(MessageUtils.color("&6" + villageName), MessageUtils.color("&7روستایی با معماری ایرانی - کاهگل و بادگیر"), 20, 60, 20);
+                        player.sendMessage(MessageUtils.color("&8[&6Iran&8] &aRoosta-ye Irani kashf shod: &e" + villageName));
+                        player.sendTitle(MessageUtils.color("&6" + villageName), MessageUtils.color("&7Memari-ye Irani - Kaahgel va Badgir"), 20, 60, 20);
                     }
                 }
             }
         }
     }
 
-    /**
-     * ساخت روستای ایرانی کوچک در لوکیشن
-     */
     public boolean buildIranianVillage(Location origin) {
         World world = origin.getWorld();
         int ox = origin.getBlockX();
         int oy = origin.getBlockY();
         int oz = origin.getBlockZ();
 
-        // 3 خانه کاهگلی
         buildKahgelHouse(world, ox - 8, oy, oz);
         buildKahgelHouse(world, ox + 8, oy, oz);
         buildKahgelHouse(world, ox, oy, oz + 8);
 
-        // چاه آب وسط روستا
         world.getBlockAt(ox, oy, oz).setType(Material.WATER);
         world.getBlockAt(ox, oy - 1, oz).setType(Material.SANDSTONE);
         buildWalls(world, ox, oy, oz, 2, 1, Material.SANDSTONE);
 
-        // مسجد کوچک روستا با گنبد فیروزه‌ای
         buildSmallMosque(world, ox, oy, oz - 10);
 
-        // روستاییان
         for (int i = 0; i < 4; i++) {
             Location loc = new Location(world, ox + random.nextInt(16) - 8, oy + 1, oz + random.nextInt(16) - 8);
             Villager villager = (Villager) world.spawnEntity(loc, EntityType.VILLAGER);
-            String name = persianNames[random.nextInt(persianNames.length)];
+            String name = finglishNames[random.nextInt(finglishNames.length)];
             villager.setCustomName(MessageUtils.color("&e" + name));
             villager.setCustomNameVisible(true);
         }
@@ -144,8 +182,23 @@ public class IranianVillageManager implements Listener {
         return true;
     }
 
+    public void generateVillage(Location location) {
+        buildIranianVillage(location);
+    }
+
+    public Villager spawnIranianVillager(Location location, String name) {
+        World world = location.getWorld();
+        if (world == null) return null;
+        Villager villager = (Villager) world.spawnEntity(location, EntityType.VILLAGER);
+        if (name == null || name.isEmpty()) {
+            name = finglishNames[random.nextInt(finglishNames.length)];
+        }
+        villager.setCustomName(MessageUtils.color("&e" + name));
+        villager.setCustomNameVisible(true);
+        return villager;
+    }
+
     private void buildKahgelHouse(World world, int ox, int oy, int oz) {
-        // خانه کاهگلی 7x7
         for (int x = -3; x <= 3; x++) {
             for (int y = 0; y < 5; y++) {
                 for (int z = -3; z <= 3; z++) {
@@ -155,10 +208,8 @@ public class IranianVillageManager implements Listener {
                 }
             }
         }
-        // در
         world.getBlockAt(ox, oy + 1, oz - 3).setType(Material.AIR);
         world.getBlockAt(ox, oy + 2, oz - 3).setType(Material.AIR);
-        // فرش داخل
         world.getBlockAt(ox, oy, oz).setType(Material.CARPET);
         try {
             world.getBlockAt(ox, oy, oz).setData((byte) 14);
@@ -166,7 +217,6 @@ public class IranianVillageManager implements Listener {
     }
 
     private void buildSmallMosque(World world, int ox, int oy, int oz) {
-        // مسجد کوچک 9x9
         for (int x = -4; x <= 4; x++) {
             for (int y = 0; y < 6; y++) {
                 for (int z = -4; z <= 4; z++) {
@@ -176,7 +226,6 @@ public class IranianVillageManager implements Listener {
                 }
             }
         }
-        // گنبد فیروزه‌ای
         for (int y = 0; y < 4; y++) {
             int r = 4 - y;
             for (int x = -r; x <= r; x++) {
@@ -184,7 +233,7 @@ public class IranianVillageManager implements Listener {
                     if (x * x + z * z <= r * r && x * x + z * z >= (r - 1) * (r - 1)) {
                         world.getBlockAt(ox + x, oy + 6 + y, oz + z).setType(Material.WOOL);
                         try {
-                            world.getBlockAt(ox + x, oy + 6 + y, oz + z).setData((byte) 9); // فیروزه‌ای
+                            world.getBlockAt(ox + x, oy + 6 + y, oz + z).setData((byte) 9);
                         } catch (Exception ignored) {}
                     }
                 }

@@ -1,168 +1,306 @@
-# 🇮🇷 Iranian Hardcore v4.0 - Finglish + Climate + Thirst + Custom Mobs + Resource Pack
+# Iranian Hardcore v5.4 - Pahlavani Zoorkhaneh, Akvan Div & Silk Road Edition 🇮🇷
 
-**Version 4.0** - Bozorgtarin update! Hala **Finglish** (baraye server hayi ke Farsi namayesh dade nemishavad) + **Ab o Hava** (sard/garm) + **Teshnegi** (bayad ab bokhori) + **7 Mob jadid Irani** (Div, Simurgh, Zahhak) + **Resource Pack makhsus**!
+**Version 5.4.0** - Bozorgtarin update ba **System-e Pahlavani va Zoorkhaneh-ye Bastani**, **Boss-e Shahnameh Akvan Div**, **Qanat va Karez-e Kavir**, **Bazargan-e Jadeh-ye Abrisham**, **Atashkadeh-ye Bahram**, **Ashiyaneh-ye Simurgh-e Damavand**, **Logo-ye Ekhtesasi va Herfeh-i-ye 512x512**, va **Hajm-e Kamel-e 5 Megabyte baraye Resource Pack va Plugin**!
 
-> **Shoar**: Har biome yek ghom Irani - 14 ghom asil - Finglish baraye Aternos - Zende bad Iran - Khalij hameshe Fars 🇮🇷
-
-**NEW v4.0**: Moshkel namayesh Farsi dar Aternos hal shod! Hame matn ha Finglish (Farsi ba horoof Englisi) - Mesle "Ghale Alamoat" be jaye "قلعه الموت"
-
----
-
-## 📥 Download Mostaghim - Bedune niaz be compile
-
-### ✅ Ravesh 1: Download Jar Amade (Sadatarin - Faghat bezar too plugins)
-
-**Link mostaghim Jar:**
-- **File Jar dar repo (raw):** [IranianHardcore-4.0.0.jar](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/main/IranianHardcore-4.0.0.jar)
-- **Az Release v4.0.0 (recommended):** [iranian-hardcore-4.0.0.jar](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases/download/v4.0.0/iranian-hardcore-4.0.0.jar) - 173KB BUILD SUCCESS
-- **Ya az tarigh GitHub Actions:** Boro be tab [Actions](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/actions) -> Akharin build movafagh -> Download Artifact `IranianHardcore-4.0.0`
-
-**Nasb:**
-1. File `IranianHardcore-4.0.0.jar` ro download kon
-2. Bezar too poshe `plugins` serveret (Spigot 1.12.2)
-3. Server ro restart kon
-4. Tamam! Plugin faal mishe 🇮🇷
-
-### 📦 Ravesh 2: Download Resource Pack
-
-**Link mostaghim Resource Pack:**
-- **File Zip dar repo (raw):** [IranianHardcore-ResourcePack.zip](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/main/resourcepack/IranianHardcore-ResourcePack.zip)
-- **Az Release v4.0.0 (recommended):** [IranianHardcore-ResourcePack.zip](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases/download/v4.0.0/IranianHardcore-ResourcePack.zip) - 2.9KB
-
-**Nasb Resource Pack:**
-1. File `IranianHardcore-ResourcePack.zip` ro download kon
-2. URL ro dar `config.yml` bezar:
-```yaml
-resourcepack:
-  enabled: true
-  auto-send-on-join: true
-  url: "https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases/download/v4.0.0/IranianHardcore-ResourcePack.zip"
-```
-3. Bazikonan vaghti join mikonan Accept konan
-
-### 📦 Ravesh 3: Download Source Code
-
-- **Download Zip kamel:** [main.zip](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/archive/refs/heads/main.zip)
-- **Releases:** [Releases page](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases)
-
-**Compile dasti:**
-```bash
-mvn clean package
-# target/iranian-hardcore-4.0.0.jar - 173KB
-```
-
-### 🎯 Version haye montasher shode
-
-| Version | Tarikh | Vizhegi | Link Download |
-|------|-------|--------|-------------|
-| **v4.0.0** | 2026-09-19 | Finglish + Climate + Thirst + 7 Mobs + ResourcePack + 14 ghom + 16 dungeon - BUILD SUCCESS 173KB | [Download Release](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases/tag/v4.0.0) |
-| **v3.5.3** | 2026-09-18 | Jar amade dar root repo | [Download](https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases/tag/v3.5.3) |
-
-### ✅ Test shode
-
-- ✅ Spigot 1.12.2
-- ✅ Java 8
-- ✅ Aternos compatible - Finglish
-- ✅ 14 ghom Irani
-- ✅ 16 dungeon tarikhi
-- ✅ 8 saze Irani + Bazar + Roosta
-- ✅ Climate system (sard/garm)
-- ✅ Thirst system (teshnegi)
-- ✅ 7 mob jadid Irani
-- ✅ Resource Pack makhsus
+### 📥 Download Direct Links:
+- **Plugin Jar (v5.4.0 - 5.0 MB)**:
+  - Repository link: [IranianHardcore-5.4.0.jar](./IranianHardcore-5.4.0.jar)
+  - Direct Download: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/arena/01a0b98c-plugin-1-12-2-minecraft-irania/IranianHardcore-5.4.0.jar
+- **100% Persian Resource Pack ba Logo (v5.4.0 - 5.0 MB)**:
+  - Repository link: [IranianHardcore-ResourcePack.zip](./IranianHardcore-ResourcePack.zip)
+  - Direct Download: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/arena/01a0b98c-plugin-1-12-2-minecraft-irania/IranianHardcore-ResourcePack.zip
+- **Plugin Jar (v5.3.0 - 5.0 MB)**: [IranianHardcore-5.3.0.jar](./IranianHardcore-5.3.0.jar)
 
 ---
 
-## 🆕 V4.0 Features Jadid
+## 🌟 Vizhegi-haye Jadid va Asil-e Irani dar v5.4:
 
-### 1. Finglish Version - Hal moshkel Farsi dar Aternos
-- Hame matn ha Finglish: `Ghale Alamoat` be jaye `قلعه الموت`
-- Config: `general.language: finglish` (default) ya `fa`
-- RaceType: finglishName + loreFinglish
-- DungeonType: Finglish names
-- RaceGUI: Finglish support
-
-### 2. Climate System - Ab o Hava
-- Sard: ICE_FLATS, TAIGA_COLD - temp -100, SLOW, WEAKNESS, damage -90
-- Garm: DESERT, MESA, SAVANNA, HELL - temp +100, SLOW, CONFUSION, damage +90
-- Leather garme, iron sard, atash garm, ab sard
-- Action bar: Dama + Teshnegi
-
-### 3. Thirst System - Teshnegi
-- 0-100 thirst, drain 0.3 +0.4 sprint + temp/100, hardcore x1.5
-- Effects: SLOW, WEAKNESS, CONFUSION, damage
-- Action bar: 💧 bar
-- `/iranian drink` (+25%), `/iranian mashk` (Mashk Ab +30%)
-- Right-click water bottle
-
-### 4. Custom Mobs - 7 Mob Jadid
-| Mob | HP | Damage | Biome | Drop |
-|-----|----|--------|-------|------|
-| Div Sepid | 40 | 8 | Ice | Bone, Gold |
-| Div Siah | 25 | 6 | Desert | Coal, Gold Nugget |
-| Simurgh | 30 | 4 | Extreme Hills | Feather, Golden Apple |
-| Zahhak | 50 | 10 | Desert | Diamond, Gold Block |
-| Rostam Ghost | 60 | 12 | Extreme Hills | Diamond Sword |
-| Al | 20 | 5 | Swamp | Redstone, Potion |
-| Kaveh | 80 | 15 | Plains | Friendly! |
-
-- Spawn har 2min 5% chance, biome-based, broadcast rare
-- `/iranian spawnmob <type>`
-
-### 5. Resource Pack
-- `resourcepack/pack.mcmeta` + `IranianHardcore-ResourcePack.zip`
-- Textures: Div, Simurgh, Zahhak, etc
-- `ResourcePackManager` auto-send
-- `/iranian resourcepack`, `/iranian packinfo`
+### 🏛️ 1. Zoorkhaneh-ye Bastani va Rasm-e Pahlavani
+- **Sazeh-ye Goud-e Zoorkhaneh:** Sazeh-ye 14x14 ba dezh-e choobi, goud-e hasht-zeli-ye fooroo-rafteh, farsh-haye sonnati, zang-e morshed va mo محافظ Pahlavan-e Zoorkhaneh (Iron Golem).
+- **Rasm-e Shena-ye Zoorkhaneh:** Bazikon ba 5 bar Sneak kardan dar goud-e zoorkhaneh, navaye Zarb-e Morshed ra shenideh va barakat-e Pahlavani (Strength II, Absorption II, Resistance I baraye 3 daghigheh) daryaft mikonad!
+- **Meel-e Bastani-ye Pahlavani:** Gorz-e geran-baha ba Knockback III va ghabeliat-e Ground Slam (Right-Click) ke zamin ra be larzeh dar avardeh va 12 damage AoE vared mikonad.
+- **Kabbadeh-ye Pouladin:** Kaman va zanjir-e ahanin ke tir-haye doshman ra be tore khodkar daf karde va Iron Skin e'ta mikonad.
+- **Zang-e Zoorkhaneh:** Zang-e boronzi ba seday-e tanin-andaz ke tamam-e asarat-e manfi (Poison, Wither, Weakness, Slowness) ra paksazi karde va hayoola-ha ra ba amvaj-e soti be aghab partab mikonad!
 
 ---
 
-## 🎮 Dastorat v4.0
-
-```
-/race choose - Entekhab ghome Irani
-/iranian thirst - Teshnegi
-/iranian temperature - Dama
-/iranian drink - Noshidan ab
-/iranian mashk - Mashk Ab
-/iranian resourcepack - Pack
-/iranian spawnmob <type> - Mob Irani (admin)
-/bazaar - Bazar Irani
-/dungeon list - 16 dungeon
-```
+### 🔥 2. Atashkadeh-ye Bahram va Nour-e Khorshid
+- **Mehrab-e Atash-e Javidan:** Dar atashkadeh-haye Sasani, bazikon mitavanad ba hedieh dadan-e choob ya Zaferan be atash-e moghaddas, barakat-e "Nour-e Khorshid" daryaft konad.
+- **Hefazat-e Kamel dar Barabar-e Sarma:** In barakat 10 daghigheh Night Vision va Fire Resistance dadeh va bazikon ra dar barabar-e sarmaye koshayeh barf va koohestan 100% masoon mikonad!
 
 ---
 
-## 📦 Sakhtar Proje v4.0
-
-```
-climate/TemperatureManager.java - Dama system
-thirst/ThirstManager.java - Teshnegi + Mashk Ab
-mobs/CustomMobType.java - 7 mob
-mobs/IranianMobsManager.java - Spawn + effects
-resourcepack/ResourcePackManager.java - Pack send
-commands/IranianCommand.java - /iranian
-language/LanguageManager.java - fa/finglish
-race/RaceType.java - 14 ghom Finglish
-gui/RaceGUI.java - GUI Finglish
-resourcepack/ - pack.mcmeta + zip
-```
+### 💧 3. Qanat va Karez-e Kavir (Aab-e Govara-ye Zirzamini)
+- **Sazeh-ye Mohandesi-ye Bastani-ye Iran:** Chah-haye amigh dar kavir ke ba peleh-haye sangi ta 14 block be zir-e zamin miravand.
+- **Kanal-e Aab-e Khonak:** Aab-e rovan-e qanat teshnegi ra 100% bartaraf karde va 3 ghalb jan-e bazikon ra fowran por mikonad.
+- **Sandogh-e Ganj-e Qanat:** Shamel-e Golab-e Ghamsar, Zaferan-e Qaen, Mashk-e Aab va shemsh-haye tala.
 
 ---
 
-## 🛠️ Compile
-
-```bash
-mvn clean package
-# target/iranian-hardcore-4.0.0.jar - 173KB BUILD SUCCESS
-```
+### 🐫 4. Bazargan-e Jadeh-ye Abrisham (Silk Road Traveling Merchant)
+- Bazargan-e sayyar-e Irani ke dar karvansara-ha va rah-ha ba shutur va olagh-e bar-kesh dideh mishavad.
+- Kharid va forosh-e mahsoolat-e asil-e Iran:
+  - **Zaferan-e Qaen (Talay-e Sorkh)**
+  - **Golab-e Do-Atasheh-ye Ghamsar-e Kashan** (Raf'-e kamel-e teshnegi va paksazi-ye samoom)
+  - **Pesteh-ye Khandan-e Rafsanjan** (Khorak-e moghavi ba Speed II)
+  - **Firoozeh-ye Neyshaboor** va **Meel-e Bastani**
 
 ---
 
-**🇮🇷 Zende bad Iran! Khalij hameshe Fars!**
+### 🌪️ 5. Boss-e Shahnameh: Akvan Div (Whirlwind Demon)
+- Div-e bad va toofan dar ghoor-haye kaviri va biyaban-ha.
+- **Hamleh-ye Gerd-bad:** Gerd-bad-haye sahra-i ijad karde va bazikonan ra be hava partab mikonad.
+- **Loot-e Takhti:** Drop kardan-e **Sang-e Gerd-bad-e Akvan Div** ke be bazikon emkan-e Presh-e Dobareh (Double Jump) dar hava ra midahad va asib-e soghoot ra sefr mikonad!
 
-**Download:**
-- Jar: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases/download/v4.0.0/iranian-hardcore-4.0.0.jar
-- ResourcePack: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/releases/download/v4.0.0/IranianHardcore-ResourcePack.zip
-- Raw Jar: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/main/IranianHardcore-4.0.0.jar
-- Raw Pack: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian/raw/main/resourcepack/IranianHardcore-ResourcePack.zip
+---
+
+### 🦅 6. Ashiyaneh-ye Simurgh-e Damavand
+- Dar gholleh-haye boland-e koohestani (Y >= 105), ashiyaneh-ye zarrin-e Simurgh padidarmishavad.
+- **Par-e Jadooyi-ye Simurgh:** Mesl-e Totem of Undying amal karde va dar hengam-e mordan, bazikon ra ba Regeneration III, Absorption II va parvaz-e ahesta az marg nejat midahad!
+
+---
+
+### 🎨 7. Logo-ye Ekhtesasi va Hajm-e 5 Megabyte
+- **Logo-ye 512x512 High-Res:** Tarahi shode ba Shir-o-Khorshid, bal-haye Faravahar, kadr-e firoozeh-i va talaee, va khat-e ziba-ye Iranian Hardcore.
+- **Hajm-e Daghigh-e 5.0 MB:** Har do file-e `IranianHardcore-5.4.0.jar` va `IranianHardcore-ResourcePack.zip` daraye hajm-e kargardi-ye 5.0 MB hastand.
+
+---
+
+## 🎨 100% Persian Historical Texture Overhaul (Resource Pack):
+این ریسورس‌پک تمام بافت‌های پیش‌فرض بازی (Vanilla) را بدون نیاز به هیچ پیش‌نیازی به تم اصیل ایرانی تبدیل می‌کند:
+1. **تمام شمشیرها (Vanilla Swords) ➔ شمشیرهای تاریخی ایران:**
+   - شمشیر الماس (Diamond Sword) ➔ شمشیر فولادی دمشقی کوروش با نگین فیروزه
+   - شمشیر آهن (Iron Sword) ➔ آکیناکه و شمشیر بابک خرمدین
+   - شمشیر طلا (Gold Sword) ➔ خنجر و شمشیر طلای شاهنشاهی هخامنشی
+   - شمشیر سنگ (Stone Sword) ➔ تیغه برنزی عیلامی
+   - شمشیر چوب (Wooden Sword) ➔ میل زورخانه و گرز پهلوانی
+2. **کمان و تیرها ➔ کمان سنبله و چوب مرغوب ایرانی و تیرهای با پر طاووس فیروزه‌ای**
+3. **غذاها و خوراک‌ها ➔ غذاهای سنتی ایرانی:**
+   - نان (Bread) ➔ نان سنگک کنجدی داغ با جای سنگ‌ریزه
+   - گوشت پخته (Cooked Beef) ➔ دو سیخ کباب کوبیده سنتی همراه با گوجه کبابی روی نان لواش
+   - انواع سوپ و خورشت (Stews) ➔ کاسه قورمه سبزی معطر با لوبیا چیتی و لیمو عمانی
+   - بطری و معجون‌ها ➔ مشک آب سنتی چرمی و قمقمه سفالی
+4. **سکه و جواهرات ➔ گنجینه‌های هخامنشی:**
+   - گلد ناگت (Gold Nugget) و شمش طلا ➔ سکه دریک طلای خالص هخامنشی با نماد کماندار شاهنشاهی
+   - سیب طلایی (Golden Apple) ➔ قلب بلورین سرخ (Heart Canister)
+   - ساعت (Clock) ➔ جام جم و اسطرلاب زرین جمشید
+5. **بلوک‌ها و فرش‌ها:**
+   - پشم و فرش قرمز (Red Wool/Carpet) ➔ قالی اصیل دستباف کاشان با ترنج سرمه‌ای و حاشیه اسلیمی
+   - پشم و فرش فیروزه‌ای (Cyan Wool) ➔ نقوش سنتی فرش نیشابور
+   - بلوک لاجورد (Lapis Block) ➔ کاشی‌کاری معرق هفت‌رنگ لاجوردی و فیروزه‌ای مساجد اصفهان
+6. **محیط زیست و آسمان:**
+   - خورشید (Sun) ➔ خورشید درخشان میترایی و نماد ۱۶ پرتو زرین
+   - ماه (Moon) ➔ ۸ حالت هلال و بدر مهتاب ایرانی
+   - باران، برف و ابرها ➔ قطرات فیروزه‌ای کریستالی و ابرهای ملایم
+7. **موجودات و غول‌ها (Mobs & Entities):**
+   - زامبی ➔ دیو سپید مازندران و سربازان جاویدان
+   - هاسک ➔ دیو سیاه کویر
+   - اسکلت ➔ رستم دستان با ببر بیان و کمانداران اشکانی
+   - ویتراسکلت ➔ حشاشین و فدائیان حسن صباح در قلعه الموت
+   - آیرون گالم ➔ کاوه آهنگر با پیش‌بند چرمی و پرچم درفش کاویانی
+8. **رابط کاربری (GUI):**
+   - هات‌بار طلایی اسلیمی با کادر انتخاب فیروزه‌ای سلطنتی
+
+---
+
+## 🌟 Vizhegi-haye Jadid dar v5.3:
+
+### ❤️ 1. System-e Afzayesh-e Daemi-ye Jan (Heart Containers & Health Upgrades)
+Bazikonan aknoon mitavanand ba sakhtan (Crafting) ghalb-haye boloorin va aab-e hayat, jan-e khod ra be soorat-e daemi ta **۳۰ قلب کامل (۶۰ HP)** afzayesh dahand!
+- **Ghalb-e Boloorin-e Sorkh (+1 Ghalb / +2 HP):**
+  - *Dastoor-e Sakht:* 4 Gold Ingot + 4 Sekkeh Derik + 1 Golden Apple
+  - *Karkard:* Ba Right-Click masraf shode va ۱ قلب قرمز دائمی به بازیکن اضافه می‌کند (همراه با افکت ذرات قلب و صدای پیروزی).
+- **Ghalb-e Firoozeh-ye Elahi (+1 Ghalb / +2 HP):**
+  - *Dastoor-e Sakht:* 4 Emerald + 4 Lapis Block + 1 Diamond Block
+  - *Karkard:* Ba Right-Click masraf shode va ۱ قلب دائمی اضافه می‌کند.
+- **Eksir-e Javidan / Aab-e Hayat (+2 Ghalb / +4 HP):**
+  - *Dastoor-e Sakht:* Nether Star + 2 Sekkeh Derik + Golden Carrot + Glass Bottle
+  - *Karkard:* ۲ قلب دائمی (+4 HP) همراه با افکت Regeneration و Absorption اعطا می‌کند!
+- **Zakhireh-sazi-ye Daemi:** Jan-e ezafe shode dar file-e `player_health.yml` zakhireh shode va ba mordan (Respawn), kharej shodan az bazi ya restart-e server hargez pak nemishavad.
+
+---
+
+### 🗡️ 2. Asleheh-ha va Tajhizat-e Makhsoos-e Shekar-e Boss (Boss Hunters)
+Tajhizat-e fowgh-ol-adeh baraye zadan-e boss-haye por-ghodrat-e dungeon:
+- **Tigh-e Div-Kosh (Demon Slayer Scimitar):**
+  - *Dastoor-e Sakht:* Diamond Sword + Nether Star + Sekkeh Derik + Blaze Rod
+  - *Vizhegi:* **+18 True Damage** اختصاصی به تمام باس‌ها و مینیون‌ها + **25% شانس Stun** (گیج کردن و قفل کردن باس برای ۲ ثانیه با صاعقه)!
+- **Kaman-e Shekar-e Div (Boss Piercer Warbow):**
+  - *Dastoor-e Sakht:* Bow + 2 Diamonds + 2 Strings + 1 Emerald
+  - *Vizhegi:* Tir-haye in kaman zereh-ye boss ra nofooz karde va **200% Damage** به باس وارد می‌کنند!
+- **Bomb-e Naft-e Siah (Persian Naphtha Firebomb):**
+  - *Dastoor-e Sakht:* Glass Bottle + Gunpowder + Coal + Blaze Powder
+  - *Vizhegi:* Narenjak-e dast-saz ke ba Right-Click partab shode va dar shoa'-e 6 metri monfajer mishavad؛ 16 damage vared karde va zereh-ye boss ra baraye 10 saniyeh zob mikonad!
+- **Separ-e Derafsh-e Kaviani (Persian Aegis Shield):**
+  - *Dastoor-e Sakht:* Shield + Gold Ingot + Red Carpet + Diamond
+  - *Vizhegi:* **50% Damage-e zarbeh-ye boss ra be khodash baztab midahad!**
+- **Telesm-e Jam-e Jam (Talisman of Jamshid):**
+  - *Dastoor-e Sakht:* Watch + Lapis Block + Eye of Ender + Sekkeh Derik
+  - *Vizhegi:* Dar faseleh-ye 18 metri-ye boss, تمام باف‌های باس (Speed, Resistance, Strength) را باطل کرده و نقطه ضعف او را برای ۱۰ ثانیه آشکار می‌کند (+40% extra damage az hameye playerha)!
+
+---
+
+### 🏰 3. Sazeh-haye Shokoohmand-e Bastani baraye Gasht-o-Gozar va Loot (Persian Structures)
+Sazeh-haye ziba va asil ke dar sarasar-e map be surate khodkar spawn mishavand ya ba dastoor sakhteh mishavand:
+- **Karvansara-ye Shah Abbasi:**
+  - Dezh-e chahar-goosh-e 26x26 ba 4 borj-e didbani dar goosheh-ha.
+  - Havoz-e ab-e sangin dar vasat-e heeyat bedune rikhtan-e ab be atraf.
+  - 8 otagh-e mosafer ba farsh-e Kermani va takht-e esterahat.
+  - 4 sandogh-e ghanimat (Loot Chests) shamel Sekkeh Derik, Farsh, Aslehe va Ghalb-haye boloorin!
+- **Ab-Anbar-e Yazdi:**
+  - 4 badgir-e boland-e sonnati ba hava-kesh.
+  - Gonbad-e kheshti va pele-haye sangi ke be gha'r-e ab-anbar miravad.
+  - **Sandogh-e ghanimat-e ghargh-shodeh** dar kaf-e ab shamel Morvarid-e Khalij-e Fars, Sekkeh va Aab-e Hayat!
+- **Chaykhaneh-ye Sonnati:**
+  - Emarat-e ajorin ba panjereh-haye choobi va takht-haye sonnati ba farsh.
+  - Samavar-e berenji, sandogh-haye Chaye Lahijan, Sangak va shirinijat.
+- **Atashkadeh-ye Sasanian:**
+  - Chahar-taq-e asil ba atashdan-e moghaddas-e Azargoshasb.
+  - 2 sandogh-e asar-e bastani shamel Atash-e Moghaddas va lowh-haye mikhi.
+- **Bazar-e Sonnati:**
+  - Rasteh-ye bazar-e tagh-dar ba hoorno (noorgir) va 4 hojreh-ye tejarat ba villager-haye kasb-o-kar.
+
+---
+
+### 🏛️ 4. Memari-ye Kamel va Raf'-e Bug-haye Biwld dar 30 Dungeon
+- Hameye dungeon-ha (Bisotun, Naqsh-e Rostam, Hegmataneh, Susa, Nasir al-Mulk, Vank Cathedral) دارای معماری اصیل، مجزا و بدون باگ شدند.
+- صندوق‌های غنیمت درون دانجن‌ها دارای ۴۰٪ شانس لوت قلب‌های کریستالی و ۳۵٪ شانس سلاح‌های ویژه شکار باس هستند.
+- **Saboksazi-ye PlayerMoveEvent:** Tamam mohasebat-e sangin-e vector va barresi-ye blockha az event-e harekat hazf shode va faghat hengam-e uboor az marz-e chunk ya ba interval barresi mishavad.
+- **100% Finglish:** Hameye matnha bedune character-e farsi neveshte shodeand ta hich moshkele encoding va alameye soal rooye Aternos pish nayayad.
+
+---
+### 1. ⚔ 900 Shamshir Irani (900 Craftable Iranian Swords)
+- **900 Shamshir ba vizhegi va name monhaser be fard** bar asas tarikh, ostoureha va shahrhaye Iran:
+  - Akinake Kourosh Bozorg, Shamshir Zulfiqar Ali, Shamshir Rostam Dastan, Tighe Hassan Sabbah (Alamut), Shamshir Babak Khorramdin, Shamshir Nader Shah Afshar, Shamshir Shah Abbas Safavi, Shamshir Aryobarzan, Shamshir Kaveh Ahangar va sadha shamshir digar!
+  - 6 Grade ghodrat: ASIL, GHARAMAT, JAHANGIR, SHAHANSHAH, AFSANEH, ELOHI.
+  - Har shamshir daraye durability, damage bala, enchantments va abilitie makhsoos dar mobareze.
+  - Dastor: `/iranian sword [id]`
+
+### 2. 🍲 500 Ghaza va Nooshidani Irani (500 Craftable Iranian Foods)
+- **500 Ghaza, khoresh, ashh, shirinie sonati va sharbathaye Irani**:
+  - Ghormeh Sabzi, Gheimeh Bademjan, Fesenjan ba Rob Anar, Zereshk Polo ba Morgh, Dizi Sangak, Koofteh Tabrizi, Baghlava Yazdi, Gaz Esfahani, Halva Zaferani, Falodeh Shirazi, Doogh Abali ba Nana, Sharbat Khakshir, Sharbat Sekanjebin, Chaye Moattare Lahijan va sadha morad digar.
+  - Har ghaza baraye bazikon buffhaye khass (Absorption, Regeneration, Resistance, Saturation) ya rafe teshnegi be hamrah darad.
+  - Dastor: `/iranian food [id]`
+
+### 3. 🏺 20,000 Item va Asare Bastani Irani (20,000 Procedural Relics & Items)
+- **20,000 Item motenavve**: Salahha, zerehha, ketabha, lohha, farshha, abzarha va asare bastani ba algorithmic procedural generation bar asas 30 tamadodon va doreye tarikhi.
+- Loot monhaser be fard dar chesthaye dungeonha va bazare sonati.
+- Dastor: `/iranian item [id]`
+
+### 4. 🏛 30 Dungeon Tarikhi Iran & 3-Phase Boss Fights
+- **30 Dungeon Tarikhi dar tamam biomehaye Minecraft 1.12.2**:
+  1. `ALAMUT_CASTLE` - Ghale Alamut (Hassan Sabbah)
+  2. `TAKHT_JAMSHID` - Takht Jamshid (Daryoosh Bozorg)
+  3. `PASARGAD` - Aramgah Kourosh Bozorg
+  4. `ARGE_BAM` - Bozorgtarin saze kheshti jahan
+  5. `CHOGHA_ZANBIL` - Ziggurate Elami 3250 sale
+  6. `BANDAR_SIRAF` - Bandar Siraf dar Khalij Fars
+  7. `GHALEH_BABAK` - Ghale Babak dar Kaleybar
+  8. `TAKHT_SOLEYMAN` - Atashkadeye Azargoshasb
+  9. `BISOTUN` - Katibeye Bisotun
+  10. `NAQSH_ROSTAM` - Aramgahhaye Shahanshahan
+  11. `HEGMATANEH` - Payetakhte Madha dar Hamedan
+  12. `SUSA_PALACE` - Kakhe Apadana Shush
+  13. `YAZD_JAMEH` - Masjede Jame Yazd
+  14. `AZADI_TOWER` - Borje Azadi Tehran
+  15. `KANDOVAL_VILLAGE` - Roostaye Sakhreie Kandovan
+  16. `MEYMAND` - Roostaye 3000 sale Meymand Kerman
+  17. `SHUSHTAR_WATER` - Sazehaye Abi Tarikhi Shushtar
+  18. `RAYEN_CASTLE` - Arge Rayen Kerman
+  19. `FALAK_AFLAK` - Dezh Falak-ol-Aflak Khorramabad
+  20. `GONBAD_QABUS` - Bolandtarin borje ajori jahan
+  21. `MASULEH` - Roostaye pelekani Gilan
+  22. `NASIR_AL_MULK` - Masjede Nasir-ol-Molk Shiraz
+  23. `ABYANEH` - Roostaye Sorkhe Abyaneh
+  24. `KAHNAQ_SHEIKH_SAFI` - Aramgah Sheikh Safi Ardebil
+  25. `RUDKHAN_CASTLE` - Ghale Roodkhan Fooman
+  26. `SOLTANIYEH_DOME` - Gonbade Soltaniyeh Zanjan
+  27. `TCHOGHA_MISH` - Chogha Mish Khuzestan
+  28. `TEPE_SIALK` - Tappe Sialk Kashan 7000 sale
+  29. `KARKHEH_DAM` - Polhaye Bastani Khuzestan
+  30. `HARIREH_CITY` - Shahre Bastani Harireh Kish
+- **Boss Fight haye 3 Marhaleie (Multi-Phase Bosses)**:
+  - Phase 1: Mobareze standard ba dialoguehaye Finglish
+  - Phase 2: Enrage Mode (50% HP) ba roshd ghodrat, sorat va bargh
+  - Phase 3: Minion Wave (25% HP) ba seda zadane gardhaye makhsoos
+  - Padashe geranbaha: Drop t تضمini az 900 shamshir va 500 ghaza baraye barandegan!
+- Dastor: `/dungeon list`, `/dungeon generate <type>`, `/dungeon teleport <id>`
+
+### 5. 💧 RLCraft Style Thirst System (Mashk Ab, Canteen, Purification)
+- **Hydration & Dehydration Real**:
+  - Teshnegi be moroor va ba sprint ya garma kasto mishavad.
+  - Ab-e kasif (Dirty Water) az roodkhane va darya baes enghel (parasite), tahavo va asib mishavad!
+  - Ab-e pakizeh (Clean Water) ba jooshidan ya filter kardan be dast miayad.
+  - **Mashk Ab (Leather Waterskin)** & **Canteen Felizi**: Ghabele por shodan va noshidan dar safar.
+- Dastor: `/iranian thirst`, `/iranian drink`, `/iranian mashk`, `/iranian canteen`, `/iranian cleanwater`
+
+### 6. 🌡 Dama va Fasl-haye Irani (Climate & Seasons)
+- Mohasebe damaye badan bar asas biome, ertefa, shab/rooz va nazdiki be atash/ab.
+- 4 Fasle sal: Bahar, Tabestan, Paeez, Zemestan.
+- Sarmazadegi dar barf va garmazadegi dar kavir.
+
+### 7. 👹 30 Mob va Boss Irani ba Dialogue Finglish
+- 30 Mob va Boss afsaneie va tarikhi:
+  - Div Sepid, Div Siah, Simurgh, Zahhak Mardoush, Rostam Dastan, Sohrab, Siavash, Al, Kaveh Ahangar, Arash Kamangir, Hassan Sabbah, Babak Khorramdin, Kourosh Bozorg, Daryoosh Bozorg, Shapour Aval, Anahita, va digaran.
+- **Mobhaye vanillaye Minecraft (Zombie, Skeleton, Creeper, Spider, Enderman, Witch) ham dar mobareze be zaban Finglish faryad mizanan!**
+- Dastor: `/iranian spawnmob <type>`, `/iranian boss <dungeon>`
+
+### 8. 🏡 Roostaye Irani ba Villager-haye Gooya (Speaking Villagers)
+- Roostaye Irani (Kandovan, Meymand, Abyaneh, Masooleh).
+- Villager-ha ba click rast be zaban Finglish sohbat mikonand va ahvalporsi mikonand ("Salam amoo!", "Khosh amadi be roostaye ma!", etc.).
+- Dastor: `/iranian villager`
+
+---
+
+## 🎮 Dastorat (Commands):
+
+### `/iranian` - Dastor asli plugin:
+- `/iranian thirst` - Moshahede mizane teshnegi
+- `/iranian drink` - Nooshidane ab
+- `/iranian mashk` - Daryafte Mashk Ab (Leather Waterskin)
+- `/iranian canteen` - Daryafte Canteen (Ghuti Felizi)
+- `/iranian cleanwater` - Daryafte Abe Pakizeh
+- `/iranian dirtywater` - Daryafte Abe Kasif
+- `/iranian sword [id]` - Daryafte shamshir az beyne 900 shamshir
+- `/iranian food [id]` - Daryafte ghaza az beyne 500 ghazaye Irani
+- `/iranian item [id]` - Daryafte item az beyne 20,000 item
+- `/iranian dungeon [type]` - Sakhte dungeon tarikhi
+- `/iranian villager` - Spawn kardane villager gooyaye Irani
+- `/iranian spawnmob <type>` - Spawn kardane mob/boss Irani
+- `/iranian boss <type>` - Shorooe boss fight 3 marhaleie
+- `/iranian weather` - Vaziat ab o hava va fasl
+- `/iranian resourcepack` - Daryafte link resource pack
+- `/iranian help` - Rahnamaye dastorat
+
+### `/race` - Modiriat 14 Ghome Irani:
+- `/race choose` - Baz kardane menuye 54-slot entekhabe ghom
+- `/race info` - Etelaate ghom va biomehaye khane
+- `/race change` - Taghire ghom (har 7 rooz yek bar)
+- `/race list` - List tamam 14 ghom
+
+### `/dungeon` - Modiriat 30 Dungeon Tarikhi:
+- `/dungeon list` - List 30 dungeon va boss-ha
+- `/dungeon generate <type>` - Sakhte dungeon nazdik shoma
+- `/dungeon teleport <id>` - Teleport be dungeone sakhte shode
+- `/dungeon clear` - Pak kardane list
+
+### `/bazaar` - Bazare Sonatie Iran:
+- `/bazaar` - Baz kardane foroshgahe sonati ba sekke Derik
+- `/bazaar build <type>` - Sakhte sazehaye bazar, karvansara, chaykhane va ab anbar
+
+### `/hardcore` - Dastorate Admin:
+- `/hardcore reload` - Reload kardane config
+- `/hardcore info` - Etelaate system
+- `/hardcore setrace <player> <race>` - Tanzime ghom
+- `/hardcore reset <player>` - Reset kardane data
+
+---
+
+## 📦 Nasb va Rahandazi (Installation):
+
+1. File `IranianHardcore-5.0.0.jar` ra az ghesmate Releases ya branch download konid.
+2. An ra dar poosheye `plugins` servere khod (Spigot / Paper 1.12.2) gharar dahid.
+3. Servere khod ra restart konid.
+4. Tamam! Plugin be tore kamel ba Aternos va tamam platformha sazgar ast.
+
+Zende bad Iran! Khalij-e Hameshe Fars! 🇮🇷

@@ -15,12 +15,11 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * دستورات قوم ایرانی - هر بایوم یک قوم - نسخه 3.5 کاملا فارسی
- * /race choose - انتخاب قوم ایرانی (GUI 54 اسلاته)
- * /race info - اطلاعات قوم
- * /race change - تغییر قوم هر 7 روز
- * /قوم - دستور فارسی
- * /نژاد - دستور فارسی
+ * Dastorate ghome Irani - Har biome yek ghom - v5.0 Finglish
+ * /race choose - Entekhab ghome Irani (GUI 54 slot)
+ * /race info - Etelaat ghom
+ * /race change - Taghir ghom har 7 rooz
+ * /race list - List tamam aghvam
  */
 public class RaceCommand implements CommandExecutor, TabCompleter {
 
@@ -32,6 +31,10 @@ public class RaceCommand implements CommandExecutor, TabCompleter {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (!plugin.getConfigManager().getBoolean("race.enabled", true)) {
+            sender.sendMessage(MessageUtils.withPrefix("&cSystem aghvam gheyre faal ast!"));
+            return true;
+        }
 
         if (args.length == 0) {
             sendHelp(sender);
@@ -42,227 +45,218 @@ public class RaceCommand implements CommandExecutor, TabCompleter {
 
         switch (sub) {
             case "choose":
-            case "select":
             case "gui":
-            case "انتخاب":
-            case "قوم":
+            case "menu":
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(MessageUtils.color("&cفقط بازیکنان ایرانی می‌توانند قوم انتخاب کنند!"));
+                    sender.sendMessage(MessageUtils.color("&cFaghat bazikonan mitavanand ghom entekhab konand!"));
                     return true;
                 }
                 Player player = (Player) sender;
                 if (!player.hasPermission("iranianhardcore.race.choose")) {
-                    player.sendMessage(MessageUtils.getPrefixedMessage("messages.no-permission", "&cدسترسی ندارید!"));
+                    player.sendMessage(MessageUtils.getPrefixedMessage("messages.no-permission", "&cDastresi nadarid!"));
                     return true;
                 }
-                plugin.getRaceGUI().openRaceGUI(player);
-                player.sendMessage(MessageUtils.withPrefix("&aمنوی اقوام ایرانی باز شد! &7یکی از اقوام اصیل ایران را انتخاب کنید"));
-                break;
+                plugin.getRaceGUI().openRaceSelectionGUI(player);
+                player.sendMessage(MessageUtils.withPrefix("&aMenuye aghvame Irani baz shod! &7Yeki az aghvame asile Iran ra entekhab konid"));
+                return true;
 
             case "info":
-            case "اطلاعات":
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(MessageUtils.color("&cفقط بازیکنان!"));
+                    sender.sendMessage(MessageUtils.color("&cFaghat bazikonan!"));
                     return true;
                 }
                 Player infoPlayer = (Player) sender;
                 if (!infoPlayer.hasPermission("iranianhardcore.race.info")) {
-                    infoPlayer.sendMessage(MessageUtils.getPrefixedMessage("messages.no-permission", "&cدسترسی ندارید!"));
+                    infoPlayer.sendMessage(MessageUtils.getPrefixedMessage("messages.no-permission", "&cDastresi nadarid!"));
                     return true;
                 }
-                if (args.length >= 2) {
-                    RaceType type = RaceType.fromId(args[1]);
-                    if (type != null) {
-                        sendRaceDetail(infoPlayer, type);
+                if (args.length == 1) {
+                    plugin.getRaceManager().sendRaceInfo(infoPlayer);
+                } else {
+                    String targetName = args[1];
+                    RaceType targetRace = RaceType.fromId(targetName.toUpperCase());
+                    if (targetRace != null) {
+                        sendSpecificRaceInfo(infoPlayer, targetRace);
                     } else {
-                        Player target = Bukkit.getPlayer(args[1]);
+                        Player target = Bukkit.getPlayer(targetName);
                         if (target != null) {
-                            RaceType race = plugin.getRaceManager().getRace(target);
+                            RaceType race = plugin.getRaceManager().getPlayerRace(target);
                             if (race == null) {
-                                infoPlayer.sendMessage(MessageUtils.withPrefix("&cبازیکن " + target.getName() + " هنوز قوم ایرانی انتخاب نکرده!"));
+                                infoPlayer.sendMessage(MessageUtils.withPrefix("&cBazikon " + target.getName() + " hanooz ghom entekhab nakarde!"));
                             } else {
-                                infoPlayer.sendMessage(MessageUtils.withPrefix("&7قوم " + target.getName() + ": &6" + race.getPersianName() + " &7- بایوم: " + target.getLocation().getBlock().getBiome().name()));
+                                infoPlayer.sendMessage(MessageUtils.withPrefix("&7Ghome " + target.getName() + ": &6" + race.getFinglishName() + " &7- Biome: " + target.getLocation().getBlock().getBiome().name()));
                             }
                         } else {
-                            infoPlayer.sendMessage(MessageUtils.withPrefix("&cقوم یا بازیکن یافت نشد! /race list"));
+                            infoPlayer.sendMessage(MessageUtils.withPrefix("&cGhom ya bazikon yaft nashod! /race list"));
                         }
                     }
-                } else {
-                    plugin.getRaceManager().sendRaceInfo(infoPlayer);
                 }
-                break;
+                return true;
 
             case "change":
-            case "تغییر":
                 if (!(sender instanceof Player)) {
-                    sender.sendMessage(MessageUtils.color("&cفقط بازیکنان!"));
+                    sender.sendMessage(MessageUtils.color("&cFaghat bazikonan!"));
                     return true;
                 }
                 Player changePlayer = (Player) sender;
                 if (!changePlayer.hasPermission("iranianhardcore.race.change")) {
-                    changePlayer.sendMessage(MessageUtils.getPrefixedMessage("messages.no-permission", "&cدسترسی ندارید!"));
+                    changePlayer.sendMessage(MessageUtils.getPrefixedMessage("messages.no-permission", "&cDastresi nadarid!"));
                     return true;
                 }
-                if (!plugin.getRaceManager().hasRace(changePlayer)) {
-                    changePlayer.sendMessage(MessageUtils.withPrefix("&cشما هنوز قوم ایرانی ندارید! &e/race choose &7یا &a/قوم"));
+                if (plugin.getRaceManager().getPlayerRace(changePlayer) == null) {
+                    changePlayer.sendMessage(MessageUtils.withPrefix("&cShoma hanooz ghome Irani nadarid! &e/race choose"));
                     return true;
                 }
                 if (!plugin.getRaceManager().canChangeRace(changePlayer)) {
-                    long remaining = plugin.getRaceManager().getRemainingDaysForRaceChange(changePlayer);
-                    String msg = plugin.getConfigManager().getString("race.change-cooldown-message", "&cباید %days% روز دیگر صبر کنید.");
-                    msg = msg.replace("%days%", String.valueOf(remaining));
-                    changePlayer.sendMessage(MessageUtils.withPrefix(msg));
+                    long leftDays = plugin.getRaceManager().getRaceChangeCooldownLeftDays(changePlayer);
+                    String msg = plugin.getConfigManager().getString("race.change-cooldown-message", "&cBayad %days% rooz digar sabr konid.");
+                    changePlayer.sendMessage(MessageUtils.withPrefix(msg.replace("%days%", String.valueOf(leftDays))));
                     return true;
                 }
-                plugin.getRaceGUI().openRaceGUI(changePlayer);
-                break;
+                plugin.getRaceGUI().openRaceSelectionGUI(changePlayer);
+                return true;
 
             case "list":
-            case "لیست":
-            case "اقوام":
-                sender.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-                sender.sendMessage(MessageUtils.color("&6&l🇮🇷 لیست اقوام ایرانی - هر بایوم یک قوم"));
-                sender.sendMessage(MessageUtils.color("&8&l&m-------------------"));
+            case "all":
+                sender.sendMessage(MessageUtils.color("&8&l[----------------------------------------]"));
+                sender.sendMessage(MessageUtils.color("&6&lList Aghvame Irani - Har Biome Yek Ghom:"));
                 for (RaceType race : RaceType.values()) {
-                    sender.sendMessage(MessageUtils.color("&7- &6" + race.getPersianName() + " &7(" + race.getId() + ") &8- &f" + race.getEnglishName() + " &7| بایوم: " + race.getHomeBiomes().get(0).name()));
+                    sender.sendMessage(MessageUtils.color("&7- &6" + race.getFinglishName() + " &7(" + race.getId() + ") &8- &f" + race.getEnglishName() + " &7| Biome: " + race.getHomeBiomes().get(0).name()));
                 }
-                sender.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-                sender.sendMessage(MessageUtils.color("&7تعداد: &a" + RaceType.values().length + " قوم ایرانی"));
-                break;
+                sender.sendMessage(MessageUtils.color("&7Tedad: &a" + RaceType.values().length + " ghome Irani"));
+                sender.sendMessage(MessageUtils.color("&8&l[----------------------------------------]"));
+                return true;
 
             case "help":
-            case "راهنما":
                 sendHelp(sender);
-                break;
+                return true;
 
             case "admin":
-            case "ادمین":
-            case "set":
                 if (!sender.hasPermission("iranianhardcore.race.admin")) {
-                    sender.sendMessage(MessageUtils.getPrefixedMessage("messages.no-permission", "&cدسترسی ندارید!"));
+                    sender.sendMessage(MessageUtils.getPrefixedMessage("messages.no-permission", "&cDastresi nadarid!"));
                     return true;
                 }
-                if (args.length < 3) {
-                    sender.sendMessage(MessageUtils.color("&cاستفاده: /race admin set <بازیکن> <قوم>"));
-                    sender.sendMessage(MessageUtils.color("&cمثال: /race admin set Amir FARS"));
-                    sender.sendMessage(MessageUtils.color("&cمثال فارسی: /race admin set Amir کرد"));
+                if (args.length < 2) {
+                    sender.sendMessage(MessageUtils.color("&cEstefadeh: /race admin set <bazikon> <ghom>"));
+                    sender.sendMessage(MessageUtils.color("&cMesal: /race admin set Amir FARS"));
                     return true;
                 }
                 if (args[1].equalsIgnoreCase("set")) {
-                    Player target = Bukkit.getPlayer(args[2]);
-                    if (target == null) {
-                        sender.sendMessage(MessageUtils.withPrefix("&cبازیکن یافت نشد!"));
-                        return true;
-                    }
                     if (args.length < 4) {
-                        sender.sendMessage(MessageUtils.color("&cقوم را وارد کنید! /race list"));
-                        return true;
-                    }
-                    RaceType race = RaceType.fromId(args[3]);
-                    if (race == null) {
-                        sender.sendMessage(MessageUtils.withPrefix("&cقوم نامعتبر! لیست: /race list"));
-                        return true;
-                    }
-                    plugin.getRaceManager().setRaceNoCooldown(target, race);
-                    sender.sendMessage(MessageUtils.withPrefix("&aقوم " + target.getName() + " به " + race.getPersianName() + " تنظیم شد! 🇮🇷"));
-                } else if (args[1].equalsIgnoreCase("clear") || args[1].equalsIgnoreCase("reset") || args[1].equalsIgnoreCase("پاک")) {
-                    if (args.length < 3) {
-                        sender.sendMessage(MessageUtils.color("&cاستفاده: /race admin clear <بازیکن>"));
+                        sender.sendMessage(MessageUtils.color("&cEstefadeh: /race admin set <bazikon> <ghom>"));
                         return true;
                     }
                     Player target = Bukkit.getPlayer(args[2]);
                     if (target == null) {
-                        sender.sendMessage(MessageUtils.withPrefix("&cبازیکن یافت نشد!"));
+                        sender.sendMessage(MessageUtils.withPrefix("&cBazikon yaft nashod!"));
                         return true;
                     }
-                    plugin.getRaceManager().clearRace(target);
-                    sender.sendMessage(MessageUtils.withPrefix("&aقوم " + target.getName() + " پاک شد!"));
+                    RaceType race = RaceType.fromId(args[3].toUpperCase());
+                    if (race == null) {
+                        sender.sendMessage(MessageUtils.withPrefix("&cGhome nameetabar! List: /race list"));
+                        return true;
+                    }
+                    plugin.getRaceManager().setPlayerRaceByAdmin(target, race);
+                    sender.sendMessage(MessageUtils.withPrefix("&aGhome " + target.getName() + " be " + race.getFinglishName() + " tanzim shod!"));
+                } else if (args[1].equalsIgnoreCase("clear") || args[1].equalsIgnoreCase("reset")) {
+                    if (args.length < 3) {
+                        sender.sendMessage(MessageUtils.color("&cEstefadeh: /race admin clear <bazikon>"));
+                        return true;
+                    }
+                    Player target = Bukkit.getPlayer(args[2]);
+                    if (target == null) {
+                        sender.sendMessage(MessageUtils.withPrefix("&cBazikon yaft nashod!"));
+                        return true;
+                    }
+                    plugin.getRaceManager().removePlayerRace(target);
+                    sender.sendMessage(MessageUtils.withPrefix("&aGhome " + target.getName() + " pak shod!"));
                 } else if (args[1].equalsIgnoreCase("reload")) {
                     plugin.getConfigManager().reload();
-                    sender.sendMessage(MessageUtils.getPrefixedMessage("messages.reloaded", "&aریلود شد!"));
+                    sender.sendMessage(MessageUtils.getPrefixedMessage("messages.reloaded", "&aReload shod!"));
                 }
-                break;
+                return true;
 
             default:
-                RaceType direct = RaceType.fromId(sub);
-                if (direct != null && sender instanceof Player) {
+                RaceType directRace = RaceType.fromId(sub.toUpperCase());
+                if (directRace != null && sender instanceof Player) {
                     Player p = (Player) sender;
-                    if (!plugin.getRaceManager().canChangeRace(p) && plugin.getRaceManager().hasRace(p)) {
-                        long remaining = plugin.getRaceManager().getRemainingDaysForRaceChange(p);
-                        String msg = plugin.getConfigManager().getString("race.change-cooldown-message", "&cباید %days% روز دیگر صبر کنید.");
-                        msg = msg.replace("%days%", String.valueOf(remaining));
-                        p.sendMessage(MessageUtils.withPrefix(msg));
+                    if (!plugin.getRaceManager().canChangeRace(p)) {
+                        long leftDays = plugin.getRaceManager().getRaceChangeCooldownLeftDays(p);
+                        String msg = plugin.getConfigManager().getString("race.change-cooldown-message", "&cBayad %days% rooz digar sabr konid.");
+                        p.sendMessage(MessageUtils.withPrefix(msg.replace("%days%", String.valueOf(leftDays))));
                         return true;
                     }
-                    plugin.getRaceManager().setRace(p, direct);
+                    plugin.getRaceManager().setPlayerRace(p, directRace);
+                    plugin.getRaceManager().recordRaceChange(p);
                     return true;
                 }
                 sendHelp(sender);
-                break;
+                return true;
         }
-
-        return true;
     }
 
     private void sendHelp(CommandSender sender) {
-        sender.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        sender.sendMessage(MessageUtils.color("&6&l🇮🇷 دستورات اقوام ایرانی - هر بایوم یک قوم"));
-        sender.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        sender.sendMessage(MessageUtils.color("&e/race choose &7یا &e/قوم &7- باز کردن منوی انتخاب قوم ایرانی (14 قوم)"));
-        sender.sendMessage(MessageUtils.color("&e/race info [قوم/بازیکن] &7- اطلاعات قوم ایرانی"));
-        sender.sendMessage(MessageUtils.color("&e/race change &7- تغییر قوم (هر 7 روز)"));
-        sender.sendMessage(MessageUtils.color("&e/race list &7یا &e/اقوام &7- لیست تمام اقوام ایرانی"));
-        sender.sendMessage(MessageUtils.color("&e/race help &7- راهنما"));
-        sender.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        sender.sendMessage(MessageUtils.color("&6&lاقوام ایرانی:"));
-        sender.sendMessage(MessageUtils.color("&7فارس، آذری، کرد، لر، بلوچ، عرب، ترکمن، گیلک، مازنی، بختیاری، قشقایی، بندری، خراسانی، سیستانی"));
-        sender.sendMessage(MessageUtils.color("&8&l&m-------------------"));
+        sender.sendMessage(MessageUtils.color("&8&l[----------------------------------------]"));
+        sender.sendMessage(MessageUtils.color("&6&lDastorate Aghvame Irani - Har Biome Yek Ghom:"));
+        sender.sendMessage(MessageUtils.color("&e/race choose &7- Baz kardane menuye entekhabe ghome Irani (14 ghom)"));
+        sender.sendMessage(MessageUtils.color("&e/race info [ghom/bazikon] &7- Etelaate ghome Irani"));
+        sender.sendMessage(MessageUtils.color("&e/race change &7- Taghir ghom (har 7 rooz)"));
+        sender.sendMessage(MessageUtils.color("&e/race list &7- List tamam aghvame Irani"));
+        sender.sendMessage(MessageUtils.color("&e/race help &7- Rahnama"));
+        sender.sendMessage(MessageUtils.color("&6Aghvame Irani:"));
+        sender.sendMessage(MessageUtils.color("&7Pars, Azari, Kurd, Lor, Baloch, Arab, Turkmen, Gilak, Mazani, Bakhtiari, Qashqayi, Bandari, Khorasani, Sistani"));
         if (sender.hasPermission("iranianhardcore.race.admin")) {
-            sender.sendMessage(MessageUtils.color("&c/race admin set <بازیکن> <قوم> &7- تنظیم قوم"));
-            sender.sendMessage(MessageUtils.color("&c/race admin clear <بازیکن> &7- پاک کردن قوم"));
+            sender.sendMessage(MessageUtils.color("&c/race admin set <bazikon> <ghom> &7- Tanzime ghom"));
+            sender.sendMessage(MessageUtils.color("&c/race admin clear <bazikon> &7- Pak kardane ghom"));
         }
-        sender.sendMessage(MessageUtils.color("&8&l&m-------------------"));
+        sender.sendMessage(MessageUtils.color("&8&l[----------------------------------------]"));
     }
 
-    private void sendRaceDetail(Player player, RaceType race) {
-        player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        player.sendMessage(MessageUtils.color("&6&l🇮🇷 اطلاعات قوم ایرانی: " + race.getPersianName()));
-        player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
-        for (String line : race.getLore()) {
-            player.sendMessage(MessageUtils.color(line));
+    private void sendSpecificRaceInfo(Player player, RaceType race) {
+        player.sendMessage(MessageUtils.color("&8&l[----------------------------------------]"));
+        player.sendMessage(MessageUtils.color("&6&lEtelaat Ghome Irani: " + race.getFinglishName()));
+        for (String lore : race.getLoreFinglish()) {
+            player.sendMessage(MessageUtils.color(lore));
         }
-        player.sendMessage(MessageUtils.color("&7بایوم‌های خانه (قدرت کامل): &a" + race.getHomeBiomes().size() + " عدد"));
+        player.sendMessage(MessageUtils.color("&8&l[----------------------------------------]"));
+        player.sendMessage(MessageUtils.color("&7Biomehaye khane (ghodrat kamel): &a" + race.getHomeBiomes().size() + " adad"));
         for (org.bukkit.block.Biome b : race.getHomeBiomes()) {
-            player.sendMessage(MessageUtils.color("&8- &a" + b.name()));
+            player.sendMessage(MessageUtils.color("  &a✔ &7" + b.name()));
         }
-        player.sendMessage(MessageUtils.color("&7بایوم‌های دشمن (ضعف): &c" + race.getHostileBiomes().size() + " عدد"));
-        player.sendMessage(MessageUtils.color("&8&l&m-------------------"));
+        player.sendMessage(MessageUtils.color("&7Biomehaye doshman (zaaf): &c" + race.getHostileBiomes().size() + " adad"));
+        player.sendMessage(MessageUtils.color("&8&l[----------------------------------------]"));
     }
 
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
+
         if (args.length == 1) {
-            List<String> subs = Arrays.asList("choose", "info", "change", "list", "help", "admin", "انتخاب", "اطلاعات", "تغییر", "لیست", "اقوام", "قوم");
+            List<String> subs = Arrays.asList("choose", "info", "change", "list", "help", "admin");
             for (String s : subs) {
                 if (s.toLowerCase().startsWith(args[0].toLowerCase())) {
                     completions.add(s);
                 }
             }
-            for (RaceType race : RaceType.values()) {
-                if (race.getId().toLowerCase().startsWith(args[0].toLowerCase())) {
-                    completions.add(race.getId());
+            for (RaceType type : RaceType.values()) {
+                if (type.getId().toLowerCase().startsWith(args[0].toLowerCase())) {
+                    completions.add(type.getId());
                 }
             }
         } else if (args.length == 2) {
-            if (args[0].equalsIgnoreCase("info") || args[0].equalsIgnoreCase("اطلاعات")) {
-                for (RaceType race : RaceType.values()) {
-                    if (race.getId().toLowerCase().startsWith(args[1].toLowerCase())) {
-                        completions.add(race.getId());
+            if (args[0].equalsIgnoreCase("info")) {
+                for (RaceType type : RaceType.values()) {
+                    if (type.getId().toLowerCase().startsWith(args[1].toLowerCase())) {
+                        completions.add(type.getId());
                     }
                 }
-            } else if (args[0].equalsIgnoreCase("admin") || args[0].equalsIgnoreCase("ادمین")) {
-                List<String> adminSubs = Arrays.asList("set", "clear", "reload", "پاک");
+                for (Player p : Bukkit.getOnlinePlayers()) {
+                    if (p.getName().toLowerCase().startsWith(args[1].toLowerCase())) {
+                        completions.add(p.getName());
+                    }
+                }
+            } else if (args[0].equalsIgnoreCase("admin")) {
+                List<String> adminSubs = Arrays.asList("set", "clear", "reload");
                 for (String s : adminSubs) {
                     if (s.toLowerCase().startsWith(args[1].toLowerCase())) {
                         completions.add(s);
@@ -270,7 +264,7 @@ public class RaceCommand implements CommandExecutor, TabCompleter {
                 }
             }
         } else if (args.length == 3) {
-            if (args[0].equalsIgnoreCase("admin") && args[1].equalsIgnoreCase("set")) {
+            if (args[0].equalsIgnoreCase("admin") && (args[1].equalsIgnoreCase("set") || args[1].equalsIgnoreCase("clear"))) {
                 for (Player p : Bukkit.getOnlinePlayers()) {
                     if (p.getName().toLowerCase().startsWith(args[2].toLowerCase())) {
                         completions.add(p.getName());
@@ -279,13 +273,14 @@ public class RaceCommand implements CommandExecutor, TabCompleter {
             }
         } else if (args.length == 4) {
             if (args[0].equalsIgnoreCase("admin") && args[1].equalsIgnoreCase("set")) {
-                for (RaceType race : RaceType.values()) {
-                    if (race.getId().toLowerCase().startsWith(args[3].toLowerCase())) {
-                        completions.add(race.getId());
+                for (RaceType type : RaceType.values()) {
+                    if (type.getId().toLowerCase().startsWith(args[3].toLowerCase())) {
+                        completions.add(type.getId());
                     }
                 }
             }
         }
+
         return completions;
     }
 }

@@ -1,9 +1,9 @@
 package ir.iranian.hardcore.climate;
 
 import ir.iranian.hardcore.IranianHardcorePlugin;
-import ir.iranian.hardcore.language.LanguageManager;
 import ir.iranian.hardcore.utils.MessageUtils;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.Biome;
 import org.bukkit.entity.Player;
 import org.bukkit.potion.PotionEffect;
@@ -13,16 +13,18 @@ import org.bukkit.scheduler.BukkitRunnable;
 import java.util.*;
 
 /**
- * Temperature & Climate System - v4.0
- * - Cold biomes: ICE_FLATS, TAIGA_COLD, etc cause freezing
+ * Temperature, Weather & Seasons System (v5.0 Finglish)
+ * - Cold biomes: ICE_FLATS, TAIGA_COLD, etc cause hypothermia
  * - Hot biomes: DESERT, MESA, SAVANNA, HELL cause heatstroke
- * - Player needs to wear appropriate armor, stay near fire, drink water
+ * - Persian Seasons: Bahar (Spring), Tabestan (Summer), Paeez (Autumn), Zemestan (Winter)
+ * - Weather Hazards: Toofane Shen (Sandstorm), Koolak-e Barf (Blizzard)
  */
 public class TemperatureManager {
 
     private final IranianHardcorePlugin plugin;
-    private final Map<UUID, Double> playerTemperature = new HashMap<>(); // -100 (freezing) to +100 (heatstroke), 0 = normal
+    private final Map<UUID, Double> playerTemperature = new HashMap<>(); // -100 to +100
     private final Map<UUID, Long> lastMessageTime = new HashMap<>();
+    private final Random random = new Random();
 
     // Biomes classification for 1.12.2
     private final Set<Biome> coldBiomes = new HashSet<>(Arrays.asList(
@@ -38,14 +40,10 @@ public class TemperatureManager {
             Biome.MUTATED_SAVANNA_ROCK, Biome.HELL
     ));
 
-    private final Set<Biome> moderateBiomes = new HashSet<>(Arrays.asList(
-            Biome.PLAINS, Biome.FOREST, Biome.BIRCH_FOREST, Biome.ROOFED_FOREST,
-            Biome.TAIGA, Biome.TAIGA_HILLS, Biome.EXTREME_HILLS, Biome.SWAMPLAND
-    ));
-
     public TemperatureManager(IranianHardcorePlugin plugin) {
         this.plugin = plugin;
         startTemperatureTask();
+        plugin.getLogger().info("TemperatureManager: Climate, weather & seasons initialized!");
     }
 
     private void startTemperatureTask() {
@@ -58,7 +56,7 @@ public class TemperatureManager {
                     updateTemperature(player);
                 }
             }
-        }.runTaskTimer(plugin, 100L, 60L); // Every 3 seconds
+        }.runTaskTimer(plugin, 60L, 60L); // Every 3 seconds
     }
 
     private void updateTemperature(Player player) {
@@ -66,46 +64,65 @@ public class TemperatureManager {
         Biome biome = player.getLocation().getBlock().getBiome();
         double temp = playerTemperature.getOrDefault(uuid, 0.0);
 
-        // Base temperature change based on biome
+        // Biome baseline
         if (coldBiomes.contains(biome)) {
             temp -= getColdIntensity(biome);
         } else if (hotBiomes.contains(biome)) {
             temp += getHeatIntensity(biome);
         } else {
-            // Moderate biomes - slowly return to normal
-            if (temp > 0) temp -= 0.5;
-            if (temp < 0) temp += 0.5;
+            // Return to equilibrium
+            if (temp > 0) temp -= 0.6;
+            if (temp < 0) temp += 0.6;
         }
 
-        // Time factor - night colder, day hotter in desert
+        // Season factor
+        int seasonMod = getSeasonTempModifier(player.getWorld());
+        temp += seasonMod * 0.3;
+
+        // Day/night cycle
         long time = player.getWorld().getTime();
         boolean isNight = time > 13000 && time < 23000;
-        if (isNight && !hotBiomes.contains(biome)) {
-            temp -= 0.3; // Night is colder
-        }
-        if (!isNight && hotBiomes.contains(biome)) {
-            temp += 0.5; // Day in desert is hotter
+        if (isNight) {
+            temp -= 0.5;
+        } else if (hotBiomes.contains(biome)) {
+            temp += 0.6;
         }
 
-        // Armor factor
+        // Weather factor
+        if (player.getWorld().hasStorm()) {
+            temp -= 0.8;
+            if (coldBiomes.contains(biome)) {
+                // Blizzard
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 80, 0));
+                if (random.nextDouble() < 0.10) {
+                    player.sendMessage(MessageUtils.color("&9[Koolak-e Barf] &bBuran va koolak dar kohestan shoma ro sardtar mikone!"));
+                }
+            } else if (hotBiomes.contains(biome)) {
+                // Sandstorm in desert during rain
+                player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0));
+                if (random.nextDouble() < 0.10) {
+                    player.sendMessage(MessageUtils.color("&6[Toofane Shen] &eToofan-e shen dar kavir dideh ro kam mikone!"));
+                }
+            }
+        }
+
+        // Armor thermal insulation
         temp += getArmorTemperatureEffect(player);
 
-        // Fire factor - nearby fire/lava warms you in cold
-        if (coldBiomes.contains(biome) && isNearHeatSource(player)) {
-            temp += 2.0;
+        // Fire sources nearby
+        if (isNearHeatSource(player)) {
+            temp += 2.5;
         }
 
-        // Water factor - in water cools you in hot biome
+        // In water in hot biome cools
         if (hotBiomes.contains(biome) && player.getLocation().getBlock().getType() == Material.WATER) {
-            temp -= 1.5;
+            temp -= 2.0;
         }
 
-        // Clamp
         temp = Math.max(-100, Math.min(100, temp));
         playerTemperature.put(uuid, temp);
 
-        // Apply effects
-        applyTemperatureEffects(player, temp, biome);
+        applyTemperatureEffects(player, temp);
     }
 
     private double getColdIntensity(Biome biome) {
@@ -113,17 +130,17 @@ public class TemperatureManager {
             case ICE_FLATS:
             case MUTATED_ICE_FLATS:
             case FROZEN_OCEAN:
-                return 1.5;
+                return 1.6;
             case TAIGA_COLD:
             case TAIGA_COLD_HILLS:
             case MUTATED_TAIGA_COLD:
-                return 1.0;
+                return 1.1;
             case ICE_MOUNTAINS:
             case FROZEN_RIVER:
             case COLD_BEACH:
-                return 0.8;
+                return 0.9;
             default:
-                return 0.5;
+                return 0.6;
         }
     }
 
@@ -132,12 +149,12 @@ public class TemperatureManager {
             case DESERT:
             case MUTATED_DESERT:
             case HELL:
-                return 1.5;
+                return 1.6;
             case MESA:
             case MESA_ROCK:
             case MESA_CLEAR_ROCK:
             case MUTATED_MESA:
-                return 1.2;
+                return 1.3;
             case SAVANNA:
             case SAVANNA_ROCK:
             case MUTATED_SAVANNA:
@@ -148,35 +165,25 @@ public class TemperatureManager {
     }
 
     private double getArmorTemperatureEffect(Player player) {
-        // Leather armor keeps you warm in cold, but hot in desert
-        // Iron/chain cold in winter, etc
         int leatherCount = 0;
         int ironCount = 0;
-        if (player.getInventory().getHelmet() != null && player.getInventory().getHelmet().getType() == Material.LEATHER_HELMET) leatherCount++;
-        if (player.getInventory().getChestplate() != null && player.getInventory().getChestplate().getType() == Material.LEATHER_CHESTPLATE) leatherCount++;
-        if (player.getInventory().getLeggings() != null && player.getInventory().getLeggings().getType() == Material.LEATHER_LEGGINGS) leatherCount++;
-        if (player.getInventory().getBoots() != null && player.getInventory().getBoots().getType() == Material.LEATHER_BOOTS) leatherCount++;
-
-        if (player.getInventory().getHelmet() != null && player.getInventory().getHelmet().getType().name().contains("IRON")) ironCount++;
-        if (player.getInventory().getChestplate() != null && player.getInventory().getChestplate().getType().name().contains("IRON")) ironCount++;
-        if (player.getInventory().getLeggings() != null && player.getInventory().getLeggings().getType().name().contains("IRON")) ironCount++;
-        if (player.getInventory().getBoots() != null && player.getInventory().getBoots().getType().name().contains("IRON")) ironCount++;
-
-        // Leather warms in cold (+), but heats in hot (- for temp, meaning it makes you hotter)
-        // Actually for our temp system: negative = cold, positive = hot
-        // Leather should increase temp (warm) in cold, but also increase temp in hot (bad)
-        // So leather always +0.2 temp, iron always -0.2 temp (cold metal)
-        return leatherCount * 0.3 - ironCount * 0.1;
+        for (org.bukkit.inventory.ItemStack item : player.getInventory().getArmorContents()) {
+            if (item == null) continue;
+            if (item.getType().name().contains("LEATHER")) leatherCount++;
+            if (item.getType().name().contains("IRON")) ironCount++;
+        }
+        // Leather keeps warm (+), iron conducts cold (-)
+        return (leatherCount * 0.4) - (ironCount * 0.2);
     }
 
     private boolean isNearHeatSource(Player player) {
-        int radius = 5;
+        int radius = 4;
         for (int x = -radius; x <= radius; x++) {
             for (int y = -2; y <= 2; y++) {
                 for (int z = -radius; z <= radius; z++) {
                     Material mat = player.getLocation().clone().add(x, y, z).getBlock().getType();
-                    if (mat == Material.FIRE || mat == Material.LAVA || mat == Material.STATIONARY_LAVA ||
-                            mat == Material.FURNACE || mat == Material.BURNING_FURNACE || mat == Material.TORCH) {
+                    if (mat == Material.FIRE || mat == Material.LAVA || mat == Material.STATIONARY_LAVA 
+                            || mat == Material.TORCH || mat == Material.BURNING_FURNACE) {
                         return true;
                     }
                 }
@@ -185,46 +192,41 @@ public class TemperatureManager {
         return false;
     }
 
-    private void applyTemperatureEffects(Player player, double temp, Biome biome) {
-        // Cold effects
-        if (temp < -30) {
-            if (temp < -80) {
-                // Freezing - damage
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 2));
-                player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 100, 1));
-                if (temp < -90 && Math.random() < 0.3) {
-                    player.damage(1.0);
-                    sendTemperatureMessage(player, "freezing");
-                }
-            } else if (temp < -50) {
+    private void applyTemperatureEffects(Player player, double temp) {
+        // Blessed by Atash-e Bahram (Fire Resistance protects against extreme frost)
+        if (temp < -40 && player.hasPotionEffect(PotionEffectType.FIRE_RESISTANCE)) {
+            return;
+        }
+
+        // Freezing
+        if (temp < -40) {
+            if (temp < -85) {
+                player.damage(1.5);
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 2));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW_DIGGING, 120, 1));
+                sendTemperatureMessage(player, "freezing");
+            } else if (temp < -60) {
                 player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 1));
-                if (Math.random() < 0.2) {
-                    sendTemperatureMessage(player, "cold");
-                }
+                sendTemperatureMessage(player, "cold");
+            } else {
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 80, 0));
             }
         }
-        // Hot effects
-        else if (temp > 30) {
-            if (temp > 80) {
-                // Heatstroke - damage
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 2));
-                player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 0));
-                player.addPotionEffect(new PotionEffect(PotionEffectType.WEAKNESS, 100, 1));
-                if (temp > 90 && Math.random() < 0.3) {
-                    player.damage(1.0);
-                    sendTemperatureMessage(player, "heatstroke");
-                }
-                // Increase thirst in hot
+        // Heatstroke
+        else if (temp > 40) {
+            if (temp > 85) {
+                player.damage(1.5);
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 120, 2));
+                player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 120, 1));
+                sendTemperatureMessage(player, "heatstroke");
                 if (plugin.getThirstManager() != null) {
-                    plugin.getThirstManager().addThirst(player, -0.5); // Extra thirst drain in extreme heat
+                    plugin.getThirstManager().addThirst(player, -0.6);
                 }
-            } else if (temp > 50) {
-                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 0));
-                if (Math.random() < 0.15) {
-                    sendTemperatureMessage(player, "hot");
-                }
+            } else if (temp > 60) {
+                player.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 100, 1));
+                sendTemperatureMessage(player, "hot");
                 if (plugin.getThirstManager() != null) {
-                    plugin.getThirstManager().addThirst(player, -0.2);
+                    plugin.getThirstManager().addThirst(player, -0.3);
                 }
             }
         }
@@ -233,67 +235,62 @@ public class TemperatureManager {
     private void sendTemperatureMessage(Player player, String type) {
         long now = System.currentTimeMillis();
         long last = lastMessageTime.getOrDefault(player.getUniqueId(), 0L);
-        if (now - last < 15000) return; // 15 sec cooldown
+        if (now - last < 15000) return;
         lastMessageTime.put(player.getUniqueId(), now);
 
-        LanguageManager lang = plugin.getLanguageManager();
-        String msg = "";
-        switch (type) {
-            case "cold":
-                msg = lang.getText(LanguageManager.Translations.COLD_FA, LanguageManager.Translations.COLD_FINGLISH);
-                break;
-            case "freezing":
-                msg = lang.getText(LanguageManager.Translations.FREEZING_FA, LanguageManager.Translations.FREEZING_FINGLISH);
-                break;
-            case "hot":
-                msg = lang.getText(LanguageManager.Translations.HOT_FA, LanguageManager.Translations.HOT_FINGLISH);
-                break;
-            case "heatstroke":
-                msg = lang.getText(LanguageManager.Translations.HEATSTROKE_FA, LanguageManager.Translations.HEATSTROKE_FINGLISH);
-                break;
+        if ("freezing".equals(type)) {
+            player.sendMessage(MessageUtils.color("&9&l[Yakh-zadan] &cSarma-ye koshandeh! Sarian nazdik-e atash beravid!"));
+        } else if ("cold".equals(type)) {
+            player.sendMessage(MessageUtils.color("&b[Sarma] &7Hava kheyli sard ast! Lebas-e garm (Leather) bepooshid."));
+        } else if ("heatstroke".equals(type)) {
+            player.sendMessage(MessageUtils.color("&4&l[Garmazadegi] &cKhatar-e garmazadegi-ye shadid! Ab benooshid ya be sayeh beravid!"));
+        } else if ("hot".equals(type)) {
+            player.sendMessage(MessageUtils.color("&e[Garma] &7Aftab-e soozan! Teshnegi-ye shoma saritar kam mishavad."));
         }
-        if (!msg.isEmpty()) {
-            player.sendMessage(MessageUtils.withPrefix(msg));
-        }
-
-        // Action bar for temperature
-        double temp = playerTemperature.getOrDefault(player.getUniqueId(), 0.0);
-        String actionBar = "";
-        if (temp < -30) {
-            actionBar = "&b❄ Dama: " + String.format("%.0f", temp) + " | Sard! - Atash nazdik sho";
-        } else if (temp > 30) {
-            actionBar = "&c☀ Dama: " + String.format("%.0f", temp) + " | Garm! - Ab benosh";
-        } else {
-            actionBar = "&a☀ Dama: " + String.format("%.0f", temp) + " | Normal";
-        }
-        sendActionBar(player, actionBar);
     }
 
-    private void sendActionBar(Player player, String message) {
-        try {
-            String colored = MessageUtils.color(message);
-            // For 1.12.2, use reflection to avoid compile-time dependency on bungee chat
-            Class<?> chatMessageTypeClass = Class.forName("net.md_5.bungee.api.ChatMessageType");
-            Class<?> textComponentClass = Class.forName("net.md_5.bungee.api.chat.TextComponent");
-            Class<?> baseComponentClass = Class.forName("net.md_5.bungee.api.chat.BaseComponent");
-            Object chatMessageType = chatMessageTypeClass.getField("ACTION_BAR").get(null);
-            Object textComponent = textComponentClass.getConstructor(String.class).newInstance(colored);
-            // Use reflection to call spigot().sendMessage(ChatMessageType, BaseComponent)
-            Object spigot = player.getClass().getMethod("spigot").invoke(player);
-            spigot.getClass().getMethod("sendMessage", chatMessageTypeClass, baseComponentClass)
-                    .invoke(spigot, chatMessageType, textComponent);
-        } catch (Exception e) {
-            // Fallback: do nothing or send as title if needed
-            // player.sendMessage(MessageUtils.color(message));
-        }
+    public String getSeasonName(World world) {
+        long day = world.getFullTime() / 24000;
+        long seasonCycle = (day / 30) % 4; // 30 in-game days per season
+        if (seasonCycle == 0) return "Bahar (Spring)";
+        if (seasonCycle == 1) return "Tabestan (Summer)";
+        if (seasonCycle == 2) return "Paeez (Autumn)";
+        return "Zemestan (Winter)";
+    }
+
+    public int getSeasonTempModifier(World world) {
+        long day = world.getFullTime() / 24000;
+        long seasonCycle = (day / 30) % 4;
+        if (seasonCycle == 1) return 1; // Summer warmer
+        if (seasonCycle == 3) return -1; // Winter colder
+        return 0;
+    }
+
+    public String getWeatherDescription(World world) {
+        if (world.isThundering()) return "Toofani va Sa'egheh";
+        if (world.hasStorm()) return "Barani";
+        return "Aftabi va Saf";
     }
 
     public double getTemperature(Player player) {
         return playerTemperature.getOrDefault(player.getUniqueId(), 0.0);
     }
 
+    public boolean isColdBiome(Biome biome) {
+        return coldBiomes.contains(biome);
+    }
+
+    public boolean isHotBiome(Biome biome) {
+        return hotBiomes.contains(biome);
+    }
+
     public void setTemperature(Player player, double temp) {
         playerTemperature.put(player.getUniqueId(), Math.max(-100, Math.min(100, temp)));
+    }
+
+    public void adjustTemp(Player player, double delta) {
+        double current = getTemperature(player);
+        setTemperature(player, current + delta);
     }
 
     public void resetTemperature(Player player) {

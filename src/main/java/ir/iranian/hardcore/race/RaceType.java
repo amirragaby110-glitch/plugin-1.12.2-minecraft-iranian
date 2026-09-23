@@ -7,8 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Races = Iranian Tribes - v4.0 Finglish
- * Fully Finglish compatible for servers where Persian doesn't display
+ * Races = Iranian Tribes - v5.0 Finglish
+ * 100% Finglish compatible for Aternos and Spigot 1.12.2
  * Based on real Iranian tribes
  * Each tribe has special abilities in home biome
  */
@@ -18,7 +18,7 @@ public enum RaceType {
     FARS(
             "FARS",
             "Ghome Pars - Fars",
-            "قوم پارس - فارس",
+            "Ghome Pars - Fars",
             "Pars/Fars",
             Material.GOLD_BLOCK,
             Arrays.asList(
@@ -34,7 +34,7 @@ public enum RaceType {
                     Biome.MUTATED_ICE_FLATS
             ),
             Arrays.asList(
-                    "&6&l👑 Ghome Pars - Bonyan gozarane Iran",
+                    "&6&lGhome Pars - Bonyan gozarane Iran",
                     "&7Pars ha, bonyan gozarane Shahanshahi Hakhamaneshi",
                     "&7Kourosh Bozorg, Daryoosh, Khashayarsha az in ghom",
                     "&7Markaz: Fars, Takht Jamshid, Pasargad",
@@ -50,17 +50,17 @@ public enum RaceType {
                     "&8&lJamiat: &7 40% Iran - Bozorgtarin ghom"
             ),
             Arrays.asList(
-                    "&6&l👑 قوم پارس - بنیان‌گذاران ایران",
-                    "&7پارس‌ها، بنیان‌گذاران شاهنشاهی هخامنشی",
-                    "&7کوروش بزرگ، داریوش، خشایارشا از این قوم",
-                    "&7مرکز: فارس، تخت جمشید، پاسارگاد"
+                    "&6&lGhome Pars - Bonyan gozarane Iran",
+                    "&7Pars ha, bonyan gozarane Shahanshahi Hakhamaneshi",
+                    "&7Kourosh Bozorg, Daryoosh, Khashayarsha az in ghom",
+                    "&7Markaz: Fars, Takht Jamshid, Pasargad"
             )
     ),
 
     AZARI(
             "AZARI",
             "Ghome Azari - Tork Azarbayjan",
-            "قوم آذری - ترک آذربایجان",
+            "Ghome Azari - Tork Azarbayjan",
             "Azari Turk",
             Material.SNOW_BLOCK,
             Arrays.asList(
@@ -77,7 +77,7 @@ public enum RaceType {
                     Biome.MESA
             ),
             Arrays.asList(
-                    "&b&l❄ Ghome Azari - Shirane Azarbayjan",
+                    "&b&lGhome Azari - Shirane Azarbayjan",
                     "&7Azari ha, mardomane ghayoor shomal gharb Iran",
                     "&7Babak Khorramdin, Sattar Khan az in ghom",
                     "&7Markaz: Tabriz, Ardebil, Urmia",
@@ -91,15 +91,15 @@ public enum RaceType {
                     "&8&lTarikh: &7 Madha, Babak, Mashroote"
             ),
             Arrays.asList(
-                    "&b&l❄ قوم آذری - شیران آذربایجان",
-                    "&7آذری‌ها، مردمان غیور شمال غرب ایران"
+                    "&b&lGhome Azari - Shirane Azarbayjan",
+                    "&7Azari ha, mardomane ghayoor shomal gharb Iran"
             )
     ),
 
     KURD(
             "KURD",
             "Ghome Kord - Kordestan",
-            "قوم کرد - کردستان",
+            "Ghome Kord - Kordestan",
             "Kurd",
             Material.STONE,
             Arrays.asList(
@@ -113,7 +113,7 @@ public enum RaceType {
                     Biome.OCEAN
             ),
             Arrays.asList(
-                    "&7&l🏔 Ghome Kord - Oghab Zagros",
+                    "&7&lGhome Kord - Oghab Zagros",
                     "&7Kord ha, mardomane kohestane Zagros",
                     "&7Markaz: Sanandaj, Kermanshah",
                     "",
@@ -124,13 +124,13 @@ public enum RaceType {
                     "",
                     "&c&lZaaf: &fBiaban va darya"
             ),
-            Arrays.asList("&7&l🏔 قوم کرد - عقاب زاگرس")
+            Arrays.asList("&7&lGhome Kord - Oghab Zagros")
     ),
 
     LOR(
             "LOR",
             "Ghome Lor - Lorestan",
-            "قوم لر - لرستان",
+            "Ghome Lor - Lorestan",
             "Lor",
             Material.WOOD,
             Arrays.asList(
@@ -144,18 +144,18 @@ public enum RaceType {
                     Biome.OCEAN
             ),
             Arrays.asList(
-                    "&2&l🌲 Ghome Lor - Shirane Lorestan",
+                    "&2&lGhome Lor - Shirane Lorestan",
                     "&7Lor ha, mardomane jangale Zagros",
                     "&7Markaz: Khorramabad, Yasuj",
                     "&a&lVizhegi: Ghodrat badani, Sorat jangal"
             ),
-            Arrays.asList("&2&l🌲 قوم لر - شیران لرستان")
+            Arrays.asList("&2&lGhome Lor - Shirane Lorestan")
     ),
 
     BALOCH(
             "BALOCH",
             "Ghome Balooch - Baloochestan",
-            "قوم بلوچ - بلوچستان",
+            "Ghome Balooch - Baloochestan",
             "Baloch",
             Material.SAND,
             Arrays.asList(
@@ -169,18 +169,18 @@ public enum RaceType {
                     Biome.TAIGA_COLD
             ),
             Arrays.asList(
-                    "&e&l🏜 Ghome Balooch - Moghavem Kavir",
+                    "&e&lGhome Balooch - Moghavem Kavir",
                     "&7Balooch ha, mardomane kavir",
                     "&7Markaz: Zahedan, Chabahar",
                     "&a&lVizhegi: Moghavemat garma, Sorat dar shen"
             ),
-            Arrays.asList("&e&l🏜 قوم بلوچ - مقاوم کویر")
+            Arrays.asList("&e&lGhome Balooch - Moghavem Kavir")
     ),
 
     ARAB_KHUZESTAN(
             "ARAB_KHUZESTAN",
             "Ghome Arab - Khoozestan",
-            "قوم عرب خوزستان",
+            "Ghome Arab - Khoozestan",
             "Arab Khoozestan",
             Material.WATER_BUCKET,
             Arrays.asList(
@@ -194,18 +194,18 @@ public enum RaceType {
                     Biome.EXTREME_HILLS
             ),
             Arrays.asList(
-                    "&b&l🌴 Ghome Arab - Karoon",
+                    "&b&lGhome Arab - Karoon",
                     "&7Arab haye Khoozestan, mardomane nakhl",
                     "&7Markaz: Ahvaz, Abadan",
                     "&a&lVizhegi: Nafas zir ab, Moghavemat garma"
             ),
-            Arrays.asList("&b&l🌴 قوم عرب - کارون")
+            Arrays.asList("&b&lGhome Arab - Karoon")
     ),
 
     TURKMEN(
             "TURKMEN",
             "Ghome Torkaman",
-            "قوم ترکمن",
+            "Ghome Torkaman",
             "Turkmen",
             Material.WOOL,
             Arrays.asList(
@@ -219,18 +219,18 @@ public enum RaceType {
                     Biome.SWAMPLAND
             ),
             Arrays.asList(
-                    "&6&l🐎 Ghome Torkaman - Asb Torkaman",
+                    "&6&lGhome Torkaman - Asb Torkaman",
                     "&7Torkaman ha, asb savarane Iran",
                     "&7Markaz: Gonbad Kavous",
                     "&a&lVizhegi: Sorat bala (asb), Paresh boland"
             ),
-            Arrays.asList("&6&l🐎 قوم ترکمن - اسب ترکمن")
+            Arrays.asList("&6&lGhome Torkaman - Asb Torkaman")
     ),
 
     GILAK(
             "GILAK",
             "Ghome Gilak - Gilan",
-            "قوم گیلک",
+            "Ghome Gilak - Gilan",
             "Gilak",
             Material.LEAVES,
             Arrays.asList(
@@ -244,18 +244,18 @@ public enum RaceType {
                     Biome.MESA
             ),
             Arrays.asList(
-                    "&2&l🌿 Ghome Gilak - Baran Gilan",
+                    "&2&lGhome Gilak - Baran Gilan",
                     "&7Gilak ha, mardomane jangale Hirkani",
                     "&7Markaz: Rasht, Lahijan - Chay",
                     "&a&lVizhegi: Mahigiri, Namaree dar barg"
             ),
-            Arrays.asList("&2&l🌿 قوم گیلک - باران گیلان")
+            Arrays.asList("&2&lGhome Gilak - Baran Gilan")
     ),
 
     MAZANI(
             "MAZANI",
             "Ghome Mazani - Tabari",
-            "قوم مازنی - طبری",
+            "Ghome Mazani - Tabari",
             "Mazani Tabari",
             Material.WOOD,
             Arrays.asList(
@@ -269,18 +269,18 @@ public enum RaceType {
                     Biome.HELL
             ),
             Arrays.asList(
-                    "&2&l🌲 Ghome Mazani - Tabarestan",
+                    "&2&lGhome Mazani - Tabarestan",
                     "&7Mazani ha, mardomane Tabarestan",
                     "&7Markaz: Sari, Babol - Darya Khazar",
                     "&a&lVizhegi: Keshavarzi, Nafas zir ab"
             ),
-            Arrays.asList("&2&l🌲 قوم مازنی - طبرستان")
+            Arrays.asList("&2&lGhome Mazani - Tabarestan")
     ),
 
     BAKHTIARI(
             "BAKHTIARI",
             "Ghome Bakhtiari",
-            "قوم بختیاری",
+            "Ghome Bakhtiari",
             "Bakhtiari",
             Material.IRON_INGOT,
             Arrays.asList(
@@ -294,18 +294,18 @@ public enum RaceType {
                     Biome.DESERT
             ),
             Arrays.asList(
-                    "&7&l⛺ Ghome Bakhtiari - Kooch neshin",
+                    "&7&lGhome Bakhtiari - Kooch neshin",
                     "&7Bakhtiari ha, kooch neshinane Zagros",
                     "&7Markaz: Shahrekord - Kooch",
                     "&a&lVizhegi: Moghavemat soghoot 70% + Paresh 2"
             ),
-            Arrays.asList("&7&l⛺ قوم بختیاری - کوچ‌نشین")
+            Arrays.asList("&7&lGhome Bakhtiari - Kooch neshin")
     ),
 
     QASHQAYI(
             "QASHQAYI",
             "Ghome Ghashghayi",
-            "قوم قشقایی",
+            "Ghome Ghashghayi",
             "Qashqayi",
             Material.CARPET,
             Arrays.asList(
@@ -319,18 +319,18 @@ public enum RaceType {
                     Biome.OCEAN
             ),
             Arrays.asList(
-                    "&6&l🧶 Ghome Ghashghayi - Farsh Ghashghayi",
+                    "&6&lGhome Ghashghayi - Farsh Ghashghayi",
                     "&7Ghashghayi ha, farsh bafane Iran",
                     "&7Markaz: Firoozabad - Farsh",
                     "&a&lVizhegi: Sorat 2, Damdari"
             ),
-            Arrays.asList("&6&l🧶 قوم قشقایی - فرش قشقایی")
+            Arrays.asList("&6&lGhome Ghashghayi - Farsh Ghashghayi")
     ),
 
     BANDARI(
             "BANDARI",
             "Ghome Bandari - Khalij Fars",
-            "قوم بندری",
+            "Ghome Bandari - Khalij Fars",
             "Bandari",
             Material.PRISMARINE,
             Arrays.asList(
@@ -344,19 +344,19 @@ public enum RaceType {
                     Biome.EXTREME_HILLS
             ),
             Arrays.asList(
-                    "&b&l⚓ Ghome Bandari - Khalij Fars",
+                    "&b&lGhome Bandari - Khalij Fars",
                     "&7Bandari ha, daryanavardane Khalij Fars",
                     "&7Markaz: Bandar Abbas, Bushehr, Gheshm",
                     "&7Khalij HAMESHE Fars!",
                     "&a&lVizhegi: Nafas 3 barabar zir ab, Shenaye sari"
             ),
-            Arrays.asList("&b&l⚓ قوم بندری - خلیج فارس")
+            Arrays.asList("&b&lGhome Bandari - Khalij Fars")
     ),
 
     KHORASANI(
             "KHORASANI",
             "Ghome Khorasani",
-            "قوم خراسانی",
+            "Ghome Khorasani",
             "Khorasani",
             Material.BOOK,
             Arrays.asList(
@@ -369,18 +369,18 @@ public enum RaceType {
                     Biome.HELL
             ),
             Arrays.asList(
-                    "&5&l📜 Ghome Khorasani - Diyar Ferdowsi",
+                    "&5&lGhome Khorasani - Diyar Ferdowsi",
                     "&7Khorasani ha, mardomane farhang va adab",
                     "&7Markaz: Mashhad, Neyshabur - Ferdowsi, Shahnameh",
                     "&a&lVizhegi: Shans ketab, Zafaran"
             ),
-            Arrays.asList("&5&l📜 قوم خراسانی - دیار فردوسی")
+            Arrays.asList("&5&lGhome Khorasani - Diyar Ferdowsi")
     ),
 
     SISTANI(
             "SISTANI",
             "Ghome Sistani - Diyar Rostam",
-            "قوم سیستانی",
+            "Ghome Sistani - Diyar Rostam",
             "Sistani",
             Material.SANDSTONE,
             Arrays.asList(
@@ -393,12 +393,12 @@ public enum RaceType {
                     Biome.TAIGA_COLD
             ),
             Arrays.asList(
-                    "&e&l🏹 Ghome Sistani - Diyar Rostam Dastan",
+                    "&e&lGhome Sistani - Diyar Rostam Dastan",
                     "&7Sistani ha, az nasle Rostam Dastan",
                     "&7Markaz: Zabol, Zahedan - Shahr Sookhte 5000 sale",
                     "&a&lVizhegi: Ghodrat Rostam 2, Moghavemat kavir"
             ),
-            Arrays.asList("&e&l🏹 قوم سیستانی - دیار رستم")
+            Arrays.asList("&e&lGhome Sistani - Diyar Rostam Dastan")
     );
 
     private final String id;
@@ -436,11 +436,11 @@ public enum RaceType {
     public List<String> getLorePersian() { return lorePersian; }
 
     public List<String> getLore(boolean isFinglish) {
-        return isFinglish ? loreFinglish : lorePersian;
+        return loreFinglish;
     }
 
     public String getDisplayName(boolean isFinglish) {
-        return isFinglish ? finglishName : persianName;
+        return finglishName;
     }
 
     // Backward compatibility

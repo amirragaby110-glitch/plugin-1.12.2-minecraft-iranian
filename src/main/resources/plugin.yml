@@ -1,37 +1,47 @@
 name: IranianHardcore
-version: 4.0.0
+version: 5.4.0
 main: ir.iranian.hardcore.IranianHardcorePlugin
 api-version: 1.12
 author: IranianTeam
 authors: [Amir, IranianHardcoreDev, TeamMelli, TarikhIran, AghvamIran]
-description: Plugin Hardcore Irani v4.0 Finglish - 14 ghom Irani + 16 dungeon tarikhi + 8 saze Irani + Bazar Irani + Ab o hava (sard/garm) + Teshnegi (bayad ab bokhori) + 7 mob jadid Irani (Div, Simurgh, Zahhak) + Resource Pack makhsus - Bedune niaz be compile - Faghat bezar too plugins - Khalij hameshe Fars - Zende bad Iran
+description: Plugin Hardcore Irani v5.4 Finglish - Zoorkhaneh Bastani, Pahlavani, Akvan Div, Qanat Kavir, Atashkadeh, Silk Road, 14 ghom Irani, 30 dungeon, 900 shamshir, 500 ghaza - Safe for Aternos
 website: https://github.com/amirragaby110-glitch/plugin-1.12.2-minecraft-iranian
 prefix: IranianHardcore
 
-# Dastorat - v4.0 Finglish - Har biome yek ghom Irani + Climate + Thirst + Mobs
 commands:
   race:
-    description: Modiriat aghvame Irani - Har biome yek ghom - 14 ghom Irani ba ghabeliat makhsus - Entekhab aval vorood - Finglish
-    usage: /race <choose|info|change|list|help|admin> - Dastor ghome Irani
-    aliases: [nezhad, نژاد, reghad, qowm, قوم, aghvam, اقوام, tribe, ghom]
+    description: Modiriat aghvame Irani - Har biome yek ghom - 14 ghom Irani ba ghabeliat makhsus - Finglish
+    usage: /race <choose|info|change|list|help|admin>
+    aliases: [nezhad, reghad, qowm, aghvam, tribe, ghom]
   hardcore:
-    description: Dastorat admin hardcore Irani - Sakhtarin halat
-    usage: /hardcore <reload|info|setrace|reset> - Dastorat admin
-    aliases: [hc, sakht, سخت]
+    description: Dastorat admin hardcore Irani
+    usage: /hardcore <reload|info|setrace|reset>
+    aliases: [hc, sakht]
   dungeon:
-    description: Modiriat 16 dungeon tarikhi Iran - Har biome yek dungeon - Takht Jamshid, Alamut, Arge Bam, Pasargad, Bisotun, Naghsh Rostam, Takht Soleyman
-    usage: /dungeon <list|generate|teleport|clear|bazaar|caravanserai|chaikhaneh|abanbar> - Dungeon Irani
-    aliases: [dangeon, دانجن, irandungeon, iran, تختجمشید, dungeons]
+    description: Modiriat 30 dungeon tarikhi va boss fight haye 3 marhaleie Iran
+    usage: /dungeon <list|generate|teleport|clear|bazaar|caravanserai|chaikhaneh|abanbar|boss>
+    aliases: [dangeon, irandungeon, iran, takhtejamshid, dungeons]
   bazaar:
-    description: Bazar Irani - Kharid va forosh item haye Irani ba sekke Derik Hakhamaneshi - Mesle bazar Tehran
-    usage: /bazaar [open|build|help] - Bazar Irani
-    aliases: [bazar, بازار, shop, فروشگاه, store, مغازه, bazarirani]
+    description: Bazar Irani - Kharid va forosh item haye Irani ba sekke Derik Hakhamaneshi
+    usage: /bazaar [open|build|help]
+    aliases: [bazar, shop, store, bazarirani]
   iranian:
-    description: Dastor asli Iranian Hardcore v4.0 - Teshnegi, Dama, Mob haye Irani, Resource Pack - Finglish
-    usage: /iranian <thirst|temperature|drink|mashk|resourcepack|spawnmob|help> - Dastor Irani
-    aliases: [iran, irani, ایران, ایرانی, persian]
+    description: Dastor asli Iranian Hardcore v5.0 - Teshnegi, Mashk Ab, Shamshirha, Ghaza, Itemha, Mobha, Dungeons, Weather
+    usage: /iranian <thirst|drink|mashk|canteen|cleanwater|dirtywater|sword|food|item|dungeon|villager|spawnmob|boss|weather|resourcepack|help>
+    aliases: [iran, irani, persian, hardcoreirani]
+  army:
+    description: Modiriat-e Artesh va Sepah-e Hakhamaneshi - Tabdil-e Villager be Sarbaz
+    usage: /army [gui|follow|stay|guard|attack|formation|list]
+    aliases: [artesh, sepah, soldier, soldiers]
+  calendar:
+    description: Taghvim-e Khorshidi va Jashn-haye Bastani-ye Iran (Nowruz, Yalda, Mehregan)
+    usage: /calendar [gui]
+    aliases: [taghvim, tarikh, jalali, persiancalendar]
+  civilization:
+    description: Pishraft-e Tamaddon-e Iran az Mohajer ta Shahanshahi-ye Hakhamaneshi
+    usage: /civilization [gui|upgrade]
+    aliases: [civ, tamaddon, empire, shahanshahi]
 
-# Permission ha - v4.0
 permissions:
   iranianhardcore.*:
     description: Dastresi be tamam ghabeliat haye Irani - Admin kol
@@ -52,13 +62,13 @@ permissions:
       iranianhardcore.race.info: true
       iranianhardcore.race.change: true
   iranianhardcore.race.choose:
-    description: Entekhab ghome Irani - Aval vorood
+    description: Entekhab ghome Irani
     default: true
   iranianhardcore.race.info:
     description: Didan etelaat ghome Irani
     default: true
   iranianhardcore.race.change:
-    description: Taghir ghome Irani (har 7 rooz bazi)
+    description: Taghir ghome Irani
     default: true
   iranianhardcore.race.admin:
     description: Modiriat ghome digaran - Admin
@@ -67,7 +77,7 @@ permissions:
     description: Permission haye hardcore Irani
     default: op
   iranianhardcore.iranian.*:
-    description: Permission haye Iranian v4.0 - Teshnegi, Dama, Mob, ResourcePack
+    description: Permission haye Iranian v5.0
     default: true
     children:
       iranianhardcore.iranian.thirst: true
@@ -75,6 +85,9 @@ permissions:
       iranianhardcore.iranian.drink: true
       iranianhardcore.iranian.resourcepack: true
       iranianhardcore.iranian.spawnmob: true
+      iranianhardcore.iranian.swords: true
+      iranianhardcore.iranian.foods: true
+      iranianhardcore.iranian.items: true
   iranianhardcore.iranian.thirst:
     description: Didan mizan teshnegi
     default: true
@@ -89,6 +102,15 @@ permissions:
     default: true
   iranianhardcore.iranian.spawnmob:
     description: Sakht mob Irani - Admin
+    default: op
+  iranianhardcore.iranian.swords:
+    description: Dastresi be 900 shamshir Irani
+    default: op
+  iranianhardcore.iranian.foods:
+    description: Dastresi be 500 ghaza Irani
+    default: op
+  iranianhardcore.iranian.items:
+    description: Dastresi be 20000 item Irani
     default: op
   iranianhardcore.admin:
     description: Admin kamel Irani

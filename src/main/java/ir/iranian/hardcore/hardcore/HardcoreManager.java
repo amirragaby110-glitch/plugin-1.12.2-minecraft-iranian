@@ -4,10 +4,13 @@ import ir.iranian.hardcore.IranianHardcorePlugin;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeInstance;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
 /**
- * مدیریت مکانیک‌های هاردکور کلی
+ * Modiriat mechanichaye hardcore koli - v5.0 Finglish
  */
 public class HardcoreManager {
 
@@ -18,121 +21,108 @@ public class HardcoreManager {
     }
 
     /**
-     * اعمال تنظیمات اولیه هاردکور به تمام جهان‌ها
+     * Aemall tanzimat avalie hardcore be tamam jahanha
      */
     public void applyWorldSettings() {
-        if (!plugin.getConfigManager().getBoolean("hardcore.health.disable-natural-regen", true)) return;
+        if (!isHardcoreEnabled()) return;
 
         for (World world : Bukkit.getWorlds()) {
             try {
-                // در 1.12 از gamerule استفاده می‌کنیم
+                // In 1.12 gamerules are set via string
                 world.setGameRuleValue("naturalRegeneration", "false");
-                world.setGameRuleValue("doFireTick", "true");
-                plugin.getLogger().info("تنظیمات هاردکور برای جهان " + world.getName() + " اعمال شد.");
+                plugin.getLogger().info("Tanzimat hardcore baraye jahan " + world.getName() + " aemall shod.");
             } catch (Exception e) {
-                plugin.getLogger().warning("خطا در تنظیم gamerule برای " + world.getName() + ": " + e.getMessage());
+                plugin.getLogger().warning("Khata dar tanzim gamerule baraye " + world.getName() + ": " + e.getMessage());
             }
         }
     }
 
     /**
-     * تنظیم جان بازیکن به 10 (5 قلب)
+     * Tanzim jane bazikon be 10 (5 ghalb)
      */
-    public void applyMaxHealth(Player player) {
-        if (!plugin.getConfigManager().getBoolean("hardcore.health.enabled", true)) return;
-        if (player.hasPermission("iranianhardcore.bypass.hardcore")) return;
+    public void setHardcoreHealth(Player player) {
+        if (!isHardcoreEnabled()) return;
 
-        double maxHealth = plugin.getConfigManager().getDouble("hardcore.health.max-health", 10.0);
+        // If HealthManager is active, preserve player's upgraded extra hearts!
+        if (plugin.getHealthManager() != null) {
+            plugin.getHealthManager().applyMaxHealth(player);
+            return;
+        }
 
-        Bukkit.getScheduler().runTask(plugin, () -> {
-            try {
-                if (player.getAttribute(Attribute.GENERIC_MAX_HEALTH) != null) {
-                    player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(maxHealth);
-                    if (player.getHealth() > maxHealth) {
-                        player.setHealth(maxHealth);
-                    }
+        double maxHealth = plugin.getConfigManager().getDouble("hardcore.health.max-health", 20.0);
+        try {
+            AttributeInstance attr = player.getAttribute(Attribute.GENERIC_MAX_HEALTH);
+            if (attr != null) {
+                attr.setBaseValue(maxHealth);
+                if (player.getHealth() > maxHealth) {
+                    player.setHealth(maxHealth);
                 }
-            } catch (Exception e) {
-                plugin.getLogger().warning("خطا در تنظیم جان بازیکن " + player.getName() + ": " + e.getMessage());
             }
-        });
+        } catch (Exception e) {
+            plugin.getLogger().warning("Khata dar tanzim jane bazikon " + player.getName() + ": " + e.getMessage());
+        }
     }
 
     /**
-     * آیا هاردکور فعال است؟
+     * Aya hardcore faal ast?
      */
-    public boolean isEnabled() {
+    public boolean isHardcoreEnabled() {
         return plugin.getConfigManager().getBoolean("hardcore.enabled", true);
     }
 
     /**
-     * شروع تسک‌های دوره‌ای هاردکور
+     * Shoroo taskhaye doreie hardcore
      */
     public void startTasks() {
-        // تسک گرسنگی سریع‌تر
-        if (plugin.getConfigManager().getBoolean("hardcore.health.faster-hunger", true)) {
+        if (!isHardcoreEnabled()) return;
+
+        // Task goresnegi sari-tar
+        boolean fasterHunger = plugin.getConfigManager().getBoolean("hardcore.health.faster-hunger", true);
+        if (fasterHunger) {
             Bukkit.getScheduler().runTaskTimer(plugin, () -> {
                 for (Player player : Bukkit.getOnlinePlayers()) {
-                    if (player.hasPermission("iranianhardcore.bypass.hardcore")) continue;
-                    if (player.getGameMode().name().equals("CREATIVE") || player.getGameMode().name().equals("SPECTATOR")) continue;
+                    if (player.isSprinting() || player.isSneaking()) {
+                        try {
+                            float currentExhaustion = player.getExhaustion();
+                            player.setExhaustion(currentExhaustion + 0.3f);
+                        } catch (Exception ignored) {}
+                    }
+                }
+            }, 100L, 100L); // Har 5 saniye
+        }
 
-                    // افزایش exhaustion برای گرسنگی سریع‌تر
-                    // هر 30 ثانیه کمی گرسنگی کم کن اگر در حال حرکت است
-                    if (player.isSprinting() || player.getLocation().getBlock().getType().name().contains("WATER")) {
-                        // شبیه‌سازی: اگر غذا بالای 6 بود، کمی کم کن
-                        if (player.getFoodLevel() > 0 && Math.random() < 0.15) {
-                            // در 1.12 setExhaustion وجود دارد
-                            player.setExhaustion(player.getExhaustion() + 2.0f);
+        // Task khatarnaktar kardane Nether va The End
+        Bukkit.getScheduler().runTaskTimer(plugin, () -> {
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                World.Environment env = player.getWorld().getEnvironment();
+
+                if (env == World.Environment.NETHER) {
+                    boolean netherDangerous = plugin.getConfigManager().getBoolean("hardcore.survival.nether.more-dangerous", true);
+                    if (netherDangerous) {
+                        double chance = plugin.getConfigManager().getDouble("hardcore.survival.nether.chance", 0.05);
+                        if (Math.random() < chance) {
+                            if (!player.hasPotionEffect(PotionEffectType.WITHER)) {
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.WITHER, 60, 0, false, false));
+                            }
+                        }
+                        if (Math.random() < 0.02) {
+                            if (!player.hasPotionEffect(PotionEffectType.CONFUSION)) {
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 100, 0, false, false));
+                            }
+                        }
+                    }
+                } else if (env == World.Environment.THE_END) {
+                    boolean endDangerous = plugin.getConfigManager().getBoolean("hardcore.survival.end.more-dangerous", true);
+                    if (endDangerous) {
+                        double chance = plugin.getConfigManager().getDouble("hardcore.survival.end.chance", 0.03);
+                        if (Math.random() < chance) {
+                            if (!player.hasPotionEffect(PotionEffectType.BLINDNESS)) {
+                                player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 60, 0, false, false));
+                            }
                         }
                     }
                 }
-            }, 100L, 100L); // هر 5 ثانیه
-        }
-
-        // تسک خطرناک‌تر کردن ندر و اند
-        if (plugin.getConfigManager().getBoolean("hardcore.survival.nether.more-dangerous", true) ||
-                plugin.getConfigManager().getBoolean("hardcore.survival.end.more-dangerous", true)) {
-
-            Bukkit.getScheduler().runTaskTimer(plugin, () -> {
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    if (player.hasPermission("iranianhardcore.bypass.hardcore")) continue;
-                    handleEnvironmentDanger(player);
-                }
-            }, 60L, 60L);
-        }
-    }
-
-    private void handleEnvironmentDanger(Player player) {
-        World.Environment env = player.getWorld().getEnvironment();
-
-        if (env == World.Environment.NETHER) {
-            double chance = plugin.getConfigManager().getDouble("hardcore.survival.nether.chance", 0.05);
-            if (Math.random() < chance) {
-                // افکت‌های ندر
-                // از کانفیگ بخوان
-                // برای سادگی: با احتمال کم Wither بده
-                if (Math.random() < 0.5) {
-                    player.addPotionEffect(new org.bukkit.potion.PotionEffect(
-                            org.bukkit.potion.PotionEffectType.WITHER, 100, 0, false, true));
-                }
-                // گرمای ندر
-                if (player.getFireTicks() == 0 && Math.random() < 0.1) {
-                    player.setFireTicks(40);
-                }
             }
-        } else if (env == World.Environment.THE_END) {
-            double chance = plugin.getConfigManager().getDouble("hardcore.survival.end.chance", 0.03);
-            if (Math.random() < chance) {
-                // افکت‌های اند
-                if (Math.random() < 0.5) {
-                    player.addPotionEffect(new org.bukkit.potion.PotionEffect(
-                            org.bukkit.potion.PotionEffectType.LEVITATION, 60, 0, false, true));
-                } else {
-                    player.addPotionEffect(new org.bukkit.potion.PotionEffect(
-                            org.bukkit.potion.PotionEffectType.WEAKNESS, 100, 0, false, true));
-                }
-            }
-            // Void damage بیشتر در Event جداگانه هندل می‌شود
-        }
+        }, 200L, 200L); // Har 10 saniye
     }
 }
